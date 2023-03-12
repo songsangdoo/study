@@ -141,7 +141,7 @@
 
 ```html
 <table border="1" width="500" height="200">
-  <!-- border 속성으로 경계선 설정할 수 있고 width, height 속성으로 크기 설정할 수 있다(단위는 px) -->
+<!-- border 속성으로 경계선 설정할 수 있고 width, height 속성으로 크기 설정할 수 있다(단위는 px) -->
   <tr>
     <!-- 행 -->
     <td>1행 1열</td>
@@ -239,7 +239,7 @@
 
 ## url
 
-### ex) http://www.naver.com/*.html
+- ex) http://www.naver.com/*.html
 
 1. protocol(http://) : 전송규약(hyper-text transfer protoco)
 
@@ -275,10 +275,11 @@
 
     1. 브라우저에 url(http://127.0.0.1:8080/) 입력해서 확인
 
-       <sup> !! https는 보안 방식이라 tomcat이 작동하지 않으므로 https는 사용 불가능하다</sup>
+       <small> !! https는 보안 방식이라 tomcat이 작동하지 않으므로 https는 사용 불가능하다</small>
 
-    1. C:\html\apache-tomcat-9.0.71\webapps\ROOT 에 문서를 넣고 브라우저로 확인 가능  
-       <sup>ex) lcoalhost:8080/tomcat.svg, 192.168.0.87:8080/ex01.html
+    1. C:\html\apache-tomcat-9.0.71\webapps\ROOT 에 문서를 넣고 브라우저로 확인 가능
+      
+       <sup>ex) lcoalhost:8080/tomcat.svg, 192.168.0.87:8080/ex01.html</sup>
 
 2.  종료 : 명령 프롬프트 창에서 ctrl + c
 
@@ -327,11 +328,15 @@
 
 ## 이미지
 
+```html
+<img src="파일경로">
+```
+
 - 파일 경로를 입력해줘야 한다
 
   1.  절대 경로 - 드라이브명 ~ 현재파일의 위치까지 모두 적는다.
 
-      <sup>ex)C:\html\apache-tomcat-9.0.71\webapps\ROOT\images\tomcat.png
+      <sup>ex) C:\html\apache-tomcat-9.0.71\webapps\ROOT\images\tomcat.png
 
   2.  상대 경로 - 작업위치부터 작업파일의 위치까지 적는다.
 
@@ -361,14 +366,14 @@
 
 - 링크문구를 클릭하면 href에 지정된 경로로 연결된다.
 
-  <sup>!! 이때, 경로는 문서, 이미지, 압축파일 등 모두 해당된다<br>!! 브라우저 자체에서 처리가 가능한 이미지나 텍스트 형식이라면 브라우저의 뷰어로 내용을 보여주고 처리할 수 없는 경우에는 다운로드가 된다</sup>
+  <small>!! 이때, 경로는 문서, 이미지, 압축파일 등 모두 해당된다<br>!! 브라우저 자체에서 처리가 가능한 이미지나 텍스트 형식이라면 브라우저의 뷰어로 내용을 보여주고 처리할 수 없는 경우에는 다운로드가 된다</small>
 
 - href 속성의 값에는 절대경로, 상대경로, 웹경로 모두 사용 가능하다.
 - target 속성의 \_blank 값으로 새 페이지에서 문서가 열리게 할 수 있다.
 
 ```html
 <a href="https://www.naver.com" target="_blank">링크문구</a>
-<!-- 새 페이지에서 네이버가 열린다 -->
+<!-- 링크문구를 클릭하면 새 페이지에서 네이버가 열린다 -->
 ```
 
 ---
@@ -407,7 +412,7 @@
 
 - input 태그의 type 속성의 값으로 여러가지 형식의 값을 입력 받을 수 있다
 
-  ### type 속성의 값들
+  ### input 태그의 type 속성의 값들
 
   - text : 한 줄의 텍스트를 입력받는다
 
@@ -423,13 +428,6 @@
     maxlength로 입력받을 수 있는 최대 글자수
     placeholder로 입력할 값의 힌트
     value로는 초깃값을 정할수 있다  -->
-  ```
-
-  textarea : 여러 줄의 텍스트를 입력받는다
-
-  ```html
-  <textarea cols="30" rows="10">초기값</textarea>
-  <!-- cols, rows 속성의 값으로 텍스트 박스의 열과 행의 값을 정할 수 있고 초기값은 위와 같은 방식으로 지정할 수 있다 -->
   ```
 
   - password : 비밀번호를 입력받는다(입력하는 값이 보이지 않는다)
@@ -540,6 +538,12 @@
     <option value="Safari" label="사파리"></option>
   </datalist>
   ```
+ ### textarea : 여러 줄의 텍스트를 입력받는다
+
+ ```html
+ <textarea cols="30" rows="10">초기값</textarea>
+ <!-- cols, rows 속성의 값으로 텍스트 박스의 열과 행의 값을 정할 수 있고 초기값은 위와 같은 방식으로 지정할 수 있다 -->
+ ```        
 
 ### fieldset
 
