@@ -141,7 +141,7 @@
 
 ```html
 <table border="1" width="500" height="200">
-<!-- border 속성으로 경계선 설정할 수 있고 width, height 속성으로 크기 설정할 수 있다(단위는 px) -->
+  <!-- border 속성으로 경계선 설정할 수 있고 width, height 속성으로 크기 설정할 수 있다(단위는 px) -->
   <tr>
     <!-- 행 -->
     <td>1행 1열</td>
@@ -278,7 +278,7 @@
        <small> !! https는 보안 방식이라 tomcat이 작동하지 않으므로 https는 사용 불가능하다</small>
 
     1. C:\html\apache-tomcat-9.0.71\webapps\ROOT 에 문서를 넣고 브라우저로 확인 가능
-      
+
        <sup>ex) lcoalhost:8080/tomcat.svg, 192.168.0.87:8080/ex01.html</sup>
 
 2.  종료 : 명령 프롬프트 창에서 ctrl + c
@@ -329,7 +329,7 @@
 ## 이미지
 
 ```html
-<img src="파일경로">
+<img src="파일경로" />
 ```
 
 - 파일 경로를 입력해줘야 한다
@@ -525,7 +525,7 @@
   <!-- max, min 속성으로 최대, 최소 값을 정할 수 있고 step 속성으로 값의 이동 범위를 정할 수 있다 -->
   ```
 
-  #### datalist : input 태그와 함께 쓰여 선택 제시어를 제공해주는 태그
+  - datalist : input 태그와 함께 쓰여 선택 제시어를 제공해주는 태그
 
   ```html
   <input type="text" list="browsers" />
@@ -538,12 +538,13 @@
     <option value="Safari" label="사파리"></option>
   </datalist>
   ```
- ### textarea : 여러 줄의 텍스트를 입력받는다
 
- ```html
- <textarea cols="30" rows="10">초기값</textarea>
- <!-- cols, rows 속성의 값으로 텍스트 박스의 열과 행의 값을 정할 수 있고 초기값은 위와 같은 방식으로 지정할 수 있다 -->
- ```        
+### textarea : 여러 줄의 텍스트를 입력받는다
+
+```html
+<textarea cols="30" rows="10">초기값</textarea>
+<!-- cols, rows 속성의 값으로 텍스트 박스의 열과 행의 값을 정할 수 있고 초기값은 위와 같은 방식으로 지정할 수 있다 -->
+```
 
 ### fieldset
 
@@ -634,19 +635,21 @@
     ```
 
     - external : 외부의 css파일을 연결시켜 적용
-      ```css
-      body {
-        background-color: blue;
-      }
-      /* 위와 같이 default.css 파일을 만들고 */
-      ```
-      ```html
-      <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="./default.css" />
-      </head>
-      <!-- html 파일의 head 태그 속 link 태그를 이용해서 외부의 css 파일과 연결시킨다 -->
-      ```
+
+    ```css
+    body {
+      background-color: blue;
+    }
+    /* 위와 같이 default.css 파일을 만들고 */
+    ```
+
+    ```html
+    <head>
+      <meta charset="UTF-8" />
+      <link rel="stylesheet" type="text/css" href="./default.css" />
+    </head>
+    <!-- html 파일의 head 태그 속 link 태그를 이용해서 외부의 css 파일과 연결시킨다 -->
+    ```
 
   - 적용 우선순위
 
@@ -684,7 +687,7 @@ p {
 }
 ```
 
-### 클래스 : 다른 태그들에게 같은 디자인 효과를 주고 싶을 때 사용
+### 클래스 선택자 : 다른 태그들에게 같은 디자인 효과를 주고 싶을 때 사용
 
 ```html
 <head>
@@ -714,7 +717,7 @@ p {
 </body>
 ```
 
-### 아이디 : 클래스와 비슷하지만 한 페이지 내에서 한 요소에만 사용이 가능
+### 아이디 선택자 : 클래스와 비슷하지만 한 페이지 내에서 한 요소에만 사용이 가능
 
 ```html
   <head>
@@ -900,7 +903,7 @@ body {
 
 !! 구글에서 지원하는 폰트를 사용할 수도 있다
 
-<small>ex) https://developers.google.com/fonts?hl=ko</small>
+<sup>ex) https://developers.google.com/fonts?hl=ko</sup>
 
 ```html
 <head>
@@ -1043,23 +1046,23 @@ body {
 !! 이미지를 가져와 목록의 기호 바꾸기
 
 ```html
-  <head>
-    <meta charset="UTF-8">
-    <style type="text/css">
-      ul.a {
-        list-style-image: url('../images/purple.gif');
-        <!-- a 클래스 목록의 기호를 이미지로 바꾼다 -->
-      }
-    </style>
-  </head>
-  <body>
-    <ul class="a">
-      <li>참외</li>
-      <li>수박</li>
-      <li>사과</li>
-      <li>귤</li>
-    </ol>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
+    ul.a {
+      list-style-image: url('../images/purple.gif');
+      <!-- a 클래스 목록의 기호를 이미지로 바꾼다 -->
+    }
+  </style>
+</head>
+<body>
+  <ul class="a">
+    <li>참외</li>
+    <li>수박</li>
+    <li>사과</li>
+    <li>귤</li>
+  </ol>
+</body>
 ```
 
 ### 순서있는 목록의 순서 표현 기호 바꾸기
@@ -1215,8 +1218,8 @@ span {
 ```css
 div {
   display: inline-block;
-  /* inline 태그와 달리 width, height, margin, padding 속성을 사용할 수 있고
-         블록 태그와 달리 엔터키가 들어가지 않는다 */
+  /* inline 태그와 달리 width, height, margin, padding 속성을 사용할 수 있고 
+  블록 태그와 달리 엔터키가 들어가지 않는다 */
 }
 ```
 
@@ -1251,7 +1254,7 @@ img {
 
 - https - 보안 웹서버 요청 - 437 포트 사용(생략가능)
 
-  &rarr; 포트는 모두 바꿀 수 있다
+  <small>!! 포트는 변경시킬 수 있다</small>
 
 ---
 
@@ -1265,7 +1268,7 @@ img {
 
 !! https://www.w3schools.com/css/css_text.asp 참조
 
-### text-align : 기본값은 left;
+### text-align : 기본값은 left
 
 ```css
 #p1 {
@@ -1439,6 +1442,8 @@ th {
 ---
 
 ## layer
+
+- table 태그를 사용할 수도 있지만, 요즘은 잘 사용하지 않는다
 
 ### positon
 
@@ -1642,6 +1647,7 @@ div {
   - 작업이 잘못되면 지시를 잘못한 것이다
 
 - 영어를 쓰기 때문에 기본으로 암기해야될 내용이 있다
+
 - 프로그램 언어 종류
 
   - 컴파일 언어 : 소스코드를 컴파일해서 실행코드를 먼저 만들고 실행시킨다(속도가 빠르다)
@@ -1670,6 +1676,11 @@ div {
 
       - 실수(float / double)
 
+    - 문자(character)
+
+      - javascript에는 문자열로 통합되어 있다
+        <br><br>
+
     - 문자열(String)
     - 정의 되지 않은 자료형(undfined)
     - 생성되지 않은 자료형(null)
@@ -1684,11 +1695,11 @@ div {
 
     - CUI(Character User Interface) : 명령프롬프트에서 실행(기본적인 프로그램)
 
-    - GUI(Graphic User Interface) : 메모장, 브라우저
+    - GUI(Graphic User Interface) : 메모장, 브라우저같은 프로그램
 
   - 웹 프로그램 : 브라우저 내부에서 실행되는 프로그램
 
-    - HTML / Javascript
+    - HTML / Javascript<br><br>
 
   - 모바일 프로그램 : 스마트폰용 프로그램(요즘은 윈도우즈 프로그램과 병합되는 추세다)
 
@@ -1705,7 +1716,7 @@ div {
 
   <small>!! REPL(Read Eval Print Loop) : 한 줄씩 행단위로 실행을 해보는 것으로 공부를 하거나 에러를 확인할 때 많이 사용한다</small>
 
-- html 문서 내에서 script 태그를 이용할 수 있다
+- html 문서 내에서 script 태그를 이용해 사용할 수 있다
 
 ```js
 <script type="text/javascript">
@@ -1716,8 +1727,10 @@ div {
 
 ```js
   <script type="text/javascript">
-    document.write("Hello javascript!"); // html 출력으로 html 태그의 효과가 들어간다
-    document.write("<table border='1'>"); // 큰따옴표 안에는 큰따옴표가 쓰일 수 없고 작은따옴표를 써야한다
+    document.write("Hello javascript!");
+    // html 출력으로 html 태그의 효과가 들어간다
+    document.write("<table border='1'>");
+    // 큰따옴표 안에는 큰따옴표가 쓰일 수 없고 작은따옴표를 써야한다
     document.write("<tr>");
     document.write("<td>");
     document.write("<1열>");
@@ -1727,7 +1740,7 @@ div {
   </script>
 ```
 
-- script 태그는 head , body 태그 상관없이 쓰일 수 있다(출력의 순서 때문에 여러 곳에서 쓰일 수 있다)
+- script 태그는 head , body 태그 상관없이 여러 곳에서 동시에 쓰일 수 있다(출력의 순서 때문에 여러 곳에서 쓰일 수 있다)
 
 ```html
 <!DOCTYPE html>
@@ -1885,7 +1898,8 @@ console.log("hello Javascript!");
     - let, const 없이 선언할 수도 있다
 
     ```js
-    data1 = 10; // 이렇게 아무것도 붙이지 않고 선언할 수도 있다
+    data1 = 10;
+    // 이렇게 아무것도 붙이지 않고 선언해도 에러가 나지 않지만 지양하자
     console.log(data1);
 
     var data2 = 20; // var 를 사용해 변수 선언할 수도 있다
@@ -1940,7 +1954,7 @@ console.log(str3);
 
 ```js
 let str1 = `Hello
-      String`;
+            String`;
 console.log(str1);
 // \n(줄바꿈 문자)를 사용하지 않았는데, 줄바꿈 한 것처럼 표현된다
 let str2 = "백두산";
@@ -1951,9 +1965,9 @@ console.log(`${str1}님, ${str2}강의실에 입장하세요`);
 // 백두산님, 205 강의실에 입장해 주세요
 ```
 
-- undefined : 선언되지 않거나, 선언은 되었으나 값이 할당되지 않은 경우의 자료형 또는 값
+- undefined : 선언되지 않거나, 선언은 되었으나 값이 할당되지 않은 경우의 자료형 또는 값(프로그래머의 실수로 발생하는 경우가 많다)
 
-- null : 특정자료형이 아니라 null(미정)로 초기화되었을 때의 자료형 또는 값(아직 변수에 넣을 자료형을 정하지 않은 상태)
+- null : 특정자료형이 아니라 null(미정)로 초기화되었을 때의 자료형 또는 값(아직 변수에 넣을 자료형을 정하지 않은 상태라 프로그래머가 의도적으로 집어넣는 경우가 많다)
 
 ---
 
@@ -2073,11 +2087,11 @@ html1 += "</table>";
 document.write(html1);
 
 let html2 = `<table boder = '1' width = '150'>
-                      <tr>
-                        <td>Hello String</td>
-                      </tr>
-                   </table>
-                  `;
+                <tr>
+                  <td>Hello String</td>
+                </tr>
+             </table>
+            `;
 document.write(html2);
 ```
 
@@ -2088,7 +2102,7 @@ console.log(3 == "3"); // 자료형 상관없이 값이 같으면 true
 // 결과 true
 console.log(3 != "3"); // 자료형 상관없이 값이 다르면 false
 // 결과 false
-console.log(3 === "3"); // 자료형, 값이 다 같아야 true
+console.log(3 === "3"); // 자료형, 값이 모두 같아야 true
 // 결과 false
 console.log(3 !== "3"); // 자료형 또는 값이 다르면 true
 // 결과 true
@@ -2124,12 +2138,12 @@ console.log(!("a" > "b")); // ! 는 피연산자와 반대의 값을 가지게 �
 - AND 연산자 : && 기호를 사용하며 비교되는 피연산자들이 '그리고' 로 연결될 때 사용한다
 - OR 연산자 : || 기호를 사용하며 비교되는 피연산자들이 '또는' 으로 연결될 때 사용한다
 
-  |  op1  |  op2  | op1\|\|op2 | op1&&op2 | !op1  |
-  | :---: | :---: | :--------: | :------: | :---: |
-  | false | false |   false    |  false   | true  |
-  | false | true  |    true    |  false   | true  |
-  | true  | false |    true    |  false   | false |
-  | true  | truen |    true    |   true   | false |
+  |  op1  |  op2  | op1 \|\| op2 | op1 && op2 | !op1  |
+  | :---: | :---: | :----------: | :--------: | :---: |
+  | false | false |    false     |   false    | true  |
+  | false | true  |     true     |   false    | true  |
+  | true  | false |     true     |   false    | false |
+  | true  | truen |     true     |    true    | false |
 
 ---
 
@@ -2435,7 +2449,7 @@ for (let row = 1; row <= 10; row++) {
 
 - 삼항연산자(피연산자 3개)
 
-  - 조건연산자 : (조건)? 명령1 : 명령2;
+  - 조건연산자 : (조건)? 명령1 : 명령2;<br><br>
 
 - 연산자 우선순위 : 되도록이면 괄호로 묶어 확실하게 표시해주는 것이 좋다.
 
@@ -2606,6 +2620,39 @@ result += "</table>";
 document.write(result);
 ```
 
+```js
+<script>
+  let rowNum = 10;
+  let html = "";
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10 - i; j++) {
+      html += "*";
+    }
+    html += "<br>";
+  }
+  document.write(html);
+</script>
+// 별 역순으로 찍기
+```
+
+```js
+<script>
+  let rowNum = 10;
+  let html = "";
+  for (let i = 0; i < rowNum; i++) {
+    for (let blank = 0; blank < 10 - i; blank++) {
+      html += "&nbsp;";
+    }
+    for (let star = 0; star < 2 * i + 1; star++) {
+      html += "*";
+    }
+    html += "<br>";
+  }
+  document.write(html);
+</script>
+// 별 피라미드 찍기
+```
+
 ### while
 
 ```js
@@ -2686,7 +2733,7 @@ for (let i = 1; i <= 5; i++) {
 ```
 
 ```js
-  loopA : // 바깥쪽 반복문의 이름을 준다(여기서는 loopA)
+loopA : // 바깥쪽 반복문의 이름을 준다(여기서는 loopA)
   for(let i = 1; i <= 5; i++){
     for(let j = 1; j <= 5; j++){
       if (j == 2){
@@ -2720,7 +2767,7 @@ for (let i = 1; i <= 5; i++) {
 ```
 
 ```js
-  loopA : // 바깥쪽 반복문의 이름을 준다(여기서는 loopA)
+loopA : // 바깥쪽 반복문의 이름을 준다(여기서는 loopA)
   for(let i = 1; i <= 5; i++){
     for(let j = 1; j <= 5; j++){
       if (j == 2){
@@ -2933,7 +2980,7 @@ const rFunc = function () {
     console.log("Hello function");
   };
 };
-result()();
+rFunc()();
 ```
 
 ```js
