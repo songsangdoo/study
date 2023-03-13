@@ -5020,7 +5020,7 @@ let h2s = document.querySelectorAll("h2"); // class, tag 요소를 할당할 때
 let h1 = document.querySelector("#h1");
 let text = h1.innerText; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용만 가져온다)
 let text = h1.textContent; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용이 아닌 소스 내용 그대로 가져온다)
-let html = h1.innerText; // 태그안에 속해 있는 태그와 내용 모두 가져와 할당한다
+let html = h1.innerHTML; // 태그안에 속해 있는 태그와 내용 모두 가져와 할당한다
 ```
 
 ### 웹 요소 내용 수정 및 삭제
@@ -5478,3 +5478,4 @@ window.onload = function () {
   </body>
 </html>
 ```
+---------------
