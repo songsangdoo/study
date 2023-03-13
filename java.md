@@ -66,3 +66,156 @@ public class HelloWorld {
 > java HelloWorld // 파일명에 확장자 쓰지 않는 것에 주의하자
 // Hello world!
 ```
+- Java 출력 기본
+```java
+public class PrintEx01 {
+  public static void main(String[] args) {
+    System.out.println("Hello Print");
+    System.out.println("Hello Print");
+    System.out.println("Hello Print");
+    // System.out.println -ln(엔터)
+    System.out.print("Hello Print");
+    System.out.print("Hello Print");
+    System.out.print("Hello Print");
+    // 엔터키 적용이 되지 않는다
+    System.out.printf("%s %s\n","Hello","world");
+    System.out.printf("%d %d\n",10, 20);
+    // %s - 문자열
+    // %d - 숫자
+    // \n, %n - 엔터키
+  }
+}
+```
+-----------
+## Java 문법
+### 저장공간
+- 변수 
+  
+```java
+// 자료형 변수명;
+byte age;
+```
+```java
+public class VariableEx01 {
+  public static void main(String[] args){
+    int num1; // 변수 선언
+    num1 = 10; // 변수 할당
+    num1 = 15; // 재할당
+    System.out.println(num1);
+
+    int num2 = 20; // 변수 선언과 동시에 초기화
+    System.out.println(num2);
+
+    int num3, num4 = 50; // num3, num4를 선언하고 num4에 값 할당
+    num3 = 40; // num3 에 값 할당
+    System.out.println(num3);
+    System.out.println(num4);
+    
+    // int num1 = 20;  에러!! 재선언 불가능하다
+    // System.out.println(num4);
+  }
+}
+```
+
+- 상수 
+```java
+// final 자료형 변수명;
+final double height;
+```
+```java
+public class VariableEx02 {
+  public static void main(String[] args){
+    final int C_NUM = 10; // 상수 선언 및 초기화
+    System.out.println(C_NUM);
+    // C_NUM = 20;  에러!! 상수는 재할당 불가능하다
+    // System.out.println(C_NUM);
+    final int C_NUM1;
+    C_NUM1 = 20; // 상수도 선언 먼저하고 초기화를 나중에 할 수 있다
+    System.out.println(C_NUM1);
+  }
+}
+```
+### 자료형
+- 기본형
+  - 문자형
+  ```java
+  public class VariableEx04 {
+    public static void main(String[] args) {
+      // char - 문자 ('')
+      char c1 = 'a';
+      char c2 = 97; 
+      System.out.println(c1);
+      System.out.println(c2); 
+      // 문자는 ASKII 코드 값으로 저장되기 때문에 숫자로 저장할 수도 있다
+      // ASKII 코드 - 영문자, 숫자, 특수기호
+      char c3 = 'b';
+      // char c3 = 97 + 1;
+      System.out.println(c3);
+      // 유니코드 - 다국어
+      char c4 = '\uc790'; 
+      System.out.println(c4);
+      // \n - 엔터키
+      // \t - 탭키
+      char e1 = 'a';
+      char e2 = '\n';
+      char e3 = 'b';
+      System.out.print(e1);
+      System.out.print(e2); // 엔터키
+      System.out.print(e3);
+    }
+  }
+  ```
+  ```java
+  public class VariableEx05 {
+    public static void main(String[] args) {
+      // 문자열 - String ("")
+      // String 은 기본자료형이 아닌 객체자료형이다
+      char c1 = 'a'; 
+      // char c1 = "a";  에러!! char 형은 ('') 사용한다
+      String str1 = "Hello";
+      // String str1 = 'Hello';  에러!! String 은 ("") 사용한다
+      System.out.println(c1);
+      System.out.println(str1);
+    }
+  }
+  ```
+  - 숫자형
+  ```java
+  public class VariableEx06 {
+    public static void main(String[] args) {
+      // 정수형 - byte < short < int < long (할당할 수 있는 값의 크기(범위) 차이가 있다)
+      byte b = 1;
+      short s = 2;
+      int i = 4;
+      long l = 8;
+      // long l = 8L;  이렇게 할당할 값뒤에 L을 붙히기도 한다
+      System.out.println(b);
+      System.out.println(s);
+      System.out.println(i);
+      System.out.println(l);
+      // 진수 
+      int i2 = 0b1010; // 할당할 값에 0b 를 붙혀주면 2진수가 된다
+      int i8 = 030; // 할당할 값에 0 를 붙혀주면 8진수가 된다
+      int i16 = 0xA4; // 할당할 값에 0x 를 붙혀주면 16진수가 된다
+      System.out.println(i2); // 10
+      System.out.println(i8); // 24
+      System.out.println(i16); // 164
+      // 단, 출력은 모두 10진수로 변환되어 나온다
+      int bigNum = 1_000_000; 
+      System.out.println(bigNum);
+      // "_"로 세자리씩 끊어 줄 수 있다
+    }
+  }
+  ```
+  - 논리형 
+  ```java
+  public class VariableEx03 {
+    public static void main(String[] args) {
+      boolean bool1 = true; // boolean 형은 true, false 값만 갖는다
+      // boolean bool1 = True;  에러!! 대소문자 구분 잘해야된다
+      System.out.println(bool1);
+
+    }
+  }
+  ```
+- 참조형

@@ -2931,7 +2931,8 @@ function doFunc3(data1, data2) {
 <!-- 출력 확인해보기 -->
 ```
 
-### 익명함수 : 이름이 없는 함수로 변수, 특히 상수에 할당해서 사용한다
+### 익명함수 
+- 이름이 없는 함수로 변수, 특히 상수에 할당해서 사용한다
 
 ```js
 const doFunc1 = function () {
@@ -5003,24 +5004,27 @@ let h2s = document.getElementsByTagName("h2");
 ### querySelector
 
 ```js
-let h1 = document.querySelector("#h1"); // id 요소를 할당할 때 쓰인다
+let h1 = document.querySelector("#h1"); 
+// 지정한 선택자를 사용한 요소 중 첫번째 요소만 할당한다 
+// 주로 id 요소를 할당할 때 쓰인다
 ```
 
 ### querySelectorAll
 
 ```js
-let c1s = document.querySelectorAll(".c1"); // class, tag 요소를 할당할 때 쓰인다
-let h2s = document.querySelectorAll("h2"); // class, tag 요소를 할당할 때 쓰인다
-// 역시 여러개일 때는 배열로 할당한다
+let c1s = document.querySelectorAll(".c1"); 
+let h2s = document.querySelectorAll("h2"); 
+// 한꺼번에 여러개 요소에 접근할 때 사용하며 노드리스트(배열)의 형태로 할당된다
+// 한번만 사용할 수 있는 id를 제외한 요소를 할당할 때 쓰인다
 ```
 
 ### 웹 요소의 내용 가져오기
 
 ```js
 let h1 = document.querySelector("#h1");
-let text = h1.innerText; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용만 가져온다)
-let text = h1.textContent; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용이 아닌 소스 내용 그대로 가져온다)
-let html = h1.innerHTML; // 태그안에 속해 있는 태그와 내용 모두 가져와 할당한다
+let text = h1.innerText; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용만 가져오기 때문에 display 속성 값이 none이라서 웹브라우저에 보이지 않는 내용 역시 가져오지 않는다)
+let text = h1.textContent; // 태그 안의 내용을 할당한다(브라우저에 보이는 내용이 아닌 태그를 제외한 소스 내용을 그대로 모두 가져온다)
+let html = h1.innerHTML; // 태그안에 속해 있는 태그와 내용을 소스 내용 그대로 모두 가져와 할당한다
 ```
 
 ### 웹 요소 내용 수정 및 삭제
@@ -5030,6 +5034,7 @@ const h1 = document.querySelector("#h1");
 hi.innerHTML = "<i>Change Html</i>"; // 내용 수정
 hi.innerHTML = ""; // 내용 삭제
 ```
+
 
 테이블 추가, 삭제 버튼 만들기 실습
 
@@ -5054,6 +5059,7 @@ hi.innerHTML = ""; // 내용 삭제
   <div id="result"></div>
 </body>
 ```
+
 
 구구단 출력버튼 만들고 구구단 표 출력하기
 
@@ -5401,10 +5407,7 @@ window.onload = function () {
   </div>
 </body>
 ```
-
----
-
-### javascript로 스타일 수정하기
+### Javascript 이벤트로 스타일 수정하기
 
 - 요소.style.속성명 = "속성값"
 
@@ -5456,11 +5459,11 @@ window.onload = function () {
       }; //
       document.getElementById("btn2").onclick = function () {
         const h2 = document.querySelector("#h2");
-        h2.classList.add("t2");
+        h2.classList.add("t2"); // t2 클래스를 요소에 추가한다
       };
       document.getElementById("btn3").onclick = function () {
         const h2 = document.querySelector("#h2");
-        h2.classList.remove("t2");
+        h2.classList.remove("t2"); // 요소에 있는 t2 클래스를 삭제시킨다
       };
     };
   </script>
@@ -5478,4 +5481,6 @@ window.onload = function () {
   </body>
 </html>
 ```
+
+
 ---------------
