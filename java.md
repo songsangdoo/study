@@ -40,8 +40,8 @@
 
 - 자바 소스 코드 작성 시 주의사항
   - public 이 붙은 class 는 하나만 존재해야 한다
-  - public class 가 있으면 소스파일 이름은 class 이름과 같아야 한다
 
+  - public class 가 있으면 소스파일 이름은 class 이름과 같아야 한다
   - 대/소문자 구분한다
   - 문장끝에 세미콜론(;)을 붙인다
   - 영역을 표시할 때 중괄호를 사용한다
@@ -81,15 +81,19 @@ public class PrintEx01 {
     System.out.printf("%s %s\n","Hello","world");
     System.out.printf("%d %d\n",10, 20);
     // %s - 문자열
-    // %d - 숫자
+    // %d - 10진 정수
+    // &f - 10진 실수
     // \n, %n - 엔터키
+    // %4d - 4자리 확보하고 오른쪽 정렬
+    // %04d - 4자리 확보하고 빈칸은 0으로 채운다
+    // %5.2f - 소수점 포함해서 5자리 확보하고 소수점 이하 2자리 까지 표현
   }
 }
 ```
 -----------
 ## Java 문법
 ### 저장공간
-- 변수 
+#### 변수 
   
 ```java
 // 자료형 변수명;
@@ -117,7 +121,7 @@ public class VariableEx01 {
 }
 ```
 
-- 상수 
+#### 상수 
 ```java
 // final 자료형 변수명;
 final double height;
@@ -136,7 +140,7 @@ public class VariableEx02 {
 }
 ```
 ### 자료형
-- 기본형
+#### 기본형
   - 문자형
   ```java
   public class VariableEx04 {
@@ -207,15 +211,266 @@ public class VariableEx02 {
     }
   }
   ```
+  ```java
+  public class VariableEx06 {
+    public static void main(String[] args) {
+      // 실수형 - float < double (할당할 수 있는 값의 크기(범위)차이가 있다)
+
+      /* int i = 2.5;  에러!! 
+      System.out.println(i); */
+
+      // float f = 2.5;  에러!! f를 붙이지 않은 실수는 double 자료형이다
+      // double이 모든 실수의 기본형
+      float f = 2.5f;
+      // float 자료형 변수에 할당할 실수 뒤에는 f나 F를 반드시 붙여야 한다
+      double weight = 60.4;
+      System.out.println(height);
+      System.out.println(weight);
+      // 지수(e) - e 뒤에 붙어있는 수 만큼 지수승 한다
+      double d2 = 3.14e2;
+      System.out.println(d2); // 3.14 * 100
+      double d3 = 3.14e-2;
+      System.out.println(d3); // 3.14 * 0.01
+      // float 자료형은 소수점 9번째에서 반올림하여 소수점 8번째 자리까지 표현
+      // double 자료형은 소수점 18번째 자리에서 반올림하여 소수점 17번째 자리까지 표현
+      float f3 = 0.1234567890123456789f;
+      double d4 = 0.1234567890123456789;
+      System.out.println(f3); // 0.12345679
+      System.out.println(d4); // 0.12345678901234568
+    }
+  }
+  ```
   - 논리형 
   ```java
   public class VariableEx03 {
     public static void main(String[] args) {
       boolean bool1 = true; // boolean 형은 true, false 값만 갖는다
       // boolean bool1 = True;  에러!! 대소문자 구분 잘해야된다
-      System.out.println(bool1);
-
+      System.out.println(bool1); // true
     }
   }
   ```
-- 참조형
+  -----
+#### 참조형
+----
+#### 형변환
+- 형변환 연산자 : "( )"
+
+- 구분
+  - 묵시적 형변환
+  ```java
+  public class TypeCastingEx01 {
+    public static void main(String[] args) {
+      short s1 = 10;
+      int i1 = s1; 
+      System.out.println(i1); // 10
+      float f1 = 10.0f; 
+      double d1 = f1;
+      System.out.println(d1); // 10.0
+      char c1 = 'A';
+      int i2 = c1; // char 자료형도 int 자료형으로 형변환 가능하다
+      System.out.println(i2); // 65
+      // 묵시적 형변환
+    }
+  }
+  ```
+  - 명시적 형변환
+  ```java
+  public class TypeCastingEx02 {
+    public static void main(String[] args) {
+      // int i1 = 20;
+      // short s1 = i1;  에러!! 큰 자료형에서 작은 자료형으로 형변환 시킬 때 묵시적 형변환 불가
+      // System.out.println(s1); 
+      int i1 = 20;
+      short s1 = (short)i1; // 소괄호 안에 형변환시킬 자료형을 넣는다
+      System.out.println(s1);
+      char c1 = 'A';
+      int i2 = c1 + 3;
+      System.out.println(i2); // 68
+      System.out.println((char)i2); // D
+      // int 자료형에 형변환 연산자를 사용해 char 자료형으로 변환시킬 수 있다
+
+      //boolean b = false;
+      //int i3 = (int)b;  에러!! boolean 자료형은 형변환 연산자를 사용하더라도 int 자료형으로 형변환 불가
+      //System.out.println(i3); 
+    }
+  }
+  ```
+  ### 연산자
+  #### 산술연산자
+  - <b>+ , - , * , / , % <br><br>
+  ```java
+  public class OperatorEx01 {
+    public static void main(String[] args) {
+      int i1 = 10;
+      int i2 = 20;
+      int sum1 = i1 + i2;
+      System.out.println(sum1);
+      // short s1 = 10;
+      // short s2 = 20;
+      // short sum2 = s1 + s2;  에러!! byte, short 자료형은 산술 연산 시  int 자료형으로 형변환 된 후 연산된다
+      // System.out.println(sum2);
+      short s1 = 10;
+      short s2 = 20;
+      int sum2 = s1 + s2; // int 자료형으로 결과를 받으면 에러가 생기지 않는다
+      // short sum2 = (int)(s1 + s2);  이처럼 명시적 형변환을 이용할 수 있다
+      System.out.println(sum2);
+      // int i3 = 100;
+      // long l1 = 200;
+      // int sum3 = i1 + l1;  에러!! int 자료형보다 큰 자료형과 산술 연산 시 큰 자료형으로 형변환 된 후 연산된다
+    }
+  }
+  ```
+  !! 오버플로우
+  - 할당되는 값이 자료형의 수용 범위를 벗어날 때 발생한다
+  ```java
+  public class OperatorEx02 {
+    public static void main(String[] args) {
+      int i1 = 1_000_000;
+      int i2 = 2_000_000;
+      int product1 = i1 * i2;
+      System.out.println(product1); // -1454759936 (오버플로우)
+      long product2 = (long)i1 * i2; 
+      // 피연산자 중 하나를 long 자료형으로 바꿔주면 형변환이 일어나 오버플로우가 일어나지 않는다
+      System.out.println(product2); // 2000000000000
+    }
+  }
+  ```
+  #### 대입연산자
+  - <b>= , += , -= , *= , /= , %= 
+  #### 비교연산자
+  - <b>< , > , <= , >= , == , != 
+  #### 논리연산자
+  - <b>& , | , ! , ^ </b>
+
+  - Short-Circuit 연산자 : <b> && , ||</b>
+  ```java
+  public class OperatorEx03 {
+    public static void main(String[] args) {
+      int a = 7;
+      int b = 2;
+      boolean result;
+      result = (a -= 3) > 7 && (b += 1) < 7;
+      // && 왼쪽의 값이 false 이기 때문에 무조건 거짓이므로 오른쪽 연산을 하지 않는다
+      System.out.println(result); // false
+      System.out.println(a); // 4
+      System.out.println(b); // 2
+    }
+  }
+  ```
+  ```java
+  public class ex {
+    public static void main(String[] args) {
+      int a = 10;
+      int b = 20;
+      System.out.println((a += 10) > 15 | (b -= 10) > 15); // true
+      System.out.println("a = " + a + " , b = " + b); // a = 20, b = 10
+      // a, b 모두 연산이 된다
+      a = 10;
+      b = 20;
+      System.out.println((a += 10) > 15 || (b -= 10) > 15); //true
+      System.out.println("a = " + a + " , b =" + b); // a = 20 , b = 20
+      // b 는 연산되지 않는다
+      // 비교해보기
+    }
+  }
+  ```
+  #### 비트연산자
+  -------
+  ### 제어문
+  #### 조건에 의한 분기
+    - flowchart 먼저 생각하기 !!
+    - if 
+
+    ```java
+    if(조건){
+      // 실행문
+    }
+
+    if(조건){
+      // 실행문
+    } else{
+      // 실행문
+    }
+
+    if(조건1){
+      // 실행문
+    } else if(조건2){
+      // 실행문
+    } else{
+      // 실행문
+    }
+    ```
+    ```java
+    public class ConditionEx03 {
+      public static void main(String[] args) {
+        int jumsu = 99;
+        if(jumsu >= 90){
+          System.out.println("A");
+        } else if(jumsu >= 80){
+          System.out.println("B");
+        } else if(jumsu >= 70){
+          System.out.println("C");
+        } else if(jumsu >= 60){
+          System.out.println("D");
+        } else{
+          System.out.println("F");
+        }
+      }
+    }
+    ```
+    - switch
+    ```java
+    public class Switch {
+      public static void main(String[] args) {
+        int data = 10;
+        switch(data){
+          case 10 :
+            System.out.println("10");
+            break;
+          case 20 :
+            System.out.println("20");
+            break;
+          case 30 :
+            System.out.println("30");
+            break;
+          default : 
+            System.out.println("기타");
+        }
+      }
+    }
+    ```
+    ```java
+    public class Switch {
+      public static void main(String[] args) {
+        int jumsu = 94;
+        switch(jumsu / 10){
+          case 9 :
+            System.out.println("A");
+            break;
+          case 8 :
+            System.out.println("B");
+            break;
+          case 7 :
+            System.out.println("C");
+            break;
+          case 6 : 
+            System.out.println("D");
+            break;
+          default :
+          System.out.println("F");
+        }
+      }
+    }
+    ```
+    - 삼항연산자
+    ```java
+    public class ConditionEx04 {
+      public static void main(String[] args) {
+        // (조건)? 실행문1 : 실행문2;
+        String msg = (10 < 20 && 20 > 10)? "1" : "20";
+        System.out.println(msg);
+      }
+    }
+    ```
+  #### 조건에 의한 반복
