@@ -46,7 +46,7 @@
   - 문장끝에 세미콜론(;)을 붙인다
   - 영역을 표시할 때 중괄호를 사용한다
 
-- Java 기본 
+## Java 기본 
 ```java
 // 파일명 == public class 이름
 public class HelloWorld {
@@ -67,6 +67,8 @@ public class HelloWorld {
 // Hello world!
 ```
 - Java 출력 기본
+
+  - 개발자는 본인이 출력의 결과를 미리 알아야 한다 !!
 ```java
 public class PrintEx01 {
   public static void main(String[] args) {
@@ -252,6 +254,7 @@ public class VariableEx02 {
   ```
   -----
 #### 참조형
+- 배열, 클래스
 ----
 #### 형변환
 - 형변환 연산자 : "( )"
@@ -313,7 +316,7 @@ public class VariableEx02 {
       short s1 = 10;
       short s2 = 20;
       int sum2 = s1 + s2; // int 자료형으로 결과를 받으면 에러가 생기지 않는다
-      // short sum2 = (int)(s1 + s2);  이처럼 명시적 형변환을 이용할 수 있다
+      // short sum2 = (short)(s1 + s2);  이처럼 명시적 형변환을 이용할 수 있다
       System.out.println(sum2);
       // int i3 = 100;
       // long l1 = 200;
@@ -378,24 +381,27 @@ public class VariableEx02 {
   #### 비트연산자
   -------
   ### 제어문
+  - 조건 파악이 중요하다
+  - 기본적으로 Javascript 와 동일하다
   #### 조건에 의한 분기
     - flowchart 먼저 생각하기 !!
+    
     - if 
 
     ```java
-    if(조건){
+    if(조건식){
       // 실행문
     }
 
-    if(조건){
+    if(조건식){
       // 실행문
     } else{
       // 실행문
     }
 
-    if(조건1){
+    if(조건식1){
       // 실행문
-    } else if(조건2){
+    } else if(조건식2){
       // 실행문
     } else{
       // 실행문
@@ -419,7 +425,7 @@ public class VariableEx02 {
       }
     }
     ```
-    - switch
+    - switch : 소괄호 안 조건식의 값은 정수, 문자열, 상수 값을 가진다
     ```java
     public class Switch {
       public static void main(String[] args) {
@@ -473,4 +479,518 @@ public class VariableEx02 {
       }
     }
     ```
-  #### 조건에 의한 반복
+  #### 조건에 의한 반복 (loop)
+  - 순서 : 초기화 &rarr; 조건식 &rarr; 실행문 &rarr; 증감식 <br>
+                  &rarr; 조건식 &rarr; 실행문 &rarr; 증감식
+                  &rarr; ...
+
+  - 무한루프는 시스템 다운을 시키기 때문에 조건문 만들 때 주의 !!
+
+    <small> !! 특히 증감식 설정을 잘못할 경우 무한루프가 생긴다</small>
+
+    <small>!! 의도적으로 무한루프를 만들고 break 로 빠져나오게 하는 경우도 있다</small>
+  - for : 반복횟수가 정해져 있을 때 사용한다
+  ```java
+  public class LoopEx01 {
+    public static void main(String[] args) {
+      for(int i = 0, j = 0; i < 10; i++, j += 2){
+        System.out.print(i + j);
+        System.out.println();
+      }
+      /* 
+      위의 코드와 같은 코드다
+      int i = 0, j = 0;
+      for(; i < 10; i++, j += 2){
+        System.out.print(i + j);
+        System.out.println();
+      }
+      */ 
+      /* 
+      위의 코드와 같은 코드다
+      int i = 0, j = 0;
+      for(; i < 10;){
+        System.out.print(i + j);
+        System.out.println();
+        i++, j += 2
+      }
+      */ 
+    }
+  }
+  ```
+  별 찍기 예제
+  ```java
+  public class LoopEx02 {
+    public static void main(String[] args) {
+      for(int i = 0; i < 10; i++){
+        for(int j = 0; j <= i; j++){
+          System.out.print("*");
+        }
+        System.out.println();
+      }
+    }
+  }
+  ```
+  char 자료형, 별 찍기 응용
+  ```java
+  public class LoopEx03 {
+    public static void main(String[] args) {
+      for(int i = 0; i < 10; i++){
+        char c = 'A';
+        for(int j = 0; j <= i; j++){
+          System.out.print(c);
+          c++;
+        }
+        System.out.println();
+      }
+    }
+  }
+  ```
+  구구단 출력
+  ```java
+  public class LoopEx04 {
+    public static void main(String[] args) {
+      for(int i = 1; i < 10; i++){
+        System.out.print(i + "단 :" + '\t');
+        for(int j = 1; j < 10; j++){
+          System.out.printf("%d * %d = %d\t", i, j, i * j);
+        }
+        System.out.println();
+      }
+    }
+  }
+  ```
+  - while : 상황에 의한 반복이 될 때 사용한다
+  ```java
+  public class LoopEx05 {
+    public static void main(String[] args) {
+      int i = 0; // 초기화
+      while(i < 10){
+        System.out.println(i);
+        i++; // 증감식
+      }
+    }
+  }
+  ```
+  구구단 출력
+  ```java
+  public class LoopEx05 {
+    public static void main(String[] args) {
+      int i = 1;
+      while(i < 10){
+        int j = 1;
+        System.out.print(i + "단 :" + '\t');
+        while(j < 10){
+          System.out.printf("%d * %d = %d\t", i, j, i * j);
+          j++;
+        }
+        i++;
+        System.out.println();
+      }
+    }
+  }  
+  ```
+  - do ~ while : while 작업 중 최소 한번은 실행되어야 하는 곳에 사용한다
+  ```java
+  public class LoopEx06 {
+    public static void main(String[] args) {
+      int i = 1;
+      do{
+        System.out.print(i + "단 :" + '\t');
+        int j = 1;
+        do{
+          System.out.printf("%d * %d = %d\t", i, j, i * j);
+          j++;  
+        }while(j < 10);
+        System.out.println();
+        i++;
+      }while(i < 10);
+    }
+  }
+  ```
+
+  - break / continue / label
+  ```java
+  public class LoopEx07 {
+    public static void main(String[] args) {
+      outer: for(int i = 1; i < 10; i++){
+        inner: for(int j = 1; j < 10; j++){
+          if(j == 5){
+            break;
+          }
+          System.out.printf("%d * %d = %d\t", i, j, i * j);
+        }
+        System.out.println();
+      }
+    }
+  }
+  // outer 는 밖의 for 문을 가리키는 label, inner 는 안의 for 문을 가리키는 label 이다
+  ```
+### 배열
+- 같은 타입의 데이터 여러 개를 연속된 데이터 공간에 할당시켜 하나로 다루는 것을 배열이라고 한다
+- 같은 타입의 데이터를 넣어야 하지만, 자동 형변환이 되는 값이라면 할당시킬 수 있다
+
+  <sup>ex) int[] 자료형에 byte, short, char 자료형 값을 할당시킬 수 있다</sup>
+- 배열의 크기를 변경시킬 수는 없다
+- 배열의 메모리 구조를 잘 이해하자 !!
+
+#### 배열의 기본
+- 1차원 배열
+```java
+public class ArrayEx01 {
+  public static void main(String[] args) {
+    int[] arr; // 배열의 선언 
+    // int 가 아니라 int[] 가 자료형이다
+
+    arr = new int[5]; // 배열의 생성
+    // int 값이 5개 들어가는 배열을 생성한 뒤, 그 배열을 가리키는 참조값(배열의 처음을 가리키는 참조값)을 arr 에 할당한다
+    // int[] arr = new int[5];  선언과 생성을 동시에 할 수 있다
+
+    arr[0] = 10;
+    arr[1] = 20;
+    arr[2] = 30;
+    arr[3] = 40;
+    arr[4] = 50; // 배열의 초기화
+
+    System.out.println(arr[4]); // 50
+    System.out.println(arr); // [I@71dac704
+    // arr 을 출력하면 참조값을 출력한다
+  }
+}
+```
+```java
+public class ArrayEx05 {
+  public static void main(String[] args) {
+    int[] intArr1 = new int[]{10, 20, 30};
+    int[] intArr2 = {10, 20, 30};
+    // 배열의 초기화 방법
+    for(int i = 0; i < intArr1.length; i++){
+      System.out.println(intArr1[i]);
+    }
+    // for 문을 이용한 배열의 출력
+    for(int data : intArr2){
+      System.out.println(data);
+    }
+    // 향상된 for 문을 이용한 출력
+  }
+}
+```
+```java
+public class ArrayEx02 {
+  public static void main(String[] args) {
+    int[] intArr = new int[5];
+    double[] doubleArr = new double[5];
+    // 배열은 생성될 때 자료형에 맞는 기본값을 가지고 있다
+    System.out.println(intArr[0]); // 기본값 0
+    System.out.println(doubleArr[0]); // 기본값 0.0
+    System.out.println(intArr.length); // 5
+    // 배열의 길이를 출력한다
+  }
+}
+```
+```java
+public class ArrayEx03 {
+  public static void main(String[] args) {
+    int[] points = new int[3]; 
+    System.out.printf("배열의 크기 : %d\n", points.length);
+    points[0] = 1;
+    points[1] = 'A'; // char 자료형 값이 int 형으로 저장되면 아스키 코드값으로 저장된다
+    // !! 같은 자료형이 아니더라도 자동 형변환이 가능하다면 배열에 저장이 가능하다 
+    System.out.printf("0 번째 요소 : %d\n", points[0]); // 1
+    System.out.printf("1 번째 요소 : %d\n", points[1]); // 65
+    System.out.printf("2 번째 요소 : %d\n", points[2]); // 0
+  }
+}
+```
+!! 배열의 인덱스 범위를 벗어나면 Runtime Exception 이 발생하고 프로그램이 비정상으로 종료된다
+```java
+public class ArrayEx04 {
+  public static void main(String[] args) {
+    int[] intArr = new int[3];
+    System.out.println(intArr[0]);
+    System.out.println(intArr[5]); // 컴파일 단계에서는 에러가 나지 않지만, 실행단계에서 에러가 난다
+  }
+}
+```
+- 다차원 배열 : 배열을 관리하는 1차원 배열
+```java
+public class Arrayex06 {
+  public static void main(String[] args) {
+    int[][] arr1; // 2차원 배열의 선언
+
+    arr1 = new int[3][2]; // 3행 2열의 배열을 생성하고, 참조값을 arr1 에 할당
+    // new int[3][2] 에서 3은 생략이 가능하지만, 2는 생량이 불가능하다 (!! 가변배열 참조)
+    arr1[0][0] = 10;
+    arr1[0][1] = 20;
+    arr1[1][0] = 30;
+    arr1[1][1] = 40;
+    arr1[2][0] = 50;
+    arr1[2][1] = 60; // 배열의 초기화
+    // 위의 과정을 아래와 같이 쓸 수 있다
+    // int[][] arr1 = new int[][]{{10, 20}, {30, 40}, {50, 60}};
+    // int[][] arr1 = {{10, 20}, {30, 40}, {50, 60}};
+    System.out.println(arr1[0][0]); // 10
+    System.out.println(arr1[2][1]); // 60
+    System.out.println(arr1); // [[I@123772c4
+    System.out.println(arr1[0]); // [I@2d363fb3
+
+    for(int row = 0; row < arr1.length; row++){
+      for(int col = 0; col < arr1[0].length; col++){
+        System.out.printf("arr1[%d][%d] : %d\n", row, col, arr1[row][col]);
+      }
+    }
+    // for 문을 이용한 2차원 배열 출력
+    for(int[] rows : arr1){
+      for(int data : rows){
+        System.out.println(data);
+      }
+    }
+    // 향상된 for 문을 이용한 2차원 배열 출력
+  }
+}
+```
+```java
+public class ArrayEx08 {
+  public static void main(String[] args) {
+    
+    int[][][] arr3d = {{{1, 2},{3, 4}}, {{5, 6},{7, 8},{9, 0}}};
+    
+    for(int[][] outer : arr3d){
+      for(int[] inner : outer){
+        for(int data : inner){
+          System.out.println(data);
+        }
+      }
+    } // 3차원 배열의 출력
+  }
+}
+```
+!! 다차원 배열은 배열이 또 다른 배열을 참조하는 형태이기 때문에 가변 배열으로 설정도 가능하다
+```java
+public class ArrayEx07 {
+  public static void main(String[] args) {
+    int[][] arr1 = new int[4][]; // 가변 배열
+    // new int[4][] 에서 4는 생략이 불가하고, 뒤의 괄호는 배열의 길이가 각각 다르기 때문에 비워둔다
+    arr1[0] = new int[]{1, 2, 3, 4};
+    arr1[1] = new int[]{10, 20, 30, 40};
+    arr1[2] = new int[]{100, 200, 300};
+    arr1[3] = new int[]{1000, 2000};
+
+    int sum = 0;
+    int count = 0;
+
+    for(int i = 0; i < arr1.length; i++){
+      for(int j = 0; j < arr1[i].length; j++){
+        sum += arr1[i][j];
+        count++;
+      }
+    }
+    System.out.printf("arr1 배열의 총합은 %d 이고, 평균은 %3.1f", sum, (float)sum / count);
+  }
+}
+```
+## 클래스와 객체
+- Java 는 객체지향 언어이다 
+
+    <small>!! OOP(Object Oriented Programming) : 객체지향 프로그래밍</small>
+- 클래스 : 참조형 자료이고 객체를 생성할 수 있다
+  - 사용자 정의 클래스 
+  - 라이브러리(API)
+
+    <small> !! https://docs.oracle.com/en/java/javase/11/docs/api/index.html 참조
+  - 내장 클래스
+  - 외부 클래스
+  
+- 객체(인스턴스) : 각각의 상태(멤버변수)와 기능(메서드)를 갖는다 
+- 추상화와 구체화
+  - 객체 &rarr; 추상화(공통점 추출) &rarr; 클래스
+  
+    <sup>ex) 그랜저, 소나타, 아반떼 &rarr; 공통점 추출 &rarr; 자동차
+  
+  - 클래스 &rarr; 구체화(구체적 상태, 기능 추가) &rarr; 객체
+  
+    <sup>ex) 자동차 &rarr; 그랜저 상태, 기능 추가 &rarr; 그랜저
+
+!! UML(Unified Modeling Language) : 추상화 모델링 기술
+  - Class Diagram
+
+  - Use Case Diagram
+  - Sequence Diagram
+  - ...
+### 클래스 기본 문법
+- 다수의 클래스가 선언된 소스파일을 컴파일 하면 각각의 클래스가 따로 컴파일 된다
+
+  <small>!! 보통은 소스파일 하나 당 한개의 클래스를 선언한다</small>
+- 메모리 구조를 잘 파악하자 !!
+------
+!! JVM 메모리 구조
+- 클래스 영역 : 클래스의 원형에 대한 정보가 저장되는 영역
+  - Field 정보 : 멤버변수, 데이터 접근 제어자 정보
+  - Method 정보 : 메서드, 리턴타입, 파라미터, 접근 제어자 정보
+  - Type 정보 : 타입의 이름, 상위 클래스 이름, 접근 제어자, 타입의 속성이 클래스인지 인터페이스인지에 대한 정보
+
+  - 상수 풀 : 상수에 대한 정보
+- 스택 영역 : 메서드 호출 시 로컬 변수가 쌓이는 영역으로 스레드마다 따로 공간을 가진다 (객체를 받는 변수가 이 영역에 저장된다)
+
+- 힙 영역 : new로 생성된 객체가 저장되는 영역으로 스레드가 모두 공유한다 (스택 영역에 있는 변수가 가리키는 객체가 이 영역에 저장된다)
+---------------
+
+- 클래스 선언 및 생성
+
+```java
+class Student {
+  String name;
+  String idNum;
+  int age;
+  double height, weigth; 
+}
+
+public class ObjectEx01 {
+  public static void main(String[] args) {
+    Student stu1; // Student 객체를 받는 변수 stu1 선언
+    stu1 = new Student(); // Student 객체의 참조값을 변수 stu1에 할당한다
+    System.out.println(stu1); // Student@2d363fb3 (자료형@해시코드)
+    stu1.name = "홍길동"; // "."은 메모리 참조 연산자
+    stu1.idNum = "1001";
+    stu1.age = 20;
+    stu1.height = 180.5;
+    stu1.weigth = 75;
+    System.out.println(stu1.name); // 홍길동
+    
+    Student stu2 = new Student();
+    System.out.println(stu2); // Student@7d6f77cc 
+    stu2.name = "박문수";
+    stu2.idNum = "1002";
+    stu2.age = 22;
+    stu2.height = 182;
+    stu2.weigth = 78;
+    System.out.println(stu2.age); // 22
+  }
+}
+```
+- 메서드
+```java
+class MethodEx {
+  void doFunc1(){
+    System.out.println("doFunc1 호출");
+  }
+  void doFunc2(int data1){
+    System.out.println("doFunc2 호출 ; " + data1);
+  }
+  void doFunc3(int data1, String data2){
+    System.out.println("doFunc3 호출 : " + data1);
+    System.out.println("doFunc3 호출 : " + data2);
+  }
+  // void - return 값이 없음을 나타낸다
+  int doFunc4(int data1, int data2){
+    int sum = data1 + data2;
+    return sum;
+  }
+}
+public class ObjectEx02 {
+  public static void main(String[] args) {
+    MethodEx ex = new MethodEx();
+    ex.doFunc1(); // doFunc1 메서드 호출
+    ex.doFunc2(10); // doFunc2 메서드 호출
+    ex.doFunc3(10, "abc"); // doFunc3 메서드 호출
+    int result = ex.doFunc4(20, 30); // doFunc4 메서드 호출하고 반환값을 변수에 할당
+    System.out.println("result : " + result); 
+  }
+}
+```
+```java
+class Util {
+  int viewMaxNumber(int a, int b, int c){
+    int maxNum = a;
+    if(b > maxNum){
+      maxNum = b;
+    }
+    if(c > maxNum){
+      maxNum = c;
+    }
+    return maxNum;
+  }
+  int doCalculator(int a, int b, String oper){
+    int result = 0;
+    switch(oper){
+      case "+":
+        result = a + b;
+        break;
+      case "-":
+        result = a - b;
+        break;
+      case "*":
+        result = a * b;
+        break;
+      default :
+      System.out.println("해당되는 연산이 없습니다"); 
+    }
+    return result;
+  }
+}
+
+public class Test {
+  public static void main(String[] args) {
+    Util util = new Util();
+    int result1 = util.viewMaxNumber(24, 56, 12);
+    System.out.println("최대값 : " + result1);
+    int result2 = util.doCalculator(20, 40, "+");
+    System.out.println("연산 결과 : " + result2);
+  }
+}
+```
+!! 메서드 중복정의 (Overloading) : 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터가 달라지면 선언가능하다
+```java
+class MethodEx {
+  void doFunc(){
+    System.out.println("doFunc 호출1");
+  }
+  // void doFunc(){
+  //   System.out.println("doFunc 호출2");
+  // } 에러!! 
+  void doFunc(String s){
+    System.out.println("duFunc 호출 : " + s);
+  }
+  void doFunc(String s, int a){
+    System.out.println("doFunc 호출 : " + s + a);
+  }
+  void doFunc(int a, String s ){
+    System.out.println("doFunc 호출 : " + a + s);
+  }
+}
+public class MainEx03 {
+  public static void main(String[] args) {
+    MethodEx ex = new MethodEx();
+    ex.doFunc();
+    ex.doFunc("hi");
+    ex.doFunc("hi", 10);
+    ex.doFunc(10, "hi");
+  }
+}
+```
+<sup> ex) !! https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 클래스의 indexof 메서드 오버로딩 확인</sup>
+
+- 가변인자 
+```java
+class MethodEx{
+  void doFunc(int a, int b){
+    System.out.println("doFunc 호출");
+  }
+  void doFunc1(int ...args){
+    System.out.println("doFunc 호출");
+    System.out.println(args.length);
+    for(int i = 0; i < args.length; i++){
+      System.out.println(args[i]);
+    }
+  } // 인자를 배열로 받아 개수 상관없이 받을 수 있다 (배열의 이름 args)
+}
+public class MainEx04 {
+  public static void main(String[] args) {
+    MethodEx ex = new MethodEx();
+    ex.doFunc(10, 20);
+    // ex.doFunc(10, 20, 30);  에러!!
+    ex.doFunc1(10, 20);
+    ex.doFunc1(10, 20, 30);
+  }
+}
+```
