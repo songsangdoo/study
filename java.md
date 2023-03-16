@@ -63,7 +63,7 @@ public class HelloWorld {
 // 에러가 나오지 않으면 디렉터리에 HelloWorld.class 파일이 생성된다
 // Java 파일에 주석이라도 한글이 들어가 있는 경우에는 아래와 같이 -encoding utf-8 을 이용한다
 // > javac -encoding utf-8 HellowWorld.java
-> java HelloWorld // 파일명에 확장자 쓰지 않는 것에 주의하자
+> java HelloWorld // 실행 시킬 때, 파일명에 확장자 쓰지 않는 것에 주의하자
 // Hello world!
 ```
 - Java 출력 기본
@@ -271,7 +271,7 @@ public class VariableEx02 {
       double d1 = f1;
       System.out.println(d1); // 10.0
       char c1 = 'A';
-      int i2 = c1; // char 자료형도 int 자료형으로 형변환 가능하다
+      int i2 = c1; // char 자료형도 int 자료형으로 묵시적 형변환 가능하다
       System.out.println(i2); // 65
       // 묵시적 형변환
     }
@@ -311,12 +311,12 @@ public class VariableEx02 {
       System.out.println(sum1);
       // short s1 = 10;
       // short s2 = 20;
-      // short sum2 = s1 + s2;  에러!! byte, short 자료형은 산술 연산 시  int 자료형으로 형변환 된 후 연산된다
-      // System.out.println(sum2);
+      // short sum2 = s1 + s2;  
+      // System.out.println(sum2);  에러!! byte, short 자료형은 산술 연산 시  int 자료형으로 형변환 된 후 연산된다
       short s1 = 10;
       short s2 = 20;
       int sum2 = s1 + s2; // int 자료형으로 결과를 받으면 에러가 생기지 않는다
-      // short sum2 = (short)(s1 + s2);  이처럼 명시적 형변환을 이용할 수 있다
+      // short sum2 = (short)(s1 + s2);  이처럼 명시적 형변환을 이용할 수도 있다
       System.out.println(sum2);
       // int i3 = 100;
       // long l1 = 200;
@@ -488,7 +488,7 @@ public class VariableEx02 {
 
     <small> !! 특히 증감식 설정을 잘못할 경우 무한루프가 생긴다</small>
 
-    <small>!! 의도적으로 무한루프를 만들고 break 로 빠져나오게 하는 경우도 있다</small>
+    <small>!! 의도적으로 무한루프를 만들고 특정 경우에만 break 로 빠져나오게 하는 경우도 있다</small>
   - for : 반복횟수가 정해져 있을 때 사용한다
   ```java
   public class LoopEx01 {
@@ -559,7 +559,7 @@ public class VariableEx02 {
     }
   }
   ```
-  - while : 상황에 의한 반복이 될 때 사용한다
+  - while : 상황에 의해서 반복이 진행될 때 사용한다
   ```java
   public class LoopEx05 {
     public static void main(String[] args) {
@@ -616,6 +616,7 @@ public class VariableEx02 {
         inner: for(int j = 1; j < 10; j++){
           if(j == 5){
             break;
+            // break outer;  이 경우도 생각해보기
           }
           System.out.printf("%d * %d = %d\t", i, j, i * j);
         }
@@ -627,7 +628,7 @@ public class VariableEx02 {
   ```
 ### 배열
 - 같은 타입의 데이터 여러 개를 연속된 데이터 공간에 할당시켜 하나로 다루는 것을 배열이라고 한다
-- 같은 타입의 데이터를 넣어야 하지만, 자동 형변환이 되는 값이라면 할당시킬 수 있다
+- 같은 타입의 데이터를 넣어야 하지만, 묵시적 형변환이 되는 값이라면 할당시킬 수 있다
 
   <sup>ex) int[] 자료형에 byte, short, char 자료형 값을 할당시킬 수 있다</sup>
 - 배열의 크기를 변경시킬 수는 없다
@@ -642,7 +643,7 @@ public class ArrayEx01 {
     // int 가 아니라 int[] 가 자료형이다
 
     arr = new int[5]; // 배열의 생성
-    // int 값이 5개 들어가는 배열을 생성한 뒤, 그 배열을 가리키는 참조값(배열의 처음을 가리키는 참조값)을 arr 에 할당한다
+    // int 값이 5개 들어가는 배열을 생성한 뒤, 그 배열을 가리키는 참조값을 arr 에 할당한다
     // int[] arr = new int[5];  선언과 생성을 동시에 할 수 있다
 
     arr[0] = 10;
@@ -694,7 +695,7 @@ public class ArrayEx03 {
     System.out.printf("배열의 크기 : %d\n", points.length);
     points[0] = 1;
     points[1] = 'A'; // char 자료형 값이 int 형으로 저장되면 아스키 코드값으로 저장된다
-    // !! 같은 자료형이 아니더라도 자동 형변환이 가능하다면 배열에 저장이 가능하다 
+    // !! 같은 자료형이 아니더라도 묵시적 형변환이 가능하다면 배열에 저장이 가능하다 
     System.out.printf("0 번째 요소 : %d\n", points[0]); // 1
     System.out.printf("1 번째 요소 : %d\n", points[1]); // 65
     System.out.printf("2 번째 요소 : %d\n", points[2]); // 0
@@ -718,14 +719,14 @@ public class Arrayex06 {
     int[][] arr1; // 2차원 배열의 선언
 
     arr1 = new int[3][2]; // 3행 2열의 배열을 생성하고, 참조값을 arr1 에 할당
-    // new int[3][2] 에서 3은 생략이 가능하지만, 2는 생량이 불가능하다 (!! 가변배열 참조)
+    // new int[3][2] 에서 2는 생략이 가능하지만, 3은 생략이 불가능하다 (!! 가변배열 참조)
     arr1[0][0] = 10;
     arr1[0][1] = 20;
     arr1[1][0] = 30;
     arr1[1][1] = 40;
     arr1[2][0] = 50;
     arr1[2][1] = 60; // 배열의 초기화
-    // 위의 과정을 아래와 같이 쓸 수 있다
+    // 중괄호 중첩을 이용할 수도 있다
     // int[][] arr1 = new int[][]{{10, 20}, {30, 40}, {50, 60}};
     // int[][] arr1 = {{10, 20}, {30, 40}, {50, 60}};
     System.out.println(arr1[0][0]); // 10
@@ -764,7 +765,7 @@ public class ArrayEx08 {
   }
 }
 ```
-!! 다차원 배열은 배열이 또 다른 배열을 참조하는 형태이기 때문에 가변 배열으로 설정도 가능하다
+!! 다차원 배열은 배열이 또 다른 배열을 참조하는 형태이기 때문에 가변배열로 설정도 가능하다
 ```java
 public class ArrayEx07 {
   public static void main(String[] args) {
@@ -791,7 +792,15 @@ public class ArrayEx07 {
 ## 클래스와 객체
 - Java 는 객체지향 언어이다 
 
-    <small>!! OOP(Object Oriented Programming) : 객체지향 프로그래밍</small>
+- OOP(Object Oriented Programming) : 객체지향 프로그래밍
+  - 은닉(Encapsulation)
+
+  - 상속
+    - 추상
+
+    - 다형
+
+- 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다
 - 클래스 : 참조형 자료이고 객체를 생성할 수 있다
   - 사용자 정의 클래스 
   - 라이브러리(API)
@@ -817,9 +826,26 @@ public class ArrayEx07 {
   - Sequence Diagram
   - ...
 ### 클래스 기본 문법
-- 다수의 클래스가 선언된 소스파일을 컴파일 하면 각각의 클래스가 따로 컴파일 된다
+- 다수의 클래스가 선언된 소스파일을 컴파일 하면 각각의 클래스가 따로 컴파일 되어 여러 개의 클래스 파일이 생긴다
 
   <small>!! 보통은 소스파일 하나 당 한개의 클래스를 선언한다</small>
+- 클래스 구성
+```java
+class ClassName {
+  int mem1;
+  char mem2;
+  ... // 멤버변수
+
+  void func1(){
+    ...
+  }
+  int func2(){
+    ...
+    return value;
+  } 
+  ... // 메서드
+}
+```
 - 메모리 구조를 잘 파악하자 !!
 ------
 !! JVM 메모리 구조
@@ -834,7 +860,7 @@ public class ArrayEx07 {
 - 힙 영역 : new로 생성된 객체가 저장되는 영역으로 스레드가 모두 공유한다 (스택 영역에 있는 변수가 가리키는 객체가 이 영역에 저장된다)
 ---------------
 
-- 클래스 선언 및 생성
+#### 클래스 선언 및 생성
 
 ```java
 class Student {
@@ -867,7 +893,163 @@ public class ObjectEx01 {
   }
 }
 ```
-- 메서드
+#### 변수
+- 선언 위치(사용 영역)에 따라 구분된다
+
+  - 클래스 영역에 선언 : 멤버변수(클래스 멤버변수, 인스턴스 멤버변수)
+
+  - 함수(클래스 내부의 메서드 포함) : 로컬변수 
+
+- 구분
+  - 인스턴스 멤버변수 : 힙 영역에 저장된 객체마다 따로 갖는 변수이기 때문에, 객체를 만들어야 사용할 수 있다
+
+  - 클래스 멤버변수 : 같은 클래스로 만들어진 객체가 공유하는 데이터로 클래스가 클래스 영역에 저장될 때 생기기 때문에 객체가 만들어지지 않아도 사용할 수 있다 (선언할 때, static을 붙인다)
+
+  - 로컬 변수
+  
+  ```java
+  class Variable {
+    String instanceVar; // 인스턴스 멤버변수
+    static String classVar; // 클래스 멤버변수
+    void doFunc(){
+      int localVar2 = 20; // 지역변수
+      System.out.println(localVar2);
+    }
+  }
+  public class VariableEx10 {
+    public static void main(String[] args) { // 메인 메서드
+      int localVar1 = 10; // 지역변수
+      System.out.println(localVar1);
+
+      Variable v1 = new Variable();
+      v1.instanceVar = "10";
+      System.out.println(v1.instanceVar);  
+      Variable.classVar = "20";
+      System.out.println(Variable.classVar);
+      // v1.classVar = "20";
+      // System.out.println(v1.classVar); 
+      // 에러가 나지 않지만 보통은 객체명이 아닌 클래스명으로 클래스 변수를 사용한다
+    }
+  }
+  ```
+  ```java
+  class Variable {
+    String instanceVar; 
+    static String classVar; 
+  }
+  
+  public class VariableEx11 {
+    public static void main(String[] args) { 
+      Variable v1 = new Variable();
+      Variable v2 = new Variable();
+  
+      v1.instanceVar = "10";
+      v2.instanceVar = "20";
+      System.out.println(v1.instanceVar); // 10 
+      System.out.println(v2.instanceVar); // 20
+      v1.classVar = "30";
+      v2.classVar = "40";
+      System.out.println(v1.classVar); // 40
+      System.out.println(v2.classVar); // 40
+      // 클래스 멤버변수는 공유 데이터이기 때문에 위와 같이 객체명을 사용하지 않고 아래와 같이 클래스명을 사용한다
+      System.out.println(Variable.classVar); // 40
+    }
+  }
+  ```
+  - 메서드도 멤버변수와 마찬가지로 인스턴스 메서드와 클래스 메서드로 구분된다
+  ```java
+  class Variable {
+    String instanceVar; 
+    static String classVar; 
+
+    void doFunc1(){ // 인스턴스 메서드
+      System.out.println("doFunc1 호출");
+    }
+    static void doFunc2(){ // 클래스 메서드
+      System.out.println("doFunc2 호출");
+    }
+  }
+
+  public class VariableEx11 {
+    public static void main(String[] args) { 
+      Variable v1 = new Variable();
+      Variable v2 = new Variable();
+
+      v1.doFunc1(); 
+      v2.doFunc1();
+      // 같은 내용이 출력되지만 서로 다른 영역의 함수를 호출한 것이다
+      v1.doFunc2();
+      v2.doFunc2();
+      // 모두 클래스 영역에 있는 함수를 호출한 것이다
+      // 보통은 아래와 같이 클래스명을 사용한다
+      Variable.doFunc2();
+    }
+  }
+  ```
+  - 클래스 메서드는 인스턴스 멤버변수, 메서드를 사용할 수 없다<br> (static 메서드는 static이 붙은 것만 사용 가능하다)
+
+  ```java
+  class Variable {
+    String instanceVar; 
+    static String classVar;
+
+    void doFunc1(){ 
+      System.out.println("doFunc1 호출");
+      System.out.println(instanceVar);
+      System.out.println(classVar);
+    }
+    static void doFunc2(){ 
+      System.out.println("doFunc2 호출");
+      // System.out.println(instanceVar); 
+      // 에러!! 클래스 메서드는 인스턴스 멤버변수 사용이 불가능하다
+      System.out.println(classVar);
+    }
+  }
+
+  public class VariableEx11 {
+    public static void main(String[] args) { 
+      Variable v1 = new Variable();
+      Variable v2 = new Variable();
+
+      v1.instanceVar = "10";
+      v2.instanceVar = "20";
+
+      Variable.classVar = "30";
+
+      v1.doFunc1(); 
+      v2.doFunc1();
+      Variable.doFunc2();
+    }
+  }
+  ```
+  !! 메인 메서드도 static 메서드다
+  ```java
+  public class VariableEx13 {
+    String instanceVar = "10";
+    static String classVar = "20";
+
+    void doFunc1(){
+      System.out.println("doFunc1 호출");
+    }
+    static void doFunc2(){
+      System.out.println("doFunc2 호출");
+    }
+
+    public static void main(String[] args) { 
+      System.out.println(classVar);
+      VariableEx13.doFunc2();
+      // System.out.println(instanceVar);
+      // 에러!! 메인 메서드도 static 메서드이기 때문에 인스턴스 멤버변수를 사용하지 못한다
+      VariableEx13 v13 = new VariableEx13();
+      v13.instanceVar = "20";
+      System.out.println(v13.instanceVar);
+      v13.doFunc1();
+      // 이렇게 객체를 먼저 만들고, 그 객체를 이용해 인스턴스 변수, 메서드를 사용할 수는 있다
+    }
+  ```
+
+#### 메서드
+
 ```java
 class MethodEx {
   void doFunc1(){
@@ -938,7 +1120,7 @@ public class Test {
   }
 }
 ```
-!! 메서드 중복정의 (Overloading) : 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터가 달라지면 선언가능하다
+- 오버로딩 (Overloading) : 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터가 달라지면 선언가능하다
 ```java
 class MethodEx {
   void doFunc(){
@@ -968,7 +1150,7 @@ public class MainEx03 {
 }
 ```
 <sup> ex) !! https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)<br> 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String 클래스의 indexof 메서드 오버로딩 확인</sup>
+String 클래스의 indexof 메서드 오버로딩 확인</sup>
 
 - 가변인자 
 ```java
@@ -994,3 +1176,467 @@ public class MainEx04 {
   }
 }
 ```
+```java
+public class MainEx20 {
+  public static void main(String[] args) {
+  // args 는 프로그램 실행시 터미널을 통해 문자열을 배열로 받아준다
+    System.out.println(args.length);
+    for(int i = 0; i < args.length; i++){
+      System.out.println(args[i]);
+    }
+  }
+}
+```
+```java
+public class javaMainParam {
+  public static void main(String[] args) {
+    int sum = 0;
+    for(String arg : args){
+      int num = Integer.parseInt(arg);
+      sum += num;
+    }
+    System.out.printf("배열의 길이 : %d, 요소의 총합 : %d", args.length, sum);
+  }
+}
+```
+#### this
+- 객체마다 가지고 있고, 객체마다 다른 값을 가진다
+
+- 객체의 참조주소를 값으로 가지기 때문에 this 를 자기참조라고 한다
+- 객체가 생성되어야 사용할 수 있기 때문에, static 메서드는 this 를 사용할 수 없다
+```java
+class Method {
+  String data;
+
+  void doFunc(String data){
+    this.data = data;
+    // this.data 는 위에서 선언한 인스턴스 변수 data 를 의미고 대입연산자 오른쪽의 data 는 전달받을 인수를 의미한다
+    System.out.println("doFunc1 호출 : " + data);
+    System.out.println("doFunc1 호출 : " + this.data);
+    System.out.println("this : " + this); // 객체의 참조값이 출력된다
+  }
+}
+public class MethodEx01 {
+  public static void main(String[] args) {
+    Method m1 = new Method();
+    m1.doFunc("10");
+    System.out.println("m1 : " + m1); 
+    // 객체의 참조값이 출력되는데, 이 값은 m1 객체에서 사용되는 this 의 값과 같다
+
+    Method m2 = new Method();
+    m2.doFunc("10");
+    System.out.println("m2 : " + m2); 
+    // m1 객체의 this 와 m2 객체의 this 는 서로 다른 값을 가진다
+  }
+}
+```
+#### 생성자
+- 객체를 생성할 때 사용하는 메서드
+- 구성
+```java
+class ClassName {
+  Sting var;
+
+  public ClassName(){
+    // 객체 생성 작업 (주로 멤버변수 초기화 작업을 한다)
+  }
+}
+```
+- 생성자를 따로 만들지 않을 경우 컴파일러가 객체 생성만 하는 기본 생성자를 만들어준다
+```java
+class Constructor {
+  void doFunc(){
+    System.out.println("doFunc 호출");
+  }
+}
+public class ConstructorEx01 {
+  public static void main(String[] args) {
+    Constructor c1 = new Constructor(); // 여기서 Constructor() 가 기본생성자다
+    c1.doFunc();
+  }
+}
+```
+- 생성자는 기본적으로 overloading 되어 상황에 맞게 생성자를 사용한다
+```java
+class Constructor {
+  String data;
+
+  Constructor(){
+    this.data = "10";
+  }
+  Constructor(String data){
+    this.data = data;
+  }
+  // 생성자 오버로딩
+  void doFunc(){
+    System.out.println("doFunc 호출");
+    System.out.println("data : " + this.data);
+  }
+}
+public class ConstructorEx02 {
+  public static void main(String[] args) {
+    Constructor c1 = new Constructor("20");
+    Constructor c2 = new Constructor();
+
+    c1.doFunc();
+    c2.doFunc();
+  }
+}
+```
+!! Deprecated : 미래에 사라질 지 모르니 사용을 지양하라는 뜻을 가지고 있다
+##### this()
+- this()로 다른 생성자를 호출해서 생성자를 만들 수 있다
+```java
+class Constructor {
+  String data1, data2;
+  // 다른 생성자를 이용할 때는 this()를 이용한다
+  // this()를 사용할 경우에는 this()가 반드시 첫 행에 있어야 한다 (주석 제외)
+  Constructor(){
+    // this.data1 = "10";
+    // this.data2 = "20";
+
+    // Constructor("10","20");
+    // 에러!! 생성자는 일반 메서드처럼 호출이 불가능하기 때문에 반드시 this()를 이용한다
+    this("10","20");
+  }
+  Constructor(String data1){
+    // this.data1 = data1;
+    // this.data2 = "20";
+    this(data1, "20");
+  }
+  Constructor(String data1, String data2){
+    this.data1 = data1;
+    this.data2 = data2;
+  }
+  void doFunc(){
+    System.out.println("doFunc 호출");
+    System.out.println("data1 : " + this.data1);
+    System.out.println("data2 : " + this.data2);
+  }
+}
+public class ConstructorEx03 {
+  public static void main(String[] args) {
+    Constructor c1 = new Constructor();
+    Constructor c2 = new Constructor("30");
+    Constructor c3 = new Constructor("50", "60");
+
+    c1.doFunc();
+    c2.doFunc();
+    c3.doFunc();
+  }
+}
+```
+### 클래스 배열
+```java
+class Book {
+  String title;
+  String author;
+  int price;
+
+  Book(String title, String author, int price){
+    this.title = title;
+    this.author = author;
+    this.price = price;
+  }
+}
+
+public class ArrayEx09 {
+  public static void main(String[] args) {
+    int[] intArr = new int[3];
+    intArr[0] = 10;
+    intArr[1] = 20;
+    intArr[2] = 30;
+    System.out.println(intArr[0]);
+    System.out.println(intArr[1]);
+    System.out.println(intArr[2]);
+
+    Book[] bookArr = new Book[3];
+    Book book1 = new Book("Java", "ghdrlfehd", 1000);
+    Book book2 = new Book("JSP", "박문수", 2000);
+    Book book3 = new Book("Spring", "이몽룡", 3000);
+    bookArr[0] = book1;
+    bookArr[1] = book2;
+    bookArr[2] = book3;
+
+    System.out.println(bookArr[0].title);
+    System.out.println(bookArr[0].author);
+    System.out.println(bookArr[0].price);
+
+    System.out.println(bookArr[0]); // Book@2d363fb3
+    System.out.println(book1); // Book@2d363fb3
+    // 같은 참조값 갖는 것 확인하기
+    for(Book book : bookArr){
+      System.out.println(book.title);
+      System.out.println(book.author);
+      System.out.println(book.price);
+    }
+    // 향상된 for문으로 클래스 배열의 내용 출력하기
+  }
+}
+```
+```java
+public class ArrayEx24 {
+  public static void main(String[] args) {
+    String[][] addressArr = new String[][]{
+      {"1001", "홍길동", "001-111-1111"},
+      {"1002", "박문수", "001-111-1121"},
+      {"1003", "임꺽정", "003-113-1241"}
+    };
+    for(int i = 0; i < addressArr.length; i++){
+      for(int j = 0; j < addressArr[i].length; j++){
+        System.out.printf("%s\t", addressArr[i][j]);
+      }
+      System.out.println();
+    }
+    // 향상된 for 문
+    // for(String[] outter : addressArr){
+    //   for(String inner : outter){
+    //     System.out.print(inner + '\t');
+    //   }
+    //   System.out.println();
+    // }
+  }
+}
+```
+2차원 배열을 이용한 위의 코드를 클래스 배열을 이용해 만들 수있다
+```java
+class Address {
+  String idNum;
+  String name;
+  String phone;
+
+  Address(String idNum, String name, String phone){
+    this.idNum = idNum;
+    this.name = name;
+    this.phone = phone;
+  }
+}
+public class ArrayEx24 {
+  public static void main(String[] args) {
+    Address[] addressArr =  new Address[3]; 
+    addressArr[0] = new Address("1001", "홍길동", "011-111-1111");
+    addressArr[1] = new Address("1002", "박문수", "010-222-2222");
+    addressArr[2] = new Address("1003", "임꺽정", "019-111-3123");
+    for(int i = 0; i < addressArr.length; i++){
+        System.out.printf("%s\t%s\t%s\n", addressArr[i].idNum, addressArr[i].name, addressArr[i].phone);
+    }
+    // 향상된 for문
+    // for(Address address : addressArr){
+    //   System.out.printf("%s\t%s\t%s\n", address.idNum, address.name, address.phone);
+    // }
+  }
+}
+```
+### 접근제어자
+- OOP 의 4가지 속성 중 은닉(Encapsulation)에 해당된다
+
+- 종류 : public, protected, default, private
+- 접근 제어자의 적용 가능 범위
+
+  |  구분  |  같은 클래스  | 같은 패키지 | 다른 패키지의<br>자손 클래스 | 전체  |
+  | :---: | :---: | :----------: | :--------: | :---: |
+  | public | O |    O     |   O    | O  |
+  | protected | O  |     O     | O      |   |
+  | default  | O |      O    |       |  |
+  | private  | O |          |        |  |
+- 접근 제어자의 사용 범위
+
+  |구분|클래스|생성자|멤버|
+  | :---: | :---: | :---: | :---: |
+  |public|O|O|O|
+  |protected||O|O|
+  |default|O|O|O|
+  |private||O|O|
+#### private 
+- 데이터는 보통 private 을 접근 제어자로 사용한다
+
+  <small>!! 메서드는 보통 public 을 접근 제어자로 사용한다</small>
+  ```java
+  class Modifier {
+    String data1 = "default";
+    public String data2 = "public";
+    private String data3 = "private";
+
+    void viewData3(){
+      System.out.println(this.data1);
+      System.out.println(this.data2);
+      System.out.println(this.data3); 
+    }
+  }
+  public class ModifierEx01 {
+    public static void main(String[] args) {
+      Modifier m = new Modifier();
+      System.out.println(m.data1);
+      System.out.println(m.data2);
+      // System.out.println(m.data3);
+      // 에러!! private 접근 제어자를 가진 변수는 다른 클래스에서 사용이 불가능하다
+      m.viewData3();
+      // 이렇게 클래스 내부의 메서드를 이용해 private 접근 제어자의 변수를 사용할 수 있다
+    }
+  }
+  ```
+  !! 아래와 같이 사용할 클래스 파일이 소스파일 외부에 있는 게 보통이다 
+  ```java
+  // Modifier.java
+  class Modifier {
+    String data1 = "default";
+    public String data2 = "public";
+    private String data3 = "private";
+
+    void viewData(){
+      System.out.println(this.data1);
+      System.out.println(this.data2);
+      System.out.println(this.data3); 
+    }
+  }
+  ```
+  ```java
+  // ModifierEx01.java
+  public class ModifierEx01 {
+    public static void main(String[] args) {
+      Modifier m = new Modifier();
+      System.out.println(m.data1);
+      System.out.println(m.data2);
+      m.viewData();
+    }
+  }
+  ```
+- 메서드를 이용해 private 멤버변수 사용하기
+  - getter 메서드 : private 멤버변수의 값을 반환한다
+
+  - setter 메서드 : private 멤버변수의 값을 설정한다
+```java
+class Modifier {
+  private String data;
+
+  public void setData(String data){
+    this.data = data;
+  } // setter 메서드
+  public String getData(){
+    return this.data;
+  } // getter 메서드
+}
+
+public class ModifierEx01 {
+  public static void main(String[] args) {
+    Modifier m = new Modifier();
+    // m.data = "홍길동";
+    // 에러!! 
+    m.setData("홍길동"); // setter 메서드를 이용해 data의 값을 설정
+    // System.out.println(m.data);
+    // 에러!! 
+    System.out.println(m.getData()); // getter 메서드를 이용해 data 값을 출력
+  }
+}
+```
+!! 왜 setter 메서드를 이용해 값을 설정하게 할까?
+
+&rarr; &nbsp;부적절한 값으로 설정하는 것을 조건문을 통해 막을 수 있다
+```java
+class BelievableUserInfo{
+  private String name = "홍길동";
+  private int account = 10000;
+
+  public String getName(){
+    return this.name;
+  }
+  public void setName(String name){
+    if(name != null){ 
+      this.name = name;
+    } else{
+      System.out.println("부적절한 name 할당 시도 무시 : " + name);
+    }
+  } // name 의 값이 null 이면 값을 설정하지 않고 메세지를 출력하게 한다
+
+  public int getAccount(){
+    return this.account;
+  }
+  public void setAccout(int account){
+    if(account > 0){
+      this.account = account;
+    } else{
+      System.out.println("부적절한 account 할당 시도 무시 : " + account);
+    }
+  }
+} // account 값이 음수이면 값을 설정하지 않고 메세지를 출력하게 한다
+
+public class ModifierEx01 {
+  public static void main(String[] args) {
+    BelievableUserInfo info = new BelievableUserInfo();
+    System.out.printf("사용자 정보 : %s, %d%n",info.getName(),info.getAccount());
+    info.setName(null); // 부적절한 name 할당 시도 무시 : null
+    // 메세지를 출력하고 값을 설정하지 않는다
+    info.setAccout(-10000); // 부적절한 account 할당 시도 무시 : -10000
+    // 메세지를 출력하고 값을 설정하지 않는다
+    System.out.printf("사용자 정보 : %s, %d%n",info.getName(), info.getAccount());
+  }
+}
+```
+### 상속
+- 상속을 통해서 기존 클래스를 재사용해 새로운 클래스를 만든다
+
+  기존 클래스 (조상클래스, 부모클래스, 공통클래스)
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&Uarr;</b> &nbsp;&nbsp;&nbsp;상속 (화살표 방향 주의 !!)
+  
+   새로운 클래스(자손클래스, 자식클래스, 서브클래스)
+- 자손 클래스는 하나의 부모 클래스만 가질 수 있다
+
+- 상속은 "is ~ a 관계"라고도 한다
+
+  <small>ex) <b>Apple is a Fruit</b><br> Apple 클래스를 Fruit 클래스를 상속시켜 만들 수 있다</small> 
+
+  &rarr; &nbsp;&nbsp;단일상속만 가능하다
+- 상속 방법
+```java
+class Child extends Parents {
+  
+}
+```
+- 상속 받은 클래스의 멤버변수, 메서드를 사용할 수 있다
+```java
+class Parent {
+  String p = "부모";
+
+  void viewParent(){
+    System.out.println("viewParent 호출");
+  }
+}
+
+class Child1 {
+  String c1 = "자식";
+
+  void viewChild(){
+    System.out.println("viewChild 호출");
+  }
+}
+
+class Child2 extends Parent {
+  String c2 = "자식2";
+
+  void viewChild(){
+    System.out.println("viewChild 호출");
+  }
+}
+public class InheritanceEx01 {
+  public static void main(String[] args) {
+    Parent p = new Parent();
+    p.viewParent();
+    Child1 c1 = new Child1();
+    c1.viewChild();
+    // c1.viewParent();
+    // 에러!! 클래스 내부에 선언되어 있지 않는 메서드는 호출할 수 없다
+    System.out.println(c1.c1);
+    // System.out.println(c1.p);
+    // 에러!! 클래스 내부에 선언되어 있지 않는 변수는 호출할 수 없다
+    Child2 c2 = new Child2();
+    c2.viewChild();
+    c2.viewParent(); // Parent 클래스를 상속받았기 때문에 메서드 viewParent 호출이 가능하다
+    System.out.println(c2.c2);
+    System.out.println(c2.p); // Parent 클래스를 상속받았기 때문에 변수 p 사용이 가능하다
+  }
+}
+```
+
+
+
