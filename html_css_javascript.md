@@ -1714,7 +1714,7 @@ div {
 - 브라우저 내에 Javascript 해석 엔진(v8)이 있다 : 브라우저를 OS 처럼 사용한다
 - 브라우저 콘솔창을 사용해 간단한 소스의 결과를 바로 확인할 수 있다
 
-  <small>!! REPL(Read Eval Print Loop) : 한 줄씩 행단위로 실행을 해보는 것으로 공부를 하거나 에러를 확인할 때 많이 사용한다</small>
+  <small>!! REPL(Read Eval Print Loop) : 한 줄씩 행단위로 실행을 해보는 것으로, 공부를 하거나 에러를 확인할 때 많이 사용한다</small>
 
 - html 문서 내에서 script 태그를 이용해 사용할 수 있다
 
@@ -1866,9 +1866,7 @@ console.log("hello Javascript!");
     ```
 
     ```js
-    let one = 1,
-      two = 2,
-      three;
+    let one = 1, two = 2, three;
     three = 3;
     // 위와 같이 여러 변수를 한번에 선언, 할당할 수 있다
     ```
@@ -1885,9 +1883,9 @@ console.log("hello Javascript!");
     ```
 
     ```js
-      const DATA; // 에러!! 상수는 선언하는 동시에 값을 할당해야 한다
-      DATA = 10;
-      console.log(DATA)
+    const DATA; // 에러!! 상수는 선언하는 동시에 값을 할당해야 한다
+    DATA = 10;
+    console.log(DATA)
     ```
 
     ```js
@@ -1950,7 +1948,7 @@ let str3 = "'Hello String'"; // 작은따옴표 표현하기(큰 따옴표도 �
 console.log(str3);
 ```
 
-- 템플릿 리터럴 : `(백팃)을 사용하며 ` 안의 문자, 형식을 그대로 보여준다
+- 템플릿 리터럴 : `(백팃)을 사용하며 안의 문자, 형식을 그대로 보여준다
 
 ```js
 let str1 = `Hello
@@ -1976,11 +1974,13 @@ console.log(`${str1}님, ${str2}강의실에 입장하세요`);
 - 자동 형변환(묵시적 형변환) : javascript 는 자동으로 상황에 따라 자동으로 형변환이 일어난다
 
 ```js
-console.log(10 + "10"); // 문자와 숫자를 더하는 경우, 숫자가 문자열로 형변환 되어 합쳐진 문자열이 결과로 나온다
+console.log(10 + "10"); 
+// 문자와 숫자를 더하는 경우, 숫자가 문자열로 형변환 되어 합쳐진 문자열이 결과로 나온다
 ```
 
 ```js
-console.log(10 - "10"); // 문자와 숫자를 빼는 경우, 문자열이 숫자로 형변환 되어 뺄셈을 한 숫자가 결과로 나온다
+console.log(10 - "10"); 
+// 문자와 숫자를 빼는 경우, 문자열이 숫자로 형변환 되어 뺄셈을 한 숫자가 결과로 나온다
 ```
 
 - 직접 형변환(강제적 형변환) : 특정 함수들을 이용해 강제로 형변환 시킬 수도 있다
@@ -3246,9 +3246,8 @@ if (confirm("난 확인창")) {
 
 ```js
 let value = prompt("난 입력창", "초기값"); // 초기값을 줄 수도 있다
-console.log(value); // 값을 입력하지 않고 취소를 누르면 null 값이 나온다
+console.log(value); // 값을 입력하지 않고 취소를 누르면 null 을 출력한다
 ```
-
 ```js
 if (value) {
   console.log("확인", value); // , : console.log에 사용되는 문자열 연결 연산
@@ -3321,6 +3320,7 @@ let timer = setInterval(() => {
 
 - 1개의 값만을 저장할 수 있는 변수, 상수와 달리 여러개의 값을 저장한다
 
+- 대괄호를 이용한다
 ```js
 let arr1 = []; // 값이 없는 빈 배열
 let arr2 = [10, 20, 30, 40]; // 네개의 숫자가 있는 배열
@@ -3418,7 +3418,7 @@ doFunc2(10, 20, 30);
 
 ```js
 const doFunc1 = function (...numbers) {
-  // ...배열이름을 통해 arguments 대신 직접 정한 배열이름을 쓸 수도 있다
+  // "...배열이름"을 통해 arguments 대신 직접 정한 배열이름을 쓸 수도 있다
   let sum = 0;
   for (let number of numbers) {
     sum += number;
@@ -3476,12 +3476,12 @@ let arr1 = [
   [70, 80, 90],
 ]; // 2차원 배열(행렬)
 /*
-    let arr1 = Array(
-    Array(10, 20, 30),
-    Array(40, 50, 60),
-    Array(70, 80, 90)
-    ) 
-    */
+let arr1 = Array(
+Array(10, 20, 30),
+Array(40, 50, 60),
+Array(70, 80, 90)
+) 
+*/
 console.log(arr1[0]); // 1행 출력
 console.log(arr1[0][1]); // 1행 2열의 값 출력
 console.log(arr1.length); // arr1이 참조하는 배열의 개수 즉, arr1의 행의 개수인 3이 출력
@@ -3500,12 +3500,12 @@ for (let row = 0; row < arr1.length; row++) {
   }
 } // 두개의 for문을 사용한다
 /*
-    for(let i in arr1){
-      for(let j in arr1[i]){
-        console.log(arr1[i][j]);
-      }
-    }
-    */
+for(let i in arr1){
+  for(let j in arr1[i]){
+    console.log(arr1[i][j]);
+  }
+}
+*/
 ```
 
 ```js

@@ -46,7 +46,9 @@
   - 문장끝에 세미콜론(;)을 붙인다
   - 영역을 표시할 때 중괄호를 사용한다
 
-## Java 기본 
+-----------
+## Java 문법
+### Java 기본 
 ```java
 // 파일명 == public class 이름
 public class HelloWorld {
@@ -92,8 +94,6 @@ public class PrintEx01 {
   }
 }
 ```
------------
-## Java 문법
 ### 저장공간
 #### 변수 
   
@@ -635,7 +635,7 @@ public class VariableEx02 {
 - 배열의 메모리 구조를 잘 이해하자 !!
 
 #### 배열의 기본
-- 1차원 배열
+##### 1차원 배열
 ```java
 public class ArrayEx01 {
   public static void main(String[] args) {
@@ -675,12 +675,24 @@ public class ArrayEx05 {
   }
 }
 ```
+- 배열은 초기화 생성될 때 자료형에 맞는 기본값을 가지고 있다
+
+!! 자료형별 기본값
+
+|자료형|기본값|비고|
+|:---:|:--:|:---:|
+|boolean|false|
+|char|'\u0000'|공백 문자|
+|byte, short, int| 0 |
+|long| 0L|
+|float| 0.0f|
+|double|0.0|
+|참조형 변수|null|아무것도 참조하지 않음|
 ```java
 public class ArrayEx02 {
   public static void main(String[] args) {
     int[] intArr = new int[5];
     double[] doubleArr = new double[5];
-    // 배열은 생성될 때 자료형에 맞는 기본값을 가지고 있다
     System.out.println(intArr[0]); // 기본값 0
     System.out.println(doubleArr[0]); // 기본값 0.0
     System.out.println(intArr.length); // 5
@@ -688,6 +700,7 @@ public class ArrayEx02 {
   }
 }
 ```
+
 ```java
 public class ArrayEx03 {
   public static void main(String[] args) {
@@ -702,7 +715,7 @@ public class ArrayEx03 {
   }
 }
 ```
-!! 배열의 인덱스 범위를 벗어나면 Runtime Exception 이 발생하고 프로그램이 비정상으로 종료된다
+- 배열의 인덱스 범위를 벗어나면 Runtime Exception 이 발생하고 프로그램이 비정상으로 종료된다
 ```java
 public class ArrayEx04 {
   public static void main(String[] args) {
@@ -712,7 +725,8 @@ public class ArrayEx04 {
   }
 }
 ```
-- 다차원 배열 : 배열을 관리하는 1차원 배열
+##### 다차원 배열 
+- 배열을 관리하는 1차원 배열
 ```java
 public class Arrayex06 {
   public static void main(String[] args) {
@@ -765,7 +779,7 @@ public class ArrayEx08 {
   }
 }
 ```
-!! 다차원 배열은 배열이 또 다른 배열을 참조하는 형태이기 때문에 가변배열로 설정도 가능하다
+- 다차원 배열은 배열이 또 다른 배열을 참조하는 형태이기 때문에 가변배열로 설정도 가능하다
 ```java
 public class ArrayEx07 {
   public static void main(String[] args) {
@@ -793,12 +807,14 @@ public class ArrayEx07 {
 - Java 는 객체지향 언어이다 
 
 - OOP(Object Oriented Programming) : 객체지향 프로그래밍
-  - 은닉(Encapsulation)
+  - "OOP is A.P.I.E"
+    - 은닉(Encapsulation)
 
-  - 상속
-    - 추상
+    - 상속(Inheritance)
 
-    - 다형
+      - 추상(Abstraction)
+
+      - 다형(Polymorphism)
 
 - 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다
 - 클래스 : 참조형 자료이고 객체를 생성할 수 있다
@@ -831,7 +847,8 @@ public class ArrayEx07 {
   <small>!! 보통은 소스파일 하나 당 한개의 클래스를 선언한다</small>
 - 클래스 구성
 ```java
-class ClassName {
+public class ClassName { 
+// public 은 접근 제어자로 아무 것도 쓰여 있지 않을 경우 default 가 생략되어 있는 것이다
   int mem1;
   char mem2;
   ... // 멤버변수
@@ -898,12 +915,27 @@ public class ObjectEx01 {
 
   - 클래스 영역에 선언 : 멤버변수(클래스 멤버변수, 인스턴스 멤버변수)
 
-  - 함수(클래스 내부의 메서드 포함) : 로컬변수 
+    <small>!! 클래스 영역에 선언되는 변수 (클래스 멤버변수, 인스턴스 멤버변수) 는 초기화 하지 않아도 기본값을 가지기 때문에 초기화가 필수가 아니다</small>
+  - 함수(클래스 내부의 메서드 포함), 초기화 블록, 생성자 영역에 선언 : 로컬변수 
 
+    <small>!! 로컬변수는 기본값을 가지지 않기 때문에 사용하기 전에 반드시 초기화 해줘야 한다</small>
+-------
+!! 자료형에 따른 기본값
+
+|자료형|기본값|비고|
+|:---:|:--:|:---:|
+|boolean|false|
+|char|'\u0000'|공백 문자|
+|byte, short, int| 0 |
+|long| 0L|
+|float| 0.0f|
+|double|0.0|
+|참조형 변수|null|아무것도 참조하지 않음|
+------------
 - 구분
+  - 클래스 멤버변수 : 같은 클래스로 만들어진 객체가 공유하는 데이터로 클래스가 클래스 영역에 저장될 때 생기기 때문에 객체가 만들어지지 않아도 사용할 수 있다 (선언할 때, static을 붙인다)
   - 인스턴스 멤버변수 : 힙 영역에 저장된 객체마다 따로 갖는 변수이기 때문에, 객체를 만들어야 사용할 수 있다
 
-  - 클래스 멤버변수 : 같은 클래스로 만들어진 객체가 공유하는 데이터로 클래스가 클래스 영역에 저장될 때 생기기 때문에 객체가 만들어지지 않아도 사용할 수 있다 (선언할 때, static을 붙인다)
 
   - 로컬 변수
   
@@ -955,97 +987,6 @@ public class ObjectEx01 {
       System.out.println(Variable.classVar); // 40
     }
   }
-  ```
-  - 메서드도 멤버변수와 마찬가지로 인스턴스 메서드와 클래스 메서드로 구분된다
-  ```java
-  class Variable {
-    String instanceVar; 
-    static String classVar; 
-
-    void doFunc1(){ // 인스턴스 메서드
-      System.out.println("doFunc1 호출");
-    }
-    static void doFunc2(){ // 클래스 메서드
-      System.out.println("doFunc2 호출");
-    }
-  }
-
-  public class VariableEx11 {
-    public static void main(String[] args) { 
-      Variable v1 = new Variable();
-      Variable v2 = new Variable();
-
-      v1.doFunc1(); 
-      v2.doFunc1();
-      // 같은 내용이 출력되지만 서로 다른 영역의 함수를 호출한 것이다
-      v1.doFunc2();
-      v2.doFunc2();
-      // 모두 클래스 영역에 있는 함수를 호출한 것이다
-      // 보통은 아래와 같이 클래스명을 사용한다
-      Variable.doFunc2();
-    }
-  }
-  ```
-  - 클래스 메서드는 인스턴스 멤버변수, 메서드를 사용할 수 없다<br> (static 메서드는 static이 붙은 것만 사용 가능하다)
-
-  ```java
-  class Variable {
-    String instanceVar; 
-    static String classVar;
-
-    void doFunc1(){ 
-      System.out.println("doFunc1 호출");
-      System.out.println(instanceVar);
-      System.out.println(classVar);
-    }
-    static void doFunc2(){ 
-      System.out.println("doFunc2 호출");
-      // System.out.println(instanceVar); 
-      // 에러!! 클래스 메서드는 인스턴스 멤버변수 사용이 불가능하다
-      System.out.println(classVar);
-    }
-  }
-
-  public class VariableEx11 {
-    public static void main(String[] args) { 
-      Variable v1 = new Variable();
-      Variable v2 = new Variable();
-
-      v1.instanceVar = "10";
-      v2.instanceVar = "20";
-
-      Variable.classVar = "30";
-
-      v1.doFunc1(); 
-      v2.doFunc1();
-      Variable.doFunc2();
-    }
-  }
-  ```
-  !! 메인 메서드도 static 메서드다
-  ```java
-  public class VariableEx13 {
-    String instanceVar = "10";
-    static String classVar = "20";
-
-    void doFunc1(){
-      System.out.println("doFunc1 호출");
-    }
-    static void doFunc2(){
-      System.out.println("doFunc2 호출");
-    }
-
-    public static void main(String[] args) { 
-      System.out.println(classVar);
-      VariableEx13.doFunc2();
-      // System.out.println(instanceVar);
-      // 에러!! 메인 메서드도 static 메서드이기 때문에 인스턴스 멤버변수를 사용하지 못한다
-      VariableEx13 v13 = new VariableEx13();
-      v13.instanceVar = "20";
-      System.out.println(v13.instanceVar);
-      v13.doFunc1();
-      // 이렇게 객체를 먼저 만들고, 그 객체를 이용해 인스턴스 변수, 메서드를 사용할 수는 있다
-    }
   ```
 
 #### 메서드
@@ -1120,7 +1061,104 @@ public class Test {
   }
 }
 ```
-- 오버로딩 (Overloading) : 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터가 달라지면 선언가능하다
+- 메서드도 멤버변수와 마찬가지로 인스턴스 메서드와 클래스 메서드로 구분된다
+```java
+class Variable {
+  String instanceVar; 
+  static String classVar; 
+  void doFunc1(){ // 인스턴스 메서드
+    System.out.println("doFunc1 호출");
+  }
+  static void doFunc2(){ // 클래스 메서드
+    System.out.println("doFunc2 호출");
+  }
+}
+public class VariableEx11 {
+  public static void main(String[] args) { 
+    Variable v1 = new Variable();
+    Variable v2 = new Variable();
+    v1.doFunc1(); 
+    v2.doFunc1();
+    // 같은 내용이 출력되지만 서로 다른 영역의 함수를 호출한 것이다
+    v1.doFunc2();
+    v2.doFunc2();
+    // 모두 클래스 영역에 있는 함수를 호출한 것이다
+    // 보통은 아래와 같이 클래스명을 사용한다
+    Variable.doFunc2();
+  }
+}
+```
+  - 클래스 메서드는 인스턴스 멤버변수, 메서드를 사용할 수 없다
+
+    &rarr; &nbsp;static 메서드는 static 붙은 변수만 사용 가능하다
+
+  ```java
+  class Variable {
+    String instanceVar; 
+    static String classVar;
+
+    void doFunc1(){ 
+      System.out.println("doFunc1 호출");
+      System.out.println(instanceVar);
+      System.out.println(classVar);
+    }
+    static void doFunc2(){ 
+      System.out.println("doFunc2 호출");
+      // System.out.println(instanceVar); 
+      // 에러!! 클래스 메서드는 인스턴스 멤버변수 사용이 불가능하다
+      System.out.println(classVar);
+    }
+  }
+
+  public class VariableEx11 {
+    public static void main(String[] args) { 
+      Variable v1 = new Variable();
+      Variable v2 = new Variable();
+
+      v1.instanceVar = "10";
+      v2.instanceVar = "20";
+
+      Variable.classVar = "30";
+
+      v1.doFunc1(); 
+      v2.doFunc1();
+      Variable.doFunc2();
+    }
+  }
+  ```
+  !! 메인 메서드도 static 메서드다
+  ```java
+  public class VariableEx13 {
+    String instanceVar = "10";
+    static String classVar = "20";
+
+    void doFunc1(){
+      System.out.println("doFunc1 호출");
+    }
+    static void doFunc2(){
+      System.out.println("doFunc2 호출");
+    }
+
+    public static void main(String[] args) { 
+      System.out.println(classVar);
+      VariableEx13.doFunc2();
+      // System.out.println(instanceVar);
+      // 에러!! 메인 메서드도 static 메서드이기 때문에 인스턴스 멤버변수를 사용하지 못한다
+      VariableEx13 v13 = new VariableEx13();
+      v13.instanceVar = "20";
+      System.out.println(v13.instanceVar);
+      v13.doFunc1();
+      // 이렇게 객체를 먼저 만들고, 그 객체를 이용해 인스턴스 변수, 메서드를 사용할 수는 있다
+    }
+  ```
+##### 오버로딩 (Overloading) 
+
+- 동일한 기능을 해서 중복코드가 발생하는 메서드를 같은 이름으로 새로 정의
+
+  <small>!! 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터의 개수, 타입이 달라지면 선언가능하다</small>
+
+  <small>!! 오버라이딩(Overriding)과 비교</small>
+
 ```java
 class MethodEx {
   void doFunc(){
@@ -1149,10 +1187,29 @@ public class MainEx03 {
   }
 }
 ```
+```java
+class Overloading{
+  String val;
+  void doFunc(){
+    doFunc("value1"); // 중복 코드를 제거하기 위하여 오버로딩 된 함수를 이용해 작성할 수 있다
+  }
+  void doFunc(String val){
+    this.val = val; // this 는 자기 참조값으로 자신을 가리키는 참조값을 가진다
+    System.out.println(val);
+  }
+}
+public class MainEx04 {
+  public static void main(String[] args){
+    Overloading ovl = new Overloading();
+    ovl.doFunc(); // value
+    ovl.doFunc("HI") // HI
+  }
+}
+```
 <sup> ex) !! https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)<br> 
 String 클래스의 indexof 메서드 오버로딩 확인</sup>
 
-- 가변인자 
+##### 가변인자 
 ```java
 class MethodEx{
   void doFunc(int a, int b){
@@ -1204,6 +1261,8 @@ public class javaMainParam {
 
 - 객체의 참조주소를 값으로 가지기 때문에 this 를 자기참조라고 한다
 - 객체가 생성되어야 사용할 수 있기 때문에, static 메서드는 this 를 사용할 수 없다
+
+  &rarr; &nbsp;메인메서드에서 this 는 사용할 수 없다
 ```java
 class Method {
   String data;
@@ -1231,7 +1290,8 @@ public class MethodEx01 {
 }
 ```
 #### 생성자
-- 객체를 생성할 때 사용하는 메서드
+- 객체를 생성할 때 new 와 함께 사용한다
+
 - 구성
 ```java
 class ClassName {
@@ -1242,7 +1302,7 @@ class ClassName {
   }
 }
 ```
-- 생성자를 따로 만들지 않을 경우 컴파일러가 객체 생성만 하는 기본 생성자를 만들어준다
+- 생성자를 따로 만들지 않을 경우에만 컴파일러가 객체 생성만 하는 기본 생성자를 만들어준다
 ```java
 class Constructor {
   void doFunc(){
@@ -1256,7 +1316,7 @@ public class ConstructorEx01 {
   }
 }
 ```
-- 생성자는 기본적으로 overloading 되어 상황에 맞게 생성자를 사용한다
+- 생성자는 기본적으로 오버로딩 되어 상황에 맞게 생성자를 사용한다
 ```java
 class Constructor {
   String data;
@@ -1286,11 +1346,12 @@ public class ConstructorEx02 {
 !! Deprecated : 미래에 사라질 지 모르니 사용을 지양하라는 뜻을 가지고 있다
 ##### this()
 - this()로 다른 생성자를 호출해서 생성자를 만들 수 있다
+
+- this()를 사용할 경우에는 this()가 반드시 첫 행에 있어야 한다 (주석 제외)
+- 다른 생성자를 이용할 때는 this()를 이용한다
 ```java
 class Constructor {
   String data1, data2;
-  // 다른 생성자를 이용할 때는 this()를 이용한다
-  // this()를 사용할 경우에는 this()가 반드시 첫 행에 있어야 한다 (주석 제외)
   Constructor(){
     // this.data1 = "10";
     // this.data2 = "20";
@@ -1351,7 +1412,7 @@ public class ArrayEx09 {
     System.out.println(intArr[2]);
 
     Book[] bookArr = new Book[3];
-    Book book1 = new Book("Java", "ghdrlfehd", 1000);
+    Book book1 = new Book("Java", "홍길동", 1000);
     Book book2 = new Book("JSP", "박문수", 2000);
     Book book3 = new Book("Spring", "이몽룡", 3000);
     bookArr[0] = book1;
@@ -1501,7 +1562,7 @@ public class ArrayEx24 {
     }
   }
   ```
-- 메서드를 이용해 private 멤버변수 사용하기
+##### getter , setter 메서드
   - getter 메서드 : private 멤버변수의 값을 반환한다
 
   - setter 메서드 : private 멤버변수의 값을 설정한다
@@ -1573,20 +1634,24 @@ public class ModifierEx01 {
 }
 ```
 ### 상속
+- OOP 의 4가지 속성 중 상속(Inheritance)에 해당한다
 - 상속을 통해서 기존 클래스를 재사용해 새로운 클래스를 만든다
 
-  기존 클래스 (조상클래스, 부모클래스, 공통클래스)
+  &rarr; &nbsp;&nbsp;공통 내용의 모듈화
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&Uarr;</b> &nbsp;&nbsp;&nbsp;상속 (화살표 방향 주의 !!)
+  <small>기존 클래스 (조상클래스, 부모클래스, 공통클래스)
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&uarr;</b> &nbsp;&nbsp;&nbsp;상속 (화살표 방향 주의 !!)
   
-   새로운 클래스(자손클래스, 자식클래스, 서브클래스)
+   새로운 클래스(자손클래스, 자식클래스, 서브클래스)</small>
+
 - 자손 클래스는 하나의 부모 클래스만 가질 수 있다
 
+  &rarr; &nbsp;&nbsp;단일상속만 가능하다 (조상은 많을 수 있다)
 - 상속은 "is ~ a 관계"라고도 한다
 
-  <small>ex) <b>Apple is a Fruit</b><br> Apple 클래스를 Fruit 클래스를 상속시켜 만들 수 있다</small> 
+  <small>ex) <b>Apple is a Fruit</b><br> Apple 클래스는 Fruit 클래스를 상속시켜 만들 수 있다</small> 
 
-  &rarr; &nbsp;&nbsp;단일상속만 가능하다
 - 상속 방법
 ```java
 class Child extends Parents {
@@ -1637,6 +1702,513 @@ public class InheritanceEx01 {
   }
 }
 ```
+- 메모리 관점에서의 상속
+```java
+class Parent {
+  Parent(){
+    System.out.println("Parent 생성자 호출");
+  }
+}
+class Child extends Parent {
+  Child(){
+    System.out.println("Child 생성자 호출");
+  }
+}
+public class ConstructorEx11 {
+  public static void main(String[] args) {
+    Child c = new Child();
+    // Parent 생성자 호출
+    // Child 생성자 호출
+    // 자식 클래스의 생성자가 호출 될 때, 부모 클래스의 생성자 역시 호출된다
+  }
+}
+```
+```java
+class Parent {  
+    void viewParent(){ 
+      System.out.println("viewParent 호출 : " + this);
+    }
+  }
+  class Child extends Parent {
+    void viewChild(){
+      System.out.println("viewChild 호출 : " + this);
+    }
+  }
+public class InheritancEx02 {
+  public static void main(String[] args) {
+    Child c = new Child();
+    System.out.println(c); // Child@7d6f77cc
+    c.viewChild(); // viewChild 호출 : Child@7d6f77cc
+    c.viewParent(); // viewParent 호출 : Child@7d6f77cc
+    // 자손 클래스의 객체가 생성될 때, 그 객체 안에 부모 클래스의 객체도 생성되기 때문에 두 객체의 참조값이 같다
+  }
+}
+```
+#### Object
+- 모든 클래스의 조상 클래스 
+
+  &rarr; "extends ParentClass" 가 없으면 컴파일러가  "extends Object" 를 추가해서 컴파일한다
+```java
+class Parent /* extends Oject */ {  
+  void viewParent(){ 
+    System.out.println("viewParent 호출");
+  }
+}
+class Child extends Parent {
+  void viewChild(){
+    System.out.println("viewChild 호출");
+  }
+}
+public class Inheritance {
+  public static void main(String[] args) {
+    Child c = new Child();
+    c.viewChild();
+    c.viewParent();
+    Parent p = new Parent();
+    p.viewParent();
+    System.out.println(p.toString()); // 상속받은 Object 의 메서드라서 사용이 가능하다
+    System.out.println(c.toString()); // Parent 클래스를 상속받아 그 조상 클래스인 Object 클래스의 메서드도 사용이 가능하다
+  }
+}
+```
+#### 상속에서의 접근제어자
+```java
+class Parent {  
+  private String p1 = "홍길동";
+  public String p2 = "박문수";
+  String p3 = "이몽룡";
+  void viewParent(){ 
+    System.out.println("viewParent 호출 : " + this);
+  }
+}
+class Child extends Parent {
+  void viewChild(){
+    System.out.println("viewChild 호출 : " + this);
+    // System.out.println(p1);
+    // 에러!! private 접근제어자를 쓴 변수 ,메서드는 선언된 클래스에서만 사용가능하다
+    System.out.println(p2);
+    System.out.println(p3);
+  }
+}
+class GrandChild extends Child {
+  void viewGrandChild(){
+    System.out.println("viewGrandChild 호출 : " + this);
+    // System.out.println(p1);
+    // 에러!! private 접근제어자를 쓴 변수 ,메서드는 선언된 클래스에서만 사용가능하다
+    System.out.println(p2);
+    System.out.println(p3);
+  }
+}
+public class InheritanceEx03 {
+  public static void main(String[] args) {
+    GrandChild gc = new GrandChild();
+    gc.viewGrandChild();
+    gc.viewChild();
+    gc.viewParent();
+    Child c = new Child();
+    // System.out.println(c.p1);
+    // 에러 !! private 접근제어자를 쓴 변수, 메서드는 선언된 클래스에서만 사용가능하다
+    System.out.println(c.p2);
+    System.out.println(c.p3);
+  }
+}
+```
+#### 오버라이딩(Overriding)
+- 메서드의 재정의
+
+  &rarr; &nbsp;오버로딩(Overloading) 은 새로운 메서드를 정의하는 것이다
+- 메서드 이름, 파라미터, 리턴 타입은 조상클래스와 같아야 한다
+- 접근 제어자는 조상 클래스의 메서드보다 범위가 넓거나 같아야 한다
+
+- 조상 클래스의 메서드보다 더 상위의 예외를 던질 수는 없다
+
+```java
+class Parent {  
+    void viewParent(){ 
+      System.out.println("viewParent 호출 : " + this);
+    }
+  }
+  class Child extends Parent {
+    void viewChild(){
+      System.out.println("viewChild 호출 : " + this);
+    }
+    void viewParent(){
+      System.out.println("Child의 viewPanrent 호출");
+    }
+    void viewParent(int a){
+      System.out.println("Child의 viewPanrent 호출 : " + a);
+    }
+    // int viewParent(){
+    //   System.out.println("Child의 viewPanrent 호출 : " + a);
+    //   return 10;
+    // }
+    // 에러!! 같은 이름의 메서드를 선언할 수는 없다
+  }
+public class OverridingEx02 {
+  public static void main(String[] args) {
+    Child c = new Child();
+    c.viewParent(); // Child의 viewParent 호출
+    // 자식 클래스의 객체가 오버라이딩 된 메서드를 호출하면 자식 클래스의 메서드를 호출한다
+    c.viewParent(20); // Child의 viewParent 호출 : 20 
+    // 오버로딩
+  }
+}
+```
+#### super
+- 자식 클래스에서 조상 클래스의 참조값을 값으로 가진다
+
+  <small> !! this 와 비교하기</small>
+```java
+class Parent {  
+    String p = "박문수";
+    void viewParent(){ 
+      System.out.println("viewParent 호출 : " + this);
+    }
+  }
+  class Child extends Parent {
+    String p = "홍길동";
+    void viewChild(){
+      System.out.println("viewChild 호출 : " + this);
+    }
+    void viewParent(){
+      System.out.println("Child의 viewPanrent 호출 ");
+    }
+    void viewSuperParent(){
+      super.viewParent();
+    }
+    void viewP(){
+      System.out.println(p);
+    }
+    void viewSuperP(){
+      System.out.println(super.p);
+    }
+  }
+public class SuperEx02 {
+  public static void main(String[] args) {
+    Child c = new Child();
+    c.viewParent(); // Child의 viewPanrent 호출
+    c.viewSuperParent(); // viewParent 호출 : Child@7d6f77cc
+    c.viewP(); // 홍길동
+    c.viewSuperP(); // 박문수
+  }
+}
+```
+#### super()
+- 자손 클래스의 객체가 생성될 때, 그 객체 안에 조상 클래스의 객체도 호출된다
+
+- super()로 조상 클래스의 생성자를 호출한다
+
+- super() 는 반드시 첫 줄에 써야 한다
+```java
+class Parent {
+  Parent(String data){
+    System.out.println("Parent(String data) 생성자 호출");
+  }
+}
+class Child extends Parent {
+  Child(){
+    // Parent("19");
+    // 에러!!
+    super("19"); // 조상 클래스의 생성자를 호출할 때는 super() 를 사용해야만 한다
+    // super 와 super() 는 별개다
+    System.out.println("Child 생성자 호출");
+  }
+}
+public class ConstructorEx11 {
+  public static void main(String[] args) {
+    Child c = new Child();
+  }
+}
+```
+#### final
+- final 이 붙으면 상속, 오버라이딩을 할 수 없다
+
+  <small>!! final static 이 변수에 붙으면 상수를 의미한다 (할당 된 값 변경 불가)</small>
+
+```java
+final class Parent {
+  // final 이 붙은 클래스는 상속을 하지 못한다
+  Parent(){
+    System.out.println("Parent 생성자 호출");
+  }
+}
+class Child /* extends Parent */{
+  // final class 를 상속받으면 에러가 발생한다
+  Child(){
+    System.out.println("Child 생성자 호출");
+  }
+}
+
+public class FinalEx01 {
+  public static void main(String[] args) {
+    Child c = new Child();
+
+  }
+}
+```
+```java
+class Parent {
+  Parent(){
+    System.out.println("Parent 생성자 호출");
+  }
+
+  final void viewParent(){
+    System.out.println("viewParent 호출");
+  }
+}
+class Child extends Parent {
+  Child(){
+    System.out.println("Child 생성자 호출");
+  }
+  // void viewParent(){
+  //   System.out.println("Child의 viewParent 호출");
+  // }
+  // final 이 붙은 조상 클래스의 메서드는 자손 클래스에서 오버라이딩 할 수 없다
+}
+
+public class FinalEx01 {
+  public static void main(String[] args) {
+    Child c = new Child();
+    c.viewParent();
+  }
+}
+```
+### 다형성
+- OOP 의 네가지 속성 중 다형(Poymorphism)에 해당한다
+#### 클래스의 형변환
+- 상속관계에서만 형변환이 가능하다
+- 자동형변환 : 자식 &rarr; 부모
+
+- 강제형변환 : 부모 &rarr; 자식 
+
+  <small>!! 자식 클래스의 객체 변수는 강제형변환을 통해서만 부모 클래스의 객체를 참조할 수 있다</small>
+
+  <small>!! 강제형변환을 통해 원래 클래스로 돌아간다고 생각하자</small>
+```java
+class Parent {
+  Parent(){
+    System.out.println("Parent 생성자 호출");
+  }
+}
+class Child extends Parent {
+  Child(){
+    System.out.println("Child 생성자 호출");
+  }
+}
+public class CastingEx01 {
+  public static void main(String[] args) {
+    Child c1 = new Child();
+    Parent p1 = c1; // 자동형변환
+    System.out.println(c1);
+    System.out.println(p1);
+    // 같은 Child 객체를 참조하고 있다
+    Parent p2 = new Child();
+    // Child 객체 생성 후 Parent 로 자동형변환
+    // p2 는 Child 객체를 참조하고 있다
+    Child c2 = (Child)p1; // 강제형변환
+    System.out.println(c2);
+    // p1 이 참조하는 객체를 c2 도 참조한다
+
+    // Child c4 = new Parent(); 
+    // 에러!! 자동형변환 불가능 하다
+    Child c4 = (Child)new Parent();
+  }
+}
+```
+- 형변환을 하면 메서드 사용이 달라진다
+```java
+class Parent {
+  Parent(){
+    System.out.println("Parent 생성자 호출");
+  }
+  void viewParent1(){
+    System.out.println("Parent viewParent1 호출");
+  }
+  void viewParent2(){
+    System.out.println("Parent viewParent1 호출");
+  }
+}
+class Child extends Parent {
+  Child(){
+    System.out.println("Child 생성자 호출");
+  }
+  void viewChild1(){
+    System.out.println("Child viewChild1 호출");
+  }
+  void viewParent2(){
+    System.out.println("Child viewParent2 호출");
+  }
+}
+public class CastingEx02 {
+  public static void main(String[] args) {
+    Child c1 = new Child();
+    c1.viewChild1(); // Child viewChild1 호출
+    c1.viewParent1(); // Parent viewParent1 호출
+    c1.viewParent2(); // Child viewParent2 호출
+    
+    Parent p2 = new Parent();
+    p2.viewParent1(); // Parent viewParent1 호출
+    p2.viewParent2(); // Parent viewParent2 호출
+
+    Parent p1 = new Child();
+    // p1.viewChild1();
+    // 부모는 자식 클래스 객체에만 있는 메서드를 사용할 수 없다
+    p1.viewParent1(); // Parent viewParent1 호출
+    p1.viewParent2(); // Child viewParent2 호출
+    // 부모 클래스가 자식 클래스의 객체를 참조하는 경우, 
+    // 오버라이딩 된 클래스 객체의 메서드는 자손 클래스의 메서드가 호출된다
+  }
+}
+```
+
+```java
+class Parent {
+  void viewParent(){
+    System.out.println("Parent viewParent 호출");
+  }
+}
+class Child1 extends Parent {
+  void viewParent(){
+    System.out.println("Child1 viewParent 호출");
+  }
+}
+class Child2 extends Parent {
+  void viewParent(){
+    System.out.println("Child2 viewParent 호출");
+  }
+}
+
+public class CastingEx03 {
+  public static void main(String[] args) {
+    Child1 c1 = new Child1();
+    c1.viewParent(); // Child1 viewParent 호출
+    Child2 c2 = new Child2();
+    c2.viewParent(); // Child2 viewParent 호출
+    
+    Parent p1 = new Child1();
+    Parent p2 = new Child2();
+    p1.viewParent(); // Child1 viewParent 호출
+    p2.viewParent(); // Child2 viewParent 호출
+    // 조상 클래스가 참조하는 자손 클래스의 객체에 따라 호출하는 메서드가 달라진다
+  }
+}
+```
+### 패키지(package)
+<small> jdk 10 이하 - 패키지 &supset; 클래스
+
+  jdk 10 이상 - 모듈 &supset; 패키지 &supset; 클래스</small>
+- 패키지 안에는 같은 클래스의 이름을 중복해서 사용할 수 없다
+
+  !! 패키지 이름 정하기
+  ```java
+  // package 도메인(회사 도메인)
+  package com.naver.www // naver 패키지
+  ```
+- 패키지 선언
+```java
+package packageName;
+class className {
+
+}
+// className 을 packageName 패키지에 포함시킨다
+```
+- 패키지 선언을 따로 하지 않을 경우에는 default 패키지에 포함시킨다
+```java
+// C:\package1\PackA.java
+
+// default package;
+public class PackA {
+  public PackA(){
+    System.out.println("PackA 생성자 호출");
+  }
+}
+```
+```java
+// C:\package1\PackMain.java
+
+public class PackMain {
+  // 메인 메서드가 존재하는 클래스를 실행클래스라고 한다
+  public static void main(String[] args) {
+    PackA a = new PackA();
+  }
+}
+// 같은 패키지에 포함되어 있어서 public 접근 제어자를 가진 PackA 클래스를 사용할 수 있다
+```
+- 패키지 선언을 한 경우 컴파일 방법
+```java
+package pack1;
+
+public class PackB {
+  public PackB(){
+    System.out.println("PackB 생성자 호출");
+  }
+}
+```
+```java
+// 명령프롬프트
+> javac -d . -encoding utf-8 PackB.java 
+// -d 옵션을 사용해야 제대로 컴파일이 된다
+// "." 은 현재 디렉터리를 의미한다
+// 현재 디렉터리에 위에서 선언한 패키지가 없는 경우 그 이름의 패키지를 만든다
+```
+- 다른 패키지에 있는 클래스 사용하기
+```java
+package pack1;
+
+public class PackB {
+  public PackB(){
+    System.out.println("PackB 생성자 호출");
+  }
+}
+```
+```java
+> javac -d . -encoding utf-8 PackB.java 
+// 현재 디렉터리의 pack1 패키지에 PackB.java 를 컴파일 한다
+```
+```java
+// C:\package1\PackMain.java
+
+public class PackMain {
+  public static void main(String[] args) {
+    PackA a = new PackA();
+    pack1.PackB b = new pack1.PackB(); // pack1 에 있는 PackB 클래스를 사용
+  }
+}
+```
+
+- import
+
+```java
+package pack1;
+
+public class PackB {
+  public PackB(){
+    System.out.println("PackB 생성자 호출");
+  }
+}
+```
+```java
+> javac -d . -encoding utf-8 PackB.java 
+```
+```java
+// C:\package1\PackMain.java
+
+import pack1.PackB;
+
+public class PackMain {
+  public static void main(String[] args){
+    PackA a = new PackA();
+    PackB b = new PackB();
+    // pack1.PackB b = new pack1.PackB();
+    // 이렇게 쓰지 않아도 된다
+  }
+}
+```
+
+
+
+
+
 
 
 
