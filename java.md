@@ -30,12 +30,14 @@
 - 편집기
   - 메모장
 
-  - VsCode
+  - VSCode
 
   - IDE (Intergrated Development Environment)
-    - eclipse (전통)
+    - eclipse : 전자 정부 프레임워크 (https://www.egovframe.go.kr/home/main.do)
 
-    - intellij (최신)
+
+    - intellij : 안드로이드 개발
+
 - 자바 프로그램 실행절차<br><br>
 
 <img src="https://mblogthumb-phinf.pstatic.net/20160912_214/it_sion_1473653250675llB1C_PNG/2.png?type=w800" ><br>
@@ -49,13 +51,37 @@
   - 문장끝에 세미콜론(;)을 붙인다
   - 영역을 표시할 때 중괄호를 사용한다
 
+### elipse
+
+- Java 편집기로 전자정부 프레임워크에 쓰인다
+
+- 설치 및 실행 : 압축해제 &rarr; workspace 설정
+
+- eclipse 실행순서
+
+
+    1<sub >st</sub> . 프로젝트 만들기
+
+    2<sub >nd</sub> . 패키지 만들기
+      
+    3<sub >rd</sub> . 클래스 만들기
+
+    4<sub >th</sub> . 소스 파일 실행
+
+
+  <small> !! 이때, 소스파일을 실행시키면 바로 실행이 되는데, 소스파일로 실행되는 것이 아니라 <br>소스 파일이 컴파일된 클래스 파일이 bin 디렉터리에 만들어지고, 그 클래스 파일이 실행되는 것이다</small>
+
+
+  <small>!! Java는 소스파일이 실행되는 것이 아니라 소스파일이 컴파일된 class 파일을 실행시킨다</small>  
+
+- 메인 메서드에서의 파라미터 args는 메인 메서드를 한번은 실행해야 그 값을 줄 수 있다  
+
 -----------
 ## Java 문법
 ### Java 기본 
 - 파일명은 public class 이름과 같아야 한다
 ```java
 // HelloWorld.java
-// 파일명 == public class 이름
 
 public class HelloWorld {
   // main 메서드가 프로그램의 시작점이다
@@ -845,7 +871,7 @@ public class ArrayEx07 {
 - OOP(Object Oriented Programming) : 객체지향 프로그래밍
   - "OOP is A.P.I.E"
 
-    - 은닉(Encapsulation)
+    - 은닉(Encapsulation) 
 
     - 상속(Inheritance)
 
@@ -1305,6 +1331,8 @@ public class javaMainParam {
 #### this
 - 객체마다 가지고 있고, 객체마다 다른 값을 가진다
 
+  &rarr; 객체에 대한 참조
+
 - 객체의 참조주소를 값으로 가지기 때문에 this를 자기참조라고 한다
 - 객체가 생성되어야 사용할 수 있기 때문에, static 메서드는 this를 사용할 수 없다
 
@@ -1699,6 +1727,8 @@ public class ModifierEx01 {
   
    새로운 클래스(자손클래스, 자식클래스, 서브클래스)</small>
 
+  <small>!! 클래스가 다른 클래스를 이용하는 방법으로는 상속, 포함 두가지가 있다</small>
+
 - 자손 클래스는 하나의 부모 클래스만 가질 수 있다
 
   &rarr; &nbsp;단일상속만 가능하다 
@@ -1707,6 +1737,13 @@ public class ModifierEx01 {
 - 상속은 "is ~ a 관계"라고도 한다
 
   <sup>ex) <b>Apple is a Fruit</b><br> Apple 클래스는 Fruit 클래스를 상속시켜 만들 수 있다</sup> 
+
+  <small>!! 다른 클래스를 포함하는 포함관계는 "has ~ a 관계"라고 한다</small>
+  ```java
+  class A {
+    B b = new B(); // 이런 경우를 포함관계라고 한다
+  }
+  ```
 
 - 상속 방법
 ```java
@@ -1884,6 +1921,8 @@ public class InheritanceEx03 {
 
 - 조상 클래스의 메서드보다 더 상위의 예외를 던질 수는 없다
 
+- "@Override" 애노테이션을 써서 오버라이딩 규칙에 맞지 않을 경우, 오류를 발생시키라고 컴파일러에게 전달할 수 있다
+
 ```java
 class Parent {  
   void viewParent(){ 
@@ -1910,15 +1949,22 @@ public class OverridingEx02 {
   public static void main(String[] args) {
     Child c = new Child();
     c.viewParent(); // Child의 viewParent 호출
-    // 자식 클래스의 객체가 오버라이딩 된 메서드를 호출하면 자식 클래스의 메서드를 호출한다
+    // 자식 클래스의 객체가 오버라이딩된 메서드를 호출하면 자식 클래스의 메서드를 호출한다
     c.viewParent(20); // Child의 viewParent 호출 : 20 
     // 오버로딩
   }
 }
 ```
+
+
 #### super
+- 객체마다 가지고 있고, 객체마다 다른 값을 가진다
+
+  &rarr; 객체에 대한 참조
 
 - 자식 클래스에서 조상 클래스의 참조값을 값으로 가진다
+
+    <small> !! 단, 부모 클래스에만 접근이 가능하다</small>
 
   <small> !! this와 비교하기</small>
 ```java
@@ -1960,9 +2006,11 @@ public class SuperEx02 {
 
 - 자손 클래스의 객체가 생성될 때, 그 객체 안에 조상 클래스의 객체도 호출된다
 
+  <small>!! 자손 클래스 생성자에 this() 또는 super()를 이용해 다른 생성자를 호출하는 코드가 없다면,<br> 컴파일러가 조상의 기본 생성자를 호출하는 super()를 첫행에 삽입한다</small>
+
 - super()로 조상 클래스의 생성자를 호출한다
 
-- super() 는 반드시 첫 줄에 써야 한다
+- super()는 반드시 첫 줄에 써야 한다
 ```java
 class Parent {
   String data;
@@ -2040,7 +2088,7 @@ public class FinalEx01 {
 ```
 ### 다형성
 - OOP 의 네가지 속성 중 다형(Poymorphism)에 해당한다
-#### 클래스의 형변환
+#### 객체의 형변환
 
 - 상속관계에서만 형변환이 가능하다
 - 자동형변환 : 자식 &rarr; 부모
@@ -2165,11 +2213,14 @@ public class CastingEx03 {
 
   jdk 10 이상 - 모듈 &supset; 패키지 &supset; 클래스</small>
 
+- 상속, 포함 등의 관계를 가지는 클래스들의 집합 디렉터리
+
 - 하나의 패키지에서 클래스의 이름이 중복될 수 없다
 
 - 패키지 선언
 ```java
 package packageName;
+
 class className {
 
 }
@@ -2277,6 +2328,331 @@ public class PackMain {
   }
 }
 ```
+## java.lang 
+
+<small>!! API (Application Programming Interface) : 미리 만들어진 클래스들의 모임</small>
+
+- java.base 모듈에 있는 패키지
+
+### Object
+
+- 모든 클래스의 가장 최상위 조상 클래스
+
+#### Object 클래스의 메서드
+
+- toString()
+
+  - 기본적으로는 객체의 참조값이 출력된다
+
+  - 객체변수를 출력하면 객체변수.toString()이 출력된다
+
+  ```java
+  public class ObjectEx01 {
+    public static void main(String[] args) {
+      Object o1 = new Object();
+      System.out.println(o1); // java.lang.Object@262b2c86
+      System.out.println(o1.toString()); // java.lang.Object@262b2c86
+      // 객체변수 o1을 출력하면 ol.toString()이 출력된다
+      // 16진수 참조값
+      System.out.println(o1.getClass().getName()); // java.lang.Object
+      System.out.println(o1.hashCode()); // 640363654
+      // 10진수 참조값이 출력된다
+    } 
+  }
+  ```
+
+  - 보통 자손 클래스에서 객체의 내용(멤버변수) 출력을 하도록 오버라이딩된다
+  ```java
+  public class ObjectEx01 {
+    public static void main(String[] args) {
+  	  String str = new String("Hello toString");
+  	  System.out.println(str); // Hello toString
+  	  System.out.println(str.toString()); // Hello toString
+      // String 클래스의 toString()은 객체의 값을 출력하도록 오버라이딩 되어 있다 
+    }
+  }
+  ```
+  ```java
+  // Person.java
+  
+  public class Person {
+    private int id;
+  	private String name;
+  	private int age;
+  	public Person(int id, String name, int age) {
+      this.id = id;
+  		this.name = name;
+  		this.age = age;
+  	}
+
+  //	public String viewData() {
+  //		return this.id + "/" + this.name + "/" + this.age;
+  //	}
+  // 클래스의 멤버변수를 출력하는 메서드의 이름이 작성자마다 다르면 복잡해지므로 toString()을 오버라이딩해 사용하기로 되어 있다
+
+  	@Override
+  	public String toString() {
+  		return "Person [id=" + id + ", name=" + name + ", age=" + age + "]";
+  	}
+  }
+  ```
+  ```java
+  // 위에서 작성한 Person 클래스 사용
+
+  public class ObjectEx01 {
+    public static void main(String[] args) {
+  	  Person p1 = new Person(100, "홍길동", 20);
+  	  System.out.println(p1); // Person [id=100, name=홍길동, age=20]
+  	  System.out.println(p1.toString()); // Person [id=100, name=홍길동, age=20]
+    }
+  }
+  ```
+- equals()
+  - 기본적으로는 할당되어 있는 참조값을 비교한다
+
+    &rarr; "=="와 같은 결과를 가진다
+
+  ```java
+  public class ObjectEx01 {
+    public static void main(String[] args) {
+  	  int a1 = 10;
+  	  int a2 = 10;
+  	  System.out.println(a1 == a2); // true
+  	  // 기본 자료형의 값을 비교
+  	  Object o1 = new Object();
+  	  Object o2 = new Object();
+  	  System.out.println(o1 == o2); // false
+  	  // 참조형일 경우 할당되어 있는 참조값을 비교
+  	  System.out.println(o1.equals(o2)); // false
+  	  // equals()는 기본적으로 할당되어 있는 참조값을 비교
+  	  String str1 = new String("박문수");
+  	  String str2 = new String("박문수");
+  	  System.out.println(str1 == str2); // false
+  	  System.out.println(str1.equals(str2)); // true
+  	  // String 클래스는 오버라이딩 돼서 참조하는 참조값이 아닌 객체의 값 자체를 비교한다
+    }
+  }
+  ```
+### String 
+
+- 문자열에 관련된 클래스
+
+<small>문자열 관련 클래스 종류 : String, StringBuffer, StringBuilder</small>
+- final 클래스로 상속되지 않는다
+
+- 불변성(Immutable) : 문자열을 한번 생성되면 그 자체의 값이 변하지는 않는다
+
+- 문자열 저장 방법
+```java
+public class StringEx01 {
+
+	public static void main(String[] args) {
+		// 문자열 선언 방법
+		String str1 = "Hello String";
+    // 큰 따옴표를 이용해 문자열을 만들면 클래스 영역에 상수 풀에 저장되기 때문에 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다
+		// String str1 = new String("Hello String");
+    // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 
+		// char[] str1 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
+		// 문자 배열은 문자열로 다룰 수 있다
+	}
+
+}
+```
+#### String 클래스의 메서드
+
+```java
+public class StringEx01 {
+	public static void main(String[] args) {
+		String str1 = "Hello String";
+		System.out.println(str1.length()); // 12
+		System.out.println("Hello".length()); // 5
+		// 문자열의 길이를 반환한다
+		System.out.println(str1.charAt(0)); // H
+		System.out.println(str1.charAt(str1.length()-1)); // g
+		// 문자열의 특정 인덱스에 있는 문자를 문자로 반환한다
+		System.out.println(str1.substring(2)); // llo String
+		// 괄호 안 인덱스에 해당하는 문자부터 문자열로 반환한다
+		System.out.println(str1.substring(2, 4)); // ll
+    // 인덱스 2부터 인덱스 (4 - 1)까지 문자열로 반환한다
+		System.out.println(str1.indexOf('l')); // 2
+		// 괄호 안의 문자 또는 문자열이 처음 나오는 인덱스를 반환한다
+		System.out.println(str1.lastIndexOf('l')); // 3
+		// 괄호 안의 문자 또는 문자열이 나오는 마지막 인덱스를 반환한다
+		System.out.println(str1.indexOf('p')); // -1
+		// 괄호 안의 문자 또는 문자열을 포함하지 않으면 -1을 반환한다
+		System.out.println(str1.startsWith("He"));
+		// 괄호 안의 문자, 문자열로 시작하는지 확인해서 진리값을 반환한다
+		System.out.println(str1.endsWith("ng"));
+		// 괄호 안의 문자, 문자열로 끝나는지 확인해서 진리값을 반환한다
+		System.out.println("Hello String Hello".replaceAll("Hello", "안녕")); // 안녕 String 안녕
+		// "Hello"를 "안녕"으로 모두 변환시킨다
+		System.out.println(str1.concat("안녕")); // Hello String안녕
+		// 괄호 안의 문자, 문자열을 문자열 뒤에 결합 시킨다
+		System.out.println("hello".toUpperCase()); // HELLO
+		// 문자열을 모두 대문자로 변환한다
+		System.out.println("HELLO".toLowerCase()); // hello
+		// 문자열을 모두 소문자로 변환한다
+		System.out.println("   Hello     String   ".trim()); // Hello     String
+		// 문자열의 앞, 뒤 공백을 없애준다
+		String str2 = "apple,banana,pineapple,kiwi";
+		String[] strArr = str2.split(",");
+		// "," 단위로 문자열을 구분한다
+		for(String str : strArr) {
+			System.out.println(str);
+		}
+		String str3 = String.join(",", strArr);
+		// ","를 구분자로 문자열 배열의 값들을 결합시켜 하나의 문자열로 반환한다
+		System.out.println(str3); // apple,banana,pineapple,kiwi
+		String str4 = String.format("%s - %s - %s", "aaa", "bbb", "ccc");
+		// System.out.printf()와 동일하다
+		System.out.println(str4); // aaa - bbb - ccc
+	}
+}
+```
+단어의 첫 문자를 대문자로 만들기
+```java
+public class Capitaliztion {
+	public static void main(String[] args) {
+		String str = "park dae ho";
+		String[] strArr = str.split(" ");
+		for(int i = 0; i < strArr.length; i++) {
+			strArr[i] = strArr[i].substring(0, 1).toUpperCase() + strArr[i].substring(1);
+		}
+		System.out.println(String.join(" ", strArr));
+	}
+}
+```
+### StringBuffer, StringBuilder
+
+- 버퍼(임시 저장공간)을 이용해서 문자열을 저장하고, 추가 / 수정 / 삭제가<br> 가능하기 때문에 불변성을 가진 String 클래스보다 사용하기 편리하다 
+
+#### StringBuffer, StringBuilder 클래스의 메서드
+```java
+public class StringBuilderEx01 {
+
+	public static void main(String[] args) {
+		StringBuilder sb1 = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder(100);
+		StringBuilder sb3 = new StringBuilder("Hello StringBulider");
+		
+		System.out.println(sb1.capacity()); // 16
+		System.out.println(sb2.capacity()); // 100
+		System.out.println(sb3.capacity()); // 35
+		// 버퍼의 크기를 반환한다
+		System.out.println(sb1.length()); // 0
+		System.out.println(sb2.length()); // 0
+		System.out.println(sb3.length()); // 19
+		// 저장 문자열의 길이를 반환한다
+		System.out.println(sb3.charAt(0)); // H
+		System.out.println(sb3.substring(4)); // o StringBulider
+		
+		StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
+		builder.append("-중곡"); 
+		// builder의 문자열 뒤에 "-중곡"을 붇인다
+		System.out.println(builder); // 사봉-용산-사가정-용마산-중곡
+		builder.insert(3, "면목-"); 
+		System.out.println(builder); // 사봉-면목-용산-사가정-용마산-중곡
+		builder.delete(5, 8);
+		System.out.println(builder); // 사봉-면목-사가정-용마산-중곡
+
+		builder.replace(0, 1, "상");
+		// 인덱스 0부터 인덱스(1 - 1)까지인 문자열을 "상"으로 대체한다
+		// String 클래스와 달리 replaceAll이 아닌 것에 주의하자
+		System.out.println(builder); // 상봉-면목-사가정-용마산-중곡
+		System.out.println(builder.reverse()); // 곡중-산마용-정가사-목면-봉상
+		// 문자열을 거꾸로 나열한 것을 반환
+	}
+}
+```
+### Math
+- 수학 계산과 관련된 클래스로 멤버변수가 없고, static 메서드만을 가지고 있다
+#### Math 클래스의 메서드
+```java
+public class MathEx01 {
+
+	public static void main(String[] args) {
+		System.out.println(Math.ceil(10.3)); // 11.0	
+		System.out.println(Math.ceil(10.5)); // 11.0
+		System.out.println(Math.ceil(10.7)); // 11.0
+		// 올림
+		System.out.println(Math.floor(10.3)); // 10.0
+		System.out.println(Math.floor(10.5)); // 10.0
+		System.out.println(Math.floor(10.7)); // 10.0
+		// 내림
+		System.out.println(Math.round(10.3)); // 10
+		System.out.println(Math.round(10.5)); // 11
+		System.out.println(Math.round(10.7)); // 11
+		// 반올림
+		System.out.println(Math.pow(10.0, 2.0)); // 100.0
+		// 10.0의 2.0승
+		System.out.println(Math.random()); // 0.7022833597632225
+		// 0 <= x < 1 난수 반환
+		System.out.println((int)(Math.random()*10)); // 7
+		// 1 <= x <10 정수 반환	
+	}
+}
+```
+### Wrapper
+- 기본 자료형을 객체로 만들기 위한 클래스이다
+
+|기본형|Wrapper 클래스|
+|:---:|:---:|
+|byte|Byte|
+|char|Char|
+|short|Short|
+|int|Int|
+|long|Long|
+|float|Float|
+|double|Double|
+|boolean|Boolean|
+- Wrapper 클래스는 기본 자료형처럼 쓸 수 있다
+
+#### Wrapper 클래스의 멤버변수, 메서드
+
+```java
+public class WrapperEx01 {
+
+	public static void main(String[] args) {
+		System.out.println(Integer.MAX_VALUE); // 2147483647
+		System.out.println(Integer.MIN_VALUE); // -2147483648
+		// int 자료형 최대, 최소값 반환
+		System.out.println(Double.MAX_VALUE); // 1.7976931348623157E308
+		System.out.println(Double.MIN_VALUE); // 4.9E-324
+		// double 자료형 최대, 최소값 반환
+		
+		Integer i1 = Integer.valueOf(123);
+		// Integer i1 = Integer.valueOf("123");
+	
+		// Integer i1 = 123;
+		// Wrapper 클래스로 자동형변환
+		// 오토박싱
+		
+		int i2 = i1.intValue(); 
+		float f1 = i1.floatValue(); 
+		System.out.println(i2); // 123
+		System.out.println(f1); // 123.0
+		// 자료형의 형변환
+		
+		int i3 = Integer.parseInt("123");
+		float f2 = Float.parseFloat("123");
+		System.out.println(i3); // 123
+		System.out.println(f2); // 123.0
+		// 문자열을 정수, 실수로 형변환시킨다
+		
+		int i4 = 10;
+		int i5 = 20;
+		int sum1 = i4 + i5;
+		System.out.println(sum1); // 30
+		Integer i6 = Integer.valueOf("10");
+		Integer i7 = Integer.valueOf("20");
+		int sum2 = i6 + i7;
+		// 계산을 위해서 기본 자료형으로 자동형변환
+		// 언박싱
+		System.out.println(sum2); // 30
+	}
+}
+```
+
 
 
 
