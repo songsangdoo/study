@@ -2334,6 +2334,10 @@ public class PackMain {
 
 - java.base 모듈에 있는 패키지
 
+- 범용적으로 쓰이기 때문에 따로 import 하지 않는다
+
+  <small>!! 이외의 패키지는 모두 import 해야 사용할 수 있다 </small>
+
 ### Object
 
 - 모든 클래스의 가장 최상위 조상 클래스
@@ -2401,9 +2405,9 @@ public class PackMain {
 
   public class ObjectEx01 {
     public static void main(String[] args) {
-  	  Person p1 = new Person(100, "홍길동", 20);
-  	  System.out.println(p1); // Person [id=100, name=홍길동, age=20]
-  	  System.out.println(p1.toString()); // Person [id=100, name=홍길동, age=20]
+      Person p1 = new Person(100, "홍길동", 20);
+      System.out.println(p1); // Person [id=100, name=홍길동, age=20]
+      System.out.println(p1.toString()); // Person [id=100, name=홍길동, age=20]
     }
   }
   ```
@@ -2415,21 +2419,21 @@ public class PackMain {
   ```java
   public class ObjectEx01 {
     public static void main(String[] args) {
-  	  int a1 = 10;
-  	  int a2 = 10;
-  	  System.out.println(a1 == a2); // true
-  	  // 기본 자료형의 값을 비교
-  	  Object o1 = new Object();
-  	  Object o2 = new Object();
-  	  System.out.println(o1 == o2); // false
-  	  // 참조형일 경우 할당되어 있는 참조값을 비교
-  	  System.out.println(o1.equals(o2)); // false
-  	  // equals()는 기본적으로 할당되어 있는 참조값을 비교
-  	  String str1 = new String("박문수");
-  	  String str2 = new String("박문수");
-  	  System.out.println(str1 == str2); // false
-  	  System.out.println(str1.equals(str2)); // true
-  	  // String 클래스는 오버라이딩 돼서 참조하는 참조값이 아닌 객체의 값 자체를 비교한다
+      int a1 = 10;
+      int a2 = 10;
+      System.out.println(a1 == a2); // true
+      // 기본 자료형의 값을 비교
+      Object o1 = new Object();
+      Object o2 = new Object();
+      System.out.println(o1 == o2); // false
+      // 참조형일 경우 할당되어 있는 참조값을 비교
+      System.out.println(o1.equals(o2)); // false
+      // equals()는 기본적으로 할당되어 있는 참조값을 비교
+      String str1 = new String("박문수");
+      String str2 = new String("박문수");
+      System.out.println(str1 == str2); // false
+      System.out.println(str1.equals(str2)); // true
+      // String 클래스는 오버라이딩 돼서 참조하는 참조값이 아닌 객체의 값 자체를 비교한다
     }
   }
   ```
@@ -2446,14 +2450,14 @@ public class PackMain {
 ```java
 public class StringEx01 {
 
-	public static void main(String[] args) {
-		// 문자열 선언 방법
-		String str1 = "Hello String";
+  public static void main(String[] args) {
+    // 문자열 선언 방법
+    String str1 = "Hello String";
     // 큰 따옴표를 이용해 문자열을 만들면 클래스 영역에 상수 풀에 저장되기 때문에 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다
-		// String str1 = new String("Hello String");
+    // String str1 = new String("Hello String");
     // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 
-		// char[] str1 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
-		// 문자 배열은 문자열로 다룰 수 있다
+    // char[] str1 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
+    // 문자 배열은 문자열로 다룰 수 있다
 	}
 
 }
@@ -2462,64 +2466,64 @@ public class StringEx01 {
 
 ```java
 public class StringEx01 {
-	public static void main(String[] args) {
-		String str1 = "Hello String";
-		System.out.println(str1.length()); // 12
-		System.out.println("Hello".length()); // 5
-		// 문자열의 길이를 반환한다
-		System.out.println(str1.charAt(0)); // H
-		System.out.println(str1.charAt(str1.length()-1)); // g
-		// 문자열의 특정 인덱스에 있는 문자를 문자로 반환한다
-		System.out.println(str1.substring(2)); // llo String
-		// 괄호 안 인덱스에 해당하는 문자부터 문자열로 반환한다
-		System.out.println(str1.substring(2, 4)); // ll
-    // 인덱스 2부터 인덱스 (4 - 1)까지 문자열로 반환한다
-		System.out.println(str1.indexOf('l')); // 2
-		// 괄호 안의 문자 또는 문자열이 처음 나오는 인덱스를 반환한다
-		System.out.println(str1.lastIndexOf('l')); // 3
-		// 괄호 안의 문자 또는 문자열이 나오는 마지막 인덱스를 반환한다
-		System.out.println(str1.indexOf('p')); // -1
-		// 괄호 안의 문자 또는 문자열을 포함하지 않으면 -1을 반환한다
-		System.out.println(str1.startsWith("He"));
-		// 괄호 안의 문자, 문자열로 시작하는지 확인해서 진리값을 반환한다
-		System.out.println(str1.endsWith("ng"));
-		// 괄호 안의 문자, 문자열로 끝나는지 확인해서 진리값을 반환한다
-		System.out.println("Hello String Hello".replaceAll("Hello", "안녕")); // 안녕 String 안녕
-		// "Hello"를 "안녕"으로 모두 변환시킨다
-		System.out.println(str1.concat("안녕")); // Hello String안녕
-		// 괄호 안의 문자, 문자열을 문자열 뒤에 결합 시킨다
-		System.out.println("hello".toUpperCase()); // HELLO
-		// 문자열을 모두 대문자로 변환한다
-		System.out.println("HELLO".toLowerCase()); // hello
-		// 문자열을 모두 소문자로 변환한다
-		System.out.println("   Hello     String   ".trim()); // Hello     String
-		// 문자열의 앞, 뒤 공백을 없애준다
-		String str2 = "apple,banana,pineapple,kiwi";
-		String[] strArr = str2.split(",");
-		// "," 단위로 문자열을 구분한다
-		for(String str : strArr) {
-			System.out.println(str);
-		}
-		String str3 = String.join(",", strArr);
-		// ","를 구분자로 문자열 배열의 값들을 결합시켜 하나의 문자열로 반환한다
-		System.out.println(str3); // apple,banana,pineapple,kiwi
-		String str4 = String.format("%s - %s - %s", "aaa", "bbb", "ccc");
-		// System.out.printf()와 동일하다
-		System.out.println(str4); // aaa - bbb - ccc
-	}
+  public static void main(String[] args) {
+    String str1 = "Hello String";
+    System.out.println(str1.length()); // 12
+    System.out.println("Hello".length()); // 5
+    // 문자열의 길이를 반환한다
+    System.out.println(str1.charAt(0)); // H
+    System.out.println(str1.charAt(str1.length()-1)); // g
+    // 문자열의 특정 인덱스에 있는 문자를 문자로 반환한다
+    System.out.println(str1.substring(2)); // llo String
+    // 괄호 안 인덱스에 해당하는 문자부터 문자열로 반환한다
+    System.out.println(str1.substring(2, 4)); // ll
+    // str1의 인덱스 2부터 인덱스 (4 - 1)까지 문자열로 반환한다
+    System.out.println(str1.indexOf('l')); // 2
+    // 괄호 안의 문자 또는 문자열이 처음으로 나오는 인덱스를 반환한다
+    System.out.println(str1.lastIndexOf('l')); // 3
+    // 괄호 안의 문자 또는 문자열이 마지막으로 나오는 인덱스를 반환한다
+    System.out.println(str1.indexOf('p')); // -1
+    // 괄호 안의 문자 또는 문자열을 포함하지 않으면 -1을 반환한다
+    System.out.println(str1.startsWith("He")); // true
+    // 괄호 안의 문자, 문자열로 시작하는지 확인해서 진리값을 반환한다
+    System.out.println(str1.endsWith("ng")); // true
+    // 괄호 안의 문자, 문자열로 끝나는지 확인해서 진리값을 반환한다
+    System.out.println("Hello String Hello".replaceAll("Hello", "안녕")); // 안녕 String 안녕
+    // "Hello"를 "안녕"으로 모두 변환시킨다
+    System.out.println(str1.concat(" 안녕")); // Hello String 안녕
+    // 괄호 안의 문자, 문자열을 문자열 뒤에 결합 시킨다
+    System.out.println("hello".toUpperCase()); // HELLO
+    // 문자열을 모두 대문자로 변환한다
+    System.out.println("HELLO".toLowerCase()); // hello
+    // 문자열을 모두 소문자로 변환한다
+    System.out.println("   Hello     String   ".trim()); // Hello     String
+    // 문자열의 앞, 뒤 공백을 없애준다
+    String str2 = "apple,banana,pineapple,kiwi";
+    String[] strArr = str2.split(",");
+    // "," 단위로 문자열을 구분한다
+    for(String str : strArr) {
+    	System.out.println(str);
+    }
+    String str3 = String.join(",", strArr);
+    // ","를 구분자로 문자열 배열의 값들을 결합시켜 하나의 문자열로 반환한다
+    System.out.println(str3); // apple,banana,pineapple,kiwi
+    String str4 = String.format("%s - %s - %s", "aaa", "bbb", "ccc");
+    // System.out.printf()와 동일하다
+    System.out.println(str4); // aaa - bbb - ccc
+  }
 }
 ```
 단어의 첫 문자를 대문자로 만들기
 ```java
 public class Capitaliztion {
-	public static void main(String[] args) {
-		String str = "park dae ho";
-		String[] strArr = str.split(" ");
-		for(int i = 0; i < strArr.length; i++) {
-			strArr[i] = strArr[i].substring(0, 1).toUpperCase() + strArr[i].substring(1);
-		}
-		System.out.println(String.join(" ", strArr));
-	}
+  public static void main(String[] args) {
+    String str = "park dae ho";
+    String[] strArr = str.split(" ");
+    for(int i = 0; i < strArr.length; i++) {
+    	strArr[i] = strArr[i].substring(0, 1).toUpperCase() + strArr[i].substring(1);
+    }
+    System.out.println(String.join(" ", strArr));
+  }
 }
 ```
 ### StringBuffer, StringBuilder
@@ -2530,38 +2534,37 @@ public class Capitaliztion {
 ```java
 public class StringBuilderEx01 {
 
-	public static void main(String[] args) {
-		StringBuilder sb1 = new StringBuilder();
-		StringBuilder sb2 = new StringBuilder(100);
-		StringBuilder sb3 = new StringBuilder("Hello StringBulider");
-		
-		System.out.println(sb1.capacity()); // 16
-		System.out.println(sb2.capacity()); // 100
-		System.out.println(sb3.capacity()); // 35
-		// 버퍼의 크기를 반환한다
-		System.out.println(sb1.length()); // 0
-		System.out.println(sb2.length()); // 0
-		System.out.println(sb3.length()); // 19
-		// 저장 문자열의 길이를 반환한다
-		System.out.println(sb3.charAt(0)); // H
-		System.out.println(sb3.substring(4)); // o StringBulider
-		
-		StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
-		builder.append("-중곡"); 
-		// builder의 문자열 뒤에 "-중곡"을 붇인다
-		System.out.println(builder); // 사봉-용산-사가정-용마산-중곡
-		builder.insert(3, "면목-"); 
-		System.out.println(builder); // 사봉-면목-용산-사가정-용마산-중곡
-		builder.delete(5, 8);
-		System.out.println(builder); // 사봉-면목-사가정-용마산-중곡
-
-		builder.replace(0, 1, "상");
-		// 인덱스 0부터 인덱스(1 - 1)까지인 문자열을 "상"으로 대체한다
-		// String 클래스와 달리 replaceAll이 아닌 것에 주의하자
-		System.out.println(builder); // 상봉-면목-사가정-용마산-중곡
-		System.out.println(builder.reverse()); // 곡중-산마용-정가사-목면-봉상
-		// 문자열을 거꾸로 나열한 것을 반환
-	}
+  public static void main(String[] args) {
+  	StringBuilder sb1 = new StringBuilder();
+  	StringBuilder sb2 = new StringBuilder(100);
+  	StringBuilder sb3 = new StringBuilder("Hello StringBulider");
+  
+  	System.out.println(sb1.capacity()); // 16
+  	System.out.println(sb2.capacity()); // 100
+  	System.out.println(sb3.capacity()); // 35
+  	// 버퍼의 크기를 반환한다
+  	System.out.println(sb1.length()); // 0
+  	System.out.println(sb2.length()); // 0
+  	System.out.println(sb3.length()); // 19
+  	// 저장 문자열의 길이를 반환한다
+  	System.out.println(sb3.charAt(0)); // H
+  	System.out.println(sb3.substring(4)); // o StringBulider
+  
+  	StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
+  	builder.append("-중곡"); 
+  	// builder의 문자열 뒤에 "-중곡"을 붇인다
+  	System.out.println(builder); // 사봉-용산-사가정-용마산-중곡
+  	builder.insert(3, "면목-"); 
+  	System.out.println(builder); // 사봉-면목-용산-사가정-용마산-중곡
+  	builder.delete(5, 8);
+  	System.out.println(builder); // 사봉-면목-사가정-용마산-중곡  
+  	builder.replace(0, 1, "상");
+  	// 인덱스 0부터 인덱스(1 - 1)까지인 문자열을 "상"으로 대체한다
+  	// String 클래스와 달리 replaceAll이 아닌 것에 주의하자
+  	System.out.println(builder); // 상봉-면목-사가정-용마산-중곡
+  	System.out.println(builder.reverse()); // 곡중-산마용-정가사-목면-봉상
+  	// 문자열을 거꾸로 나열한 것을 반환
+  }
 }
 ```
 ### Math
@@ -2570,26 +2573,26 @@ public class StringBuilderEx01 {
 ```java
 public class MathEx01 {
 
-	public static void main(String[] args) {
-		System.out.println(Math.ceil(10.3)); // 11.0	
-		System.out.println(Math.ceil(10.5)); // 11.0
-		System.out.println(Math.ceil(10.7)); // 11.0
-		// 올림
-		System.out.println(Math.floor(10.3)); // 10.0
-		System.out.println(Math.floor(10.5)); // 10.0
-		System.out.println(Math.floor(10.7)); // 10.0
-		// 내림
-		System.out.println(Math.round(10.3)); // 10
-		System.out.println(Math.round(10.5)); // 11
-		System.out.println(Math.round(10.7)); // 11
-		// 반올림
-		System.out.println(Math.pow(10.0, 2.0)); // 100.0
-		// 10.0의 2.0승
-		System.out.println(Math.random()); // 0.7022833597632225
-		// 0 <= x < 1 난수 반환
-		System.out.println((int)(Math.random()*10)); // 7
-		// 1 <= x <10 정수 반환	
-	}
+  public static void main(String[] args) {
+  	System.out.println(Math.ceil(10.3)); // 11.0	
+  	System.out.println(Math.ceil(10.5)); // 11.0
+  	System.out.println(Math.ceil(10.7)); // 11.0
+  	// 올림
+  	System.out.println(Math.floor(10.3)); // 10.0
+  	System.out.println(Math.floor(10.5)); // 10.0
+  	System.out.println(Math.floor(10.7)); // 10.0
+  	// 내림
+  	System.out.println(Math.round(10.3)); // 10
+  	System.out.println(Math.round(10.5)); // 11
+  	System.out.println(Math.round(10.7)); // 11
+  	// 반올림
+  	System.out.println(Math.pow(10.0, 2.0)); // 100.0
+  	// 10.0의 2.0승
+  	System.out.println(Math.random()); // 0.7022833597632225
+  	// 0 <= x < 1 난수 반환
+  	System.out.println((int)(Math.random()*10)); // 7
+  	// 1 <= x <10 정수 반환	
+  }
 }
 ```
 ### Wrapper
@@ -2612,44 +2615,790 @@ public class MathEx01 {
 ```java
 public class WrapperEx01 {
 
-	public static void main(String[] args) {
-		System.out.println(Integer.MAX_VALUE); // 2147483647
-		System.out.println(Integer.MIN_VALUE); // -2147483648
-		// int 자료형 최대, 최소값 반환
-		System.out.println(Double.MAX_VALUE); // 1.7976931348623157E308
-		System.out.println(Double.MIN_VALUE); // 4.9E-324
-		// double 자료형 최대, 최소값 반환
+  public static void main(String[] args) {
+  	System.out.println(Integer.MAX_VALUE); // 2147483647
+  	System.out.println(Integer.MIN_VALUE); // -2147483648
+  	// int 자료형 최대, 최소값 반환
+  	System.out.println(Double.MAX_VALUE); // 1.7976931348623157E308
+  	System.out.println(Double.MIN_VALUE); // 4.9E-324
+  	// double 자료형 최대, 최소값 반환
+  
+  	Integer i1 = Integer.valueOf(123);
+  	// Integer i1 = Integer.valueOf("123");
+
+  	// Integer i1 = 123;
+  	// Wrapper 클래스로 자동형변환
+  	// 오토박싱
+  
+  	int i2 = i1.intValue(); 
+  	float f1 = i1.floatValue(); 
+  	System.out.println(i2); // 123
+  	System.out.println(f1); // 123.0
+  	// 자료형의 형변환
+  
+  	int i3 = Integer.parseInt("123");
+  	float f2 = Float.parseFloat("123");
+  	System.out.println(i3); // 123
+  	System.out.println(f2); // 123.0
+  	// 문자열을 정수, 실수로 형변환시킨다
+  
+  	int i4 = 10;
+  	int i5 = 20;
+  	int sum1 = i4 + i5;
+  	System.out.println(sum1); // 30
+  	Integer i6 = Integer.valueOf("10");
+  	Integer i7 = Integer.valueOf("20");
+  	int sum2 = i6 + i7;
+  	// 계산을 위해서 기본 자료형으로 자동형변환
+  	// 언박싱
+  	System.out.println(sum2); // 30
+  }
+}
+```
+주민등록번호 검사기
+```java
+
+public class JuminCheckMain {
+  public static void main(String[] args) {
+    // 입력은 arguments로 받는다
+  	if (args.length != 1) {
+  		System.out.println("java 클래스명 XXXXXX-XXXXXXX 형식으로 입력해주세요");
+  	}else {
+  		String strJumin = args[0].replaceAll("-", "");
+  		int[] num = new int[13];
+  		int[] checkNum = {2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5};
+  		int sum = 0;
+  		for (int i = 0; i < checkNum.length; i++) {
+  			num[i] = Integer.parseInt(strJumin.substring(i, i + 1)) * checkNum[i];
+  		}
+  		for (int number : num) {
+  			sum += number;
+  		}
+  		if(Integer.parseInt(strJumin.substring(strJumin.length()-1)) == ((11 - (sum%11))%10) ) {
+  			System.out.println("형식이 맞습니다");
+  		}else {
+  			System.out.println("형식이 맞지 않습니다");
+  		}
+  	}
+  }
+}  					
+```
+```java
+
+public class JuminCheckMain {
+
+  public static void main(String[] args) {
+  	if (args.length != 1) {
+  		System.out.println("java 클래스명 XXXXXX-XXXXXXX 형식으로 입력해주세요");
+  	}else {
+  		String strJumin = args[0].replaceAll("-", "");
+  		int checkBit = 2;
+  		int sum = 0;
+  		for(int i = 0; i < strJumin.length() - 1; i++) {
+  			if(checkBit == 10) {
+  				checkBit = 2;
+  			}
+  			sum += Integer.parseInt(strJumin.substring(i, i + 1)) * checkBit;
+  			checkBit++;
+  		}
+  		if (Integer.parseInt(strJumin.substring(strJumin.length() - 1)) == (11 - (sum % 11)) % 10) {
+  			System.out.println("형식이 맞습니다");
+  		}else {
+  			System.out.println("형식이 맞지 않습니다");
+  		}
+  	}
+  }
+
+}  		
+```
+### System
+- 운영체제와의 소통을 위한 클래스로 static 메서드를 제공한다
+
+
+#### System 클래스의 메서드
+```java
+public class SystemEx {
+
+  public static void main(String[] args) {
+  	System.out.println("시작");
+  	if(args.length != 1) {
+  		System.out.println("비정상");
+  		System.exit(0);
+  		// 프로그램을 강제로 종료시킨다
+  	}
+  	System.out.println("정상");
+  }
+}
+```
+```java
+public class SystemEx {
+
+  public static void main(String[] args) {
+  	System.out.println(System.currentTimeMillis()); // 1679361735964
+  	// 1970년 1월 1일에서 지금까지의 밀리초를 반환
+    // 타임스탬프로 쓰인다
+  	System.out.println(System.nanoTime()); // 2166129652274300
+  	// 1970년 1월 1일에서 지금까지의 밀리초를 나노초로 반환
+  	long time1 = System.currentTimeMillis();
+    // 프로그램 실행 전 타임스탬프
+  	int sum = 0;
+  	for(int i = 1; i <= 1_000_000; i++) {
+  		sum += i;
+  	}
+  	long time2 = System.currentTimeMillis();
+    // 프로그램 실행 후 타임스탬프
+  	System.out.println("실행시간 : " + (time2 - time1)); // 실행시간 : 3
+  }
+
+}
+```
+```java
+public class SystemEx {
+
+  public static void main(String[] args) {
+  	System.out.println(System.getProperty("os.name")); // Windows 10 
+  	System.out.println(System.getProperty("user.name")); // KITCOOP
+  	System.out.println(System.getProperty("user.home")); // C:\Users\KITCOOP
+  	// 시스템 속성값을 반환한다
+  	System.out.println(System.getenv("JAVA_HOME")); // C:\Program Files\Java\jdk-11.0.17
+  	System.out.println(System.getenv("PATH")); // C:\java\eclipse\plugins\...
+  	// 환경변수 값을 반환한다
+  }
+
+}
+```
+```java
+public class SystemEx {
+
+  public static void main(String[] args) {
+  	System.out.print("Hello");
+  	System.out.print(System.lineSeparator()); // 엔터키
+  	// lineSeparator()가 문자열 "\n"을 반환한다
+  	System.out.println("World");
+  }
+
+}
+```
+```java
+
+public class SystemEx {
+
+  public static void main(String[] args) {
+  	int[] src = {1, 2, 3, 4, 5};
+  	int[] dest1 = src;
+  	dest1[0] = 6;
+  	System.out.println(src[0]); // 6 
+  	System.out.println(dest1[0]); // 6
+  	// 변수의 참조값이 할당되기 때문에 값이 같이 바뀌는 얕은 복사가 일어난다
+  	int[] src2 = { 10, 20, 30, 40, 50};
+  	int[] dest2 = {0, 0, 0, 0, 0};
+  	System.arraycopy(src2, 0, dest2, 0, src2.length);
+  	System.out.println(dest2[0]); // 10
+  	dest2[0] = 100;
+  	System.out.println(dest2[0]); // 100
+  	System.out.println(src2[0]); // 10
+  	// System.arraycopy()를 이용해 깊은 복사를 할 수도 있다
+  }
+
+}
+```
+Java 프로그램을 이용해서 명령프롬프트에 명령을 줄 수 있다
+```java
+// 명령프롬프트
+
+> "c:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" "www.daum.net"
+// Edge 브라우저를 통해 다음 홈페이지가 열린다
+// 큰 따옴표로 묶어주는 이유는 공백이 있는 것을 하나의 문자열로 만들어주기 위해서이다
+```
+```java
+import java.io.IOException;
+
+public class ProcessBilderEx01 {
+
+  public static void main(String[] args) throws IOException {
+  	ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)
+    \\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
+  	// "\"가 아니라 "\\"를 이용해 디렉터리를 구분한다
+  	processBuilder.start();
+    // Edge 브라우저를 통해 다음 홈페이지가 열린다
+  }
+}
+```
+```java
+// 명령프롬프트
+
+> "C:\WINDOWS\system32\notepad.exe"
+// 메모장을 실행한다
+```
+```java
+import java.io.IOException;
+
+public class ProcessBilderEx01 {
+
+  public static void main(String[] args) throws IOException {
+  	ProcessBuilder processBuilder = new ProcessBuilder("C:\\WINDOWS\\system32\\notepad.exe");
+  	processBuilder.start();
+    // 메모장을 실행한다
+  }
+
+}
+```
+## java.util
+- import를 해야 사용할 수 있다
+### Date
+- 날짜, 시간 관련 클래스
+#### Date 클래스의 메서드
+```java
+import java.util.Date;
+
+public class DateEx01 {
+
+  public static void main(String[] args) {
+  	Date d1 = new Date();
+  	System.out.println(d1); // Tue Mar 21 11:21:53 KST 2023
+  	// 현재 날짜 시간 반환
+  	// 참조값이 나오지 않고 내용이 나오도록 toString()이 오버라이딩 되어 있다
+  	System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:21:53
+  	// 현재 날짜 시간을 현지방식으로 표현
+  	// 메서드에 선이 그어진 것은 그 메서드가 deprecated 되어 있으니 사용을 지양하라는 표시이다
+  	String strDate = d1.toLocaleString();
+  	System.out.println(strDate.substring(0, 4)); // 2023
+  	System.out.println(d1.getYear() + 1900); // 2023
+  	// 연도 출력
+  	// 1900년이 0으로 반환되기 때문에 1900을 더해줘야 한다
+  	System.out.println(strDate.substring(6, 7)); // 3
+  	System.out.println(d1.getMonth() + 1); // 3
+  	// 달 출력
+  	// 1월이 0으로 반환되기 때문에 1을 더해줘야 한다
+  	System.out.println(strDate.substring(9, 11)); // 21
+  	System.out.println(d1.getDate()); // 21
+  	// 날짜 출력
+  	System.out.println(d1.getDay()); // 2
+  	// 일요일이 0이다
+  	String[] weekName = {"일", "월", "화", "수", "목", "금", "토"};
+  	System.out.println(weekName[d1.getDay()]); // 화
+  
+  	Date d2 = new Date(2023 - 1900, 3 - 1, 1);
+  	// 날짜를 지정할 수도 있다
+  	System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:37:05
+  
+  	Date d3 = new Date(2023 - 1900, 12 - 1, 24);
+  	System.out.println(weekName[d3.getDay()]); // 일
+  }
+
+}
+```
+```java
+import java.util.Date;
+
+public class DateTest {
+
+  public static void main(String[] args) {
+  	Date d1 = new Date();
+  	System.out.println(d1);
+  	Date d2 = new java.sql.Date(1500000000000L); // 밀리초로 날짜 객체 생성
+  	System.out.println(d2);
+  	long gap = d1.getTime() - d2.getTime();
+  	System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");
+  
+  }
+
+}
+
+```
+### Calendar
+- 날짜, 시간 관련 클래스
+
+- 객체 생성 방식에 주의
+
+#### Calendar 클래스의 멤버변수와 메서드
+
+```java
+import java.util.Calendar;
+
+public class CalendarEx01 {
+
+  public static void main(String[] args) {
+  	// Calendar calendar1 = new Calendar();
+  	// 에러!!
+  	// Calendar 클래스는 객체 생성 방식이 다르다
+  	Calendar calendar = Calendar.getInstance();
+  	System.out.println(calendar.toString());
+    // Calendar 클래스의 멤버변수 목록이 출력된다
+    System.out.println(calendar.getTime()); // Tue Mar 21 12:38:34 KST 2023
+  	System.out.println(calendar.get(Calendar.YEAR)); // 2023
+  	System.out.println(calendar.get(Calendar.MONTH) + 1); // 2
+  	// 1월이 0이다
+  	System.out.println(calendar.get(Calendar.DATE)); // 21
+  	System.out.println(calendar.get(Calendar.DAY_OF_WEEK)); // 3
+  	// 일요일이 1이다
+  
+  }
+
+}
+```
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarEx02 {
+
+  public static void main(String[] args) {
+  	Calendar c = Calendar.getInstance();
+  	c.set(2023, 3-1, 1);
+  	// 특정 날짜 설정
+  	System.out.println(c.getTime()); // Wed Mar 01 12:14:53 KST 2023
+  	// 특정 날짜, 현재 시간 반환
+  
+  	c.add(Calendar.DATE, 3);
+  	// 3일 후의 날짜로 설정
+  	System.out.println(c.getTime()); // Sat Mar 04 12:16:25 KST 2023
+  	Date date = c.getTime();
+  	System.out.println(date); // Sat Mar 04 12:16:25 KST 2023
+  }
+
+}
+```
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarEx02 {
+
+  public static void main(String[] args) {
+  	// TODO Auto-generated method stub
+  	Calendar c = Calendar.getInstance();
+  	c.set(2023, 3-1, 1);
+  	// 특정 날짜 설정
+  	System.out.println(c.getTime()); // Wed Mar 01 12:20:18 KST 2023
+  	// 특정 날짜, 현재 시간 출력
+  
+  	c.add(Calendar.DATE, 3);
+  	// 3일 후의 날짜로 설정
+  	c.add(Calendar.MONTH, -6);
+  	// 6개월 전의 날짜로 설정
+  	System.out.println(c.getTime()); // Sun Sep 04 12:20:18 KST 2022
+
+  	Date date = c.getTime();
+  	System.out.println(date); // Sun Sep 04 12:20:18 KST 2022
+  	// getTime()으로 Date 객체를 만들 수 있다
+  }
+
+} 
+```
+Calendar 클래스를 이용해 달력 출력하기
+```java
+import java.util.Calendar;
+
+
+public class CalendarEx03 {
+
+  public static void main(String[] args) {
+  	int year = 2023;
+  	int month = 3;
+  
+  	Calendar startCalendar = Calendar.getInstance();
+  	Calendar endCalendar = Calendar.getInstance();
+  	startCalendar.set(year, month - 1, 1);
+  	endCalendar.set(year, month, 1 - 1);
+  	int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
+  	int endDate = endCalendar.get(Calendar.DATE);
+  
+  	System.out.println(" SU MO TU WE TH FR SA");
+  	for (int i = 1; i < startDayOfWeek; i++) {
+  		System.out.print("   ");
+  	}
+  	for (int i = 1, n = startDayOfWeek; i <= endDate; i++, n++) {
+  		System.out.print((i < 10) ? "  " + i : " " + i);
+  		if(n % 7 == 0) {
+  			System.out.println();
+  		}
+  	}
+  }
+
+}
+```
+### StringTokenizer
+- 문자열을 구분하는 클래스
+
+```java
+import java.util.StringTokenizer;
+
+public class StringTokenizerEx {
+
+  public static void main(String[] args) {
+  	String strData1 = "사과 참외 수박 딸기";
+  	StringTokenizer str1 = new StringTokenizer(strData1);
+  
+  	System.out.println(str1.countTokens()); // 4
+  	System.out.println(str1.nextToken()); // 사과
+  	System.out.println(str1.nextToken()); // 참외		
+  	System.out.println(str1.nextToken()); // 수박		
+  	System.out.println(str1.nextToken()); // 딸기		
+  	// System.out.println(str1.nextToken()); 
+  	// 에러!! 다음 토큰이 존재하지 않는다
+  	while(str1.hasMoreTokens()) { // str1이 토큰을 가지고 있다면 반복문 실행
+  		System.out.println(str1.nextToken());
+  	} // str1이 가지고 있는 토큰 모두 출력
+  
+  	String strData3 = "x=100*(200+300)/2";
+  	StringTokenizer str3 = new StringTokenizer(strData3, "+-*/=()");
+  	// 구분자가 여러개일 경우 각각의 구분자가 나올 때마다 구분한다
+  	while(str3.hasMoreTokens()){
+  		System.out.println(str3.nextToken());
+  	}
+  	// 출력 결과 확인해보기
+  }
 		
-		Integer i1 = Integer.valueOf(123);
-		// Integer i1 = Integer.valueOf("123");
+}
+
+```
+!! String 클래스의 split()과 비교하기
+```java
+import java.util.StringTokenizer;
+
+public class StringTokenizerEx {
+
+  public static void main(String[] args) {
+  	String strData = "사과&참외&&수박&&딸기";
+  	StringTokenizer st = new StringTokenizer(strData, "&");
+  	while(st.hasMoreTokens()) {
+  		System.out.print(st.nextToken() + ' '); // 사과 참외 수박 딸기 
+  	}
+  	// 구분자 사이에 값이 없으면 넘어간다
+  	System.out.println();
+  	String[] arrData = strData.split("&");
+  	for(String data : arrData) {
+  		System.out.print(data + ' '); 
+  	} // 사과 참외  수박  딸기 
+  	// 구분자 사이에 값이 없으면 빈 문자열이 생긴다
+  
+  }
+		
+}
+```
+### StringJoiner
+- 문자열을 연결시키는 클래스
+```java
+import java.util.StringJoiner;
+
+public class StringJoinerEx {
+
+  public static void main(String[] args) {
+  	String str1 = "사과" + ",수박" + ",딸기" + ",참외";
+  	System.out.println(str1); // 사과,수박,딸기,참외
+  	String str2 = "사과".concat(",수박").concat(",딸기").concat(",참외");
+  	System.out.println(str2); // 사과,수박,딸기,참외
+  	String str3 = String.format("%s,%s,%s,%s", "사과", "수박", "딸기", "참외");
+  	System.out.println(str3); // 사과,수박,딸기,참외
+  
+  	String[] arrStr = {"사과","수박","딸기","참외"};
+  	String str4 = String.join(",", arrStr);
+  	System.out.println(str4); // 사과,수박,딸기,참외
+  
+  	StringJoiner sj = new StringJoiner(",");
+    // 괄호 안의 문자를 구분자로 add()를 통해 문자열을 연결시킨다
+  	sj.add("사과");
+  	sj.add("수박");
+  	sj.add("딸기");
+  	sj.add("참외");
+  	System.out.println(sj.toString()); // 사과,수박,딸기,참외
+  }
+
+}
+```
+### Random
+- 난수 추출에 사용하는 클래스
+```java
+import java.util.Random;
+
+public class RandomEx {
+
+  public static void main(String[] args) {
+  	Random r1 = new Random(System.currentTimeMillis());
+  	// 괄호 안의 값은 seeding 값으로 난수를 추출할 때마다 초기화 되는 값을 이용한다
+    // 만약 seeding 값이 초기화 되는 값이 아니면 실행시 계속 같은 결과를 얻게 된다
+  	System.out.println(r1.nextInt(10)); // 4
+  	// 0 <= x < 10인 정수값을 가지는 난수 추출
+  	System.out.println(r1.nextInt(45) + 1); // 34
+  	// 1 <= x < (45 + 1)인 정수값을 가지는 난수 추출
+  
+  }
+
+}
+
+```
+```java
+import java.util.Random;
+
+public class RandomEx02 {
+
+  public static void main(String[] args) {
+  	Random random = new Random(System.currentTimeMillis());
+  	for (int j = 0; j < 5; j++) {
+  		for (int i = 0; i < 6; i++) {
+  				System.out.printf("%2d ", random.nextInt(45) + 1);
+  		}
+  		System.out.println();
+  	}
+  }
+
+}
+```
+### Scanner
+- 키보드로 입력을 받을 때 사용하는 클래스
+```java
+import java.util.Scanner;
+
+public class ScannerEx {
+
+  public static void main(String[] args) {
+  	Scanner sc = new Scanner(System.in); // 키보드를 통해 입력을 받는 Scanner 객체를 변수 sc에 할당
+  	System.out.print("입력 : ");
+  	String msg = sc.next();
+  	// 공백 이전까지만 입력을 받는다
+  	// 입력 : "aaa bbb ccc"
+  	// msg : "aaa
+  	// 큰 따옴표를 써서 하나의 문자열로 묶어도 공백 이전까지만 입력을 받는다
+  	System.out.print("msg : " + msg);
+  
+  	sc.close();
+  	// 반드시 닫아줘야 한다
+  }
+
+}
+```
+```java
+import java.util.Scanner;
+
+public class ScannerEx02 {
+
+  public static void main(String[] args) {
+  	Scanner sc = new Scanner(System.in);
+  
+  	System.out.print("아이디 : ");
+  	String id = sc.nextLine();
+  	// 공백이 있더라도 한줄 전체를 입력받아 반환한다
+  	System.out.print("비밀번호 : ");
+  	String pw = sc.nextLine();
+  
+  	System.out.println("id : " + id);
+  	System.out.println("pw : " + pw);
+  
+  	sc.close();
+  }
+
+}
+```
+특정값을 입력해서 무한루프 빠져나오기
+```java
+import java.util.Scanner;
+
+public class ScannerEx03 {
+
+  public static void main(String[] args) {
+  	Scanner sc = new Scanner(System.in);
+
+  	String msg = "";
+  	while(true) {
+  		System.out.print("입력 > ");
+  		msg = sc.nextLine();
+  		if(!msg.equals("exit")) {
+  			System.out.println("msg : " + msg);
+  		}else {
+  			System.out.println("종료");
+  			break;
+  			// "exit"을 입력받으면 무한루프를 빠져나온다
+  		}
+  	}
+  	sc.close();
+  }
+
+}
+```
+구구단 출력
+```java
+import java.util.Scanner;
+
+public class Gugudan {
+
+  public static void main(String[] args) {
+  	Scanner sc = new Scanner(System.in);
+  	while(true)	{
+  		System.out.print("단수 > ");
+  		String in = sc.nextLine();
+  		if(in.equals("q") || in.equals("Q")) {
+  			System.out.println("종료");
+  			break;
+  		}
+  		int dan = Integer.parseInt(in);
+  
+  		for(int i = 1; i <= 9; i++) {
+  			System.out.printf("%2d X %2d = %2d%n", dan, i, dan * i);
+  		}
+  	}
+  }
+
+}
+```
+## 컬렉션 프레임워크
+- java.util 패키지에 하위 클래스들로 자료구조에 사용된다
+
+- 구분
+
+  - list 계열 : 순서가 있는 데이터 집합 &rarr; 데이터의 중복을 허락한다
+
+  - Set 계열 : 순서가 없는 데이터 집합 &rarr; 데이터의 중복을 허락하지 않는데
+  - Map 계열 : 중복이 가능하지 않은 키와 중복이 가능한 값의 쌍으로 데이터를 관리하는 집합
+
+### List 계열
+#### ArrayList
+```java
+import java.util.ArrayList;
+
+public class ArrayListEx {
+
+  public static void main(String[] args) {
+  	ArrayList al1 = new ArrayList();
+  	ArrayList al2 = new ArrayList(100); 
+  	al1.add("홍길동");
+  	al1.add("박문수");
+  	al1.add("이몽룡");
+  	// String 객체가 Object 객체로 형변환 되서 추가된다
+  	System.out.println(al1); // [홍길동, 박문수, 이몽룡]  
+  	System.out.println(al1.size()); // 3  
+  	// String data1 = al1.get(0);
+  	// 에러!! al1에 저장된 객체는 Object 객체이다
+  	String data1 = (String)al1.get(0);
+  	// 배열과 달리 값을 가져오기 위해서 get()을 사용한다
+  	System.out.println(data1); // 홍길동  
+  	for(int i = 0; i < al1.size(); i++) {
+  		System.out.print((String)al1.get(i) + " "); // 홍길동 박문수 이몽룡 
+  	}
+  }
+
+}
+```
+```java
+import java.util.ArrayList;
+
+public class ArrayListEx {  
+
+  public static void main(String[] args) {
+  	ArrayList al = new ArrayList();
+  	al.add("홍길동");
+  	al.add("박문수");
+  	al.add("이몽룡");
+  
+  	System.out.println(al.toString()); // [홍길동, 박문수, 이몽룡]
+  	al.add(2, "장길산");
+  	System.out.println(al.toString()); // [홍길동, 박문수, 장길산, 이몽룡]
+  	al.set(0, "이몽룡");
+  	System.out.println(al.toString()); // [이몽룡, 박문수, 장길산, 이몽룡]
+  	al.remove(0);
+  	System.out.println(al.toString()); // [박문수, 장길산, 이몽룡]
+  	// ArrayList에서는 추가/삭제가 용이하다
+  	al.clear();
+  	// 값 전부 삭제
+  	System.out.println(al.toString()); // []
+  	System.out.println(al.size()); // 0
+  }
+
+}
+```
+!! ArrayList에 추가 될때 Object 객체로 형변환 된 후 추가되는 것에 주의하자
+```java
+// Person.java
+
+public class Person {
+	private String hakbun;
+	private String name;
 	
-		// Integer i1 = 123;
-		// Wrapper 클래스로 자동형변환
-		// 오토박싱
-		
-		int i2 = i1.intValue(); 
-		float f1 = i1.floatValue(); 
-		System.out.println(i2); // 123
-		System.out.println(f1); // 123.0
-		// 자료형의 형변환
-		
-		int i3 = Integer.parseInt("123");
-		float f2 = Float.parseFloat("123");
-		System.out.println(i3); // 123
-		System.out.println(f2); // 123.0
-		// 문자열을 정수, 실수로 형변환시킨다
-		
-		int i4 = 10;
-		int i5 = 20;
-		int sum1 = i4 + i5;
-		System.out.println(sum1); // 30
-		Integer i6 = Integer.valueOf("10");
-		Integer i7 = Integer.valueOf("20");
-		int sum2 = i6 + i7;
-		// 계산을 위해서 기본 자료형으로 자동형변환
-		// 언박싱
-		System.out.println(sum2); // 30
+	public Person(String hakbun, String name) {
+		this.hakbun = hakbun;
+		this.name = name;
 	}
+	
+	public String getHakbun() {
+		return hakbun;
+	}
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
+}
+```
+```java
+// ArrayListEx03.java
+
+import java.util.ArrayList;
+
+public class ArrayListEx03 {
+
+	public static void main(String[] args) {
+		ArrayList al = new ArrayList();
+		
+		Person p1 = new Person("1001", "홍길동");
+		Person p2 = new Person("1002", "박문수");
+			
+		al.add(p1);
+		al.add(p2);
+		// Person 객체가 Object 객체로 형변환 되서 추가된다
+		for(int i = 0; i < al.size(); i++) {
+			Person p = (Person)al.get(i);
+			System.out.println(p.getHakbun()); 
+			// 학번 출력
+			System.out.println(p.getName());
+			// 이름 출력 
+		}
+	}
+
+}
+```
+##### Generic
+
+- Generic을 사용하면 컴파일할 때, 객체의 타입을 체크하도록 한다
+
+- ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제점이 생긴다 
+
+  &rarr; &nbsp;Gerneric을 사용해
+ 컬렉션(클래스, 메서드) 내부의 자료형을 선언한다
+
+
+```java
+import java.util.ArrayList;
+
+public class ArrayListEx04 {
+
+  public static void main(String[] args) {
+  	ArrayList al1 = new ArrayList();
+  
+  	al1.add("홍길동");
+  	al1.add(new Person("1001", "홍길동"));
+  	// 모든 객체를 추가시킬 수 있다
+  	// 그렇기 때문에 al1에 있는 데이터를 사용할 때 문제가 생길 수도 있다
+  	//	for(int i = 0; i < al1.size(); i++) {
+  	//		String s = (String)al1.get(i);
+  	//		System.out.println(s);
+  	//	}
+  	// 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다
+  
+  	ArrayList<String> al2 = new ArrayList<>();
+  	al2.add("홍길동");
+  	// al2.add(new Person("1001", "홍길동"));
+  	// 에러!! al2에 String 객체만 들어가도록 선언했다
+  	// Generic
+  	for(int i = 0; i < al2.size(); i++) {
+  		String s = al2.get(i);
+  		System.out.println(s);
+  	}
+  }
+
 }
 ```
 
