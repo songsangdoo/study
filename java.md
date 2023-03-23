@@ -57,7 +57,7 @@
   - 문장끝에 세미콜론(;)을 붙인다
   - 영역을 표시할 때 중괄호를 사용한다
 
-### elipse
+## elipse
 
 - Java 편집기로 전자정부 프레임워크에 쓰인다
 
@@ -947,7 +947,7 @@ public class ArrayEx07 {
 
 ## 클래스와 객체
 
-- Java 는 객체지향 언어이다
+- Java는 객체지향 언어이다
 
 - OOP(Object Oriented Programming) : 객체지향 프로그래밍
 
@@ -984,13 +984,6 @@ public class ArrayEx07 {
 
     <sup>ex) 자동차 &rarr; 그랜저 상태, 기능 추가 &rarr; 그랜저
 
-  !! UML(Unified Modeling Language) : 추상화 모델링 기술
-
-  - Class Diagram
-
-  - Use Case Diagram
-  - Sequence Diagram
-  - ...
 
 ### 클래스 기본 문법
 
@@ -1873,6 +1866,8 @@ public class ModifierEx01 {
 
   &rarr; &nbsp;단일상속만 가능하다
 
+  <small>!! 인터페이스끼리는 다중 상속이 가능하다</small>
+
   &rarr; &nbsp;조상은 많을 수 있지만 부모는 하나뿐이다
 
 - 상속은 "is ~ a 관계"라고도 한다
@@ -2594,18 +2589,18 @@ public class PackMain {
   <small>!! 여기서 추상은 공통성을 의미한다</small>
 - 자손 클래스의 공통된 부분을 추상화해서 만든 클래스
 
-  <small>!! 반대로 공통적인 부분을 조상 클래스로 만들어주고 자손 클래스 각각의 속성을 추가한다고 생각할 수도 있다</small> 
+  <small>!! 반대로 공통적인 부분을 조상 클래스로 만들어주고 특정 속성을 추가해 자손 클래스를 만든다고 생각할 수도 있다</small> 
 
 
 - 추상 메서드를 가질 수 있다
 
-  <small>!! 추상 메서드는 구현이 되지 않은 메서드이다</small>
 
-  <small>!! 일반 클래스는 추상 메서드를 가질 수 없다</small> 
   ```java
   abstract void method(); 
   // 구현부({})가 없는 메서드를 추상 메서드라고 한다
   ```
+  <small>!! 일반 클래스는 추상 메서드를 가질 수 없다</small> 
+
   <small>!! 추상 메서드가 없어도 추상 클래스로 선언할 수 있다</small>
 
 - 상속을 전제로 만든 상속 전용 클래스로 직접 객체 생성은 할 수 없다
@@ -2616,7 +2611,7 @@ public class PackMain {
   
     <small>!! 자식 클래스에서도 추상 메서드가 구현되지 않는다면 자식 클래스도 추상 클래스가 된다</small>
   
-    <small>!! 상속받은 메서드의 구현을 강제하여 프로그램의 안정성을 확보한다 </small>
+    <small>!! 상속받은 메서드의 구현을 강제하여 표준화할 수 있다 </small>
 - 선언방법
 ```java
 abstract class ClassName{
@@ -2782,6 +2777,8 @@ public class MainEx{
 ```
 - 인터페이스끼리는 다중 상속이 가능하다
 
+  <small>!! 다중 상속으로 메서드 선언부가 중복되더라도 구현부가 없는 추상 메서드만 가지고 있어서 복잡도가 올라가지 않는다</small>
+
 ```java
 public interface InterA{
   public abstract void methodA();
@@ -2894,6 +2891,737 @@ public class ArrayListEx04 {
 
 }
 ```
+### UML(Unified Modeling Language)
+
+- 객체지향 프로그래밍에 사용되는 표준화된 추상화 모델링 표기 체계
+- 특징
+  - 가시화 : 설계 내용을 그래프 형태로 작성
+
+  - 명세화 : 정확하고 완전하게 명세
+  - 구축화 : 다양한 객체지향 프로그래밍 언어로 변환 가능
+
+    <small>!! 순공학(Forward Engineering)<br>
+    : 요구사항 정의 &rarr; 분석 &rarr; 설계 &rarr; 구현</small>
+
+
+    <small>!! 역공학(Forward Engineering)<br>
+    : 구현 &rarr; 설계 &rarr; 분석 &rarr; 요구사항 정의</small>
+  - 문서화 : 프로젝트 참가자들의 통제, 평가, 의사소통에 필요한 문서화 기능 
+
+- 종류
+  - Class Diagram
+
+  - Sequence Diagram
+  - Use Case Diagram
+
+- 작성방법
+  - 직접 손으로 작성
+
+  - tool
+    - Eclipse(UML)
+
+    - starUML (https://staruml.io/)
+### 내부 클래스
+- 클래스 안에서 멤버변수처럼 사용되는 클래스
+
+  <small>!! 컴파일 후 생성되는 내부 클래스 파일명은 "외부클래스명$내부클래스명" 이다</small>
+
+- 선언 위치에 따른 분류
+  <table>
+  <tr>
+  <th>선언 위치</th>
+  <th>종류</th>
+  </tr>
+  <tr>
+  <td rowspan="2">멤버 영역</td>
+  <td>인스턴스 내부 클래스</td>
+  </tr>
+  <tr>
+  <td>클래스 내부 클래스</td>
+  </tr>
+  <tr>
+  <td rowspan="2">로컬 영역</td>
+  <td>로컬 내부 클래스</td>
+  </tr>
+  <tr>
+  <td>익명 내부 클래스</td>
+  </tr>
+  </table>
+  
+
+    - 멤버영역에 선언된 내부 클래스
+      - 인스턴스 내부 클래스 
+        - static이 없는 내부 클래스로 주로 외부 클래스의 인스턴스 멤버들과 관련된 작업을 수행한다
+
+        - 접근 제어자 상관없이 외부 클래스 멤버를 참조할 수 있다
+
+        - 인스턴스 내부 클래스는 static 멤버를 가질 수 없다
+
+          <small>!! 단, static final 멤버는 상수로 취급되므로 사용할 수 있다</small>
+        - 외부 클래스에서 내부 클래스를 사용할 때,<br> static 영역에서는 외부클래스의 객체를 만든 후 내부 클래스 객체 생성을 통해서 사용할 수 있지만, static 영역이 아닌 경우 바로 내부클래스 객체를 생성할 수 있다
+        ```java
+        public class InstanceInnerTest {
+        	class Inner {
+        		int innerMember = 10;
+        		// static int staticMember = 10;
+
+        		static final int finalStaticMember = 20;
+
+        		private void innerMethod() {
+        			System.out.println("om : " + outerMember + ", im : " + innerMember);
+        		}
+        	}
+
+        	private int outerMember = 1;
+
+        	private void outerMethod() {
+        		Inner inner = new Inner();
+            // static 영역이 아니기 때문에 바로 내부 클래스 객체 생성 가능
+        		inner.innerMember = 100;
+        		inner.innerMethod();
+        	}
+
+        	public static void main(String[] args) {
+        		InstanceInnerTest iit = new InstanceInnerTest();
+        		Inner inner = iit.new Inner();
+        		inner.innerMethod();
+            // static 영역이기 때문에 외부 클래스 객체 생성 후 그 객체 를 통해 내부 클래스 객체 생성이 가능하다 
+        	}
+
+        }
+        ```
+
+
+      - 클래스 내부 클래스 
+        - static이 붙은 내부 클래스로 주로 외부 클래스의 static 멤버들과 관련된 작업을 수행한다
+
+          <small>!! 일반 클래스에는 static이 붙을 수 없다</small>
+        - 외부 클래스의 객체 생성과 무관하게 사용할 수 있다
+
+        - 외부 클래스의 모든 멤버를 참조할 수 있다
+
+          <small>!! 단, 외부 클래스는 static이 아니기 때문에 외부 클래스 객체가 생성되어야 사용할 수 있다</small>
+
+        - 인스턴스 내부 클래스와 달리 static 멤버를 가질 수 있다
+        ```java
+        public class StaticInnerTest {
+        	static class StaticInner {
+        		private int iMember = 10;
+        		private static int sMember = 0;
+        		// static 멤버를 사용할 수 있다
+        		private void innerMethod() {
+        			StaticInnerTest sit = new StaticInnerTest();
+              // 외부 클래스의 멤버를 참조하기 위해서 외부 클래스 객체 생성
+        			System.out.println("om : " + sit.oMember + " im : " + iMember);
+        		}
+
+        	}
+
+        	private int oMember = 1;
+
+        	private void outerMethod() {
+        		StaticInner inner = new StaticInner();
+        		inner.iMember = 100;
+        		inner.innerMethod();
+        	}
+        	public static void main(String[] args) {
+        		StaticInner inner = new StaticInner();
+            // 외부 클래스 객체 생성 없이 없이 바로 객체 생성이 가능하다
+        		inner.innerMethod();
+        	}
+
+        }
+        ```
+
+    - 로컬영역에 선언된 내부 클래스
+      - 로컬 내부 클래스 
+        - 외부 클래스의 메서드나 생성자, 초기화 블록에서 선언된 클래스로 선언된 블록 내에서만 사용 가능하다
+
+        - 인스턴스 내부 클래스와 마찬가지로 static 변수는 가질 수 없지만, final static 변수는 가질 수 있다
+        - 외부 클래스 객체 생성 없이 외부 클래스의 모든 멤버에 접근 가능하다
+        - 로컬 내부 클래스가 선언된 로컬 영역의 변수를 사용할 때, 변수의 값을 변환시킬 수는 없다
+
+          <small>!! 컴파일할 때 컴파일러가 내부적으로 로컬 변수 앞에 final 키워드를 추가하기 때문이다</small>
+
+          ```java
+          public class LocalInnerTest {
+          	int iMember = 1;
+          	static int cMember = 3;
+
+          	void method() {
+          		int localVar = 3;
+
+          		class LocalInner {
+          			int innerLocalVar = 4;
+          			void innerMehod() {
+          				System.out.println("외부 인스턴스 멤버변수 : " + iMember);
+          				System.out.println("외부 클래스 멤버변수 : " + cMember);
+          				System.out.println("외부 로컬 변수 : " + localVar);
+          				System.out.println("내부 인스턴스 : " + innerLocalVar);
+          				iMember++;
+          				cMember++;
+          				// localVar++
+          				// 에러!!
+          				innerLocalVar++;
+          			}
+          		}
+          		LocalInner lInner = new LocalInner();
+          		lInner.innerMehod();
+          	}
+
+          	public static void main(String[] args) {
+          		LocalInnerTest lit = new LocalInnerTest();
+          		lit.method();
+          	}
+          }
+          ```
+
+      - 익명 내부 클래스 
+        - 클래스의 선언과 객체 생성을 동시에 하는 이름이 없는 클래스로 객체를 재사용하지 않을 클래스의 선언 방식이다
+
+        - 추상 클래스나 인터페이스 구현에 주로 사용된다
+
+          <small>!! 특히 함수형 인터페이스에 많이 사용된다</small>
+
+        ```java
+        interface SomeInterface {
+        	void printInfo();
+        }
+        public class AnonymousInnerTest {
+        	int iMember = 1;
+        	static int cMember = 2;
+
+        	void method(SomeInterface si) {
+        		si.printInfo();
+        	}
+        	public static void main(String[] args) {
+        		AnonymousInnerTest lit = new AnonymousInnerTest();
+        		int localVar = 3; 
+        		lit.method(new SomeInterface() {
+        			public void printInfo() {
+        				System.out.println("외부 클래스 멤버 변수 : " + cMember);
+        				System.out.println("외부 로컬 변수 : " + localVar);
+
+        				cMember++;
+        			}
+        		});
+        	}
+        }
+        ```
+### 람다식
+- 화살표 함수
+
+- 함수형 인터페이스에 사용된다
+  
+  <small>!! 함수형 인터페이스 : 하나의 추상 메서드만 존재하는 함수</small>
+
+
+```java
+@FunctionalInterface
+// 함수형 인터페이스에는 보통 애노테이션을 선언돼서 추상 메서드가 한 개가 아닐 경우 컴파일 에러를 발생시키게 한다
+interface MyFunctionalInter {
+	void methodA();
+  // void methodB();
+}
+
+public class MyFunctionalInterMain {
+
+	public static void main(String[] args) {
+		new MyFunctionalInter() {
+			
+			@Override
+			public void methodA() {
+				System.out.println("method1 호출");
+			}
+		}.methodA(); // method1 호출
+		// 익명 클래스를 사용해서 인터페이스를 구현
+		
+		MyFunctionalInter f = new MyFunctionalInter() {
+			
+			@Override
+			public void methodA() {
+				System.out.println("method2 호출");
+			}
+		};
+		f.methodA(); // method2 호출
+		// 객체 변수 선언을 이용해서 인터페이스를 구현
+		
+		MyFunctionalInter f1 = () -> {
+			System.out.println("method3 호출");
+		};
+		// MyFunctionalInter f1 = () -> System.out.println("method 호출");
+		// 한 줄일 경우 이런 방식도 가능하다
+		f1.methodA(); // method3 호출
+		// 람다식을 이용해서 인터페이스를 구현
+	}
+}
+```
+
+```java
+@FunctionalInterface
+interface FunctionalInterface1 {
+	void methodA();
+}
+
+public class LambdaEx {
+	public static void useFlMethod(FunctionalInterface1 fi) {
+		fi.methodA();
+	}
+	public static void main(String[] args) {
+		useFlMethod(new FunctionalInterface1() {
+			
+			@Override
+			public void methodA() {
+				System.out.println("익명 내부 클래스 이용");
+			}
+		}); // 익명 내부 클래스 이용
+		
+		useFIMethod(() -> {
+			System.out.println("람다식 이용1");
+		}); // 람다식 이용1
+		useFIMethod(() -> System.out.println("람다식 이용2")); // 람다식 이용2
+	}
+
+}
+```
+```java
+@FunctionalInterface
+interface FunctionalInterface2 {
+	void methodB(String msg);
+}
+
+public class LambdaEx {
+	public static void useFlMethod(FunctionalInterface2 fi) {
+		fi.methodB("홍길동");
+	}
+	public static void main(String[] args) {
+		
+		useFIMethod((String msg) -> {
+			System.out.println("람다식 이용1 : " + msg);
+		}); // 람다식 이용1 : 홍길동
+		useFIMethod(msg -> System.out.println("람다식 이용2 : " + msg)); // 람다식 이용2 : 홍길동
+	}
+}
+```
+```java
+@FunctionalInterface
+interface FunctionalInterface2 {
+	String methodB(String msg);
+}
+
+public class LambdaEx {
+	public static void useFIMethod(FunctionalInterface2 fi) {
+		System.out.println(fi.methodB("홍길동"));
+	}
+	public static void main(String[] args) {
+		
+		useFIMethod((String msg) -> {
+			return "람다식 이용1 : " + msg;
+		}); // 람다식 이용1 + 홍길동
+		useFIMethod(msg -> "람다식 이용2 : " + msg); // 람다식 이용1 + 홍길동
+	}
+}
+```
+## 예외처리와 디버깅
+- 런타임 에러는 프로그램을 비정상으로 종료시킨다
+
+- 에러의 종류
+  - 컴파일 에러
+    - 문법적으로 문제가 있어 컴파일할 때 생기는 에러이다
+
+    - 문법에 맞게 명령문을 수정해서 해결할 수 있다
+  - 런타임(실행) 에러
+
+    - 시스템 에러 : 시스템 이상으로 생기는 에러로 처리 불가
+
+    - 예외
+      - 컴파일 된 명령을 실행하다가 나타나는 에러
+
+      - 처리가 가능하다(프로그램이 정상 종료할 수 있게 한다)
+
+    ```java
+    public class ExceptionEx01 {
+    
+    	public static void main(String[] args) {
+      
+    		int num1 = 0;
+    		int num2 = 20;
+    		// int result = num2 / num1
+    		// System.out.println(result);
+    		// 실행시 에러가 발생한다 
+    		String[] datas = {"1", "2", "3"};
+    		// System.out.println(datas[6]);
+    		// 실행시 에러가 발생한다
+
+    		if (num1 != 0) {
+    			int result = num2 / num1;
+    			System.out.println(result);
+    		}else {
+    			System.out.println("0으로 나눌 수 없습니다");
+    		}
+    		// 실행시 발생될 수 있는 에러를 처리할 수 있다
+    
+    	}
+
+    }
+    ```
+    ### try ~ catch
+
+    - 발생한 예외를 처리하는 구문
+
+    - 구문 실행 순서 
+
+      <b>1<sub>st</sub> .</b> try 블록 안에 명령문을 실행하다가 예외가 발생하면 JVM이 예외 객체를 생성해 던진다(throw)
+
+      <b>2<sub>nd</sub> .</b> catch 블록이 예외 객체를 잡아서(catch) 블록 안에 있는 예외 발생시 처리할 명령문을 실행한다
+
+        <small>!! 이때, catch 블록 안에서 예외 객체를 사용할 수 있다</small>
+
+        <small>!! 예외 객체 확인은 위의 catch 블록부터 순차적으로 한다</small>
+        ```java
+        try{
+          ...
+        }catch(Exception e)  {
+          System.out.println(e.getMessage());
+        }
+        ```
+
+      <b>3<sub>rd</sub> .</b> catch 블록의 명령문이 끝나면 블록 다음의 명령문이 실행된다
+
+    ```java
+    try {
+      // 예외가 발생할 수 있는 명령문
+    }catch(Exception e){ // catch는 특정 예외 클래스를 파라미터로 받는다
+      // try 블록에서 예외 e 발생시 처리하는 명령문 
+    }
+    ... // try ~ catch 구문을 벗어난 뒤 실행되는 명령문
+    // 예외가 발생하지 않을 경우 catch 블록은 실행되지 않는다
+    ```
+    ```java
+    public class ExceptionEx01 {
+    
+    	public static void main(String[] args) {
+      
+    		int num1 = 0;
+    		int num2 = 20;
+
+    		try {
+    			int result = num2 / num1;
+    			System.out.println(result);
+    		}catch(ArithmeticException e) {
+    			System.out.println("exception 발생");
+    		}
+
+    	}
+
+    }
+    ```
+    ```java
+    import java.util.Random;
+
+    public class TryCatchFlow {
+    
+    	public static void main(String[] args) {
+    		int num = new Random().nextInt(2);
+    		try {
+    			System.out.println("code 1, num : " + num);
+    			int i = 1/num;
+          // num이 0일 때, 예외 발생
+    			System.out.println("code 2, - 예외 없음");
+    		}catch(ArithmeticException e) {
+    			System.out.println("code 3 - 예외 처리 완료");
+    		}
+    		System.out.println("code 4");
+    	}
+    
+    }
+    ```java
+
+    ```
+    ```java
+    public class TryCatchFlow {
+    
+    	public static void main(String[] args) {
+    		String name = null;
+    		int num1 = 0;
+    		int num2 = 10;
+    		try {
+    			System.out.println(name.length());
+    			// 참조하는 객체가 없기 때문에 인스턴스 메서드 length()를 사용할 수 없다
+    		}catch(NullPointerException e) {
+    			System.out.println("객체 생성 후 메서드 사용");
+    		}
+
+    		try {
+    			System.out.println(num2/num1);	
+    			// 숫자를 0으로 나눌 수는 없다
+    		}catch(ArithmeticException e) {
+    			System.out.println("0으로 나눌 수 없ㅏ");
+    		}
+    	}
+    }
+    ```
+    !! 다중 예외 처리를 이용해 위의 코드를 아래와 같이 바꿀 수도 있다
+    ```java
+    public class TryCatchFlow {
+    
+    	public static void main(String[] args) {
+    		String name = null;
+    		int num1 = 0;
+    		int num2 = 10;
+    		try {
+    			System.out.println(name.length());
+    			System.out.println(num2/num1);	
+    		}catch(NullPointerException e) {
+    			System.out.println("객체 생성 후 메서드 사용");
+    		}catch(ArithmeticException e) {
+    			System.out.println("0으로 나눌 수 없다");
+    		}
+    	} // 여러 개의 catch문을 여러개 이용할 수 있다
+    }
+    ```
+    !! 모든 예외 클래스의 조상이 Exception이기 때문에 다형성을 이용할 수도 있다
+    ```java
+    public class TryCatchFlow {
+    
+    	public static void main(String[] args) {
+    		String name = null;
+    		int num1 = 0;
+    		int num2 = 10;
+    		try {
+    			System.out.println(name.length());
+    			System.out.println(num2/num1);	
+    		}catch(Exception e) {
+    			System.out.println("에러 : " + e.getMessage());
+          // 예외 객체의 대한 메세지 출력
+    		}
+    	} 
+    }
+    ```
+    ```java
+    public class TryCatchFlow {
+    
+    	public static void main(String[] args) {
+    		String name = null;
+    		int num1 = 0;
+    		int num2 = 10;
+    		try {
+    			System.out.println(name.length());
+    			System.out.println(num2/num1);	
+    		}catch(NullPointerException e){
+          System.out.println("객체 생성 후 메서드 사용");
+        }catch(Exception e) {
+    			System.out.println(e.getMessage());
+    		}
+        // NullPointerException 예외를 제외한 나머지 객체들을 한번에 처리하게 할 수 있다
+        // !! Exception 클래스는 모든 예외 클래스의 조상이기 때문에 항상 다중 catch문의 마지막에 위치해야 한다
+    	} 
+    }
+    ```
+    #### try ~ catch ~ finally
+    - finally 블록 안의 명령문은 예외 발생 여부 상관없이 무조건 실행된다
+
+      <small>!! 실행 중 return 문을 만나더라도 finally 블록 안에 있는 명령문이 먼저 실행되고 메서드가 리턴된다</small>
+
+    ```java
+    import java.util.Random;  
+
+    public class TryCatchFlow {
+    
+      public static void main(String[] args) {
+        int num = new Random().nextInt(2);
+        try {
+          System.out.println("code1, num : " + num);
+          int i = 1/num;
+          System.out.println("code2 - 예외 없음");
+          return;
+        }catch(ArithmeticException e) {
+          System.out.println("code3 - 예외 처리 완료");
+        }finally {
+          System.out.println("code4 - 언제나 실행");
+        }
+        System.out.println("code5");
+        // 예외가 발생하지 않아서 return 문이 실행되면,
+        // "code5"는 출력되지 않는다
+      } 
+    }
+    ```
+    #### throw
+    - 구현부에 쓰여 의도적으로 예외를 발생시킨다
+    
+
+    ```java
+    public class ExceptionEx07 {
+    	public void method1(int num) {
+    		System.out.println("메서드 시작");
+    		if(num >= 100) {
+    			System.out.println("100보다 크다");
+    		}else {
+    			try {
+    			  throw new Exception("100보다 작다");
+    			// 강제로 예외를 발생시킨다
+    			}catch(Exception e) {
+    				System.out.println("에러 : " + e.getMessage() );
+    			}
+    		}
+    		System.out.println("메서드 끝");
+    	}
+
+    	public static void main(String[] args) {
+    		System.out.println("시작");
+    		ExceptionEx07 ee = new ExceptionEx07();
+    		ee.method1(10);
+    		ee.method1(200);
+    		System.out.println("끝");
+    	}
+
+    }
+    ```
+    #### throws
+    - 선언부에 쓰여서 호출 메서드에게 예외 처리를 넘긴다는 선언을 한다
+    ```java
+    public class ExceptionEx07 {
+    	public void method2(int num) throws Exception{ // throws로 호출 메서드에 예외처리를 맡긴다
+    		System.out.println("메서드 시작");
+    		if(num >= 100) {
+    			System.out.println("100보다 크다");
+    		}else {
+    			throw new Exception("100보다 작다");
+    			// 강제로 예외를 발생시킨다
+    		System.out.println("메서드 끝");
+    	}
+
+
+    	public static void main(String[] args) {
+    		System.out.println("시작");
+    		ExceptionEx07 ee = new ExceptionEx07();
+
+    		try {
+    		ee.method2(40);
+    		}catch(Exception e) {
+    			System.out.println("에러 : " + e.getMessage() );
+    		}
+    		System.out.println("끝");
+    	}
+    }
+    ```
+    !! Unhandled Exception 에러
+    ```java
+    import java.io.IOException;
+
+    public class ExceptionEx08 {
+    
+    	public static void main(String[] args) {
+    		ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
+    		try{
+    			processBuilder.start();
+    			// star() 선언부에 "throws IOExcepiton"이 있기 때문에 예외처리를 해줘야 에러가 나지 않는다
+    		}catch(IOException e)	{
+    			System.out.println("에러 : " + e.getMessage());
+    		}
+    	}
+    }
+    ```
+    ### 사용자 정의 예외
+    - 사용자가 필요에 따라 작성한 예외 클래스
+
+    - Exception 또는 RuntimeExcetion 클래스를 상속 받아 만들어야 한다
+    ```java
+    public class CustomException extends Exception {
+    	public CustomException() {
+    		super();
+    	}
+    	public CustomException(String message) {
+    		super(message);
+    	}
+    }
+    ```
+    - 다른 예외 클래스와 똑같이 사용할 수 있다
+
+    ```java
+    // 위에서 정의한 사용자 정의 클래스 CustomException을 사용
+
+    public class ExceptionEx07 {   
+      public void method2(int num) throws CustomException{ 
+    		System.out.println("메서드 시작");
+    		if(num >= 100) {
+    			System.out.println("100보다 크다");
+    		}else {
+    			throw new CustomException("100보다 작다");
+    		}
+    		System.out.println("메서드 끝");
+    	}
+
+
+    	public static void main(String[] args) {
+    		System.out.println("시작");
+    		ExceptionEx07 ee = new ExceptionEx07();
+
+    		try {
+    		ee.method2(40);
+    		}catch(CustomException e) {
+    			System.out.println("에러 : " + e.getMessage() );
+    		}
+    		System.out.println("끝");
+    	}
+
+    }
+    ```
+    ```java
+    // LoginFailException.java
+
+    public class LoginFailException extends RuntimeException {
+    	enum ErrorCode{
+    		INVALID_ID, INVALID_PASS
+    	}
+    	private ErrorCode errorCode;
+
+    	public LoginFailException(ErrorCode errorCode, String data) {
+    		super(data);
+    		this.errorCode = errorCode;
+    	}
+
+    	public String getLocalizedMessage() {
+    		String msg = this.getMessage();
+    		switch(errorCode) {
+    		case INVALID_ID:
+    			msg += ", 아이디를 확인하세요.";
+    			break;
+    		case INVALID_PASS:
+    			msg += ", 패스워드를 확인하세요";
+    			break;
+    		}
+    		return msg;
+    	}
+    }
+    ```
+    ```java
+    // UserManagerWithException.java
+    // 위에서 정의한 사용자 정의 클래스 LoginFailException을 사용
+    public class UserManagerWithException {
+    	public boolean login(String id, String pass) {
+    		if(!id.equals("hong")) {
+    			throw new LoginFailException(LoginFailException.ErrorCode.INVALID_ID, id);
+    		}else if(!pass.equals("1234")) {
+    			throw new LoginFailException(LoginFailException.ErrorCode.INVALID_PASS, pass);
+    		}
+    		return true;
+    	}
+
+    	public static void main(String[] args) {
+    		UserManagerWithException userManger = new UserManagerWithException();
+    		try {
+          boolean result = userManger.login("hong", "1234");
+    			//boolean result = userManger.login("hong", "1235");
+    			System.out.println("로그인 성공 여부 : " + result);
+    		}catch(LoginFailException e) {
+    			System.out.println("예외 처리 : " + e.getLocalizedMessage());
+    		}
+    	}
+
+    }
+    ```
+    
 ## java.lang
 
 <small>!! API (Application Programming Interface) : 미리 만들어진 클래스들의 모임</small>
@@ -2985,7 +3713,7 @@ public class ArrayListEx04 {
 
   - 기본적으로는 할당되어 있는 참조값을 비교한다
 
-    &rarr; "=="와 같은 결과를 가진다
+    &rarr; "==" 연산자와 같은 결과를 가진다
 
   ```java
   public class ObjectEx01 {
@@ -3183,16 +3911,16 @@ public class MathEx01 {
 
 - 기본 자료형을 객체로 만들기 위한 클래스이다
 
-| 기본형  | Wrapper 클래스 |
-| :-----: | :------------: |
-|  byte   |      Byte      |
-|  char   |      Char      |
-|  short  |     Short      |
-|   int   |      Int       |
-|  long   |      Long      |
-|  float  |     Float      |
-| double  |     Double     |
-| boolean |    Boolean     |
+  | 기본형  | Wrapper 클래스 |
+  | :-----: | :------------: |
+  |  byte   |      Byte      |
+  |  char   |      Char      |
+  |  short  |     Short      |
+  |   int   |      Int       |
+  |  long   |      Long      |
+  |  float  |     Float      |
+  | double  |     Double     |
+  | boolean |    Boolean     |
 
 - Wrapper 클래스는 기본 자료형처럼 쓸 수 있다
 
@@ -3326,20 +4054,20 @@ public class SystemEx {
 public class SystemEx {
 
   public static void main(String[] args) {
-  	System.out.println(System.currentTimeMillis()); // 1679361735964
-  	// 1970년 1월 1일에서 지금까지의 밀리초를 반환
+    System.out.println(System.currentTimeMillis()); // 1679361735964
+    // 1970년 1월 1일에서 지금까지의 밀리초를 반환
     // 타임스탬프로 쓰인다
-  	System.out.println(System.nanoTime()); // 2166129652274300
-  	// 1970년 1월 1일에서 지금까지의 밀리초를 나노초로 반환
-  	long time1 = System.currentTimeMillis();
+    System.out.println(System.nanoTime()); // 2166129652274300
+    // 1970년 1월 1일에서 지금까지의 밀리초를 나노초로 반환
+    long time1 = System.currentTimeMillis();
     // 프로그램 실행 전 타임스탬프
-  	int sum = 0;
-  	for(int i = 1; i <= 1_000_000; i++) {
-  		sum += i;
-  	}
-  	long time2 = System.currentTimeMillis();
+    int sum = 0;
+    for(int i = 1; i <= 1_000_000; i++) {
+    	sum += i;
+    }
+    long time2 = System.currentTimeMillis();
     // 프로그램 실행 후 타임스탬프
-  	System.out.println("실행시간 : " + (time2 - time1)); // 실행시간 : 3
+    System.out.println("실행시간 : " + (time2 - time1)); // 실행시간 : 3
   }
 
 }
@@ -3872,6 +4600,73 @@ public class Gugudan {
 
 }
 ```
+### Arrays
+- 배열과 관련된 클래스
+
+- static 메서드만 가지고 있기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용하기만 하면 된다
+
+  <small>!! 당연히 생성자는 없다</small>
+#### Arrays의 메서드
+```java
+public class ArraysEx01 {
+
+	public static void main(String[] args) {
+		String[] arrs = {"aaa", "bbb", "ccc"};
+		System.out.println(Arrays.toString(arrs)); // [aaa, bbb, ccc]
+		// 배열을 문자열 형식으로 반환한다
+		Arrays.fill(arrs, "xxx");
+		// 배열을 특정 문자열로 초기화 시킨다
+		System.out.println(Arrays.toString(arrs)); // [xxx, xxx, xxx]
+		Arrays.fill(arrs, 0, 2, "yyy");
+		// 인덱스 0 ~ (2-1)까지의 값을 "yyy"로 초기화 시킨다
+		System.out.println(Arrays.toString(arrs)); // [yyy, yyy, xxx]
+		
+		String[] arrs1 = {"aaa", "bbb", "ccc"};
+		String[] arrs2 = {"aaa", "bbb", "ccc"};
+		System.out.println(arrs1 == arrs2); // false
+		// 배열의 참조값을 비교
+		System.out.println(Arrays.equals(arrs1, arrs2)); // true
+		// 배열의 데이터 값을 비교
+		
+		Integer[] arrNums = {5, 4, 1, 2, 3};
+		Arrays.sort(arrNums);
+		// 데이터를 값에 크기에 따라 정렬시킨다
+		// 숫자뿐만 아니라 문자, 문자열도 정렬이 가능하다
+		// 문자, 문자열은 아스키 코드 값으로 크기 비교를 한다
+		System.out.println(Arrays.toString(arrNums)); // [1, 2, 3, 4, 5]
+	}
+
+}
+```
+배열을 이용해 로또 번호 뽑기
+```java
+import java.util.Arrays;
+import java.util.Random;
+
+public class LottoGeneratorByArray {
+	
+	public static void main(String[] args) {
+		int[] selected = new int[6];
+		int[] fullBall = new int[46];
+		
+		int cnt = 0;
+		Random rand = new Random();
+		while(cnt < 6) {
+			int index = rand.nextInt(45);
+			int ball = fullBall[index];
+			if(ball == 0) {
+				selected[cnt] = index + 1;
+				fullBall[index] = -1;
+				cnt++;
+			}
+		}
+		Arrays.sort(selected);
+		System.out.println(Arrays.toString(selected));
+	}
+
+}
+```
+
 
 ## 컬렉션 프레임워크
 
@@ -4048,6 +4843,71 @@ public class ArrayListEx {
   }
 }
 ```
+```java
+public class ArraysEx01 {
+
+	public static void main(String[] args) {
+
+		String[] arrs1 = {"aaa", "bbb", "ccc"};
+
+    List<String> lists = Arrays.asList(arrs1);
+    // Arrays.asList()를 통해 배열로 List 객체를 만들 수 있다
+    System.out.println(lists); // [aaa, bbb, ccc]
+	}
+
+}
+```
+!! 표 형식의 데이터를 출력하기
+
+  <small>!! 표 형식의 데이터를 집어넣는 클래스를 TO(Transfer Object) 또는 VO(Value Object)라고 한다</small>
+
+```java
+import java.util.ArrayList;
+
+class Student {
+	private String seq;
+	private String name;
+	private String phone;
+	private String age;
+	
+	public String getSeq() {
+		return seq;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public String getAge() {
+		return age;
+	}
+	
+	public Student(String seq, String name, String phone, String age) {
+		this.seq = seq;
+		this.name = name;
+		this.phone = phone;
+		this.age = age;
+	}
+}
+
+public class DataEx01 {
+  public static void main(String[] args){
+	  Student s1 = new Student("1", "홍길동", "010-111-1111", "20");
+	  Student s2 = new Student("2", "박문수", "010-222-2222", "22");
+	  Student s3 = new Student("3", "임꺽정", "010-333-3333", "25");
+  
+	  ArrayList<Student> datas = new ArrayList<>();
+	  datas.add(s1);
+	  datas.add(s2);
+	  datas.add(s3);
+  
+	  for(Student s : datas) {
+	  	System.out.printf("%s %s %s %s%n", s.getSeq(), s.getName(), s.getPhone(), s.getAge());
+	  }
+  }
+}
+```
 #### Set 인터페이스를 구현한 클래스
 - 순서가 없는 데이터를 표현할 때 사용한다
 
@@ -4192,9 +5052,13 @@ public class PropertiesEx02 {
   }
 }
 ```
-## 스택과 큐
-### 스택(Stack)
+
+### 스택과 큐
+- 자료구조
+#### 스택(Stack)
 - 나중에 들어간 데이터가 먼저 나온다
+<img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
+
 ```java
 import java.util.Stack;
 
@@ -4216,8 +5080,11 @@ public class StackEx01 {
 
 }
 ```
-### 큐(Queue)
+
+#### 큐(Queue)
 - 먼저 들어간 데이터가 먼저 나온다
+
+<img src="https://cdn.programiz.com/sites/tutorial2program/files/queue.png">
 
 ```java
 import java.util.LinkedList;
@@ -4238,6 +5105,99 @@ public class QueueEx01 {
     System.out.println(queue.poll()); // 박문수
     System.out.println(queue); // [임꺽정]
   }
+
+}
+```
+## 형식화 클래스
+- 데이터를 가시성 좋게 만들 때 사용하는 클래스
+
+- java.text 패키지의 하위 클래스
+
+
+### DeciamlFormat
+- 숫자를 형식화 할때 사용하는 클래스
+
+```java
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
+public class DecimalFormatEx {
+
+	public static void main(String[] args) {
+		DecimalFormat format1 = new DecimalFormat("$#,###.#");
+		
+		double db1Num1 = 1234.5;
+		double db1Num2 = 1234.56;
+		double db1Num3 = 234.5;
+		
+		String strNum1 = format1.format(db1Num1);
+		String strNum2 = format1.format(db1Num2);
+		String strNum3 = format1.format(db1Num3);
+		// 데이터를 특정 문자열 형태로 만들어 반환한다
+		
+		System.out.println(strNum1); // $1,234.5
+		System.out.println(strNum2); // $1,234.6
+		System.out.println(strNum3); // $234.5
+		
+		format1.applyPattern("0000.0");
+		// 새로운 패턴을 적용시킨다
+		System.out.println(format1.format(db1Num1)); // 1234.5
+		System.out.println(format1.format(db1Num2)); // 1234.6
+		System.out.println(format1.format(db1Num3)); // 0234.5
+		
+		format1.applyPattern("$#,###.#");
+		
+		try {
+			String strNum4 = "$1,234.5";
+			// "$"에 주의하자
+			double parseNum = (double)format1.parse(strNum4);
+			System.out.println(parseNum); // 1234.5
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+```
+### SimpleDateFormat
+- Date 객체에 사용돼서 날짜, 시간을 형식화 할 때 사용하는 클래스
+```java
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatEx {
+
+	public static void main(String[] args) {
+		String source = "2020년 12월 25일";
+		System.out.println(source + "를 요일 정보까지 출력한다면?");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
+		try {
+			Date parsed = format.parse(source);
+			format.applyPattern("yyyy년 MM월 dd일(E)");
+			System.out.println(format.format(parsed));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+```
+### MessageFormat
+- 문자열에 패턴을 지정할 때 사용하는 클래스
+```java
+import java.text.MessageFormat;
+
+public class MessageFormatTest {
+
+	public static void main(String[] args) {
+		String pattern = "이름:{0}, Java:{1}, HTML:{2}, Script:{3}";
+		String src = "홍길동:100:90:85,임꺽정:90:95:70,장길산:75:85:90";
+		String[] stuInfo = src.split(",");
+		for(String stu : stuInfo) {
+			System.out.println(MessageFormat.format(pattern, stu.split(":")));
+		}
+	}
 
 }
 ```
