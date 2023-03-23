@@ -5174,10 +5174,11 @@ public class SimpleDateFormatEx {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
 		try {
 			Date parsed = format.parse(source);
+      // 문자열을 지정한 패턴을 이용해 Date 객체로 변환 시킨다
 			format.applyPattern("yyyy년 MM월 dd일(E)");
+      // 새로운 패턴을 적용시킨다
 			System.out.println(format.format(parsed));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -5192,6 +5193,8 @@ public class MessageFormatTest {
 
 	public static void main(String[] args) {
 		String pattern = "이름:{0}, Java:{1}, HTML:{2}, Script:{3}";
+    // 데이터가 삽입되는 위치에 중괄호를 써준다
+    // 이때, 중괄호 안에는 인덱스 값이 들어간다
 		String src = "홍길동:100:90:85,임꺽정:90:95:70,장길산:75:85:90";
 		String[] stuInfo = src.split(",");
 		for(String stu : stuInfo) {
