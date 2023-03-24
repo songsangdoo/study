@@ -2830,13 +2830,99 @@ public interface Heroable extends Fightable, Transformable{
 
   <sup>ex) {봄, 여름, 가을, 겨울}, {월, 화, 수, 목, 금, 토, 일}
 
+- java.lang.Enum 클래스를 상속받는 클래스이다
 
-- 선언 및 데이터 접근 방법
+
+- 선언 및 사용법
 ```java
-enum Grade{
-  SALES, PART_TIME_JOB, NORMAL
+public class EnumEx {
+
+  public static void main(String[] args){
+    enum Grade{
+      SALES, PART_TIME_JOB, NORMAL
+      // 상수들만 정의할 때는 세미콜론(;)이 필요없다
+    }
+    // 자료형 Grade 선언
+    // Grade 자료형은 SALES, PART_TIME_JOB, NORMAL만 값으로 가질 수 있다
+    Grade grade = Grade.SALES;
+    System.out.println(grade); // SALES
+    System.out.println(grade instanceof Enum); // true
+    System.out.println(grade instanceof Object); // true
+  }
 }
-System.out.println(Grade.SALES);
+```
+```java
+enum Season {
+	SPRING, SUMMER, FALL, WINTER // 각각 0 ~ 3의 index를 가진다
+}
+public class EnumEx01 {
+	public void compareEnumTest(Season season) {
+		if(season.equals(Season.SPRING)) {
+			System.out.println("따뜻한 봄날입니다");
+		}else if(season.compareTo(Season.WINTER) < 0){
+		// compareTo()를 통해서 값의 인덱스 크기의 차이를 리턴한다
+			System.out.println("최소한 겨울은 아니잖아요");
+		}else {
+			System.out.println("겨울이네요");
+		}
+	}
+	
+	public void enumSwitch(Season season) {
+		switch(season) {
+		case SPRING:
+			System.out.println("새 잎이 나는 시기");
+			break;
+		case SUMMER:
+			System.out.println("열매가 무르익는 시기");
+			break;
+		case FALL:
+			System.out.println("잎이 떨어지는 시기");
+			break;
+		default:
+			System.out.println("겨울잠을 자는 시기");
+		}
+	}
+	public static void main(String[] args) {
+		EnumEx01 set = new EnumEx01();
+		set.compareEnumTest(Season.FALL);
+		set.enumSwitch(Season.SPRING);
+	}
+
+}
+```
+```java
+enum Family{
+	FATHER("아빠"), MOTHER("엄마"), SON("아들"), DAUGHTER("딸");
+  // 괄호 안의 값이 생성자의 인수가 된다
+
+	private String kor;
+	
+	/* private */Family(String kor){
+  // enum에서 생성자의 접근 제어자는 private이고 생략이 가능하다
+		this.kor = kor;
+	}
+  // 생성자와 미리 정의된 상수를 이용해 값을 초기화 시킬 수 있다
+	
+	public String getKor() {
+		return kor;
+	}
+	
+	public void setKor(String kor) {
+		this.kor = kor;
+	}
+  // 메서드를 통해 값을 초기화 시킬 수 있다
+}
+
+public class EnumEx02 {
+
+	public static void main(String[] args) {
+		Family current = Family.MOTHER;
+		System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 엄마
+		current.setKor("어머니");
+		System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 어머니
+	}
+
+}
 ```
 ### 애노테이션(annotation)
 
@@ -2844,12 +2930,12 @@ System.out.println(Grade.SALES);
 
 - 기본 애노테이션
 
-|애노테이션|설명|
-|---|---|
-|@Override|컴파일러에게 재정의된 메서드라고 알려준다|
-|@Deprecated|앞으로 없어질 수 있으니 사용을 자제하라고 알려준다|
-|@SupressWarnings|컴파일러에게 특정 경고 메세지를 무시하라고 알려준다|
-|@FunctionallInterface|함수형 인터페이스라는 것을 알려준다(Lamda 참조)|
+  |애노테이션|설명|
+  |---|---|
+  |@Override|컴파일러에게 재정의된 메서드라고 알려준다|
+  |@Deprecated|앞으로 없어질 수 있으니 사용을 자제하라고 알려준다|
+  |@SupressWarnings|컴파일러에게 특정 경고 메세지를 무시하라고 알려준다|
+  |@FunctionallInterface|함수형 인터페이스라는 것을 알려준다(Lamda 참조)|
 
 ### Generic
 
@@ -4231,7 +4317,7 @@ public class DateTest {
   public static void main(String[] args) {
   	Date d1 = new Date();
   	System.out.println(d1);
-  	Date d2 = new java.sql.Date(1500000000000L); // 밀리초로 날짜 객체 생성
+  	Date d2 = new java.util.Date(1500000000000L); // 밀리초로 날짜 객체 생성
   	System.out.println(d2);
   	long gap = d1.getTime() - d2.getTime();
   	System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");
@@ -5202,5 +5288,752 @@ public class MessageFormatTest {
 		}
 	}
 
+}
+```
+## I / O 
+- 입력(Input)과 출력(Output)
+
+- Java는 스트림(stream)을 통해 데이터를 주고 받는다
+
+### 데이터
+
+- 프로그램을 만든다 &rarr; 데이터를 처리한다
+
+- 데이터의 종류 
+  - 임시 저장 데이터 : 프로그램 종료와 동시에 없어지는 데이터
+
+    <sup> ex) 변수, 상수, 배열, 객체, 컬렉션 ...</sup>
+
+  - 영구 저장 데이터 : 프로그램 종료와 상관없이 영구적을 저장되는 데이터
+
+
+    - 로컬 저장 데이터 : 프로그램과 같은 컴퓨터에 있는 데이터
+
+      <sup> ex) 파일 </sup>
+
+        <small>!! 파일의 종류
+        - 일반 파일 : text(.txt) 
+
+        - 바이너리 파일 : .hwp, .docx, .xlsx, .pptx, image, sound </small>
+    - 원격 저장 데이터 : 네트워크 상의 컴퓨터에 있는 데이터
+
+      <sup> ex) 데이터베이스</sup>
+
+- java.io 패키지를 이용해 영구 저장 데이터(일반 파일)를 다룬다
+
+### 스트림(Stream)
+- 방향이 정해져 있는 데이터 통로이다
+
+- 스트림은 사용하고 반드시 닫아줘야 된다
+
+- 구분
+  - 입력스트림(InputStream) / Reader
+
+    <small> 프로그램 &nbsp;&nbsp;&larr; &larr; &larr;&nbsp;&nbsp; 파일</small>
+  - 출력스트림(OutputStream) / Writer
+
+    <small> 프로그램 &nbsp;&nbsp;&rarr; &rarr; &rarr;&nbsp;&nbsp; 파일</small> 
+- 데이터를 한번에 이동하는게 아니라 일정량씩 이동한다
+- 입출력 단위
+  - 1byte : 영문자, 특수문자, 숫자, byte 자료형, ...
+
+  - 2byte : 다국어, char 자료형, ...
+- 연결 방식
+  - 1차 스트림(직접) : 파일(데이터)에 연결
+
+  - 2차 스트림(간접) : 1차 스트림에 연결
+
+#### 노드 스트림
+- 1차 스트림으로 파일과 직접 연결해서 데이터의 입출력이 일어난다
+
+- 노드 스트림의 대표적인 클래스로는 FileInputStream, FileOutputStream, FileReader, FileWriter가 있다
+
+##### FileInputStream
+- byte 단위의 데이터를 입력받는다
+
+  <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+```java
+// test1.txt
+
+1234567890
+abcdefghijk
+가나다라마바사
+```
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class InputStreamEx01 {
+
+  public static void main(String[] args) {
+    FileInputStream fis = null;
+
+    try {
+      fis = new FileInputStream("./src/test1.txt");
+      int data = fis.read();
+      // int 자료형인 아스키 코드 값으로 하나의 문자를 반환한다
+      System.out.println(data); // 49
+      // '1'의 아스키 코드값으로 반환된다
+      System.out.println((char)data); // 1
+      data = fis.read();
+      System.out.println((char)data); // 2 
+      // 다음 문자가 반환된다
+
+      byte[] datas = new byte[5];
+      fis.read(datas);
+      // 5개 문자 반환하기
+      System.out.println((char)datas[0]); // 3
+      System.out.println((char)datas[4]); // 7
+
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      // 예외가 발생 여부에 상관없이 스트림은 무조건 닫아줘야하기 때문에 finally 블록에 넣어줘야한다
+      try {fis.close();} catch (IOException e) {}
+      // close()는 예외가 발생하는 일이 거의 없기 때문에 보통 catch 블록을 비워둔다
+    }
+  }
+
+}
+```
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class InputStreamEx02 {
+
+  public static void main(String[] args) {
+    FileInputStream fis = null;
+
+    try {
+      fis = new FileInputStream("./src/test1.txt");
+      int data = 0;
+      while((data = fis.read()) != -1) {
+      	// read()는 더 이상 읽을 문자가 없을 시 -1을 반환한다
+      	System.out.println((char)data);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      try {fis.close();} catch(IOException e) {}
+    }
+    // 전체 파일 내용 읽기
+  }
+
+}
+```
+##### FileReader
+
+- FileInputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
+```java
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ReaderEx {
+
+	public static void main(String[] args) {
+		FileReader br = null;
+		try {
+			br = new FileReader("./test1.txt");
+			int data = 0;
+			while((data = br.read()) != -1) {
+				System.out.print((char)data);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		}finally {
+			if(br != null)try {br.close();}catch(IOException e) {}
+		}
+	}
+}
+```
+##### FileOutputStream
+- byte 단위의 데이터의 문자를 출력한다
+
+  <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+```java
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class OutputStreamEx01 {
+
+  public static void main(String[] args) {
+    FileOutputStream fos = null;
+
+    try {
+      fos = new FileOutputStream("./test2.txt", true);
+      // true 값을 주면 appending(덧붙이기)을 한다
+      // fos = new FileOutputStream("./test2.txt", false);
+      // false 값을 주면 overwriting(덮어쓰기)을 한다
+      // 두 가지 경우 확인해보기
+      fos.write('a');
+      fos.write('b');
+      fos.write('\n'); // 엔터키 출력
+      fos.write('c');
+      System.out.println("출력 완료");
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch(IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      try {fos.close();} catch(IOException e) {}
+    }
+    // test2.txt 파일이 없을 경우 파일을 만들고 그 파일 안에 내용을 출력한다
+  }
+
+}
+```
+##### FileWriter
+- FileOutputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 출력할 수 있다
+
+- FileOutputStream은 문자를 출력하지만, FileWriter는 문자열을 출력한다
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class WriterEx {
+
+	public static void main(String[] args) {
+		FileWriter bw = null;
+		
+		try {
+			bw = new FileWriter("./test1.txt");
+			bw.write("가나다");
+			bw.write("\n");
+			bw.write("cde");
+			// FileOutStream과 달리 문자열을 출력할 수 있다
+			System.out.println("출력 완료");
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(bw != null)try {bw.close();}catch(IOException e) {}
+		}
+	}	
+}
+```
+!! 텍스트 파일뿐만아니라 이미지, 음악 파일도 데이터를 입력받고 출력하는 것이 가능하다
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class CopyEx01 {
+
+	public static void main(String[] args) {
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		
+		try {
+			fis = new FileInputStream("./daum.png");
+			fos = new FileOutputStream("./daum2.png");
+			
+			int data = 0; 
+			while((data = fis.read()) != -1) {
+				fos.write(data);
+			} 
+      // daum.png를 입력받아서 daum2.png에 출력
+      // 복사하는 것과 같다
+			System.out.println("복사 성공");
+		} catch (FileNotFoundException e) {			
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(fos != null) try {fos.close();}catch(IOException e) {}
+			if(fis != null) try {fis.close();}catch(IOException e) {}
+		}
+		
+	}
+
+}
+```
+#### 보조 스트림
+
+- 파일을 통해 직접 데이터의 입출력이 발생하는 것이 아니라 1차 스트림을 통해 데이터의 입출력이 발생한다
+- 1차 스트림과 연결되어 사용하므로 2차 스트림이라 하기도 한다
+
+- 보조 스트림을 사용하는게 속도가 빠르다
+
+- 보조 스트림 클래스로는 BufferedInputStream, BufferedOutputStream, BufferedReader, BufferedWriter가 있다
+##### BufferedInputStream
+- byte 단위의 데이터를 입력받는다
+
+  <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class CopyEx01 {
+
+	public static void main(String[] args) {
+		// FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		
+		try {
+			// fis = new FileInputStream("./test2.txt");
+			// bis = new BufferedInputStream(fis);
+			bis = new BufferedInputStream(new FileInputStream("./test2.txt"));
+			// 버퍼를 이용해 데이터를 입력받는다
+      // 버퍼는 1차 스트림을 통해 데이터를 입력받는다
+			
+			int data = 0;
+			while((data = bis.read()) != -1) {
+				System.out.print((char)data);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(bis != null)try {bis.close();}catch(IOException e) {}
+			if(fis != null)try {fis.close();}catch(IOException e) {}
+		}
+	}
+}
+```
+##### BufferedReader
+- BufferedInputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ReaderEx {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		
+		try {
+			br = new BufferedReader(new FileReader("./test2.txt"));
+			
+			int data = 0;
+			while((data = br.read()) != -1) {
+				System.out.print((char)data);
+			}
+			// 한 문자씩 읽는 경우
+			
+			String str = "";
+			while((str = br.readLine()) != null) {
+				System.out.println(str);
+			}
+			// 한 줄씩 문자열로 읽을 수 있다
+			// 엔터키가 출력되지 않아서 한줄로 출력되기 때문에 System.out.println()을 사용해야 한다
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}	
+}
+```
+##### BufferedOutputStream
+- byte 단위의 데이터의 문자를 출력한다
+
+  <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+```java
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class CopyEx01 {
+
+	public static void main(String[] args) {
+		BufferedOutputStream bos = null;
+		
+		try {
+			bos = new BufferedOutputStream(new FileOutputStream("./test2.txt", true));
+			bos.write('a');
+			bos.write('b');
+			bos.write('c');
+			System.out.println("출력 완료");
+		} catch (FileNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bos != null)try {bos.close();}catch(IOException e) {}
+		}
+	
+	}
+}
+```
+
+##### BufferedWriter
+- BufferedOutputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
+
+```java
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class ReaderEx {
+
+	public static void main(String[] args) {
+		BufferedWriter bw = null;
+		
+		try {
+			bw = new BufferedWriter(new FileWriter("./test2.txt"));
+			
+			bw.write("abc");
+			bw.write("\n");
+			bw.write("가나다");
+			System.out.println("출력 완료");
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bw != null)try {bw.close();}catch(IOException e) {}
+		}
+	}
+}
+```
+보조 스트림을 이용해서 대용량의 파일 복사하기
+```java
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class CopyEx01 {
+
+	public static void main(String[] args) {
+		
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+
+			try {
+				bis = new BufferedInputStream(new FileInputStream("./Jellyfish.jpg"));
+				bos = new BufferedOutputStream(new FileOutputStream("./Jellyfish2.jpg"));
+				
+				int data = 0;
+				while((data = bis.read()) != -1) {
+					bos.write(data);
+				}
+				System.out.println("복사 성공");
+			} catch (FileNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(bis != null) try {bis.close();}catch(IOException e) {}
+				if(bos != null) try {bos.close();}catch(IOException e) {}
+			}
+
+	}
+	
+}
+```
+csv 파일에서 특정 데이터만 출력하기
+```java
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class IOTest {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+    
+		try {
+			br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
+			bw = new BufferedWriter(new FileWriter("./seocho"));
+			
+			String str = "";
+			while((str = br.readLine()) != null) {
+				String[] check = str.split(",");
+				if(check[2].equals("서초구")) {
+					bw.write(str);
+					bw.write("\n");
+          // bw.write(str + System.lineSeparator());
+				}
+			}
+		} catch (FileNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();}catch(IOException e) {}
+			if(bw != null) try {bw.close();}catch(IOException e) {}
+		}
+		
+	}
+
+}
+```
+로또 당첨 번호 횟수 통계 내보기
+```java
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class LottoIOEx {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		
+		try {
+			br = new BufferedReader(new FileReader("./lotto(1~1059).csv"));
+			bw = new BufferedWriter(new FileWriter("./result.txt"));
+			int[] result = new int[46];
+			String str = "";
+			while((str = br.readLine()) != null) {
+				String[] strList = str.split(",");
+				int[] lottoNum = new int[7];
+				for(int i = 0; i < lottoNum.length; i++) {
+					lottoNum[i] = Integer.parseInt(strList[i + 2]);
+				}
+				for(int j = 0; j < lottoNum.length; j++) {
+					result[lottoNum[j]]++;
+				}
+			}
+			for(int k = 0; k < 45; k++) {
+				bw.write(k+1 + " : " + result[k+1] + System.lineSeparator());
+			}
+			System.out.println("완료");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(br != null) try {br.close();}catch(IOException e) {}
+			if(bw != null) try {bw.close();}catch(IOException e) {}
+		}
+	}
+
+}
+```
+
+
+### File
+- 파일과 디렉터리를 다루는 클래스
+
+  <small>!! 디렉터리는 파일의 특수한 형태이다</small>
+
+- 파일의 상황(크기, 속성, 이름, 경로)을 다룬다
+
+  <small>!! 운영체제 파일의 경로 구분자
+    - windows : ' / ', ' \\ '
+
+    - UNIX : ' / '</small>
+
+#### File 클래스의 생성자
+- File 생성자를 통해 객체를 만들었다고 실제 파일이 생성되지는 않는다
+
+
+- 생성자를 사용하기 위해서는 경로가 필요하다
+
+```java
+import java.io.File;
+
+public class FileEx {
+
+	public static void main(String[] args) {
+		File dir1 = new File("c:\\java");
+		// File dir1 = new File("c:/java");
+		// 절대경로를 이용한 디렉터리 객체 생성
+		File dir2 = new File("./java");
+		// 상대경로를 이용한 디렉터리 객체 생성
+		
+		File file1 = new File("c:\\java\\test1.txt");
+		// 절대경로를 이용한 test.txt 파일 객체 생성
+		File file2 = new File("./java/test2.txt");
+		// 상대경로를 이용한 test.txt 파일 객체 생성
+		File file3 = new File("c:/java/", "test3.txt");
+		// 경로와 파일 이름을 따로 줄 수도 있다
+    
+    // 객체가 생성됐다고 실제 물리적인 파일, 디렉터리가 생성된 것은 아니다
+	}
+
+}
+```
+#### File 클래스의 메서드
+```java
+import java.io.File;
+
+public class FileEx02 {
+
+	public static void main(String[] args) {
+		File file1 = new File("c:/java");
+		System.out.println(file1.exists()); // true
+		// 현재 파일이 존재하는지 확인해서 진리값을 반환한다
+		File file2 = new File("c:/java/test1.txt");
+		System.out.println(file2.exists()); // true
+		// 직접 test1.txt 파일을 만들고 난 후 확인한 결과
+		
+		System.out.println(file2.isDirectory()); // false
+		// 디렉터리인지 확인해서 진리값을 반환한다
+		System.out.println(file2.isFile()); // true
+		// 파일인지 확인해서 진리값을 반환한다
+		
+		System.out.println(file2.isHidden()); // true
+		// text1.txt 파일 속성에서 숨김으로 설정한 후 확인
+	}
+
+}
+```
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class FileEx03 {
+
+	public static void main(String[] args) {
+		File file = new File("c:/java/test1.txt");
+		
+		System.out.println(file.getName()); // test1.txt
+		System.out.println(file.getParent()); // c:\java
+		// 파일이 현재 위치하고 있는 디렉터리의 경로를 반환한다
+		System.out.println(file.getPath()); // c:\java\test1.txt
+		// 파일의 현재 경로를 반환한다
+		
+		File file2 = new File("./");
+		System.out.println(file2.getPath()); // .
+		// 현재 위치의 경로를 반환하지 않고 "."이 출력된다
+		try {
+			System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx
+			// 상대 경로로 만든 파일 객체의 경로를 확인하기 위해서는 getCanonicalPath() 메서드를 사용한다
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+```java
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
+public class FileEx04 {
+
+	public static void main(String[] args) {
+		File file1 = new File("C:\\java\\java-workspace\\JavaAPIEx\\src\\mariadb-10.11.2-winx64.msi");
+		File file2 = new File("./src/mariadb-10.11.2-winx64.msi");
+		
+		System.out.println(file1.exists()); // true
+		System.out.println(file2.exists()); // true
+		try {
+			System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx\src\mariadb-10.11.2-winx64.msi
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(file1.length()); // 71266304
+		// 파일의 크기를 byte 단위로 반환한다
+		System.out.println(file1.length()/1024); // 69596
+		// 파일의 크기를 Kbyte 단위로 반환한다
+		System.out.println(file1.lastModified()); // 1679620871264
+		// 파일의 최종 수정일을 밀리초로 반환한다
+		// 타임스탬프
+		System.out.println(new Date(file1.lastModified())); // Fri Mar 24 10:21:11 KST 2023
+		// 파일의 최종 수정일을 날짜로 반환한다
+	}
+
+}
+```
+```java
+import java.io.File;
+import java.util.Arrays;
+
+public class FileEx05 {
+
+	public static void main(String[] args) {
+		File dir = new File("c:/java");
+		
+		String[] lists = dir.list();
+		System.out.println(Arrays.toString(lists)); // [DefaultMethodInterface.class, DieselSUV.class, eclipse, ElectricCar.class, ... ]
+		// java 디렉터리 안의 파일 이름의 목록이 출력된다
+		for(String list : lists) {
+			System.out.println(list);
+		} // java 디렉터리 안의 파일 이름의 목록이 출력된다
+		
+		File[] fileLists = dir.listFiles();
+		for(File f : fileLists) {
+			System.out.println(f.getName());
+		} // java 디렉터리 안의 파일 이름의 목록이 출력된다
+	}
+
+}
+```
+파일리스트를 출력할 때 디렉터리이름은 대괄호("[ ]")로 묶여서 나오게 하기
+```java
+import java.io.File;
+
+public class FileTest {
+
+	public static void main(String[] args) {
+		File dir = new File("c:/java");
+		
+		File[] fileLists = dir.listFiles();
+		
+		for (File f : fileLists) {
+			if(f.isDirectory()) {
+				System.out.println("[" + f.getName() + "]");
+			}else {
+				System.out.println(f.getName());
+			}
+		}
+	}
+
+}
+```
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class FileEx07 {
+
+	public static void main(String[] args) {
+		File dir = new File("c:/java/dir1");
+		if(dir.mkdir()) { // mkdir()을 이용해 파일 객체의 디렉터리를 물리적인 실제 디렉터리로 생성할 수 있다
+			// !! 파일 객체에 파일을 만들었다고 물리적인 실제 파일이 생기는 것은 아니다
+			System.out.println("dir1 생성 성공");
+		}else {
+			System.out.println("dir1 생성 실패");
+		}
+		
+		File dir2 = new File("c:/java/dir2");
+		dir.renameTo(dir2); // dir 객체에 해당하는 파일의 이름을 dir2 객체에 해당하는 파일이름으로 변경한다
+		
+		dir.delete(); // dir 객체에 해당하는 디렉터리을 삭제한다
+		
+		try {
+			File file = new File("c:/java/test2.txt");
+			file.createNewFile(); // file 객체에 해당하는 파일을 생성한다
+			System.out.println("test2.txt 생성 성공");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    file.delete() // file 객체에 해당하는 파일을 삭제한다
+	}
 }
 ```
