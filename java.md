@@ -50,7 +50,7 @@
 
 - 자바 소스 코드 작성 시 주의사항
 
-  - public이 붙은 class 는 하나만 존재해야 한다
+  - public이 붙은 class는 하나만 존재해야 한다
 
   - public class가 있으면 소스파일 이름은 class 이름과 같아야 한다
   - 대/소문자 구분한다
@@ -73,7 +73,7 @@
 
   4<sub >th</sub> . 소스 파일 실행
 
-  <small> !! 이때, 소스파일을 실행시키면 바로 실행이 되는데, 소스파일로 실행되는 것이 아니라 <br>소스 파일이 컴파일된 클래스 파일이 bin 디렉터리에 만들어지고, 그 클래스 파일이 실행되는 것이다</small>
+  <small> !! 이때, 소스파일을 실행시키면 바로 실행이 되는데, 소스파일로 실행되는 것이 아니라 <br>소스 파일이 컴파일된 클래스 파일이 bin(binary) 디렉터리에 만들어지고, 그 클래스 파일이 실행되는 것이다</small>
 
   <small>!! Java는 소스파일이 실행되는 것이 아니라 소스파일이 컴파일된 class 파일을 실행시킨다</small>
 
@@ -99,15 +99,18 @@ public class HelloWorld {
 }
 ```
 
-위의 자바 파일을 작성하고 CMD에서 실행
+위의 자바 파일을 작성하고 명령프롬프트에서 실행
 
 ```java
+// 명령프롬프트
+
 > javac HelloWorld.java
 // 에러가 나오지 않으면 현재 디렉터리에 HelloWorld.class 파일이 생성된다
 // Java 파일에 주석이라도 한글이 들어가 있는 경우에는 아래와 같이 -encoding utf-8 을 이용한다
 // > javac -encoding utf-8 HellowWorld.java
-> java HelloWorld // 실행 시킬 때, 파일명에 확장자 쓰지 않는 것에 주의하자
-// Hello world!
+> java HelloWorld 
+// 실행 시킬 때, 파일명에 확장자 쓰지 않는 것에 주의하자
+> Hello world!
 ```
 
 - Java 출력 기본
@@ -160,12 +163,11 @@ public class VariableEx01 {
 
     int num3, num4 = 50; // num3, num4를 선언하고 num4에 값 할당
     num3 = 40; // num3 에 값 할당
+    // int num4 = 20;
+    // 에러!! 같은 이름의 변수 재선언 불가능하다
     System.out.println(num3);
     System.out.println(num4);
 
-    // int num1 = 20;
-    // System.out.println(num4);
-    // 에러!! 같은 이름의 변수 재선언 불가능하다
   }
 }
 ```
@@ -183,7 +185,7 @@ public class VariableEx02 {
     final int C_NUM = 10; // 상수 선언 및 초기화
     System.out.println(C_NUM);
     // C_NUM = 20;  에러!! 상수는 재할당 불가능하다
-    // System.out.println(C_NUM);
+
     final int C_NUM1;
     C_NUM1 = 20; // 상수도 선언 먼저하고 초기화를 나중에 할 수 있다
     System.out.println(C_NUM1);
@@ -210,9 +212,9 @@ public class VariableEx04 {
     char c3 = 'b';
     // char c3 = 97 + 1;
     System.out.println(c3); // b
-    // 유니코드 - 다국어
+    // 유니코드 - ASKII 코드를 확장시켜 만든 것으로 다국어 표현이 가능하다
     char c4 = '\uc790';
-    System.out.println(c4);
+    System.out.println(c4); // 자
     // \n - 엔터키
     // \t - 탭키
     char e1 = 'a';
@@ -224,7 +226,6 @@ public class VariableEx04 {
   }
 }
 ```
-
 ```java
 public class VariableEx05 {
   public static void main(String[] args) {
@@ -232,10 +233,10 @@ public class VariableEx05 {
     // String은 기본자료형이 아닌 객체자료형이다
     char c1 = 'a';
     // char c1 = "a";
-    // 에러!! char 형은 작은 따옴표를 사용한다
+    // 에러!! char 자료형은 작은 따옴표를 사용한다
     String str1 = "Hello";
     // String str1 = 'Hello';
-    //  에러!! String 은 큰 따옴표를 사용한다
+    //  에러!! String은 큰 따옴표를 사용한다
     System.out.println(c1); // a
     System.out.println(str1); // Hello
   }
@@ -252,7 +253,7 @@ public class VariableEx06 {
     short s = 2;
     int i = 4;
     long l = 8;
-    // long l = 8L;  이렇게 할당할 값뒤에 L을 붙히기도 한다
+    // long l = 8L;  이렇게 할당할 값뒤에 L을 붙혀서 값이 long 자료형임을 나타낸다
     System.out.println(b);
     System.out.println(s);
     System.out.println(i);
@@ -277,8 +278,8 @@ public class VariableEx06 {
   public static void main(String[] args) {
     // 실수형 - float < double (할당할 수 있는 값의 범위 차이가 있다)
 
-    /* int i = 2.5;  에러!!
-    System.out.println(i); */
+    // int i = 2.5;  에러!!
+    
 
     // float f = 2.5;
     // 에러!! f를 붙이지 않은 실수는 double 자료형으로 float 자료형에 할당시킬 수 없다
@@ -289,11 +290,13 @@ public class VariableEx06 {
     double weight = 60.4;
     System.out.println(height);
     System.out.println(weight);
-    // 지수(e) - e 뒤에 붙어있는 수 만큼 지수승 한다
+
+    // 지수(e) - e 뒤에 붙어있는 값 만큼 지수승 한다
     double d2 = 3.14e2;
-    System.out.println(d2); // 3.14 * 100
+    System.out.println(d2); // 314 (3.14 * 100)
     double d3 = 3.14e-2;
-    System.out.println(d3); // 3.14 * 0.01
+    System.out.println(d3); // 0.0314 (3.14 * 0.01)
+
     float f3 = 0.1234567890123456789f;
     double d4 = 0.1234567890123456789;
     System.out.println(f3); // 0.12345679
@@ -310,7 +313,7 @@ public class VariableEx06 {
 public class VariableEx03 {
   public static void main(String[] args) {
     boolean bool1 = true;
-    // boolean 형은 true, false 값만 갖는다
+    // boolean 자료형은 true, false 값만 갖는다
     // boolean bool1 = True;
     // 에러!! 대소문자 구분 잘해야된다
     System.out.println(bool1); // true
@@ -322,13 +325,13 @@ public class VariableEx03 {
 
 #### 참조형
 
-- 배열, 클래스
+- 배열, 클래스 (열거형, 사용자 정의 클래스 등 ...)
 
 ---
 
 #### 형변환
 
-- 형변환 연산자 : 소괄호를 이용한다
+- 형변환 연산자 : 소괄호
 
 - 구분
 
@@ -338,20 +341,20 @@ public class VariableEx03 {
   public class TypeCastingEx01 {
     public static void main(String[] args) {
       short s1 = 10;
-      int i1 = s1;
+      int i1 = s1; 
       System.out.println(i1); // 10
-      float f1 = 10.0f;
-      double d1 = f1;
-      System.out.println(d1); // 10.0
       char c1 = 'A';
       int i2 = c1; // char 자료형도 int 자료형으로 묵시적 형변환 가능하다
       System.out.println(i2); // 65
+      float f1 = 10.0f;
+      double d1 = f1;
+      System.out.println(d1); // 10.0
       // 묵시적 형변환
     }
   }
   ```
 
-  - 명시적 형변환
+  - 명시적 형변환 : 형변환 연산자를 이용해 강제로 형변환 시킨다
 
   ```java
   public class TypeCastingEx02 {
@@ -377,7 +380,7 @@ public class VariableEx03 {
 
   ### 연산자
 
-  #### 산술연산자
+  #### 산술 연산자
 
   - <b>+ , - , \* , / , %</b> <br><br>
 
@@ -387,26 +390,31 @@ public class VariableEx03 {
       int i1 = 10;
       int i2 = 20;
       int sum1 = i1 + i2;
-      System.out.println(sum1);
+      System.out.println(sum1); 
       // short s1 = 10;
       // short s2 = 20;
       // short sum2 = s1 + s2;
-      // 에러!! byte, short 자료형은 산술 연산 시  int 자료형으로 형변환 된 후 연산된다
+      // 에러!! byte, short 자료형은 산술 연산시  int 자료형으로 형변환 된 후 연산된다
       short s1 = 10;
       short s2 = 20;
-      int sum2 = s1 + s2; // int 자료형으로 결과를 받으면 에러가 생기지 않는다
+      int sum2 = s1 + s2; 
+      // int 자료형으로 결과를 받으면 에러가 생기지 않는다
       // short sum2 = (short)(s1 + s2);
       // 명시적 형변환을 이용할 수도 있다
       System.out.println(sum2);
-      // int i3 = 100;
-      // long l1 = 200;
-      // int sum3 = i1 + l1;
+
+      int i3 = 100;
+      long l1 = 200;
+      // int sum3 = i3 + l1;
       // 에러!! int 자료형보다 큰 자료형과 산술 연산 시 큰 자료형으로 형변환된 후 연산된다
+      long sum3 = i3 + l1;
+      System.out.println(sum3);
+      // int sum3 = i3  + (int)l1;
     }
   }
   ```
 
-  !! 오버플로우
+  ##### 오버플로우
 
   - 할당되는 값이 자료형의 수용 범위를 벗어날 때 발생한다
 
@@ -419,25 +427,25 @@ public class VariableEx03 {
       System.out.println(product1); // -1454759936
       // 변수 product1에 오버플로우된 값이 할당되어 있다
       long product2 = (long)i1 * i2;
-      // 피연산자 중 하나를 long 자료형으로 바꿔주면 형변환이 일어나 오버플로우가 일어나지 않는다
+      // 피연산자 중 하나를 long 자료형으로 형변환 해주면 계산과정에서 나머지 하나도 long 자료형으로 형변환이 일어나 오버플로우가 일어나지 않는다
       System.out.println(product2); // 2000000000000
     }
   }
   ```
 
-  #### 대입연산자
+  #### 대입 연산자
 
   - <b>= , += , -= , \*= , /= , %= </b>
 
-  #### 비교연산자
+  #### 비교 연산자
 
   - <b>< , > , <= , >= , == , != </b>
 
-  #### 논리연산자
+  #### 논리 연산자
 
   - <b>& , | , ! , ^ </b>
 
-  - Short-Circuit 연산자 : <b> && , ||</b>
+  - Short-Circuit 논리 연산자 : <b> && , ||</b>
 
   ```java
   public class OperatorEx03 {
@@ -461,12 +469,12 @@ public class VariableEx03 {
       int b = 20;
       System.out.println((a += 10) > 15 | (b -= 10) > 15); // true
       System.out.println("a = " + a + " , b = " + b); // a = 20, b = 10
-      // a, b 모두 연산이 된다
+      // Short-Circuit 논리 연산자를 사용하지 않았기 때문에 a, b 모두 연산이 된다
       a = 10;
       b = 20;
-      System.out.println((a += 10) > 15 || (b -= 10) > 15); //true
+      System.out.println((a += 10) > 15 || (b -= 10) > 15); // true
       System.out.println("a = " + a + " , b =" + b); // a = 20 , b = 20
-      // b 는 연산되지 않는다
+      // b는 연산되지 않는다
       // 비교해보기
     }
   }
@@ -480,13 +488,13 @@ public class VariableEx03 {
 
   - 조건 파악이 중요하다
 
-  - 기본적으로 Javascript 와 동일하다
+  - 기본적으로 Javascript와 동일하다
 
   #### 조건에 의한 분기
 
   <small>!! flowchart 먼저 생각하기 </small>
 
-  - if
+  ##### if
 
   ```java
   if(조건식){
@@ -527,7 +535,8 @@ public class VariableEx03 {
   }
   ```
 
-  - switch : 소괄호 안 조건식의 값은 정수, 문자열, 상수 값을 가진다
+  ##### switch 
+  - 소괄호 안 조건식의 값은 정수, 문자열, 상수 값을 가진다
 
   ```java
   public class Switch {
@@ -574,7 +583,7 @@ public class VariableEx03 {
   }
   ```
 
-  - 삼항연산자
+  ##### 삼항연산자
 
   ```java
   public class ConditionEx04 {
@@ -596,9 +605,10 @@ public class VariableEx03 {
 
     <small> !! 특히 증감식 설정을 잘못할 경우 무한루프가 생긴다</small>
 
-    <small>!! 의도적으로 무한루프를 만들고 특정 경우에만 break 로 빠져나오게 하는 경우도 있다</small>
+    <small>!! 의도적으로 무한루프를 만들고 특정 경우에만 break로 빠져나오게 하는 경우도 있다</small>
 
-  - for : 반복횟수가 정해져 있을 때 사용한다
+  ##### for 
+  - 반복횟수가 정해져 있을 때 사용한다
 
   ```java
   public class LoopEx01 {
@@ -607,16 +617,14 @@ public class VariableEx03 {
         System.out.print(i + j);
         System.out.println();
       }
-      /*
-      초기화 식을 밖으로 뺄 수 있다
+      /* 초기화 식을 밖으로 뺄 수 있다
       int i = 0, j = 0;
       for(; i < 10; i++, j += 2){
         System.out.print(i + j);
         System.out.println();
       }
       */
-      /*
-      조건식도 밖으로 뺄 수 있다
+      /* 조건식도 밖으로 뺄 수 있다
       int i = 0, j = 0;
       for(; i < 10;){
         System.out.print(i + j);
@@ -676,7 +684,8 @@ public class VariableEx03 {
   }
   ```
 
-  - while : 상황에 의해서 반복이 진행될 때 사용한다
+  ##### while 
+  - 상황에 의해서 반복이 진행될 때 사용한다
 
   ```java
   public class LoopEx05 {
@@ -710,7 +719,8 @@ public class VariableEx03 {
   }
   ```
 
-  - do ~ while : while 작업 중 최소 한번은 실행되어야 하는 곳에 사용한다
+  ##### do ~ while 
+  - while 작업 중 최소 한번은 실행되어야 하는 곳에 사용한다
 
   ```java
   public class LoopEx06 {
@@ -730,7 +740,7 @@ public class VariableEx03 {
   }
   ```
 
-  - break / continue / label
+  ##### break / continue / label
 
   ```java
   public class LoopEx07 {
@@ -747,11 +757,12 @@ public class VariableEx03 {
       }
     }
   }
-  // outer 는 밖의 for 문을 가리키는 label, inner 는 안의 for 문을 가리키는 label 이다
+  // outer는 밖의 for문을 가리키는 label, inner는 안의 for문을 가리키는 label이다
   ```
 
 ### 배열
 
+  <small>!! 배열의 메모리 구조를 잘 이해하자 </small>
 - 같은 타입의 데이터 여러 개를 연속된 데이터 공간에 할당시켜 하나의 변수로 다루는 것을 배열이라고 한다
 
 - 같은 타입의 데이터를 넣어야 하지만, 묵시적 형변환이 되는 값이라면 할당시킬 수 있다
@@ -759,7 +770,7 @@ public class VariableEx03 {
   <sup>ex) int[] 자료형에 byte, short, char 자료형 값을 할당시킬 수 있다</sup>
 
 - 배열의 크기는 변경시킬 수 없다
-- 배열의 메모리 구조를 잘 이해하자 !!
+
 
 #### 배열의 기본
 
@@ -779,11 +790,12 @@ public class ArrayEx01 {
     arr[1] = 20;
     arr[2] = 30;
     arr[3] = 40;
-    arr[4] = 50; // 배열의 초기화
+    arr[4] = 50; 
+    // 배열의 초기화
 
     System.out.println(arr[4]); // 50
     System.out.println(arr); // [I@71dac704
-    // arr 을 출력하면 참조값을 출력한다
+    // arr을 출력하면 참조값을 출력한다
   }
 }
 ```
@@ -794,6 +806,7 @@ public class ArrayEx05 {
     int[] intArr1 = new int[]{10, 20, 30};
     int[] intArr2 = {10, 20, 30};
     // 배열의 초기화 방법
+
     for(int i = 0; i < intArr1.length; i++){
       System.out.println(intArr1[i]);
     }
@@ -806,7 +819,7 @@ public class ArrayEx05 {
 }
 ```
 
-- 배열은 초기화 생성될 때 자료형에 맞는 기본값을 가지고 있다
+- 배열은 생성될 때 초기화 되지 않더라도 자료형에 맞는 기본값을 가지고 있다
 
   !! 자료형별 기본값
 
@@ -825,6 +838,7 @@ public class ArrayEx02 {
   public static void main(String[] args) {
     int[] intArr = new int[5];
     double[] doubleArr = new double[5];
+
     System.out.println(intArr[0]); // 0
     System.out.println(doubleArr[0]); // 0.0
     // 기본값을 출력한다
@@ -839,6 +853,7 @@ public class ArrayEx03 {
   public static void main(String[] args) {
     int[] points = new int[3];
     System.out.printf("배열의 크기 : %d\n", points.length);
+
     points[0] = 1;
     points[1] = 'A'; // char 자료형 값이 int 자료형으로 저장되면 아스키 코드값으로 저장된다
     // !! 같은 자료형이 아니더라도 묵시적 형변환이 가능하다면 배열에 저장이 가능하다
@@ -849,7 +864,7 @@ public class ArrayEx03 {
 }
 ```
 
-- 배열의 인덱스 범위를 벗어나면 Runtime Exception 이 발생하고 프로그램이 비정상으로 종료된다
+- 배열의 인덱스 범위를 벗어나면 Runtime Exception이 발생하고 프로그램이 비정상으로 종료된다
 
 ```java
 public class ArrayEx04 {
@@ -869,18 +884,19 @@ public class ArrayEx04 {
 public class Arrayex06 {
   public static void main(String[] args) {
     int[][] arr1; // 2차원 배열의 선언
-
-    arr1 = new int[3][2]; // 3행 2열의 배열을 생성하고, 참조값을 arr1 에 할당
+    arr1 = new int[3][2]; // 3행 2열의 배열을 생성하고, 참조값을 arr1에 할당
     // new int[3][2]에서 2는 생략이 가능하지만, 3은 생략이 불가능하다 (!! 가변배열 참조)
     arr1[0][0] = 10;
     arr1[0][1] = 20;
     arr1[1][0] = 30;
     arr1[1][1] = 40;
     arr1[2][0] = 50;
-    arr1[2][1] = 60; // 배열의 초기화
+    arr1[2][1] = 60; 
+    // 배열의 초기화
     // 중괄호 중첩을 이용할 수도 있다
     // int[][] arr1 = new int[][]{{10, 20}, {30, 40}, {50, 60}};
     // int[][] arr1 = {{10, 20}, {30, 40}, {50, 60}};
+
     System.out.println(arr1[0][0]); // 10
     System.out.println(arr1[2][1]); // 60
     System.out.println(arr1); // [[I@123772c4
@@ -891,13 +907,13 @@ public class Arrayex06 {
         System.out.printf("arr1[%d][%d] : %d\n", row, col, arr1[row][col]);
       }
     }
-    // for 문을 이용한 2차원 배열 출력
+    // for문을 이용한 2차원 배열 출력
     for(int[] rows : arr1){
       for(int data : rows){
         System.out.println(data);
       }
     }
-    // 향상된 for 문을 이용한 2차원 배열 출력
+    // 향상된 for문을 이용한 2차원 배열 출력
   }
 }
 ```
@@ -914,18 +930,19 @@ public class ArrayEx08 {
           System.out.println(data);
         }
       }
-    } // 3차원 배열의 출력
+    } 
+    // 3차원 배열의 출력
   }
 }
 ```
 
-- 가변배열
+###### 가변 배열
 
 ```java
 public class ArrayEx07 {
   public static void main(String[] args) {
     int[][] arr1 = new int[4][]; // 가변 배열
-    // new int[4][] 에서 4는 생략이 불가하고, 뒤의 괄호는 배열의 길이가 각각 다르기 때문에 비워둔다
+    // new int[4][]에서 4는 생략이 불가하고, 뒤의 괄호는 배열의 길이가 각각 다르기 때문에 비워둔다
     arr1[0] = new int[]{1, 2, 3, 4};
     arr1[1] = new int[]{10, 20, 30, 40};
     arr1[2] = new int[]{100, 200, 300};
@@ -961,7 +978,6 @@ public class ArrayEx07 {
 
       - 다형(Polymorphism)
 
-  <small> !! 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다</small>
 
 - 클래스 : 참조형 자료이고 객체를 생성할 수 있다
 
@@ -972,8 +988,10 @@ public class ArrayEx07 {
 
   - 내장 클래스
   - 외부 클래스
+  
+    <small> !! 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다</small>
 
-- 객체(인스턴스) : 각각의 상태(멤버변수)와 기능(메서드)를 갖는다
+- 객체(인스턴스) : 각각의 상태(멤버변수)와 기능(메서드)을 갖는다
 - 추상화와 구체화
 
   - 객체 &rarr; 추상화(공통점 추출) &rarr; 클래스
@@ -995,7 +1013,7 @@ public class ArrayEx07 {
 
 ```java
 public class ClassName {
-// public 은 접근 제어자로 아무 것도 쓰여 있지 않을 경우 default 가 생략되어 있는 것이다
+// public 은 접근 제어자로 아무 것도 쓰여 있지 않을 경우 default가 생략되어 있는 것이다
   int mem1;
   char mem2;
   ... // 멤버변수
@@ -1017,9 +1035,10 @@ public class ClassName {
 
   - 클래스 영역 : 클래스의 원형에 대한 정보가 저장되는 영역
 
-    - Field 정보 : 멤버변수, 변수 접근 제어자 정보
-    - Method 정보 : 메서드, 리턴타입, 파라미터, 메서드 접근 제어자 정보
-    - Type 정보 : 타입의 이름, 상위 클래스 이름, 클래스 접근 제어자, 타입의 속성이 클래스인지 인터페이스인지에 대한 정보
+    - Field 정보 : 멤버변수, 변수의 접근 제어자 정보
+    - Method 정보 : 메서드, 리턴타입, 파라미터, 메서드의 접근 제어자 정보
+    - Type 정보 : 타입의 이름, 상위 클래스
+     이름, 클래스의 접근 제어자, 타입의 속성이 클래스인지 인터페이스인지에 대한 정보
 
     - 상수 풀 : 상수에 대한 정보
 
@@ -1089,8 +1108,8 @@ public class ObjectEx01 {
 
 - 구분
 
-  - 클래스 멤버변수 : 같은 클래스로 만들어진 객체가 공유하는 데이터로 클래스가 클래스 영역에 저장될 때 생기기 때문에 객체가 만들어지지 않아도 사용할 수 있다 (선언할 때, static을 붙인다)
-  - 인스턴스 멤버변수 : 힙 영역에 저장된 객체마다 따로 갖는 변수이기 때문에, 객체를 만들어야 사용할 수 있다
+  - 클래스 멤버변수 : 같은 클래스로 만들어진 객체끼리 공유하는 데이터로 클래스가 클래스 영역에 저장될 때 생기기 때문에 객체가 만들어지지 않아도 사용할 수 있다 (선언할 때, static을 붙인다)
+  - 인스턴스 멤버변수 : 힙 영역에 저장된 객체마다 따로 갖는 변수이기 때문에, 객체를 만들어야 사용할 수 있다 (선언할 때, static이 붙지 않는다)
 
   - 로컬 변수
 
@@ -1168,10 +1187,14 @@ class MethodEx {
 public class ObjectEx02 {
   public static void main(String[] args) {
     MethodEx ex = new MethodEx();
-    ex.doFunc1(); // doFunc1 메서드 호출
-    ex.doFunc2(10); // doFunc2 메서드 호출
-    ex.doFunc3(10, "abc"); // doFunc3 메서드 호출
-    int result = ex.doFunc4(20, 30); // doFunc4 메서드 호출하고 반환값을 변수에 할당
+    ex.doFunc1();
+    // doFunc1 메서드 호출
+    ex.doFunc2(10); 
+    // doFunc2 메서드 호출 
+    ex.doFunc3(10, "abc"); 
+    // doFunc3 메서드 호출 
+    int result = ex.doFunc4(20, 30); 
+    // doFunc4 메서드 호출하고 반환값을 변수에 할당
     System.out.println("result : " + result);
   }
 }
@@ -1248,9 +1271,9 @@ public class VariableEx11 {
 }
 ```
 
-- 클래스 메서드는 인스턴스 멤버변수, 메서드를 사용할 수 없다
+- 클래스 메서드는 직접 인스턴스 멤버변수, 메서드를 사용할 수 없다
 
-  &rarr; &nbsp;static 메서드는 static 붙은 변수만 사용 가능하다
+  &rarr; &nbsp;static 메서드는 static이 붙은 것만 직접 사용 가능하다
 
 ```java
 class Variable {
@@ -1305,12 +1328,12 @@ public class VariableEx13 {
     System.out.println(classVar);
     VariableEx13.doFunc2();
     // System.out.println(instanceVar);
-    // 에러!! 메인 메서드도 static 메서드이기 때문에 인스턴스 멤버변수를 사용하지 못한다
+    // 에러!! 메인 메서드도 static 메서드이기 때문에 같은 클래스의 인스턴스 멤버변수를 직접 사용하지 못한다
     VariableEx13 v13 = new VariableEx13();
     v13.instanceVar = "20";
     System.out.println(v13.instanceVar);
     v13.doFunc1();
-    // 이렇게 객체를 먼저 만들고, 그 객체를 이용해 인스턴스 변수, 메서드를 사용할 수는 있다
+    // 간접적으로 객체를 먼저 만들고, 그 객체를 통해서 인스턴스 변수, 메서드를 사용할 수는 있다
   }
 ```
 
@@ -1321,6 +1344,8 @@ public class VariableEx13 {
   <small>!! 기본적으로 같은 이름의 메서드는 선언할 수 없지만, 파라미터의 개수, 타입이 달라지면 선언가능하다</small>
 
   <small>!! 오버라이딩(Overriding)과 비교</small>
+
+- 특히 클래스를 생성하는 생성자에서 많이 쓰인다
 
 ```java
 class MethodEx {
@@ -1347,7 +1372,7 @@ public class MainEx03 {
     ex.doFunc("hi");
     ex.doFunc("hi", 10); // doFunc 호출 : hi10
     // doFunc(String s, inta) 호출
-    ex.doFunc(10, "hi"); // doFunc 호출 : hi10
+    ex.doFunc(10, "hi"); // doFunc 호출 : 10hi
     // doFunc(int a, String s) 호출
   }
 }
@@ -1357,7 +1382,7 @@ public class MainEx03 {
 class Overloading{
   String val;
   void doFunc(){
-    doFunc("value1"); // 중복 코드를 제거하기 위하여 오버로딩된 함수를 이용해 작성할 수 있다
+    doFunc("value"); // 중복 코드를 제거하기 위하여 오버로딩된 함수를 이용해 작성할 수 있다
   }
   void doFunc(String val){
     this.val = val; // this는 자기 참조값으로 자신을 가리키는 참조값을 가진다
@@ -1373,8 +1398,10 @@ public class MainEx04 {
 }
 ```
 
-<sup> ex) !! https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)<br>
-String 클래스의 indexof 메서드 오버로딩 확인</sup>
+<sup> ex) !! String 클래스의 indexof 메서드 오버로딩 확인<br>https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)</sup>
+
+
+<sup>!! Deprecated : 미래에 사라질 지 모르니 사용을 지양하라는 뜻을 가지고 있다</sup>
 
 ##### 가변인자
 
@@ -1436,7 +1463,7 @@ public class javaMainParam {
 
   &rarr; 객체에 대한 참조
 
-- 객체의 참조주소를 값으로 가지기 때문에 this를 자기참조라고 한다
+- 객체 자신의 참조주소를 값으로 가지기 때문에 this를 자기참조라고 한다
 - 객체가 생성되어야 사용할 수 있기 때문에, static 메서드는 this를 사용할 수 없다
 
   &rarr; &nbsp;메인메서드에서 this 는 사용할 수 없다
@@ -1458,7 +1485,7 @@ public class MethodEx01 {
     Method m1 = new Method();
     m1.doFunc("10");
     System.out.println("m1 : " + m1);
-    // 객체의 참조값이 출력되는데, 이 값은 m1 객체에서 사용되는 this의 값과 같다
+    // 객체 변수를 출력하면 객체의 참조값이 출력되는데, 이 값은 m1 객체에서 사용되는 this의 값과 같다
 
     Method m2 = new Method();
     m2.doFunc("10");
@@ -1471,6 +1498,9 @@ public class MethodEx01 {
 #### 생성자
 
 - 객체를 생성할 때 new 와 함께 사용한다
+
+- 클래스의 이름과 같은 이름을 가지며 반환타입은 적지 않는다
+
 
 - 구성
 
@@ -1494,7 +1524,8 @@ class Constructor {
 }
 public class ConstructorEx01 {
   public static void main(String[] args) {
-    Constructor c1 = new Constructor(); // Constructor()가 기본생성자
+    Constructor c1 = new Constructor(); 
+    // 따로 생성자를 만들지 않았기 때문에 기본생성자인 Constructor()를 컴파일러가 만들어준다
     c1.doFunc();
   }
 }
@@ -1529,14 +1560,13 @@ public class ConstructorEx02 {
 }
 ```
 
-!! Deprecated : 미래에 사라질 지 모르니 사용을 지양하라는 뜻을 가지고 있다
+
 
 ##### this()
 
 - this()로 같은 클래스 내의 다른 생성자를 호출해서 생성자를 만들 수 있다
 
 - this()를 사용할 경우에는 this()가 반드시 첫 행에 있어야 한다 (주석 제외)
-- 다른 생성자를 이용할 때는 this()를 이용한다
 
 ```java
 class Constructor {
@@ -1820,7 +1850,7 @@ class BelievableUserInfo{
     } else{
       System.out.println("부적절한 name 할당 시도 무시 : " + name);
     }
-  } // name 의 값이 null 이면 값을 설정하지 않고 메세지를 출력하게 한다
+  } // name의 값이 null이면 값을 설정하지 않고 메세지를 출력하게 한다
 
   public int getAccount(){
     return this.account;
@@ -1837,7 +1867,7 @@ class BelievableUserInfo{
 public class ModifierEx01 {
   public static void main(String[] args) {
     BelievableUserInfo info = new BelievableUserInfo();
-    System.out.printf("사용자 정보 : %s, %d%n",info.getName(),info.getAccount());
+    System.out.printf("사용자 정보 : %s, %d%n",info.getName(),info.getAccount()); // 사용자 정보 : 홍길동, 10000
     info.setName(null); // 부적절한 name 할당 시도 무시 : null
     // 메세지를 출력하고 값을 설정하지 않는다
     info.setAccout(-10000); // 부적절한 account 할당 시도 무시 : -10000
@@ -1987,7 +2017,7 @@ public class InheritancEx02 {
 
 - 모든 클래스의 조상 클래스
 
-  &rarr; "extends ParentClass"가 없으면 컴파일러가 "extends Object"를 추가해서 컴파일한다
+  &rarr; 상속이 없는 경우 컴파일러가 클래스 선언부에 "extends Object"를 추가해서 컴파일한다
 
 ```java
 class Parent /* extends Object */ {
@@ -2008,14 +2038,14 @@ public class Inheritance {
     Parent p = new Parent();
     p.viewParent(); // viewParent 호출
     System.out.println(p.toString());
-    // 상속받은 Object 의 메서드라서 사용이 가능하다
+    // 상속받은 Object의 메서드라서 사용이 가능하다
     System.out.println(c.toString());
     // Parent 클래스를 상속받아 그 조상 클래스인 Object 클래스의 메서드도 사용이 가능하다
   }
 }
 ```
 
-#### 상속에서의 접근제어자
+#### 상속에서의 접근 제어자
 
 ```java
 class Parent {
@@ -2064,7 +2094,7 @@ public class InheritanceEx03 {
 
 - 조상 클래스의 메서드를 자손 클래스에서 재정의한다
 
-  <small>!! 오버로딩(Overloading) 은 새로운 메서드를 정의하는 것이다</small>
+  <small>!! 오버로딩(Overloading)은 새로운 메서드를 정의하는 것이다</small>
 
 - 메서드 이름, 파라미터, 리턴 타입은 조상클래스와 같아야 한다
 - 접근 제어자는 조상 클래스의 메서드보다 범위가 넓거나 같아야 한다
@@ -2093,7 +2123,7 @@ class Child extends Parent {
   //   System.out.println("Child의 viewPanrent 호출 : " + a);
   //   return 10;
   // }
-  // 에러!! 리턴 타입이 달라졌으므로 같은 이름의 메서드를 선언하는 것과 같다
+  // 에러!! 리턴 타입이 달라졌으므로 같은 이름의 메서드를 재선언하는 것과 같다
 }
 public class OverridingEx02 {
   public static void main(String[] args) {
@@ -2112,9 +2142,8 @@ public class OverridingEx02 {
 
   &rarr; 객체에 대한 참조
 
-- 자식 클래스에서 조상 클래스의 참조값을 값으로 가진다
-
-  <small> !! 단, 부모 클래스에만 접근이 가능하다</small>
+- 자식 객체를 생성할 때 같이 생성된 부모 객체의 참조값을 값으로 가진다 
+  <small> !! 단, 부모 객체에만 접근이 가능하다</small>
 
   <small> !! this와 비교하기</small>
 
@@ -2131,7 +2160,7 @@ class Child extends Parent {
     System.out.println("viewChild 호출 : " + this);
   }
   void viewParent(){
-    System.out.println("Child의 viewParent 호출 ");
+    System.out.println("Child의 viewParent 호출");
   }
   void viewSuperParent(){
     super.viewParent();
@@ -2147,6 +2176,7 @@ public class SuperEx02 {
   public static void main(String[] args) {
     Child c = new Child();
     c.viewParent(); // Child의 viewPanrent 호출
+    c.viewChild(); // viewChild 호출 : Child@7d6f77cc
     c.viewSuperParent(); // viewParent 호출 : Child@7d6f77cc
     c.viewP(); // 홍길동
     c.viewSuperP(); // 박문수
@@ -2156,9 +2186,9 @@ public class SuperEx02 {
 
 #### super()
 
-- 자손 클래스의 객체가 생성될 때, 그 객체 안에 조상 클래스의 객체도 호출된다
+- 자손 클래스의 객체가 생성될 때, 그 객체 안에 조상 클래스의 객체도 생성된다
 
-  <small>!! 자손 클래스 생성자에 this() 또는 super()를 이용해 다른 생성자를 호출하는 코드가 없다면,<br> 컴파일러가 조상의 기본 생성자를 호출하는 super()를 첫행에 삽입한다</small>
+  <small>!! 자손 클래스 생성자에 this() 또는 super()를 이용해 다른 생성자를 호출하는 코드가 없다면,<br> 컴파일러가 조상의 기본 생성자를 생성하는 super()를 첫행에 삽입한다</small>
 
 - super()로 조상 클래스의 생성자를 호출한다
 
@@ -2183,16 +2213,18 @@ class Child extends Parent {
 }
 public class ConstructorEx11 {
   public static void main(String[] args) {
-    Child c = new Child(); // Parent(String data) 생성자 호출 : 19
+    Child c = new Child(); 
+    // Parent(String data) 생성자 호출 : 19
+    // Child 생성자 호출
   }
 }
 ```
 
 #### final
 
-- final이 붙으면 상속, 오버라이딩을 할 수 없다
+- 클래스의 제어자, 메서드에 final이 붙으면 상속, 오버라이딩을 할 수 없다
 
-  <small>!! final static이 변수에 붙으면 상수를 의미한다 (할당된 값 변경 불가)</small>
+  <small>!! static final이 변수에 붙으면 상수를 의미한다 (할당된 값 변경 불가)</small>
 
 ```java
 final class Parent {
@@ -2222,7 +2254,7 @@ class Parent {
   }
 
   final void viewParent(){
-    System.out.println("viewParent 호출");
+    System.out.println("Parent의 viewParent 호출");
   }
 }
 class Child extends Parent {
@@ -2238,7 +2270,7 @@ class Child extends Parent {
 public class FinalEx01 {
   public static void main(String[] args) {
     Child c = new Child();
-    c.viewParent();
+    c.viewParent(); // Parent의 viewParent 호출
   }
 }
 ```
@@ -2247,19 +2279,19 @@ public class FinalEx01 {
 
 - OOP 의 네가지 속성 중 다형(Poymorphism)에 해당한다
 
-- 부모 클래스 참조 변수를 통해서 자식 클래스 객체의 메서드를 호출
+- 부모 클래스 변수를 통해서 자식 클래스의 객체를 참조한다
 
 #### 객체의 형변환
 
 - 클래스의 경우 상속관계에서만 형변환이 가능하다
 
-- 자동형변환 : 자식 &rarr; 부모
+- 자식 클래스의 객체를 부모 클래스의 변수가 참조하려고 하는 경우에는 <strong>자동형변환</strong>이 된다
 
-- 강제형변환 : 부모 &rarr; 자식
+- 부모 클래스의 객체를 자식 클래스의 변수가 참조하려고 할때는 자동형변환이 일어나지 않기 때문에 <strong>강제형변환</strong>을 시켜줘야 한다
 
-  <small>!! 부모 클래스 객체 변수는 강제형변환을 통해서만 자식 클래스의 객체를 참조할 수 있다</small>
+  <small>!! 부모 객체를 자식 클래스의 변수로 참조하면 문제가 생기기 때문에 자식 클래스의 객체를 부모 클래스의 변수로 참조한 경우만 강제형변환을 사용하는 것이 좋다</small>
 
-  <small>!! 자식 클래스 객체를 부모 클래스로 형변환시킨 경우만 자식 클래스로 다시 형변환시켜야 문제가 없기 때문에 강제형변환을 통해 원래 클래스로 돌아간다고 생각하자</small>
+  <small> !! 원래의 상태로 돌아간다고 생각하자</small>
 
 ```java
 class Parent {
@@ -2378,6 +2410,9 @@ public class CastingEx03 {
 - 객체가 특정 클래스의 객체를 포함하는지 확인하기 위해 사용된다
 
 ```java
+class Person {
+
+}
 class Employee1 extends Person {
   public void salary() {
     System.out.println("Employee salary 호출");
@@ -2407,45 +2442,47 @@ public class MainEx01 {
 }
 ```
 
-!! 조상 클래스의 객체는 자식 클래스로 형변환 하더라도 자식 클래스 객체의 메서드는 사용할 수 없다
+!! 조상 클래스의 객체는 자식 클래스의 변수로 참조하더라도 자식 클래스 객체의 메서드는 사용할 수 없다
+
 
 ```java
+class Person {
+
+}
 class Employee1 extends Person {
-	public void salary() {
-		System.out.println("Employee1 salary 호출");
-	}
-	public void viewEmployee() {
-		System.out.println("Employee1 viewEmployee 호출");
-	}
+  public void salary() {
+    System.out.println("Employee1 salary 호출");
+  }
+  public void viewEmployee() {
+    System.out.println("Employee1 viewEmployee 호출");
+  }
 }
 class Employee2 extends Person {
 	public void salary() {
-		System.out.println("Employee2 salary 호출");
+	  System.out.println("Employee2 salary 호출");
 	}
 	public void viewEmployee() {
-		System.out.println("Employee2 viewEmployee 호출");
+	  System.out.println("Employee2 viewEmployee 호출");
 	}
 }
 
 public class MainEx02 {
 
-	public static void main(String[] args) {
-		Person p1 = new Person();
-		// Employee1 e1 = (Employee1)p1;
-		// e1.viewEmployee();
-		// 컴파일을 되지만 실행시 에러가 발생한다
-		if(p1 instanceof Employee1) {
+  public static void main(String[] args) {
+    Person p1 = new Person();
+    // Employee1 e1 = (Employee1)p1;
+    // e1.viewEmployee();
+    // 컴파일을 되지만 실행시 에러가 발생한다
+    if(p1 instanceof Employee1) {
       Employee1 e1 = (Employee1)p1;
-			e1.viewEmployee();
-		}else {
-			System.out.println("자식클래스 메서드 사용불가");
-		}
-
-		Person p2 = new Employee2();
-		Employee2 e2 = (Employee2)p2;
-		e2.viewEmployee(); // Employee2 viewEmployee 호출
-	}
-
+      e1.viewEmployee();
+    }else {
+      System.out.println("자식 클래스 메서드 사용불가");
+    } 
+    Person p2 = new Employee2();
+    Employee2 e2 = (Employee2)p2;
+    e2.viewEmployee(); // Employee2 viewEmployee 호출
+  } 
 }
 ```
 
@@ -2472,9 +2509,8 @@ class className {
 
 ```java
 // 패키지 이름은 보통 회사 도메인을 거꾸로 사용한다
-// package 도메인(회사 도메인)
 
-package com.naver.www // naver 패키지
+package com.naver.www; // naver 패키지
 ```
 
 - 패키지 선언을 따로 하지 않을 경우에는 default 패키지에 포함시킨다
@@ -2482,7 +2518,6 @@ package com.naver.www // naver 패키지
 ```java
 // C:\package1\PackA.java
 
-// default package;
 public class PackA {
   public PackA(){
     System.out.println("PackA 생성자 호출");
@@ -2499,7 +2534,8 @@ public class PackMain {
     PackA a = new PackA();
   }
 }
-// 같은 패키지에 포함되어 있어서 public 접근 제어자를 가진 PackA 클래스를 사용할 수 있다
+// PackA.java 와 같은
+ default 패키지에 포함되어 있어서 public 접근 제어자를 가진 PackA 클래스를 사용할 수 있다
 ```
 
 - 패키지 선언을 한 경우 컴파일 방법
@@ -2596,8 +2632,8 @@ public class PackMain {
 
 
   ```java
-  abstract void method(); 
   // 구현부({})가 없는 메서드를 추상 메서드라고 한다
+  abstract void method(); 
   ```
   <small>!! 일반 클래스는 추상 메서드를 가질 수 없다</small> 
 
@@ -2615,7 +2651,7 @@ public class PackMain {
 - 선언방법
 ```java
 abstract class ClassName{
-  void method1(){}; // 내용이 없는 메서드
+  void method1(){}; // 구현부에 내용이 없는 일반 메서드
   abstract void method2(); // 추상 메서드
 }
 public static void main(String[] args){
@@ -2656,7 +2692,7 @@ public class ObjectEx01 {
   public static void main(String[] args) {
     Parent1 p1 = new Parent1();
     // Parent2 p2 = new Parent2();
-    // 추상 클래스는 객체 생성 불가
+    // 추상 클래스는 직접 객체 생성 불가하다
     Child2 c2 = new Child2();
     Parent2 p2 = c2;
     // 자식 클래스의 객체를 참조하는 것은 가능하다
@@ -2667,9 +2703,12 @@ public class ObjectEx01 {
 
 - 상수, 추상 메서드만 가질 수 있는 클래스
 
+
   <small>!! 추상 클래스는 일반 메서드를 가질 수 있고, 추상 메서드가 없더라도 추상 클래스로 선언이 가능하다</small>
 
-  <small> !! jdk 1.8부터는 default, static 메서드 선언이 가능해졌다</small> 
+  <small>!! 인터페이스는 추상 클래스와 다르게 생성자도 가질 수 없다</small>
+
+  <small> !! jdk 1.8부터는 default, static 메서드 선언은 가능해졌다</small> 
   ```java
   interface DefaultMethodInterface {
     void abstractMethod();
@@ -2677,10 +2716,11 @@ public class ObjectEx01 {
     default void defaultMethod(){
       System.out.println("default 메서드")
     }
+    // default 메서드는 인터페이스의 메서드지만 구현이 된 메서드다
   }
 
   public class MainEx03 implements DefaultMethodInterface{
-
+  // 인터페이스는 "implements"를 써서 구현한다
     public void abstractMethod(){
       System.out.println("자식에서 반드시 재정의 필요")
     }
@@ -2701,7 +2741,7 @@ public class ObjectEx01 {
 
     public static void main(String[] args){
       StaticMethodInterface.staticMethod(); // Static 메서드
-      // static 메서드이기 때문에 객체 생성 없이 인터페이스 이름으로 바로 사용할 수 있다 
+      // static 메서드이기 때문에 객체 생성 없이 인터페이스 이름을 통해서 바로 사용할 수 있다 
     }
   }
   ```
@@ -2737,47 +2777,8 @@ class ClassName1 implements InterfaceName1 , InterfaceName2 {
 class ClassName2 extends ParentClass implements InterfaceName1{
 
 }
-// 상속을 받으면서 구현도 할 수 있다
+// 클래스를 상속을 받으면서 인터페이스를 구현할 수 있다
 ```
-```java
-interface InterA{
-  public static final String STR1 = "홍길동";
-  // 상수
-  String STR2 = "박문수";
-  // 인터페이스에서는 "public static final"인 변수만 가질 수 있으므로 
-  //"public static final"은 생략이 가능하다
-  public abstract void methodA();
-  // 추상 메서드
-  void methodB();
-  // 인터페이스는 "public abstract"인 추상 메서드만 가질 수 있으므로
-  // "public abstract"는 생략이 가능하다
-
-  // public void methodB(){}
-  // 에러!! 인터페이스는 구현부를 가진 메서드를 가질 수 없다
-}
-
-class ClassA implements InterA{
-  public void methodA(){
-    System.out.println("methodA 호출")
-  }
-  public void methodB(){
-    System.out.println("methodB 호출")
-  }
-}
-
-public class MainEx{
-  public static void main(String[] args){
-    ClassA a = new ClassA();
-    a.methodA(); // methodA 호출
-    a.methodB(); // methodB 호출 
-    System.out.println(a.STR1); // 홍길동
-    System.out.println(a.STR2); // 박문수
-  }
-}
-```
-- 인터페이스끼리는 다중 상속이 가능하다
-
-  <small>!! 다중 상속으로 메서드 선언부가 중복되더라도 구현부가 없는 추상 메서드만 가지고 있어서 복잡도가 올라가지 않는다</small>
 
 ```java
 public interface InterA{
@@ -2788,6 +2789,7 @@ public interface interB extends InterA{
   public abstract void methodB();
 }
 // extends를 이용해 어떤 인터페이스를 다른 인터페이스가 상속받을 수 있다
+
 class Parent{
   public void methodC(){
     System.out.println("methodC 호출");
@@ -2813,6 +2815,54 @@ public class MainEx{
   }
 }
 ```
+
+  <small>!! 다중 상속으로 메서드 선언부가 중복되더라도 구현부가 없는 추상 메서드만 가지고 있어서 문제가 생기지 않는다</small>
+  
+  <small>!! 인터페이스에서 구현이 되는 default 메서드와 조상 클래스의 메서드가 구현이 될 경우 조상 클래스의 메서드가 우선 순위를 가진다 </small>
+```java
+interface InterA{
+  public static final String STR1 = "홍길동";
+  // 상수
+  String STR2 = "박문수";
+  // 인터페이스에서는 public static final 변수만 가질 수 있으므로 
+  //"public static final"은 생략이 가능하다
+  public abstract void methodA();
+  // 추상 메서드
+  void methodB();
+  // 인터페이스는 public abstract 메서드만 가질 수 있으므로
+  // "public abstract"는 생략이 가능하다
+
+  // public void methodB(){}
+  // 에러!! 인터페이스는 구현부를 가진 메서드를 가질 수 없다
+}
+
+class ClassA implements InterA{
+  public void methodA(){
+    System.out.println("methodA 호출")
+  }
+  public void methodB(){
+    System.out.println("methodB 호출")
+  }
+}
+
+public class MainEx{
+  public static void main(String[] args){
+    ClassA a = new ClassA();
+    a.methodA(); // methodA 호출
+    a.methodB(); // methodB 호출 
+    System.out.println(a.STR1); // 홍길동
+    System.out.println(a.STR2); // 박문수
+  }
+}
+```
+- 인터페이스끼리는 다중 상속도 가능하다
+
+
+  <small>!! 어떤 인터페이스의 default 메서드가 다른 인터페이스의 default 메서드 또는 추상 메서드와 중복이 되는 경우는 인터페이스를 구현하는 자식 클래스에서 반드시 구현을 하도록 되어 있다</small>
+
+  
+
+
 ```java
 interface Fightable{
   int fire();
@@ -2822,11 +2872,11 @@ interface Transformable{
 }
 
 public interface Heroable extends Fightable, Transformable{
-  void upgrade;
+  void upgrade();
 } // Heroable 인터페이스가 Fightable, Transformable 인터페이스를 다중 상속하고 있다
 ```
 ### 열거형(enum)
-- 한정된 상수값으로 이루어진 데이터를 한번에 관리하기 위해 사용하는 자료형
+- 한정된 상수값으로 이루어진 데이터를 한번에 관리하기  위해 사용하는 자료형
 
   <sup>ex) {봄, 여름, 가을, 겨울}, {월, 화, 수, 목, 금, 토, 일}
 
@@ -2842,7 +2892,7 @@ public class EnumEx {
       SALES, PART_TIME_JOB, NORMAL
       // 상수들만 정의할 때는 세미콜론(;)이 필요없다
     }
-    // 자료형 Grade 선언
+    // 열거 자료형 Grade 선언
     // Grade 자료형은 SALES, PART_TIME_JOB, NORMAL만 값으로 가질 수 있다
     Grade grade = Grade.SALES;
     System.out.println(grade); // SALES
@@ -2853,75 +2903,72 @@ public class EnumEx {
 ```
 ```java
 enum Season {
-	SPRING, SUMMER, FALL, WINTER // 각각 0 ~ 3의 index를 가진다
+  SPRING, SUMMER, FALL, WINTER // 각각 0 ~ 3의 index를 가진다
 }
 public class EnumEx01 {
-	public void compareEnumTest(Season season) {
-		if(season.equals(Season.SPRING)) {
-			System.out.println("따뜻한 봄날입니다");
-		}else if(season.compareTo(Season.WINTER) < 0){
-		// compareTo()를 통해서 값의 인덱스 크기의 차이를 리턴한다
-			System.out.println("최소한 겨울은 아니잖아요");
-		}else {
-			System.out.println("겨울이네요");
-		}
-	}
-	
-	public void enumSwitch(Season season) {
-		switch(season) {
-		case SPRING:
-			System.out.println("새 잎이 나는 시기");
-			break;
-		case SUMMER:
-			System.out.println("열매가 무르익는 시기");
-			break;
-		case FALL:
-			System.out.println("잎이 떨어지는 시기");
-			break;
-		default:
-			System.out.println("겨울잠을 자는 시기");
-		}
-	}
-	public static void main(String[] args) {
-		EnumEx01 set = new EnumEx01();
-		set.compareEnumTest(Season.FALL);
-		set.enumSwitch(Season.SPRING);
-	}
+  public void compareEnumTest(Season season) {
+    if(season.equals(Season.SPRING)) {
+      System.out.println("따뜻한 봄날입니다");
+    }else if(season.compareTo(Season.WINTER) < 0){
+    // compareTo()를 통해서 값의 인덱스 크기의 차이를 리턴한다
+      System.out.println("최소한 겨울은 아니잖아요");
+    }else {
+      System.out.println("겨울이네요");
+    }
+  }
 
+  public void enumSwitch(Season season) {
+    switch(season) {
+    case SPRING:
+      System.out.println("새 잎이 나는 시기");
+      break;
+    case SUMMER:
+      System.out.println("열매가 무르익는 시기");
+      break;
+    case FALL:
+      System.out.println("잎이 떨어지는 시기");
+      break;
+    default:
+      System.out.println("겨울잠을 자는 시기");
+    }
+  }
+  public static void main(String[] args) {
+    EnumEx01 set = new EnumEx01();
+    set.compareEnumTest(Season.FALL); // 최소한 봄날은 아니잖아요
+    set.enumSwitch(Season.SPRING); // 새 잎이 나는 시기
+  } 
 }
 ```
 ```java
 enum Family{
-	FATHER("아빠"), MOTHER("엄마"), SON("아들"), DAUGHTER("딸");
-  // 괄호 안의 값이 생성자의 인수가 된다
+  FATHER("아빠"), MOTHER("엄마"), SON("아들"), DAUGHTER("딸");
+  // 괄호 안의 값이 생성자의 인수가 된다  
+  private String kor;
 
-	private String kor;
-	
-	/* private */Family(String kor){
+  /* private */ Family(String kor){
   // enum에서 생성자의 접근 제어자는 private이고 생략이 가능하다
-		this.kor = kor;
-	}
+    this.kor = kor;
+  }
   // 생성자와 미리 정의된 상수를 이용해 값을 초기화 시킬 수 있다
-	
-	public String getKor() {
-		return kor;
-	}
-	
-	public void setKor(String kor) {
-		this.kor = kor;
-	}
-  // 메서드를 통해 값을 초기화 시킬 수 있다
+
+  public String getKor() {
+    return kor;
+  }
+
+  public void setKor(String kor) {
+    this.kor = kor;
+  }
+  // 열거형도 메서드를 통해 값을 초기화 시킬 수 있다
 }
 
 public class EnumEx02 {
 
-	public static void main(String[] args) {
-		Family current = Family.MOTHER;
-		System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 엄마
-		current.setKor("어머니");
-		System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 어머니
-	}
-
+  public static void main(String[] args) {
+    Family current = Family.MOTHER;
+    System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 엄마
+    current.setKor("어머니");
+    System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 어머니
+  } 
 }
 ```
 ### 애노테이션(annotation)
@@ -2937,46 +2984,6 @@ public class EnumEx02 {
   |@SupressWarnings|컴파일러에게 특정 경고 메세지를 무시하라고 알려준다|
   |@FunctionallInterface|함수형 인터페이스라는 것을 알려준다(Lamda 참조)|
 
-### Generic
-
-- Generic을 사용하면 컴파일할 때, 객체의 타입을 체크하도록 한다
-
-- ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제점이 생긴다
-
-  &rarr; &nbsp;Gerneric을 사용해
-  컬렉션(클래스, 메서드) 내부의 자료형을 선언한다
-
-```java
-import java.util.ArrayList;
-
-public class ArrayListEx04 {
-
-  public static void main(String[] args) {
-  	ArrayList al1 = new ArrayList();
-
-  	al1.add("홍길동");
-  	al1.add(new Person("1001", "홍길동"));
-  	// 모든 객체를 추가시킬 수 있다
-  	// 그렇기 때문에 al1에 있는 데이터를 사용할 때 문제가 생길 수도 있다
-  	//  for(int i = 0; i < al1.size(); i++) {
-  	//  	String s = (String)al1.get(i);
-  	//  	System.out.println(s);
-  	//  }
-  	// 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다
-
-  	ArrayList<String> al2 = new ArrayList<>();
-  	al2.add("홍길동");
-  	// al2.add(new Person("1001", "홍길동"));
-  	// 에러!! al2에 String 객체만 들어가도록 선언했다
-  	// Generic
-  	for(int i = 0; i < al2.size(); i++) {
-  		String s = al2.get(i);
-  		System.out.println(s);
-  	}
-  }
-
-}
-```
 ### UML(Unified Modeling Language)
 
 - 객체지향 프로그래밍에 사용되는 표준화된 추상화 모델링 표기 체계
@@ -3001,9 +3008,9 @@ public class ArrayListEx04 {
   - Use Case Diagram
 
 - 작성방법
-  - 직접 손으로 작성
+  - 직접 수기로 작성
 
-  - tool
+  - tool을 사용
     - Eclipse(UML)
 
     - starUML (https://staruml.io/)
@@ -3044,36 +3051,31 @@ public class ArrayListEx04 {
         - 인스턴스 내부 클래스는 static 멤버를 가질 수 없다
 
           <small>!! 단, static final 멤버는 상수로 취급되므로 사용할 수 있다</small>
-        - 외부 클래스에서 내부 클래스를 사용할 때,<br> static 영역에서는 외부클래스의 객체를 만든 후 내부 클래스 객체 생성을 통해서 사용할 수 있지만, static 영역이 아닌 경우 바로 내부클래스 객체를 생성할 수 있다
+        - 외부 클래스에서 내부 클래스를 사용할 때, static 영역에서는 <br>외부클래스의 객체를 만든 후 내부 클래스 객체 생성을 통해서 사용할 수 있지만,<br> static 영역이 아닌 경우 바로 내부클래스 객체를 생성할 수 있다
         ```java
         public class InstanceInnerTest {
-        	class Inner {
-        		int innerMember = 10;
-        		// static int staticMember = 10;
-
-        		static final int finalStaticMember = 20;
-
-        		private void innerMethod() {
-        			System.out.println("om : " + outerMember + ", im : " + innerMember);
-        		}
-        	}
-
-        	private int outerMember = 1;
-
-        	private void outerMethod() {
-        		Inner inner = new Inner();
+          class Inner {
+            int innerMember = 10;
+            // static int staticMember = 10;  
+            // !! 에러
+            static final int staticFinalMember = 20;  
+            private void innerMethod() {
+            	System.out.println("om : " + outerMember + ", im : " + innerMember);
+            }
+          } 
+          private int outerMember = 1;  
+          private void outerMethod() {
+            Inner inner = new Inner();
             // static 영역이 아니기 때문에 바로 내부 클래스 객체 생성 가능
-        		inner.innerMember = 100;
-        		inner.innerMethod();
-        	}
-
-        	public static void main(String[] args) {
-        		InstanceInnerTest iit = new InstanceInnerTest();
-        		Inner inner = iit.new Inner();
-        		inner.innerMethod();
+            inner.innerMember = 100;
+            inner.innerMethod();
+          } 
+          public static void main(String[] args) {
+            InstanceInnerTest iit = new InstanceInnerTest();
+            Inner inner = iit.new Inner();
+            inner.innerMethod();
             // static 영역이기 때문에 외부 클래스 객체 생성 후 그 객체 를 통해 내부 클래스 객체 생성이 가능하다 
-        	}
-
+          } 
         }
         ```
 
@@ -3091,31 +3093,27 @@ public class ArrayListEx04 {
         - 인스턴스 내부 클래스와 달리 static 멤버를 가질 수 있다
         ```java
         public class StaticInnerTest {
-        	static class StaticInner {
-        		private int iMember = 10;
-        		private static int sMember = 0;
-        		// static 멤버를 사용할 수 있다
-        		private void innerMethod() {
-        			StaticInnerTest sit = new StaticInnerTest();
+          static class StaticInner {
+            private int iMember = 10;
+            private static int sMember = 0;
+            // static 멤버를 사용할 수 있다
+            private void innerMethod() {
+              StaticInnerTest sit = new StaticInnerTest();
               // 외부 클래스의 멤버를 참조하기 위해서 외부 클래스 객체 생성
-        			System.out.println("om : " + sit.oMember + " im : " + iMember);
-        		}
-
-        	}
-
-        	private int oMember = 1;
-
-        	private void outerMethod() {
-        		StaticInner inner = new StaticInner();
-        		inner.iMember = 100;
-        		inner.innerMethod();
-        	}
-        	public static void main(String[] args) {
-        		StaticInner inner = new StaticInner();
+              System.out.println("om : " + sit.oMember + " im : " + iMember);
+            } 
+          } 
+          private int oMember = 1;  
+          private void outerMethod() {
+            StaticInner inner = new StaticInner();
+            inner.iMember = 100;
+            inner.innerMethod();
+          }
+          public static void main(String[] args) {
+            StaticInner inner = new StaticInner();
             // 외부 클래스 객체 생성 없이 없이 바로 객체 생성이 가능하다
-        		inner.innerMethod();
-        	}
-
+            inner.innerMethod();
+          }
         }
         ```
 
@@ -3123,7 +3121,7 @@ public class ArrayListEx04 {
       - 로컬 내부 클래스 
         - 외부 클래스의 메서드나 생성자, 초기화 블록에서 선언된 클래스로 선언된 블록 내에서만 사용 가능하다
 
-        - 인스턴스 내부 클래스와 마찬가지로 static 변수는 가질 수 없지만, final static 변수는 가질 수 있다
+        - 인스턴스 내부 클래스와 마찬가지로 static 변수는 가질 수 없지만, static final 변수는 가질 수 있다
         - 외부 클래스 객체 생성 없이 외부 클래스의 모든 멤버에 접근 가능하다
         - 로컬 내부 클래스가 선언된 로컬 영역의 변수를 사용할 때, 변수의 값을 변환시킬 수는 없다
 
@@ -3131,39 +3129,36 @@ public class ArrayListEx04 {
 
           ```java
           public class LocalInnerTest {
-          	int iMember = 1;
-          	static int cMember = 3;
-
-          	void method() {
-          		int localVar = 3;
-
-          		class LocalInner {
-          			int innerLocalVar = 4;
-          			void innerMehod() {
-          				System.out.println("외부 인스턴스 멤버변수 : " + iMember);
-          				System.out.println("외부 클래스 멤버변수 : " + cMember);
-          				System.out.println("외부 로컬 변수 : " + localVar);
-          				System.out.println("내부 인스턴스 : " + innerLocalVar);
-          				iMember++;
-          				cMember++;
-          				// localVar++
-          				// 에러!!
-          				innerLocalVar++;
-          			}
-          		}
-          		LocalInner lInner = new LocalInner();
-          		lInner.innerMehod();
-          	}
-
-          	public static void main(String[] args) {
-          		LocalInnerTest lit = new LocalInnerTest();
-          		lit.method();
-          	}
+            int iMember = 1;
+            static int cMember = 3; 
+            void method() {
+              int localVar = 3; 
+              class LocalInner {
+                int innerLocalVar = 4;
+                void innerMehod() {
+                  System.out.println("외부 인스턴스 멤버변수 : " + iMember);
+                  System.out.println("외부 클래스 멤버변수 : " + cMember);
+                  System.out.println("외부 로컬 변수 : " + localVar);
+                  System.out.println("내부 인스턴스 : " + innerLocalVar);
+                  iMember++;
+                  cMember++;
+                  // localVar++
+                  // 에러!!
+                  innerLocalVar++;
+                }
+              }
+              LocalInner lInner = new LocalInner();
+              lInner.innerMehod();
+            } 
+            public static void main(String[] args) {
+              LocalInnerTest lit = new LocalInnerTest();
+              lit.method();
+            }
           }
           ```
 
       - 익명 내부 클래스 
-        - 클래스의 선언과 객체 생성을 동시에 하는 이름이 없는 클래스로 객체를 재사용하지 않을 클래스의 선언 방식이다
+        - 클래스의 선언과 객체 생성을 동시에 하는 이름이 없는 클래스로 객체를 재사용하지 않을 클래스의 사용 방식이다
 
         - 추상 클래스나 인터페이스 구현에 주로 사용된다
 
@@ -3171,27 +3166,25 @@ public class ArrayListEx04 {
 
         ```java
         interface SomeInterface {
-        	void printInfo();
+          void printInfo();
         }
         public class AnonymousInnerTest {
-        	int iMember = 1;
-        	static int cMember = 2;
-
-        	void method(SomeInterface si) {
-        		si.printInfo();
-        	}
-        	public static void main(String[] args) {
-        		AnonymousInnerTest lit = new AnonymousInnerTest();
-        		int localVar = 3; 
-        		lit.method(new SomeInterface() {
-        			public void printInfo() {
-        				System.out.println("외부 클래스 멤버 변수 : " + cMember);
-        				System.out.println("외부 로컬 변수 : " + localVar);
-
-        				cMember++;
-        			}
-        		});
-        	}
+          int iMember = 1;
+          static int cMember = 2; 
+          void method(SomeInterface si) {
+            si.printInfo();
+          }
+          public static void main(String[] args) {
+            AnonymousInnerTest lit = new AnonymousInnerTest();
+            int localVar = 3; 
+            lit.method(new SomeInterface(){  
+              public void printInfo(){
+                System.out.println("외부 클래스 멤버 변수 : " + c ember);
+                System.out.println("외부 로컬 변수 : " + localVar ; 
+                cMember++ 
+              }
+            });
+          }
         }
         ```
 ### 람다식
@@ -4764,6 +4757,48 @@ public class LottoGeneratorByArray {
 
   - Set 계열 : 순서가 없는 데이터 집합 &rarr; 데이터의 중복을 허락하지 않는다
   - Map 계열 : 중복이 가능하지 않은 키와 중복이 가능한 값의 쌍으로 데이터를 관리하는 집합
+
+### Generic
+
+- Generic을 사용하면 컴파일할 때, 객체의 타입을 체크하도록 한다
+
+- ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제점이 생긴다
+
+  &rarr; &nbsp;Gerneric을 사용해
+  컬렉션(클래스, 메서드) 내부의 자료형을 선언한다
+
+```java
+import java.util.ArrayList;
+
+public class ArrayListEx04 {
+
+  public static void main(String[] args) {
+  	ArrayList al1 = new ArrayList();
+
+  	al1.add("홍길동");
+  	al1.add(new Person("1001", "홍길동"));
+  	// 모든 객체를 추가시킬 수 있다
+  	// 그렇기 때문에 al1에 있는 데이터를 사용할 때 문제가 생길 수도 있다
+  	//  for(int i = 0; i < al1.size(); i++) {
+  	//  	String s = (String)al1.get(i);
+  	//  	System.out.println(s);
+  	//  }
+  	// 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다
+
+  	ArrayList<String> al2 = new ArrayList<>();
+  	al2.add("홍길동");
+  	// al2.add(new Person("1001", "홍길동"));
+  	// 에러!! al2에 String 객체만 들어가도록 선언했다
+  	// Generic
+  	for(int i = 0; i < al2.size(); i++) {
+  		String s = al2.get(i);
+  		System.out.println(s);
+  	}
+  }
+
+}
+```
+
 
 ### Collection 인터페이스
 
