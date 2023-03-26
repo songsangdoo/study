@@ -3179,7 +3179,9 @@ public class EnumEx02 {
             int localVar = 3; 
             lit.method(new SomeInterface(){  
               public void printInfo(){
-                System.out.println("외부 클래스 멤버 변수 : " + c ember);
+                System.out.println("외부 인스턴스 멤버 변수 : " + lit.iMember);
+                // 메인 메서드에서는 생성된 객체를 통해야만 인스턴스 멤버 변수를 사용할 수 있다
+                System.out.println("외부 클래스 멤버 변수 : " + cMember);
                 System.out.println("외부 로컬 변수 : " + localVar ; 
                 cMember++ 
               }
@@ -3199,106 +3201,107 @@ public class EnumEx02 {
 @FunctionalInterface
 // 함수형 인터페이스에는 보통 애노테이션을 선언돼서 추상 메서드가 한 개가 아닐 경우 컴파일 에러를 발생시키게 한다
 interface MyFunctionalInter {
-	void methodA();
+  void methodA();
   // void methodB();
+  // 메소드가 두 개 이상이면 함수형 인터페이스가 아니다
 }
 
 public class MyFunctionalInterMain {
 
-	public static void main(String[] args) {
-		new MyFunctionalInter() {
-			
-			@Override
-			public void methodA() {
-				System.out.println("method1 호출");
-			}
-		}.methodA(); // method1 호출
-		// 익명 클래스를 사용해서 인터페이스를 구현
-		
-		MyFunctionalInter f = new MyFunctionalInter() {
-			
-			@Override
-			public void methodA() {
-				System.out.println("method2 호출");
-			}
-		};
-		f.methodA(); // method2 호출
-		// 객체 변수 선언을 이용해서 인터페이스를 구현
-		
-		MyFunctionalInter f1 = () -> {
-			System.out.println("method3 호출");
-		};
-		// MyFunctionalInter f1 = () -> System.out.println("method 호출");
-		// 한 줄일 경우 이런 방식도 가능하다
-		f1.methodA(); // method3 호출
-		// 람다식을 이용해서 인터페이스를 구현
-	}
+  public static void main(String[] args) {
+    new MyFunctionalInter() {
+      
+      @Override
+      public void methodA() {
+      	System.out.println("method1 호출");
+      }
+    }.methodA(); // method1 호출
+    // 익명 클래스를 사용해서 인터페이스를 구현
+  
+    MyFunctionalInter f = new MyFunctionalInter() {
+      
+      @Override
+      public void methodA() {
+      	System.out.println("method2 호출");
+      }
+    };
+    f.methodA(); // method2 호출
+    // 객체 변수 선언을 이용해서 인터페이스를 구현
+  
+    MyFunctionalInter f1 = () -> {
+      System.out.println("method3 호출");
+    };
+    // MyFunctionalInter f1 = () -> System.out.println("method 호출");
+    // 한 줄일 경우 이런 방식도 가능하다
+    f1.methodA(); // method3 호출
+    // 람다식을 이용해서 인터페이스를 구현
+  }
 }
 ```
 
 ```java
 @FunctionalInterface
 interface FunctionalInterface1 {
-	void methodA();
+  void methodA();
 }
 
 public class LambdaEx {
-	public static void useFlMethod(FunctionalInterface1 fi) {
-		fi.methodA();
-	}
-	public static void main(String[] args) {
-		useFlMethod(new FunctionalInterface1() {
-			
-			@Override
-			public void methodA() {
-				System.out.println("익명 내부 클래스 이용");
-			}
-		}); // 익명 내부 클래스 이용
-		
-		useFIMethod(() -> {
-			System.out.println("람다식 이용1");
-		}); // 람다식 이용1
-		useFIMethod(() -> System.out.println("람다식 이용2")); // 람다식 이용2
-	}
+  public static void useFIMethod(FunctionalInterface1 fi) {
+    fi.methodA();
+  }
+  public static void main(String[] args) {
+    useFIMethod(new FunctionalInterface1() {
+
+      @Override
+      public void methodA() {
+      	System.out.println("익명 내부 클래스 이용");
+      }
+    }); // 익명 내부 클래스를 파라미터로 이용
+
+    useFIMethod(() -> {
+      System.out.println("람다식 이용1");
+    }); // 람다식 이용1
+    useFIMethod(() -> System.out.println("람다식 이용2")); // 람다식 이용2
+    // 람다식을 파라미터로 이용
+  }
 
 }
 ```
 ```java
 @FunctionalInterface
 interface FunctionalInterface2 {
-	void methodB(String msg);
+  void methodB(String msg);
 }
 
 public class LambdaEx {
-	public static void useFlMethod(FunctionalInterface2 fi) {
-		fi.methodB("홍길동");
-	}
-	public static void main(String[] args) {
-		
-		useFIMethod((String msg) -> {
-			System.out.println("람다식 이용1 : " + msg);
-		}); // 람다식 이용1 : 홍길동
-		useFIMethod(msg -> System.out.println("람다식 이용2 : " + msg)); // 람다식 이용2 : 홍길동
-	}
+  public static void useFlMethod(FunctionalInterface2 fi) {
+    fi.methodB("홍길동");
+  }
+  public static void main(String[] args) {  
+    useFIMethod((String msg) -> {
+      System.out.println("람다식 이용1 : " + msg);
+    }); // 람다식 이용1 : 홍길동
+    useFIMethod(msg -> System.out.println("람다식 이용2 : " + msg)); // 람다식 이용2 : 홍길동
+  }
 }
 ```
 ```java
 @FunctionalInterface
 interface FunctionalInterface2 {
-	String methodB(String msg);
+  String methodB(String msg);
 }
 
 public class LambdaEx {
-	public static void useFIMethod(FunctionalInterface2 fi) {
-		System.out.println(fi.methodB("홍길동"));
-	}
-	public static void main(String[] args) {
-		
-		useFIMethod((String msg) -> {
-			return "람다식 이용1 : " + msg;
-		}); // 람다식 이용1 + 홍길동
-		useFIMethod(msg -> "람다식 이용2 : " + msg); // 람다식 이용1 + 홍길동
-	}
+  public static void useFIMethod(FunctionalInterface2 fi) {
+    System.out.println(fi.methodB("홍길동"));
+  }
+  public static void main(String[] args) {
+
+    useFIMethod((String msg) -> {
+      return "람다식 이용1 : " + msg;
+    }); // 람다식 이용1 : 홍길동
+    useFIMethod(msg -> "람다식 이용2 : " + msg); // 람다식 이용2 : 홍길동
+  }
 }
 ```
 ## 예외처리와 디버깅
@@ -3309,39 +3312,37 @@ public class LambdaEx {
     - 문법적으로 문제가 있어 컴파일할 때 생기는 에러이다
 
     - 문법에 맞게 명령문을 수정해서 해결할 수 있다
+    - 일어나서는 안되는 에러
   - 런타임(실행) 에러
 
-    - 시스템 에러 : 시스템 이상으로 생기는 에러로 처리 불가
+    - 시스템 에러 : 시스템 이상으로 생기는 에러로 처리가 불가능하다
 
     - 예외
       - 컴파일 된 명령을 실행하다가 나타나는 에러
 
-      - 처리가 가능하다(프로그램이 정상 종료할 수 있게 한다)
+      - 예외 처리를 통해 처리가 가능하다(프로그램이 정상 종료할 수 있게 한다)
 
     ```java
     public class ExceptionEx01 {
     
-    	public static void main(String[] args) {
+      public static void main(String[] args) {
       
-    		int num1 = 0;
-    		int num2 = 20;
-    		// int result = num2 / num1
-    		// System.out.println(result);
-    		// 실행시 에러가 발생한다 
-    		String[] datas = {"1", "2", "3"};
-    		// System.out.println(datas[6]);
-    		// 실행시 에러가 발생한다
+        int num1 = 0;
+        int num2 = 20;
+        // int result = num2 / num1;
+        // 실행시 에러가 발생한다 
+        if (num1 != 0) {
+        	int result = num2 / num1;
+        	System.out.println(result);
+        }else {
+        	System.out.println("0으로 나눌 수 없습니다");
+        }
+        // 실행시 발생될 수 있는 에러를 처리할 수 있다
 
-    		if (num1 != 0) {
-    			int result = num2 / num1;
-    			System.out.println(result);
-    		}else {
-    			System.out.println("0으로 나눌 수 없습니다");
-    		}
-    		// 실행시 발생될 수 있는 에러를 처리할 수 있다
-    
-    	}
-
+        String[] datas = {"1", "2", "3"};
+        // System.out.println(datas[6]);
+        // 실행시 에러가 발생한다 
+      }
     }
     ```
     ### try ~ catch
@@ -3354,9 +3355,8 @@ public class LambdaEx {
 
       <b>2<sub>nd</sub> .</b> catch 블록이 예외 객체를 잡아서(catch) 블록 안에 있는 예외 발생시 처리할 명령문을 실행한다
 
-        <small>!! 이때, catch 블록 안에서 예외 객체를 사용할 수 있다</small>
+        <small>!! 이때, catch 블록 안에서 예외 객체를 사용한 명령문을 쓸 수 있다</small>
 
-        <small>!! 예외 객체 확인은 위의 catch 블록부터 순차적으로 한다</small>
         ```java
         try{
           ...
@@ -3364,34 +3364,33 @@ public class LambdaEx {
           System.out.println(e.getMessage());
         }
         ```
+        <small>!! 예외 객체 확인은 위의 catch 블록부터 순차적으로 한다</small>
 
       <b>3<sub>rd</sub> .</b> catch 블록의 명령문이 끝나면 블록 다음의 명령문이 실행된다
 
     ```java
     try {
       // 예외가 발생할 수 있는 명령문
-    }catch(Exception e){ // catch는 특정 예외 클래스를 파라미터로 받는다
+    }catch(Exception e){ // catch는 특정 예외 객체를 파라미터로 받는다
       // try 블록에서 예외 e 발생시 처리하는 명령문 
     }
-    ... // try ~ catch 구문을 벗어난 뒤 실행되는 명령문
     // 예외가 발생하지 않을 경우 catch 블록은 실행되지 않는다
+    ... // try ~ catch 구문을 벗어난 뒤 실행되는 명령문
     ```
     ```java
     public class ExceptionEx01 {
     
-    	public static void main(String[] args) {
+      public static void main(String[] args) {
       
-    		int num1 = 0;
-    		int num2 = 20;
-
-    		try {
-    			int result = num2 / num1;
-    			System.out.println(result);
-    		}catch(ArithmeticException e) {
-    			System.out.println("exception 발생");
-    		}
-
-    	}
+        int num1 = 0;
+        int num2 = 20;  
+        try {
+          int result = num2 / num1;
+          System.out.println(result);
+        }catch(ArithmeticException e) {
+          System.out.println("exception 발생");
+        } 
+      }
 
     }
     ```
@@ -3400,107 +3399,107 @@ public class LambdaEx {
 
     public class TryCatchFlow {
     
-    	public static void main(String[] args) {
-    		int num = new Random().nextInt(2);
-    		try {
-    			System.out.println("code 1, num : " + num);
-    			int i = 1/num;
+      public static void main(String[] args) {
+        int num = new Random().nextInt(2);
+        try {
+          System.out.println("code 1, num : " + num);
+          int i = 1/num;
           // num이 0일 때, 예외 발생
-    			System.out.println("code 2, - 예외 없음");
-    		}catch(ArithmeticException e) {
-    			System.out.println("code 3 - 예외 처리 완료");
-    		}
-    		System.out.println("code 4");
-    	}
+          System.out.println("code 2, - 예외 없음");
+        }catch(ArithmeticException e) {
+          System.out.println("code 3 - 예외 처리 완료");
+        }
+        System.out.println("code 4");
+      }
     
     }
-    ```java
-
     ```
+
+    
     ```java
     public class TryCatchFlow {
     
-    	public static void main(String[] args) {
-    		String name = null;
-    		int num1 = 0;
-    		int num2 = 10;
-    		try {
-    			System.out.println(name.length());
-    			// 참조하는 객체가 없기 때문에 인스턴스 메서드 length()를 사용할 수 없다
-    		}catch(NullPointerException e) {
-    			System.out.println("객체 생성 후 메서드 사용");
-    		}
-
-    		try {
-    			System.out.println(num2/num1);	
-    			// 숫자를 0으로 나눌 수는 없다
-    		}catch(ArithmeticException e) {
-    			System.out.println("0으로 나눌 수 없ㅏ");
-    		}
-    	}
+      public static void main(String[] args) {
+        String name = null;
+        int num1 = 0;
+        int num2 = 10;
+        try {
+          System.out.println(name.length());
+          // 참조하는 객체가 없기 때문에 인스턴스 메서드 length()를 사용할 수 없다
+        }catch(NullPointerException e) {
+          System.out.println("객체 생성 후 메서드 사용");
+        } 
+        try {
+          System.out.println(num2/num1);	
+          // 숫자를 0으로 나눌 수는 없다
+        }catch(ArithmeticException e) {
+          System.out.println("0으로 나눌 수 없ㅏ");
+        }
+      }
     }
     ```
     !! 다중 예외 처리를 이용해 위의 코드를 아래와 같이 바꿀 수도 있다
     ```java
     public class TryCatchFlow {
     
-    	public static void main(String[] args) {
-    		String name = null;
-    		int num1 = 0;
-    		int num2 = 10;
-    		try {
-    			System.out.println(name.length());
-    			System.out.println(num2/num1);	
-    		}catch(NullPointerException e) {
-    			System.out.println("객체 생성 후 메서드 사용");
-    		}catch(ArithmeticException e) {
-    			System.out.println("0으로 나눌 수 없다");
-    		}
-    	} // 여러 개의 catch문을 여러개 이용할 수 있다
+      public static void main(String[] args) {
+        String name = null;
+        int num1 = 0;
+        int num2 = 10;
+        try {
+          System.out.println(name.length());
+          System.out.println(num2/num1);	
+        }catch(NullPointerException e) {
+          System.out.println("객체 생성 후 메서드 사용");
+        }catch(ArithmeticException e) {
+          System.out.println("0으로 나눌 수 없다");
+        }
+      } 
+      // catch문을 여러개 이용할 수 있다
     }
     ```
-    !! 모든 예외 클래스의 조상이 Exception이기 때문에 다형성을 이용할 수도 있다
+    !! 모든 예외 클래스의 조상이 Exception이기 때문에 다형성을 이용해 여러 예외 객체에 대한 예외 처리를 하나의 catch문으로 처리할 수 있다
     ```java
     public class TryCatchFlow {
     
-    	public static void main(String[] args) {
-    		String name = null;
-    		int num1 = 0;
-    		int num2 = 10;
-    		try {
-    			System.out.println(name.length());
-    			System.out.println(num2/num1);	
-    		}catch(Exception e) {
-    			System.out.println("에러 : " + e.getMessage());
+      public static void main(String[] args) {
+        String name = null;
+        int num1 = 0;
+        int num2 = 10;
+        try {
+          System.out.println(name.length());
+          System.out.println(num2/num1);	
+        }catch(Exception e) {
+          System.out.println("에러 : " + e.getMessage());
           // 예외 객체의 대한 메세지 출력
-    		}
-    	} 
+        }
+      } 
     }
     ```
+    !! Exception 클래스는 모든 예외 클래스의 조상이기 때문에 항상 다중 catch문의 마지막에 위치해야 한다
     ```java
     public class TryCatchFlow {
     
-    	public static void main(String[] args) {
-    		String name = null;
-    		int num1 = 0;
-    		int num2 = 10;
-    		try {
-    			System.out.println(name.length());
-    			System.out.println(num2/num1);	
-    		}catch(NullPointerException e){
+      public static void main(String[] args) {
+        String name = null;
+        int num1 = 0;
+        int num2 = 10;
+        try {
+          System.out.println(name.length());
+          System.out.println(num2/num1);	
+        }catch(NullPointerException e){
           System.out.println("객체 생성 후 메서드 사용");
         }catch(Exception e) {
-    			System.out.println(e.getMessage());
-    		}
+          System.out.println(e.getMessage());
+        }
         // NullPointerException 예외를 제외한 나머지 객체들을 한번에 처리하게 할 수 있다
-        // !! Exception 클래스는 모든 예외 클래스의 조상이기 때문에 항상 다중 catch문의 마지막에 위치해야 한다
-    	} 
+      } 
     }
     ```
     #### try ~ catch ~ finally
-    - finally 블록 안의 명령문은 예외 발생 여부 상관없이 무조건 실행된다
+    - finally 블록 안의 명령문은 예외 발생 여부, return문 상관없이 무조건 실행된다
 
-      <small>!! 실행 중 return 문을 만나더라도 finally 블록 안에 있는 명령문이 먼저 실행되고 메서드가 리턴된다</small>
+      <small>!! 실행 중 return문을 만나더라도 finally 블록 안에 있는 명령문이 먼저 실행되고 메서드가 리턴된다</small>
 
     ```java
     import java.util.Random;  
@@ -3531,60 +3530,56 @@ public class LambdaEx {
 
     ```java
     public class ExceptionEx07 {
-    	public void method1(int num) {
-    		System.out.println("메서드 시작");
-    		if(num >= 100) {
-    			System.out.println("100보다 크다");
-    		}else {
-    			try {
-    			  throw new Exception("100보다 작다");
-    			// 강제로 예외를 발생시킨다
-    			}catch(Exception e) {
-    				System.out.println("에러 : " + e.getMessage() );
-    			}
-    		}
-    		System.out.println("메서드 끝");
-    	}
-
-    	public static void main(String[] args) {
-    		System.out.println("시작");
-    		ExceptionEx07 ee = new ExceptionEx07();
-    		ee.method1(10);
-    		ee.method1(200);
-    		System.out.println("끝");
-    	}
+      public void method1(int num) {
+        System.out.println("메서드 시작");
+        if(num >= 100) {
+          System.out.println("100보다 크다");
+        }else {
+          try {
+            throw new Exception("100보다 작다");
+          // 강제로 예외를 발생시킨다
+          }catch(Exception e) {
+            System.out.println("에러 : " + e.getMessage());
+          }
+        }
+        System.out.println("메서드 끝");
+      } 
+      public static void main(String[] args) {
+        System.out.println("시작");
+        ExceptionEx07 ee = new ExceptionEx07();
+        ee.method1(10);
+        ee.method1(200);
+        System.out.println("끝");
+      }
 
     }
     ```
     #### throws
-    - 선언부에 쓰여서 호출 메서드에게 예외 처리를 넘긴다는 선언을 한다
+    - 선언부에 쓰여서 호출 메서드에게 예외 처리를 넘긴다는 정보를 알려준다
     ```java
     public class ExceptionEx07 {
-    	public void method2(int num) throws Exception{ // throws로 호출 메서드에 예외처리를 맡긴다
-    		System.out.println("메서드 시작");
-    		if(num >= 100) {
-    			System.out.println("100보다 크다");
-    		}else {
-    			throw new Exception("100보다 작다");
-    			// 강제로 예외를 발생시킨다
-    		System.out.println("메서드 끝");
-    	}
-
-
-    	public static void main(String[] args) {
-    		System.out.println("시작");
-    		ExceptionEx07 ee = new ExceptionEx07();
-
-    		try {
-    		ee.method2(40);
-    		}catch(Exception e) {
-    			System.out.println("에러 : " + e.getMessage() );
-    		}
-    		System.out.println("끝");
-    	}
+      public void method2(int num) throws Exception{ // throws로 호출 메서드에 예외처리를 맡긴다
+        System.out.println("메서드 시작");
+        if(num >= 100) {
+          System.out.println("100보다 크다");
+        }else {
+          throw new Exception("100보다 작다");
+          // 강제로 예외를 발생시킨다
+        System.out.println("메서드 끝");
+      } 
+      public static void main(String[] args) {
+        System.out.println("시작");
+        ExceptionEx07 ee = new ExceptionEx07(); 
+        try {
+        ee.method2(40);
+        }catch(Exception e) {
+          System.out.println("에러 : " + e.getMessage() );
+        }
+        System.out.println("끝");
+      }
     }
     ```
-    !! Unhandled Exception 에러
+    !! Unhandled Exception 에러는 예외 처리 관련 에러다
     ```java
     import java.io.IOException;
 
@@ -3594,7 +3589,7 @@ public class LambdaEx {
     		ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
     		try{
     			processBuilder.start();
-    			// star() 선언부에 "throws IOExcepiton"이 있기 때문에 예외처리를 해줘야 에러가 나지 않는다
+    			// start() 선언부에 "throws IOExcepiton"이 있기 때문에 예외처리를 해줘야 에러가 나지 않는다
     		}catch(IOException e)	{
     			System.out.println("에러 : " + e.getMessage());
     		}
@@ -3607,42 +3602,47 @@ public class LambdaEx {
     - Exception 또는 RuntimeExcetion 클래스를 상속 받아 만들어야 한다
     ```java
     public class CustomException extends Exception {
-    	public CustomException() {
-    		super();
-    	}
-    	public CustomException(String message) {
-    		super(message);
-    	}
+      public CustomException() {
+        super();
+      }
+      public CustomException(String message) {
+        super(message);
+      }
     }
     ```
     - 다른 예외 클래스와 똑같이 사용할 수 있다
 
     ```java
-    // 위에서 정의한 사용자 정의 클래스 CustomException을 사용
+    public class CustomException extends Exception {
+      public CustomException() {
+        super();
+      }
+      public CustomException(String message) {
+        super(message);
+      }
+    }
 
     public class ExceptionEx07 {   
       public void method2(int num) throws CustomException{ 
-    		System.out.println("메서드 시작");
-    		if(num >= 100) {
-    			System.out.println("100보다 크다");
-    		}else {
-    			throw new CustomException("100보다 작다");
-    		}
-    		System.out.println("메서드 끝");
-    	}
+        System.out.println("메서드 시작");
+        if(num >= 100) {
+          System.out.println("100보다 크다");
+        }else {
+          throw new CustomException("100보다 작다");
+        }
+        System.out.println("메서드 끝");
+      } 
 
-
-    	public static void main(String[] args) {
-    		System.out.println("시작");
-    		ExceptionEx07 ee = new ExceptionEx07();
-
-    		try {
-    		ee.method2(40);
-    		}catch(CustomException e) {
-    			System.out.println("에러 : " + e.getMessage() );
-    		}
-    		System.out.println("끝");
-    	}
+      public static void main(String[] args) {
+        System.out.println("시작");
+        ExceptionEx07 ee = new ExceptionEx07(); 
+        try {
+        ee.method2(40);
+        }catch(CustomException e) {
+          System.out.println("에러 : " + e.getMessage() );
+        }
+        System.out.println("끝");
+      }
 
     }
     ```
@@ -3650,54 +3650,50 @@ public class LambdaEx {
     // LoginFailException.java
 
     public class LoginFailException extends RuntimeException {
-    	enum ErrorCode{
-    		INVALID_ID, INVALID_PASS
-    	}
-    	private ErrorCode errorCode;
-
-    	public LoginFailException(ErrorCode errorCode, String data) {
-    		super(data);
-    		this.errorCode = errorCode;
-    	}
-
-    	public String getLocalizedMessage() {
-    		String msg = this.getMessage();
-    		switch(errorCode) {
-    		case INVALID_ID:
-    			msg += ", 아이디를 확인하세요.";
-    			break;
-    		case INVALID_PASS:
-    			msg += ", 패스워드를 확인하세요";
-    			break;
-    		}
-    		return msg;
-    	}
+      enum ErrorCode{
+        INVALID_ID, INVALID_PASS
+      }
+      private ErrorCode errorCode;  
+      public LoginFailException(ErrorCode errorCode, String data) {
+        super(data);
+        this.errorCode = errorCode;
+      } 
+      public String getLocalizedMessage() {
+        String msg = this.getMessage();
+        switch(errorCode) {
+        case INVALID_ID:
+          msg += ", 아이디를 확인하세요.";
+          break;
+        case INVALID_PASS:
+          msg += ", 패스워드를 확인하세요";
+          break;
+        }
+        return msg;
+      }
     }
     ```
     ```java
     // UserManagerWithException.java
     // 위에서 정의한 사용자 정의 클래스 LoginFailException을 사용
     public class UserManagerWithException {
-    	public boolean login(String id, String pass) {
-    		if(!id.equals("hong")) {
-    			throw new LoginFailException(LoginFailException.ErrorCode.INVALID_ID, id);
-    		}else if(!pass.equals("1234")) {
-    			throw new LoginFailException(LoginFailException.ErrorCode.INVALID_PASS, pass);
-    		}
-    		return true;
-    	}
-
-    	public static void main(String[] args) {
-    		UserManagerWithException userManger = new UserManagerWithException();
-    		try {
+      public boolean login(String id, String pass) {
+        if(!id.equals("hong")) {
+          throw new LoginFailException(LoginFailException.ErrorCode.INVALID_ID, id);
+        }else if(!pass.equals("1234")) {
+          throw new LoginFailException(LoginFailException.ErrorCode.INVALID_PASS, pass);
+        }
+        return true;
+      } 
+      public static void main(String[] args) {
+        UserManagerWithException userManger = new UserManagerWithException();
+        try {
           boolean result = userManger.login("hong", "1234");
-    			//boolean result = userManger.login("hong", "1235");
-    			System.out.println("로그인 성공 여부 : " + result);
-    		}catch(LoginFailException e) {
-    			System.out.println("예외 처리 : " + e.getLocalizedMessage());
-    		}
-    	}
-
+          // boolean result = userManger.login("hong", "1235");
+          System.out.println("로그인 성공 여부 : " + result);
+        }catch(LoginFailException e) {
+          System.out.println("예외 처리 : " + e.getLocalizedMessage());
+        }
+      }
     }
     ```
     
@@ -3707,7 +3703,7 @@ public class LambdaEx {
 
 - java.base 모듈에 있는 패키지
 
-- 범용적으로 쓰이기 때문에 따로 import 하지 않는다
+- 범용적으로 쓰이기 때문에 따로 import 하지 않아도 사용할 수 있다
 
   <small>!! 이외의 패키지는 모두 import 해야 사용할 수 있다 </small>
 
@@ -3719,7 +3715,7 @@ public class LambdaEx {
 
 - toString()
 
-  - 기본적으로는 객체의 참조값이 출력된다
+  - 객체의 참조값을 16진수 참조값을 반환한다
 
   - 객체변수를 출력하면 객체변수.toString()이 출력된다
 
@@ -3730,10 +3726,11 @@ public class LambdaEx {
       System.out.println(o1); // java.lang.Object@262b2c86
       System.out.println(o1.toString()); // java.lang.Object@262b2c86
       // 객체변수 o1을 출력하면 ol.toString()이 출력된다
-      // 16진수 참조값
+      // 16진수 참조값을 반환한다
       System.out.println(o1.getClass().getName()); // java.lang.Object
+
       System.out.println(o1.hashCode()); // 640363654
-      // 10진수 참조값이 출력된다
+      // hashCode()는 10진수 참조값을 반환한다
     }
   }
   ```
@@ -3743,41 +3740,35 @@ public class LambdaEx {
   ```java
   public class ObjectEx01 {
     public static void main(String[] args) {
-  	  String str = new String("Hello toString");
-  	  System.out.println(str); // Hello toString
-  	  System.out.println(str.toString()); // Hello toString
+      String str = new String("Hello toString()");
+      System.out.println(str); // Hello toString()
+      System.out.println(str.toString()); // Hello toString()
       // String 클래스의 toString()은 객체의 값을 출력하도록 오버라이딩 되어 있다
     }
   }
   ```
 
   ```java
-  // Person.java
-
-  public class Person {
+  class Person {
     private int id;
-  	private String name;
-  	private int age;
-  	public Person(int id, String name, int age) {
+    private String name;
+    private int age;
+    public Person(int id, String name, int age) {
       this.id = id;
-  		this.name = name;
-  		this.age = age;
-  	}
+      this.name = name;
+      this.age = age;
+    }
 
-  //	public String viewData() {
-  //		return this.id + "/" + this.name + "/" + this.age;
-  //	}
-  // 클래스의 멤버변수를 출력하는 메서드의 이름이 작성자마다 다르면 복잡해지므로 toString()을 오버라이딩해 사용하기로 되어 있다
+    //  public String viewData() {
+    //    return this.id + "/" + this.name + "/" + this.age;
+    //  }
+    //  클래스의 멤버변수를 출력하는 메서드의 이름이 작성자마다 다르면 복잡해지므로 toString()을 오버라이딩해 사용하기로 약속되어 있다
 
-  	@Override
-  	public String toString() {
-  		return "Person [id=" + id + ", name=" + name + ", age=" + age + "]";
-  	}
+    @Override
+    public String toString() {
+      return "Person [id=" + id + ", name=" + name + ", age=" + age + "]";
+    }
   }
-  ```
-
-  ```java
-  // 위에서 작성한 Person 클래스 사용
 
   public class ObjectEx01 {
     public static void main(String[] args) {
@@ -3790,7 +3781,7 @@ public class LambdaEx {
 
 - equals()
 
-  - 기본적으로는 할당되어 있는 참조값을 비교한다
+  - 파라미터로 받는 객체와의 참조값을 비교해 진리값을 반환한다
 
     &rarr; "==" 연산자와 같은 결과를 가진다
 
@@ -3800,18 +3791,18 @@ public class LambdaEx {
       int a1 = 10;
       int a2 = 10;
       System.out.println(a1 == a2); // true
-      // 기본 자료형의 값을 비교
+      // 기본 자료형은 값을 비교한다
       Object o1 = new Object();
       Object o2 = new Object();
       System.out.println(o1 == o2); // false
-      // 참조형일 경우 할당되어 있는 참조값을 비교
+      // 참조형일 경우 객체의 참조값을 비교
       System.out.println(o1.equals(o2)); // false
-      // equals()는 기본적으로 할당되어 있는 참조값을 비교
+      // equals()도 객체의 참조값을 비교
       String str1 = new String("박문수");
       String str2 = new String("박문수");
       System.out.println(str1 == str2); // false
       System.out.println(str1.equals(str2)); // true
-      // String 클래스는 오버라이딩 돼서 참조하는 참조값이 아닌 객체의 값 자체를 비교한다
+      // String 클래스는 오버라이딩 돼서 객체의 참조값이 아닌 객체에 할당되어 있는 값을 비교한다
     }
   }
   ```
@@ -3820,9 +3811,9 @@ public class LambdaEx {
 
 - 문자열에 관련된 클래스
 
-<small>문자열 관련 클래스 종류 : String, StringBuffer, StringBuilder</small>
+  <small>문자열 관련 클래스 종류 : String, StringBuffer, StringBuilder</small>
 
-- final 클래스로 상속되지 않는다
+- final 클래스로 상속될 수 없다
 
 - 불변성(Immutable) : 문자열을 한번 생성되면 그 자체의 값이 변하지는 않는다
 
@@ -3832,13 +3823,16 @@ public class LambdaEx {
 public class StringEx01 {
 
   public static void main(String[] args) {
-    // 문자열 선언 방법
     String str1 = "Hello String";
-    // 큰 따옴표를 이용해 문자열을 만들면 클래스 영역에 상수 풀에 저장되기 때문에 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다
-    // String str1 = new String("Hello String");
-    // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다
-    // char[] str1 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
-    // 문자 배열은 문자열로 다룰 수 있다
+    // 큰 따옴표를 이용해 문자열을 만들면 클래스 영역에 상수 풀에 저장되기 때문에
+    // 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다  
+
+    String str2 = new String("Hello String");
+    // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 
+
+    char[] str3 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
+    System.out.println(str3); // Hello String
+    // 문자 배열도 문자열처럼 다룰 수 있다
 	}
 
 }
@@ -3867,30 +3861,30 @@ public class StringEx01 {
     System.out.println(str1.indexOf('p')); // -1
     // 괄호 안의 문자 또는 문자열을 포함하지 않으면 -1을 반환한다
     System.out.println(str1.startsWith("He")); // true
-    // 괄호 안의 문자, 문자열로 시작하는지 확인해서 진리값을 반환한다
+    // 괄호 안의 문자 또는 문자열로 시작하는지 확인해서 진리값을 반환한다
     System.out.println(str1.endsWith("ng")); // true
-    // 괄호 안의 문자, 문자열로 끝나는지 확인해서 진리값을 반환한다
+    // 괄호 안의 문자 또는 문자열로 끝나는지 확인해서 진리값을 반환한다
     System.out.println("Hello String Hello".replaceAll("Hello", "안녕")); // 안녕 String 안녕
     // "Hello"를 "안녕"으로 모두 변환시킨다
     System.out.println(str1.concat(" 안녕")); // Hello String 안녕
-    // 괄호 안의 문자, 문자열을 문자열 뒤에 결합 시킨다
+    // 괄호 안의 문자 또는 문자열을 문자열 뒤에 결합 시킨다
     System.out.println("hello".toUpperCase()); // HELLO
     // 문자열을 모두 대문자로 변환한다
     System.out.println("HELLO".toLowerCase()); // hello
     // 문자열을 모두 소문자로 변환한다
     System.out.println("   Hello     String   ".trim()); // Hello     String
-    // 문자열의 앞, 뒤 공백을 없애준다
+    // 문자열의 앞, 뒤 공백을 모두 없애준다
     String str2 = "apple,banana,pineapple,kiwi";
     String[] strArr = str2.split(",");
-    // "," 단위로 문자열을 구분한다
+    // "," 단위로 문자열을 구분해서 문자열 배열로 반환한다
     for(String str : strArr) {
-    	System.out.println(str);
+      System.out.println(str);
     }
     String str3 = String.join(",", strArr);
     // ","를 구분자로 문자열 배열의 값들을 결합시켜 하나의 문자열로 반환한다
     System.out.println(str3); // apple,banana,pineapple,kiwi
     String str4 = String.format("%s - %s - %s", "aaa", "bbb", "ccc");
-    // System.out.printf()와 동일하다
+    // 지정한 형식의 문자열로 반환한다
     System.out.println(str4); // aaa - bbb - ccc
   }
 }
@@ -3904,7 +3898,7 @@ public class Capitaliztion {
     String str = "park dae ho";
     String[] strArr = str.split(" ");
     for(int i = 0; i < strArr.length; i++) {
-    	strArr[i] = strArr[i].substring(0, 1).toUpperCase() + strArr[i].substring(1);
+      strArr[i] = strArr[i].substring(0, 1).toUpperCase() + strArr[i].substring(1);
     }
     System.out.println(String.join(" ", strArr));
   }
@@ -3913,43 +3907,40 @@ public class Capitaliztion {
 
 ### StringBuffer, StringBuilder
 
-- 버퍼(임시 저장공간)을 이용해서 문자열을 저장하고, 추가 / 수정 / 삭제가<br> 가능하기 때문에 불변성을 가진 String 클래스보다 사용하기 편리하다
+- 버퍼(임시 저장공간)를 이용해서 문자열을 저장하고, 추가, 수정, 삭제가<br> 가능하기 때문에 불변성을 가진 String 클래스보다 사용하기 편리하다
 
 #### StringBuffer, StringBuilder 클래스의 메서드
 
 ```java
-public class StringBuilderEx01 {
-
+public class StringBuilderEx01 {  
   public static void main(String[] args) {
-  	StringBuilder sb1 = new StringBuilder();
-  	StringBuilder sb2 = new StringBuilder(100);
-  	StringBuilder sb3 = new StringBuilder("Hello StringBulider");
-
-  	System.out.println(sb1.capacity()); // 16
-  	System.out.println(sb2.capacity()); // 100
-  	System.out.println(sb3.capacity()); // 35
-  	// 버퍼의 크기를 반환한다
-  	System.out.println(sb1.length()); // 0
-  	System.out.println(sb2.length()); // 0
-  	System.out.println(sb3.length()); // 19
-  	// 저장 문자열의 길이를 반환한다
-  	System.out.println(sb3.charAt(0)); // H
-  	System.out.println(sb3.substring(4)); // o StringBulider
-
-  	StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
-  	builder.append("-중곡");
-  	// builder의 문자열 뒤에 "-중곡"을 붇인다
-  	System.out.println(builder); // 사봉-용산-사가정-용마산-중곡
-  	builder.insert(3, "면목-");
-  	System.out.println(builder); // 사봉-면목-용산-사가정-용마산-중곡
-  	builder.delete(5, 8);
-  	System.out.println(builder); // 사봉-면목-사가정-용마산-중곡
-  	builder.replace(0, 1, "상");
-  	// 인덱스 0부터 인덱스(1 - 1)까지인 문자열을 "상"으로 대체한다
-  	// String 클래스와 달리 replaceAll이 아닌 것에 주의하자
-  	System.out.println(builder); // 상봉-면목-사가정-용마산-중곡
-  	System.out.println(builder.reverse()); // 곡중-산마용-정가사-목면-봉상
-  	// 문자열을 거꾸로 나열한 것을 반환
+    StringBuilder sb1 = new StringBuilder();
+    StringBuilder sb2 = new StringBuilder(100);
+    StringBuilder sb3 = new StringBuilder("Hello StringBulider"); 
+    System.out.println(sb1.capacity()); // 16
+    System.out.println(sb2.capacity()); // 100
+    System.out.println(sb3.capacity()); // 35
+    // 버퍼의 크기를 반환한다
+    System.out.println(sb1.length()); // 0
+    System.out.println(sb2.length()); // 0
+    System.out.println(sb3.length()); // 19
+    // 저장 문자열의 길이를 반환한다
+    System.out.println(sb3.charAt(0)); // H
+    System.out.println(sb3.substring(4)); // o StringBulider  
+    StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
+    builder.append("-중곡");
+    // builder의 문자열 뒤에 "-중곡"을 붇인다
+    System.out.println(builder); // 사봉-용산-사가정-용마산-중곡
+    builder.insert(3, "면목-");
+    System.out.println(builder); // 사봉-면목-용산-사가정-용마산-중곡
+    builder.delete(5, 8);
+    System.out.println(builder); // 사봉-면목-사가정-용마산-중곡
+    builder.replace(0, 1, "상");
+    // 인덱스 0부터 인덱스(1 - 1)까지의 문자열을 "상"으로 대체한다
+    // String 클래스와 달리 replaceAll이 아닌 것에 주의하자
+    System.out.println(builder); // 상봉-면목-사가정-용마산-중곡
+    System.out.println(builder.reverse()); // 곡중-산마용-정가사-목면-봉상
+    // 문자열을 거꾸로 나열한 것을 반환
   }
 }
 ```
@@ -3958,30 +3949,32 @@ public class StringBuilderEx01 {
 
 - 수학 계산과 관련된 클래스로 멤버변수가 없고, static 메서드만을 가지고 있다
 
+  <small>!! static 메서드만 있기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용한다</small>
+
 #### Math 클래스의 메서드
 
 ```java
 public class MathEx01 {
 
   public static void main(String[] args) {
-  	System.out.println(Math.ceil(10.3)); // 11.0
-  	System.out.println(Math.ceil(10.5)); // 11.0
-  	System.out.println(Math.ceil(10.7)); // 11.0
-  	// 올림
-  	System.out.println(Math.floor(10.3)); // 10.0
-  	System.out.println(Math.floor(10.5)); // 10.0
-  	System.out.println(Math.floor(10.7)); // 10.0
-  	// 내림
-  	System.out.println(Math.round(10.3)); // 10
-  	System.out.println(Math.round(10.5)); // 11
-  	System.out.println(Math.round(10.7)); // 11
-  	// 반올림
-  	System.out.println(Math.pow(10.0, 2.0)); // 100.0
-  	// 10.0의 2.0승
-  	System.out.println(Math.random()); // 0.7022833597632225
-  	// 0 <= x < 1 난수 반환
-  	System.out.println((int)(Math.random()*10)); // 7
-  	// 1 <= x <10 정수 반환
+    System.out.println(Math.ceil(10.3)); // 11.0
+    System.out.println(Math.ceil(10.5)); // 11.0
+    System.out.println(Math.ceil(10.7)); // 11.0
+    // 올림
+    System.out.println(Math.floor(10.3)); // 10.0
+    System.out.println(Math.floor(10.5)); // 10.0
+    System.out.println(Math.floor(10.7)); // 10.0
+    // 내림
+    System.out.println(Math.round(10.3)); // 10
+    System.out.println(Math.round(10.5)); // 11
+    System.out.println(Math.round(10.7)); // 11
+    // 반올림
+    System.out.println(Math.pow(10.0, 2.0)); // 100.0
+    // 10.0의 2.0승
+    System.out.println(Math.random()); // 0.7022833597632225
+    // 0 <= x < 1 난수(실수) 반환
+    System.out.println((int)(Math.random()*10)); // 7
+    // 1 <= x <10 난수(정수) 반환
   }
 }
 ```
@@ -4009,42 +4002,38 @@ public class MathEx01 {
 public class WrapperEx01 {
 
   public static void main(String[] args) {
-  	System.out.println(Integer.MAX_VALUE); // 2147483647
-  	System.out.println(Integer.MIN_VALUE); // -2147483648
-  	// int 자료형 최대, 최소값 반환
-  	System.out.println(Double.MAX_VALUE); // 1.7976931348623157E308
-  	System.out.println(Double.MIN_VALUE); // 4.9E-324
-  	// double 자료형 최대, 최소값 반환
+    System.out.println(Integer.MAX_VALUE); // 2147483647
+    System.out.println(Integer.MIN_VALUE); // -2147483648
+    // int 자료형 최대, 최소값 반환
+    System.out.println(Double.MAX_VALUE); // 1.7976931348623157E308
+    System.out.println(Double.MIN_VALUE); // 4.9E-324
+    // double 자료형 최대, 최소값 반환
 
-  	Integer i1 = Integer.valueOf(123);
-  	// Integer i1 = Integer.valueOf("123");
-
-  	// Integer i1 = 123;
-  	// Wrapper 클래스로 자동형변환
-  	// 오토박싱
-
-  	int i2 = i1.intValue();
-  	float f1 = i1.floatValue();
-  	System.out.println(i2); // 123
-  	System.out.println(f1); // 123.0
-  	// 자료형의 형변환
-
-  	int i3 = Integer.parseInt("123");
-  	float f2 = Float.parseFloat("123");
-  	System.out.println(i3); // 123
-  	System.out.println(f2); // 123.0
-  	// 문자열을 정수, 실수로 형변환시킨다
-
-  	int i4 = 10;
-  	int i5 = 20;
-  	int sum1 = i4 + i5;
-  	System.out.println(sum1); // 30
-  	Integer i6 = Integer.valueOf("10");
-  	Integer i7 = Integer.valueOf("20");
-  	int sum2 = i6 + i7;
-  	// 계산을 위해서 기본 자료형으로 자동형변환
-  	// 언박싱
-  	System.out.println(sum2); // 30
+    Integer i1 = Integer.valueOf(123);
+    // Integer i1 = Integer.valueOf("123"); 
+    // Integer i1 = 123;
+    // Wrapper 클래스로 자동형변환
+    // 오토박싱 
+    int i2 = i1.intValue();
+    float f1 = i1.floatValue();
+    System.out.println(i2); // 123
+    System.out.println(f1); // 123.0
+    // Wrapper 클래스의 객체가 저장하고 있는 값을 기본형 변수에 할당한다 
+    int i3 = Integer.parseInt("123");
+    float f2 = Float.parseFloat("123");
+    System.out.println(i3); // 123
+    System.out.println(f2); // 123.0
+    // 문자열을 정수, 실수로 형변환시킨다 
+    int i4 = 10;
+    int i5 = 20;
+    int sum1 = i4 + i5;
+    System.out.println(sum1); // 30
+    Integer i6 = Integer.valueOf("10");
+    Integer i7 = Integer.valueOf("20");
+    int sum2 = i6 + i7;
+    // 계산을 위해서 기본 자료형으로 자동형변환
+    // 언박싱
+    System.out.println(sum2); // 30
   }
 }
 ```
@@ -4056,25 +4045,25 @@ public class WrapperEx01 {
 public class JuminCheckMain {
   public static void main(String[] args) {
     // 입력은 arguments로 받는다
-  	if (args.length != 1) {
-  		System.out.println("java 클래스명 XXXXXX-XXXXXXX 형식으로 입력해주세요");
-  	}else {
-  		String strJumin = args[0].replaceAll("-", "");
-  		int[] num = new int[13];
-  		int[] checkNum = {2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5};
-  		int sum = 0;
-  		for (int i = 0; i < checkNum.length; i++) {
-  			num[i] = Integer.parseInt(strJumin.substring(i, i + 1)) * checkNum[i];
-  		}
-  		for (int number : num) {
-  			sum += number;
-  		}
-  		if(Integer.parseInt(strJumin.substring(strJumin.length()-1)) == ((11 - (sum%11))%10) ) {
-  			System.out.println("형식이 맞습니다");
-  		}else {
-  			System.out.println("형식이 맞지 않습니다");
-  		}
-  	}
+    if (args.length != 1) {
+      System.out.println("XXXXXX-XXXXXXX 형식으로 입력해주세요");
+    }else {
+      String strJumin = args[0].replaceAll("-", "");
+      int[] num = new int[13];
+      int[] checkNum = {2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5};
+      int sum = 0;
+      for (int i = 0; i < checkNum.length; i++) {
+        num[i] = Integer.parseInt(strJumin.substring(i, i + 1)) * checkNum[i];
+      }
+      for (int number : num) {
+        sum += number;
+      }
+      if(Integer.parseInt(strJumin.substring(strJumin.length()-1)) == ((11 - (sum%11))%10) ) {
+        System.out.println("형식이 맞습니다");
+      }else {
+        System.out.println("형식이 맞지 않습니다");
+      }
+    }
   }
 }
 ```
@@ -4084,25 +4073,25 @@ public class JuminCheckMain {
 public class JuminCheckMain {
 
   public static void main(String[] args) {
-  	if (args.length != 1) {
-  		System.out.println("java 클래스명 XXXXXX-XXXXXXX 형식으로 입력해주세요");
-  	}else {
-  		String strJumin = args[0].replaceAll("-", "");
-  		int checkBit = 2;
-  		int sum = 0;
-  		for(int i = 0; i < strJumin.length() - 1; i++) {
-  			if(checkBit == 10) {
-  				checkBit = 2;
-  			}
-  			sum += Integer.parseInt(strJumin.substring(i, i + 1)) * checkBit;
-  			checkBit++;
-  		}
-  		if (Integer.parseInt(strJumin.substring(strJumin.length() - 1)) == (11 - (sum % 11)) % 10) {
-  			System.out.println("형식이 맞습니다");
-  		}else {
-  			System.out.println("형식이 맞지 않습니다");
-  		}
-  	}
+    if (args.length != 1) {
+      System.out.println("XXXXXX-XXXXXXX 형식으로 입력해주세요");
+    }else {
+      String strJumin = args[0].replaceAll("-", "");
+      int checkBit = 2;
+      int sum = 0;
+      for(int i = 0; i < strJumin.length() - 1; i++) {
+        if(checkBit == 10) {
+          checkBit = 2;
+        }
+        sum += Integer.parseInt(strJumin.substring(i, i + 1)) * checkBit;
+        checkBit++;
+      }
+      if (Integer.parseInt(strJumin.substring(strJumin.length() - 1)) == (11 - (sum % 11)) % 10) {
+        System.out.println("형식이 맞습니다");
+      }else {
+        System.out.println("형식이 맞지 않습니다");
+      }
+    }
   }
 
 }
@@ -4110,21 +4099,22 @@ public class JuminCheckMain {
 
 ### System
 
-- 운영체제와의 소통을 위한 클래스로 static 메서드를 제공한다
+- 운영체제와의 소통을 위한 클래스로 static 메서드만을 제공한다
 
+  <small>!! static 메서드만 제공하기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용한다</small>
 #### System 클래스의 메서드
 
 ```java
 public class SystemEx {
 
   public static void main(String[] args) {
-  	System.out.println("시작");
-  	if(args.length != 1) {
-  		System.out.println("비정상");
-  		System.exit(0);
-  		// 프로그램을 강제로 종료시킨다
-  	}
-  	System.out.println("정상");
+    System.out.println("시작");
+    if(args.length != 1) {
+      System.out.println("비정상");
+      System.exit(0);
+      // 프로그램을 강제로 종료시킨다
+    }
+    System.out.println("정상");
   }
 }
 ```
@@ -4142,7 +4132,7 @@ public class SystemEx {
     // 프로그램 실행 전 타임스탬프
     int sum = 0;
     for(int i = 1; i <= 1_000_000; i++) {
-    	sum += i;
+      sum += i;
     }
     long time2 = System.currentTimeMillis();
     // 프로그램 실행 후 타임스탬프
@@ -4156,13 +4146,13 @@ public class SystemEx {
 public class SystemEx {
 
   public static void main(String[] args) {
-  	System.out.println(System.getProperty("os.name")); // Windows 10
-  	System.out.println(System.getProperty("user.name")); // KITCOOP
-  	System.out.println(System.getProperty("user.home")); // C:\Users\KITCOOP
-  	// 시스템 속성값을 반환한다
-  	System.out.println(System.getenv("JAVA_HOME")); // C:\Program Files\Java\jdk-11.0.17
-  	System.out.println(System.getenv("PATH")); // C:\java\eclipse\plugins\...
-  	// 환경변수 값을 반환한다
+    System.out.println(System.getProperty("os.name")); // Windows 10
+    System.out.println(System.getProperty("user.name")); // KITCOOP
+    System.out.println(System.getProperty("user.home")); // C:\Users\KITCOOP
+    // 시스템 속성값을 반환한다
+    System.out.println(System.getenv("JAVA_HOME")); // C:\Program Files\Java\jdk-11.0.17
+    System.out.println(System.getenv("PATH")); // C:\java\eclipse\plugins\...
+    // 환경변수 값을 반환한다
   }
 
 }
@@ -4172,10 +4162,10 @@ public class SystemEx {
 public class SystemEx {
 
   public static void main(String[] args) {
-  	System.out.print("Hello");
-  	System.out.print(System.lineSeparator()); // 엔터키
-  	// lineSeparator()가 문자열 "\n"을 반환한다
-  	System.out.println("World");
+    System.out.print("Hello");
+    System.out.print(System.lineSeparator()); // 엔터키
+    // lineSeparator()가 문자열 "\n"을 반환한다
+    System.out.println("World");
   }
 
 }
@@ -4186,29 +4176,31 @@ public class SystemEx {
 public class SystemEx {
 
   public static void main(String[] args) {
-  	int[] src = {1, 2, 3, 4, 5};
-  	int[] dest1 = src;
-  	dest1[0] = 6;
-  	System.out.println(src[0]); // 6
-  	System.out.println(dest1[0]); // 6
-  	// 변수의 참조값이 할당되기 때문에 값이 같이 바뀌는 얕은 복사가 일어난다
-  	int[] src2 = { 10, 20, 30, 40, 50};
-  	int[] dest2 = {0, 0, 0, 0, 0};
-  	System.arraycopy(src2, 0, dest2, 0, src2.length);
-  	System.out.println(dest2[0]); // 10
-  	dest2[0] = 100;
-  	System.out.println(dest2[0]); // 100
-  	System.out.println(src2[0]); // 10
-  	// System.arraycopy()를 이용해 깊은 복사를 할 수도 있다
+    int[] src = {1, 2, 3, 4, 5};
+    int[] dest1 = src;
+    dest1[0] = 6;
+    System.out.println(src[0]); // 6
+    System.out.println(dest1[0]); // 6
+    // 변수의 참조값이 할당되기 때문에 값이 같이 바뀌는 얕은 복사가 일어난다
+    int[] src2 = { 10, 20, 30, 40, 50};
+    int[] dest2 = {0, 0, 0, 0, 0};
+    System.arraycopy(src2, 0, dest2, 0, src2.length);
+    // src2의 인덱스 0부터 인덱스 (src2.length - 1)까지 값을 dest2로 복사를 한다
+    System.out.println(dest2[0]); // 10
+    dest2[0] = 100;
+    System.out.println(dest2[0]); // 100
+    System.out.println(src2[0]); // 10
+    // System.arraycopy()는 깊은 복사를 한다
   }
 
 }
 ```
 
-##### Java 프로그램을 이용해서 명령프롬프트에 명령을 줄 수 있다
+### ProcessBuilder
+- 명령 프롬프트에 명령을 주려고 할 때 사용하는 클래스
 
 ```java
-// 명령프롬프트
+// 명령 프롬프트
 
 > "c:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" "www.daum.net"
 // Edge 브라우저를 통해 다음 홈페이지가 열린다
@@ -4218,20 +4210,20 @@ public class SystemEx {
 ```java
 import java.io.IOException;
 
-public class ProcessBilderEx01 {
+public class ProcessBuilderEx01 {
 
   public static void main(String[] args) throws IOException {
-  	ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)
+    ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)
     \\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
-  	// "\"가 아니라 "\\"를 이용해 디렉터리를 구분한다
-  	processBuilder.start();
+    // "\"가 아니라 "\\"를 이용해 디렉터리를 구분한다
+    processBuilder.start();
     // Edge 브라우저를 통해 다음 홈페이지가 열린다
   }
 }
 ```
 
 ```java
-// 명령프롬프트
+// 명령 프롬프트
 
 > "C:\WINDOWS\system32\notepad.exe"
 // 메모장을 실행한다
@@ -4240,11 +4232,11 @@ public class ProcessBilderEx01 {
 ```java
 import java.io.IOException;
 
-public class ProcessBilderEx01 {
+public class ProcessBuilderEx01 {
 
   public static void main(String[] args) throws IOException {
-  	ProcessBuilder processBuilder = new ProcessBuilder("C:\\WINDOWS\\system32\\notepad.exe");
-  	processBuilder.start();
+    ProcessBuilder processBuilder = new ProcessBuilder("C:\\WINDOWS\\system32\\notepad.exe");
+    processBuilder.start();
     // 메모장을 실행한다
   }
 
@@ -4267,36 +4259,34 @@ import java.util.Date;
 public class DateEx01 {
 
   public static void main(String[] args) {
-  	Date d1 = new Date();
-  	System.out.println(d1); // Tue Mar 21 11:21:53 KST 2023
-  	// 현재 날짜 시간 반환
-  	// 참조값이 나오지 않고 내용이 나오도록 toString()이 오버라이딩 되어 있다
-  	System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:21:53
-  	// 현재 날짜 시간을 현지방식으로 표현
-  	// 메서드에 선이 그어진 것은 그 메서드가 deprecated 되어 있으니 사용을 지양하라는 표시이다
-  	String strDate = d1.toLocaleString();
-  	System.out.println(strDate.substring(0, 4)); // 2023
-  	System.out.println(d1.getYear() + 1900); // 2023
-  	// 연도 출력
-  	// 1900년이 0으로 반환되기 때문에 1900을 더해줘야 한다
-  	System.out.println(strDate.substring(6, 7)); // 3
-  	System.out.println(d1.getMonth() + 1); // 3
-  	// 달 출력
-  	// 1월이 0으로 반환되기 때문에 1을 더해줘야 한다
-  	System.out.println(strDate.substring(9, 11)); // 21
-  	System.out.println(d1.getDate()); // 21
-  	// 날짜 출력
-  	System.out.println(d1.getDay()); // 2
-  	// 일요일이 0이다
-  	String[] weekName = {"일", "월", "화", "수", "목", "금", "토"};
-  	System.out.println(weekName[d1.getDay()]); // 화
-
-  	Date d2 = new Date(2023 - 1900, 3 - 1, 1);
-  	// 날짜를 지정할 수도 있다
-  	System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:37:05
-
-  	Date d3 = new Date(2023 - 1900, 12 - 1, 24);
-  	System.out.println(weekName[d3.getDay()]); // 일
+    Date d1 = new Date();
+    System.out.println(d1); // Tue Mar 21 11:21:53 KST 2023
+    // 현재 날짜 시간 반환
+    // 참조값이 나오지 않고 내용이 나오도록 toString()이 오버라이딩 되어 있다
+    System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:21:53
+    // 현재 날짜 시간을 현지방식으로 표현
+    // 메서드에 선이 그어진 것은 그 메서드가 Deprecated 되어 있으니 사용을 지양하라는 표시이다
+    String strDate = d1.toLocaleString();
+    System.out.println(strDate.substring(0, 4)); // 2023
+    System.out.println(d1.getYear() + 1900); // 2023
+    // 연도 출력
+    // 1900년이 0으로 반환되기 때문에 1900을 더해줘야 한다
+    System.out.println(strDate.substring(6, 7)); // 3
+    System.out.println(d1.getMonth() + 1); // 3
+    // 달 출력
+    // 1월이 0으로 반환되기 때문에 1을 더해줘야 한다
+    System.out.println(strDate.substring(9, 11)); // 21
+    System.out.println(d1.getDate()); // 21
+    // 날짜 출력
+    System.out.println(d1.getDay()); // 2
+    // 일요일이 0이다
+    String[] weekName = {"일", "월", "화", "수", "목", "금", "토"};
+    System.out.println(weekName[d1.getDay()]); // 화  
+    Date d2 = new Date(2023 - 1900, 3 - 1, 1);
+    // 날짜를 지정할 수도 있다
+    System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:37:05  
+    Date d3 = new Date(2023 - 1900, 12 - 1, 24);
+    System.out.println(weekName[d3.getDay()]); // 일
   }
 
 }
@@ -4308,13 +4298,13 @@ import java.util.Date;
 public class DateTest {
 
   public static void main(String[] args) {
-  	Date d1 = new Date();
-  	System.out.println(d1);
-  	Date d2 = new java.util.Date(1500000000000L); // 밀리초로 날짜 객체 생성
-  	System.out.println(d2);
-  	long gap = d1.getTime() - d2.getTime();
-  	System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");
-
+    Date d1 = new Date();
+    System.out.println(d1);
+    Date d2 = new java.util.Date(1500000000000L); // 밀리초로 Date 객체 생성
+    System.out.println(d2);
+    long gap = d1.getTime() - d2.getTime();
+    // getTime()은 Date 객체의 밀리초를 반환한다
+    System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");  
   }
 
 }
@@ -4335,20 +4325,19 @@ import java.util.Calendar;
 public class CalendarEx01 {
 
   public static void main(String[] args) {
-  	// Calendar calendar1 = new Calendar();
-  	// 에러!!
-  	// Calendar 클래스는 객체 생성 방식이 다르다
-  	Calendar calendar = Calendar.getInstance();
-  	System.out.println(calendar.toString());
+    // Calendar calendar = new Calendar();
+    // 에러!!
+    // Calendar 클래스는 객체 생성 방식이 다르다
+    Calendar calendar = Calendar.getInstance();
+    System.out.println(calendar.toString());
     // Calendar 클래스의 멤버변수 목록이 출력된다
     System.out.println(calendar.getTime()); // Tue Mar 21 12:38:34 KST 2023
-  	System.out.println(calendar.get(Calendar.YEAR)); // 2023
-  	System.out.println(calendar.get(Calendar.MONTH) + 1); // 2
-  	// 1월이 0이다
-  	System.out.println(calendar.get(Calendar.DATE)); // 21
-  	System.out.println(calendar.get(Calendar.DAY_OF_WEEK)); // 3
-  	// 일요일이 1이다
-
+    System.out.println(calendar.get(Calendar.YEAR)); // 2023
+    System.out.println(calendar.get(Calendar.MONTH) + 1); // 2
+    // 1월이 0이다
+    System.out.println(calendar.get(Calendar.DATE)); // 21
+    System.out.println(calendar.get(Calendar.DAY_OF_WEEK)); // 3
+    // 일요일이 1이다 
   }
 
 }
@@ -4361,45 +4350,19 @@ import java.util.Date;
 public class CalendarEx02 {
 
   public static void main(String[] args) {
-  	Calendar c = Calendar.getInstance();
-  	c.set(2023, 3-1, 1);
-  	// 특정 날짜 설정
-  	System.out.println(c.getTime()); // Wed Mar 01 12:14:53 KST 2023
-  	// 특정 날짜, 현재 시간 반환
-
-  	c.add(Calendar.DATE, 3);
-  	// 3일 후의 날짜로 설정
-  	System.out.println(c.getTime()); // Sat Mar 04 12:16:25 KST 2023
-  	Date date = c.getTime();
-  	System.out.println(date); // Sat Mar 04 12:16:25 KST 2023
-  }
-
-}
-```
-
-```java
-import java.util.Calendar;
-import java.util.Date;
-
-public class CalendarEx02 {
-
-  public static void main(String[] args) {
-  	// TODO Auto-generated method stub
-  	Calendar c = Calendar.getInstance();
-  	c.set(2023, 3-1, 1);
-  	// 특정 날짜 설정
-  	System.out.println(c.getTime()); // Wed Mar 01 12:20:18 KST 2023
-  	// 특정 날짜, 현재 시간 출력
-
-  	c.add(Calendar.DATE, 3);
-  	// 3일 후의 날짜로 설정
-  	c.add(Calendar.MONTH, -6);
-  	// 6개월 전의 날짜로 설정
-  	System.out.println(c.getTime()); // Sun Sep 04 12:20:18 KST 2022
-
-  	Date date = c.getTime();
-  	System.out.println(date); // Sun Sep 04 12:20:18 KST 2022
-  	// getTime()으로 Date 객체를 만들 수 있다
+    Calendar c = Calendar.getInstance();
+    c.set(2023, 3-1, 1);
+    // 특정 날짜 설정
+    System.out.println(c.getTime()); // Wed Mar 01 12:20:18 KST 2023
+    // 특정 날짜, 현재 시간 반환 
+    c.add(Calendar.DATE, 3);
+    // 3일 후의 날짜로 설정
+    c.add(Calendar.MONTH, -6);
+    // 6개월 전의 날짜로 설정
+    System.out.println(c.getTime()); // Sun Sep 04 12:20:18 KST 2022  
+    Date date = c.getTime();
+    System.out.println(date); // Sun Sep 04 12:20:18 KST 2022
+    // getTime()으로 Date 객체를 만들 수 있다
   }
 
 }
@@ -4414,26 +4377,24 @@ import java.util.Calendar;
 public class CalendarEx03 {
 
   public static void main(String[] args) {
-  	int year = 2023;
-  	int month = 3;
-
-  	Calendar startCalendar = Calendar.getInstance();
-  	Calendar endCalendar = Calendar.getInstance();
-  	startCalendar.set(year, month - 1, 1);
-  	endCalendar.set(year, month, 1 - 1);
-  	int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
-  	int endDate = endCalendar.get(Calendar.DATE);
-
-  	System.out.println(" SU MO TU WE TH FR SA");
-  	for (int i = 1; i < startDayOfWeek; i++) {
-  		System.out.print("   ");
-  	}
-  	for (int i = 1, n = startDayOfWeek; i <= endDate; i++, n++) {
-  		System.out.print((i < 10) ? "  " + i : " " + i);
-  		if(n % 7 == 0) {
-  			System.out.println();
-  		}
-  	}
+    int year = 2023;
+    int month = 3;  
+    Calendar startCalendar = Calendar.getInstance();
+    Calendar endCalendar = Calendar.getInstance();
+    startCalendar.set(year, month - 1, 1);
+    endCalendar.set(year, month, 1 - 1);
+    int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
+    int endDate = endCalendar.get(Calendar.DATE); 
+    System.out.println(" SU MO TU WE TH FR SA");
+    for (int i = 1; i < startDayOfWeek; i++) {
+      System.out.print("   ");
+    }
+    for (int i = 1, n = startDayOfWeek; i <= endDate; i++, n++) {
+      System.out.print((i < 10) ? "  " + i : " " + i);
+      if(n % 7 == 0) {
+      	System.out.println();
+      }
+    }
   }
 
 }
@@ -4449,27 +4410,26 @@ import java.util.StringTokenizer;
 public class StringTokenizerEx {
 
   public static void main(String[] args) {
-  	String strData1 = "사과 참외 수박 딸기";
-  	StringTokenizer str1 = new StringTokenizer(strData1);
-
-  	System.out.println(str1.countTokens()); // 4
-  	System.out.println(str1.nextToken()); // 사과
-  	System.out.println(str1.nextToken()); // 참외
-  	System.out.println(str1.nextToken()); // 수박
-  	System.out.println(str1.nextToken()); // 딸기
-  	// System.out.println(str1.nextToken());
-  	// 에러!! 다음 토큰이 존재하지 않는다
-  	while(str1.hasMoreTokens()) { // str1이 토큰을 가지고 있다면 반복문 실행
-  		System.out.println(str1.nextToken());
-  	} // str1이 가지고 있는 토큰 모두 출력
-
-  	String strData3 = "x=100*(200+300)/2";
-  	StringTokenizer str3 = new StringTokenizer(strData3, "+-*/=()");
-  	// 구분자가 여러개일 경우 각각의 구분자가 나올 때마다 구분한다
-  	while(str3.hasMoreTokens()){
-  		System.out.println(str3.nextToken());
-  	}
-  	// 출력 결과 확인해보기
+    String strData1 = "사과 참외 수박 딸기";
+    StringTokenizer str1 = new StringTokenizer(strData1); 
+    // 구분자가 주어지지 않을 경우, 공백을 구분자로 해서 구분한다
+    System.out.println(str1.countTokens()); // 4
+    System.out.println(str1.nextToken()); // 사과
+    System.out.println(str1.nextToken()); // 참외
+    System.out.println(str1.nextToken()); // 수박
+    System.out.println(str1.nextToken()); // 딸기
+    // System.out.println(str1.nextToken());
+    // 에러!! 다음 토큰이 존재하지 않는다
+    while(str1.hasMoreTokens()) { // str1이 토큰을 가지고 있다면 반복문 실행
+      System.out.println(str1.nextToken());
+    } // str1이 가지고 있는 토큰 모두 출력  
+    String strData3 = "x=100*(200+300)/2";
+    StringTokenizer str3 = new StringTokenizer(strData3, "+-*/=()");
+    // 구분자가 여러개일 경우 각각의 구분자가 나올 때마다 구분한다
+    while(str3.hasMoreTokens()){
+      System.out.println(str3.nextToken());
+    }
+    // 출력 결과 확인해보기
   }
 
 }
@@ -4484,19 +4444,18 @@ import java.util.StringTokenizer;
 public class StringTokenizerEx {
 
   public static void main(String[] args) {
-  	String strData = "사과&참외&&수박&&딸기";
-  	StringTokenizer st = new StringTokenizer(strData, "&");
-  	while(st.hasMoreTokens()) {
-  		System.out.print(st.nextToken() + ' '); // 사과 참외 수박 딸기
-  	}
-  	// 구분자 사이에 값이 없으면 넘어간다
-  	System.out.println();
-  	String[] arrData = strData.split("&");
-  	for(String data : arrData) {
-  		System.out.print(data + ' ');
-  	} // 사과 참외  수박  딸기
-  	// 구분자 사이에 값이 없으면 빈 문자열이 생긴다
-
+    String strData = "사과&참외&&수박&&딸기";
+    StringTokenizer st = new StringTokenizer(strData, "&");
+    while(st.hasMoreTokens()) {
+      System.out.print(st.nextToken() + ' '); 
+    } // 사과 참외 수박 딸기
+    // 구분자 사이에 값이 없으면 넘어간다
+    System.out.println();
+    String[] arrData = strData.split("&");
+    for(String data : arrData) {
+      System.out.print(data + ' ');
+    } // 사과 참외  수박  딸기
+    // 구분자 사이에 값이 없으면 빈 문자열이 생긴다 
   }
 
 }
@@ -4512,24 +4471,22 @@ import java.util.StringJoiner;
 public class StringJoinerEx {
 
   public static void main(String[] args) {
-  	String str1 = "사과" + ",수박" + ",딸기" + ",참외";
-  	System.out.println(str1); // 사과,수박,딸기,참외
-  	String str2 = "사과".concat(",수박").concat(",딸기").concat(",참외");
-  	System.out.println(str2); // 사과,수박,딸기,참외
-  	String str3 = String.format("%s,%s,%s,%s", "사과", "수박", "딸기", "참외");
-  	System.out.println(str3); // 사과,수박,딸기,참외
-
-  	String[] arrStr = {"사과","수박","딸기","참외"};
-  	String str4 = String.join(",", arrStr);
-  	System.out.println(str4); // 사과,수박,딸기,참외
-
-  	StringJoiner sj = new StringJoiner(",");
+    String str1 = "사과" + ",수박" + ",딸기" + ",참외";
+    System.out.println(str1); // 사과,수박,딸기,참외
+    String str2 = "사과".concat(",수박").concat(",딸기").concat(",참외");
+    System.out.println(str2); // 사과,수박,딸기,참외
+    String str3 = String.format("%s,%s,%s,%s", "사과", "수박", "딸기", "참외");
+    System.out.println(str3); // 사과,수박,딸기,참외  
+    String[] arrStr = {"사과","수박","딸기","참외"};
+    String str4 = String.join(",", arrStr);
+    System.out.println(str4); // 사과,수박,딸기,참외  
+    StringJoiner sj = new StringJoiner(",");
     // 괄호 안의 문자를 구분자로 add()를 통해 문자열을 연결시킨다
-  	sj.add("사과");
-  	sj.add("수박");
-  	sj.add("딸기");
-  	sj.add("참외");
-  	System.out.println(sj.toString()); // 사과,수박,딸기,참외
+    sj.add("사과");
+    sj.add("수박");
+    sj.add("딸기");
+    sj.add("참외");
+    System.out.println(sj.toString()); // 사과,수박,딸기,참외
   }
 
 }
@@ -4545,14 +4502,13 @@ import java.util.Random;
 public class RandomEx {
 
   public static void main(String[] args) {
-  	Random r1 = new Random(System.currentTimeMillis());
-  	// 괄호 안의 값은 seeding 값으로 난수를 추출할 때마다 초기화 되는 값을 이용한다
-    // 만약 seeding 값이 초기화 되는 값이 아니면 실행시 계속 같은 결과를 얻게 된다
-  	System.out.println(r1.nextInt(10)); // 4
-  	// 0 <= x < 10인 정수값을 가지는 난수 추출
-  	System.out.println(r1.nextInt(45) + 1); // 34
-  	// 1 <= x < (45 + 1)인 정수값을 가지는 난수 추출
-
+    Random r1 = new Random(System.currentTimeMillis());
+    // 괄호 안의 값은 seeding 값으로 난수를 추출할 때마다 계속 달라지는 값을 이용한다
+    // 만약 seeding 값 일정하면 실행할 때마다 계속 같은 결과를 얻게 된다
+    System.out.println(r1.nextInt(10)); // 4
+    // 0 <= x < 10인 정수값을 가지는 난수 추출
+    System.out.println(r1.nextInt(45) + 1); // 34
+    // (0 + 1) <= x < (45 + 1)인 정수값을 가지는 난수 추출  
   }
 
 }
@@ -4565,13 +4521,13 @@ import java.util.Random;
 public class RandomEx02 {
 
   public static void main(String[] args) {
-  	Random random = new Random(System.currentTimeMillis());
-  	for (int j = 0; j < 5; j++) {
-  		for (int i = 0; i < 6; i++) {
-  				System.out.printf("%2d ", random.nextInt(45) + 1);
-  		}
-  		System.out.println();
-  	}
+    Random random = new Random(System.currentTimeMillis());
+    for (int j = 0; j < 5; j++) {
+      for (int i = 0; i < 6; i++) {
+        System.out.printf("%2d ", random.nextInt(45) + 1);
+      }
+      System.out.println();
+    }
   }
 
 }
@@ -4587,17 +4543,17 @@ import java.util.Scanner;
 public class ScannerEx {
 
   public static void main(String[] args) {
-  	Scanner sc = new Scanner(System.in); // 키보드를 통해 입력을 받는 Scanner 객체를 변수 sc에 할당
-  	System.out.print("입력 : ");
-  	String msg = sc.next();
-  	// 공백 이전까지만 입력을 받는다
-  	// 입력 : "aaa bbb ccc"
-  	// msg : "aaa
-  	// 큰 따옴표를 써서 하나의 문자열로 묶어도 공백 이전까지만 입력을 받는다
-  	System.out.print("msg : " + msg);
-
-  	sc.close();
-  	// 반드시 닫아줘야 한다
+    Scanner sc = new Scanner(System.in); 
+    // 키보드를 통해 입력을 받는 Scanner 객체를 변수 sc에 할당
+    System.out.print("입력 : ");
+    String msg = sc.next();
+    // 공백 이전까지만 입력을 받는다
+    // 입력 : "aaa bbb ccc"
+    // msg : "aaa
+    // 큰 따옴표를 써서 하나의 문자열로 묶어도 공백 이전까지만 입력을 받는다
+    System.out.print("msg : " + msg); 
+    sc.close();
+    // 반드시 닫아줘야 한다
   }
 
 }
@@ -4607,22 +4563,17 @@ public class ScannerEx {
 import java.util.Scanner;
 
 public class ScannerEx02 {
-
   public static void main(String[] args) {
-  	Scanner sc = new Scanner(System.in);
-
-  	System.out.print("아이디 : ");
-  	String id = sc.nextLine();
-  	// 공백이 있더라도 한줄 전체를 입력받아 반환한다
-  	System.out.print("비밀번호 : ");
-  	String pw = sc.nextLine();
-
-  	System.out.println("id : " + id);
-  	System.out.println("pw : " + pw);
-
-  	sc.close();
-  }
-
+    Scanner sc = new Scanner(System.in);  
+    System.out.print("아이디 : ");
+    String id = sc.nextLine();
+    // 공백이 있더라도 한줄 전체를 입력받아 반환한다
+    System.out.print("비밀번호 : ");
+    String pw = sc.nextLine();  
+    System.out.println("id : " + id);
+    System.out.println("pw : " + pw); 
+    sc.close();
+  } 
 }
 ```
 
@@ -4634,21 +4585,20 @@ import java.util.Scanner;
 public class ScannerEx03 {
 
   public static void main(String[] args) {
-  	Scanner sc = new Scanner(System.in);
-
-  	String msg = "";
-  	while(true) {
-  		System.out.print("입력 > ");
-  		msg = sc.nextLine();
-  		if(!msg.equals("exit")) {
-  			System.out.println("msg : " + msg);
-  		}else {
-  			System.out.println("종료");
-  			break;
-  			// "exit"을 입력받으면 무한루프를 빠져나온다
-  		}
-  	}
-  	sc.close();
+    Scanner sc = new Scanner(System.in);  
+    String msg = "";
+    while(true) {
+      System.out.print("입력(종료 : exit) > ");
+      msg = sc.nextLine();
+      if(!msg.equals("exit")) {
+        System.out.println("msg : " + msg);
+      }else {
+        System.out.println("종료");
+        break;
+        // "exit"을 입력받으면 무한루프를 빠져나온다
+      }
+    }
+    sc.close();
   }
 
 }
@@ -4662,58 +4612,58 @@ import java.util.Scanner;
 public class Gugudan {
 
   public static void main(String[] args) {
-  	Scanner sc = new Scanner(System.in);
-  	while(true)	{
-  	  System.out.print("단수 > ");
-  	  String in = sc.nextLine();
-  	  if(in.equals("q") || in.equals("Q")) {
-  	  	System.out.println("종료");
-  	  	break;
-  	  }
-  	  int dan = Integer.parseInt(in); 
-  	  for(int i = 1; i <= 9; i++) {
-  	  	System.out.printf("%2d X %2d = %2d%n", dan, i, dan * i);
-  	  }
-  	}
+    Scanner sc = new Scanner(System.in);
+    while(true)	{
+      System.out.print("단수(종료 : q, Q) > ");
+      String in = sc.nextLine();
+      if(in.equals("q") || in.equals("Q")) {
+        System.out.println("종료");
+        break;
+      }
+      int dan = Integer.parseInt(in); 
+      for(int i = 1; i <= 9; i++) {
+        System.out.printf("%2d X %2d = %2d%n", dan, i, dan * i);
+      }
+    }
   }
 
 }
 ```
 ### Arrays
-- 배열과 관련된 클래스
+- 배열과 관련된 클래스로 static 메서드만 제공한다
 
-- static 메서드만 가지고 있기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용하기만 하면 된다
+  <small>!! static 메서드만 가지고 있기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용하기만 하면 된다 </small>
 
   <small>!! 당연히 생성자는 없다</small>
 #### Arrays의 메서드
 ```java
 public class ArraysEx01 {
 
-	public static void main(String[] args) {
-		String[] arrs = {"aaa", "bbb", "ccc"};
-		System.out.println(Arrays.toString(arrs)); // [aaa, bbb, ccc]
-		// 배열을 문자열 형식으로 반환한다
-		Arrays.fill(arrs, "xxx");
-		// 배열을 특정 문자열로 초기화 시킨다
-		System.out.println(Arrays.toString(arrs)); // [xxx, xxx, xxx]
-		Arrays.fill(arrs, 0, 2, "yyy");
-		// 인덱스 0 ~ (2-1)까지의 값을 "yyy"로 초기화 시킨다
-		System.out.println(Arrays.toString(arrs)); // [yyy, yyy, xxx]
-		
-		String[] arrs1 = {"aaa", "bbb", "ccc"};
-		String[] arrs2 = {"aaa", "bbb", "ccc"};
-		System.out.println(arrs1 == arrs2); // false
-		// 배열의 참조값을 비교
-		System.out.println(Arrays.equals(arrs1, arrs2)); // true
-		// 배열의 데이터 값을 비교
-		
-		Integer[] arrNums = {5, 4, 1, 2, 3};
-		Arrays.sort(arrNums);
-		// 데이터를 값에 크기에 따라 정렬시킨다
-		// 숫자뿐만 아니라 문자, 문자열도 정렬이 가능하다
-		// 문자, 문자열은 아스키 코드 값으로 크기 비교를 한다
-		System.out.println(Arrays.toString(arrNums)); // [1, 2, 3, 4, 5]
-	}
+  public static void main(String[] args) {
+    String[] arrs = {"aaa", "bbb", "ccc"};
+    System.out.println(Arrays.toString(arrs)); // [aaa, bbb, ccc]
+    // 배열을 문자열 형식으로 반환한다
+    Arrays.fill(arrs, "xxx");
+    // 배열을 특정 문자열로 초기화 시킨다
+    System.out.println(Arrays.toString(arrs)); // [xxx, xxx, xxx]
+    Arrays.fill(arrs, 0, 2, "yyy");
+    // 인덱스 0부터 (2-1)까지의 값을 "yyy"로 초기화 시킨다
+    System.out.println(Arrays.toString(arrs)); // [yyy, yyy, xxx]
+
+    String[] arrs1 = {"aaa", "bbb", "ccc"};
+    String[] arrs2 = {"aaa", "bbb", "ccc"};
+    System.out.println(arrs1 == arrs2); // false
+    // 배열의 참조값을 비교
+    System.out.println(Arrays.equals(arrs1, arrs2)); // true
+    // 배열의 데이터 값을 비교
+
+    Integer[] arrNums = {5, 4, 1, 2, 3};
+    Arrays.sort(arrNums);
+    // 데이터를 값에 크기에 따라 정렬시킨다
+    // 숫자뿐만 아니라 문자, 문자열도 정렬이 가능하다
+    // 문자, 문자열은 아스키 코드 값으로 크기 비교를 한다
+    System.out.println(Arrays.toString(arrNums)); // [1, 2, 3, 4, 5]
+  }
 
 }
 ```
@@ -4724,24 +4674,24 @@ import java.util.Random;
 
 public class LottoGeneratorByArray {
 	
-	public static void main(String[] args) {
-		int[] selected = new int[6];
-		int[] fullBall = new int[46];
-		
-		int cnt = 0;
-		Random rand = new Random();
-		while(cnt < 6) {
-			int index = rand.nextInt(45);
-			int ball = fullBall[index];
-			if(ball == 0) {
-				selected[cnt] = index + 1;
-				fullBall[index] = -1;
-				cnt++;
-			}
-		}
-		Arrays.sort(selected);
-		System.out.println(Arrays.toString(selected));
-	}
+  public static void main(String[] args) {
+    int[] selected = new int[6];
+    int[] fullBall = new int[46];
+
+    int cnt = 0;
+    Random rand = new Random();
+    while(cnt < 6) {
+      int index = rand.nextInt(45);
+      int ball = fullBall[index];
+      if(ball == 0) {
+        selected[cnt] = index + 1;
+        fullBall[index] = -1;
+        cnt++;
+      }
+    }
+    Arrays.sort(selected);
+    System.out.println(Arrays.toString(selected));
+  }
 
 }
 ```
@@ -4749,7 +4699,7 @@ public class LottoGeneratorByArray {
 
 ## 컬렉션 프레임워크
 
-- java.util 패키지에 하위 클래스들로 자료구조에 사용된다
+- java.util 패키지의 하위 클래스로 자료구조에 사용된다
 
 - 구분
 
@@ -4762,7 +4712,7 @@ public class LottoGeneratorByArray {
 
 - Generic을 사용하면 컴파일할 때, 객체의 타입을 체크하도록 한다
 
-- ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제점이 생긴다
+- ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제가 생긴다
 
   &rarr; &nbsp;Gerneric을 사용해
   컬렉션(클래스, 메서드) 내부의 자료형을 선언한다
@@ -4770,30 +4720,39 @@ public class LottoGeneratorByArray {
 ```java
 import java.util.ArrayList;
 
+class Person{
+  String hakbun;
+  String name;
+
+  Person(String hakbun, String name){
+    this.hakbun = hakbun;
+    this.name = name;
+  }
+}
+
 public class ArrayListEx04 {
 
   public static void main(String[] args) {
-  	ArrayList al1 = new ArrayList();
+    ArrayList al1 = new ArrayList();  
+    al1.add("홍길동");
+    al1.add(new Person("1001", "홍길동"));
+    // 모든 객체를 추가시킬 수 있다
+    // 그렇기 때문에 al1에 있는 데이터를 사용할 때 문제가 생길 수도 있다
+    //  for(int i = 0; i < al1.size(); i++) {
+    //  	String s = (String)al1.get(i);
+    //  	System.out.println(s);
+    //  }
+    // 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다  
 
-  	al1.add("홍길동");
-  	al1.add(new Person("1001", "홍길동"));
-  	// 모든 객체를 추가시킬 수 있다
-  	// 그렇기 때문에 al1에 있는 데이터를 사용할 때 문제가 생길 수도 있다
-  	//  for(int i = 0; i < al1.size(); i++) {
-  	//  	String s = (String)al1.get(i);
-  	//  	System.out.println(s);
-  	//  }
-  	// 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다
-
-  	ArrayList<String> al2 = new ArrayList<>();
-  	al2.add("홍길동");
-  	// al2.add(new Person("1001", "홍길동"));
-  	// 에러!! al2에 String 객체만 들어가도록 선언했다
-  	// Generic
-  	for(int i = 0; i < al2.size(); i++) {
-  		String s = al2.get(i);
-  		System.out.println(s);
-  	}
+    ArrayList<String> al2 = new ArrayList<>();
+    al2.add("홍길동");
+    // al2.add(new Person("1001", "홍길동"));
+    // 에러!! al2에 String 객체만 들어가도록 선언했다
+    // Generic
+    for(int i = 0; i < al2.size(); i++) {
+      String s = al2.get(i);
+      System.out.println(s);
+    }
   }
 
 }
@@ -4826,8 +4785,7 @@ public class ListEx {
     v.add("박문수");
     v.add("이몽룡");
     System.out.println(v);
-    // 같은 List 인터페이스를 구현한 클래스이기 때문에 메서드 이름과 기능이 같다
-
+    // ArrayList와 Vector는 같은 List 인터페이스를 구현한 클래스이기 때문에 메서드 이름과 기능이 같다  
     List<String> l1 = new ArrayList<>();
     l1.add("홍길동");
     l1.add("박문수");
@@ -4842,32 +4800,6 @@ public class ListEx {
 }
 ```
 
-```java
-import java.util.ArrayList;
-
-public class ArrayListEx {
-
-  public static void main(String[] args) {
-  	ArrayList al1 = new ArrayList();
-  	ArrayList al2 = new ArrayList(100);
-  	al1.add("홍길동");
-  	al1.add("박문수");
-  	al1.add("이몽룡");
-  	// String 객체가 Object 객체로 형변환 되서 추가된다
-  	System.out.println(al1); // [홍길동, 박문수, 이몽룡]
-  	System.out.println(al1.size()); // 3
-  	// String data1 = al1.get(0);
-  	// 에러!! al1에 저장된 객체는 Object 객체이다
-  	String data1 = (String)al1.get(0);
-  	// 배열과 달리 값을 가져오기 위해서 get()을 사용한다
-  	System.out.println(data1); // 홍길동
-  	for(int i = 0; i < al1.size(); i++) {
-  		System.out.print((String)al1.get(i) + " "); // 홍길동 박문수 이몽룡
-  	}
-  }
-
-}
-```
 
 ```java
 import java.util.ArrayList;
@@ -4875,23 +4807,22 @@ import java.util.ArrayList;
 public class ArrayListEx {
 
   public static void main(String[] args) {
-  	ArrayList al = new ArrayList();
-  	al.add("홍길동");
-  	al.add("박문수");
-  	al.add("이몽룡");
-
-  	System.out.println(al.toString()); // [홍길동, 박문수, 이몽룡]
-  	al.add(2, "장길산");
-  	System.out.println(al.toString()); // [홍길동, 박문수, 장길산, 이몽룡]
-  	al.set(0, "이몽룡");
-  	System.out.println(al.toString()); // [이몽룡, 박문수, 장길산, 이몽룡]
-  	al.remove(0);
-  	System.out.println(al.toString()); // [박문수, 장길산, 이몽룡]
-  	// ArrayList에서는 추가/삭제가 용이하다
-  	al.clear();
-  	// 값 전부 삭제
-  	System.out.println(al.toString()); // []
-  	System.out.println(al.size()); // 0
+    ArrayList al = new ArrayList();
+    al.add("홍길동");
+    al.add("박문수");
+    al.add("이몽룡"); 
+    System.out.println(al.toString()); // [홍길동, 박문수, 이몽룡]
+    al.add(2, "장길산");
+    System.out.println(al.toString()); // [홍길동, 박문수, 장길산, 이몽룡]
+    al.set(0, "이몽룡");
+    System.out.println(al.toString()); // [이몽룡, 박문수, 장길산, 이몽룡]
+    al.remove(0);
+    System.out.println(al.toString()); // [박문수, 장길산, 이몽룡]
+    // ArrayList에서는 추가/삭제가 용이하다
+    al.clear();
+    // 값 전부 삭제
+    System.out.println(al.toString()); // []
+    System.out.println(al.size()); // 0
   }
 
 }
@@ -4899,44 +4830,72 @@ public class ArrayListEx {
 
 !! ArrayList에 추가 될때 Object 객체로 형변환 된 후 추가되는 것에 주의하자
 
+
 ```java
-  import java.util.ArrayList;
+import java.util.ArrayList;
+
+public class ArrayListEx {
+
+  public static void main(String[] args) {
+    ArrayList al1 = new ArrayList();
+    ArrayList al2 = new ArrayList(100);
+    al1.add("홍길동");
+    al1.add("박문수");
+    al1.add("이몽룡");
+    // String 객체가 Object 객체로 형변환 돼서 추가된다
+    System.out.println(al1); // [홍길동, 박문수, 이몽룡]
+    System.out.println(al1.size()); // 3
+    String data1 = (String)al1.get(0);
+    // 배열과 달리 값을 가져오기 위해서 get()을 사용한다
+    // String data1 = al1.get(0);
+    // 에러!! al1에 저장된 객체는 Object 객체이다
+    System.out.println(data1); // 홍길동
+    for(int i = 0; i < al1.size(); i++) {
+      System.out.print((String)al1.get(i) + " "); // 홍길동 박문수 이몽룡
+    }
+  }
+
+}
+```
+
+```java
+import java.util.ArrayList;
 
 class Person {
   private String hakbun;
   private String name;  
   public Person(String hakbun, String name) {
-  	this.hakbun = hakbun;
-  	this.name = name;
+    this.hakbun = hakbun;
+    this.name = name;
   } 
   public String getHakbun() {
-  	return hakbun;
+    return hakbun;
   }
   public String getName() {
-  	return name;
+    return name;
   } 
   @Override
   public String toString() {
-  	return super.toString();
+    return super.toString();
   } 
 }
 
 public class ArrayListEx03 {
 
   public static void main(String[] args) {
-  	ArrayList al = new ArrayList(); 
-  	Person p1 = new Person("1001", "홍길동");
-  	Person p2 = new Person("1002", "박문수"); 
-  	al.add(p1);
-  	al.add(p2);
-  	// Person 객체가 Object 객체로 형변환 되서 추가된다
-  	for(int i = 0; i < al.size(); i++) {
-  	  Person p = (Person)al.get(i);
-  	  System.out.println(p.getHakbun());
-  	  // 학번 출력
-  	  System.out.println(p.getName());
-  	  // 이름 출력
-  	}
+    ArrayList al = new ArrayList(); 
+    Person p1 = new Person("1001", "홍길동");
+    Person p2 = new Person("1002", "박문수"); 
+    al.add(p1);
+    al.add(p2);
+    // Person 객체가 Object 객체로 형변환 되서 추가된다
+    for(int i = 0; i < al.size(); i++) {
+      Person p = (Person)al.get(i);
+      System.out.println(p.getHakbun()); 
+      // 학번 출력
+      System.out.println(p.getName());
+      // 이름 출력
+    }
   }
 }
 ```
@@ -4950,7 +4909,7 @@ public class ArrayListEx {
     al.add(2);
     al.add(3);
     al.add(4);
-    al.add(5);
+    al.add(5);  
 
     for(int i = 0; i < al.size(); i++) {
       if(al.get(i) instanceof Integer) {
@@ -4959,73 +4918,71 @@ public class ArrayListEx {
       }
     }
     System.out.println(al); // [2, 4]
-    // remove()의 사용으로 배열의 크기가 달라지기 때문에 데이터가 모두 삭제된
-    // 출력이 나오지 않고 일부 데이터가 남아있는 형태로 출력된다
+    // remove()의 사용으로 배열의 인덱스가 달라지기 때문에 데이터가 전부
+    // 삭제된 출력이 나오지 않고 일부 데이터가 남아있는 형태로 출력된다
   }
 }
 ```
 ```java
 public class ArraysEx01 {
 
-	public static void main(String[] args) {
-
-		String[] arrs1 = {"aaa", "bbb", "ccc"};
-
+  public static void main(String[] args) {  
+    String[] arrs1 = {"aaa", "bbb", "ccc"}; 
     List<String> lists = Arrays.asList(arrs1);
     // Arrays.asList()를 통해 배열로 List 객체를 만들 수 있다
     System.out.println(lists); // [aaa, bbb, ccc]
-	}
+  }
 
 }
 ```
 !! 표 형식의 데이터를 출력하기
 
-  <small>!! 표 형식의 데이터를 집어넣는 클래스를 TO(Transfer Object) 또는 VO(Value Object)라고 한다</small>
+  <small>!! 데이터를 엑셀 형식의 표에 집어넣는 클래스를 TO(Transfer Object) 또는 VO(Value Object)라고 한다</small>
 
 ```java
 import java.util.ArrayList;
 
 class Student {
-	private String seq;
-	private String name;
-	private String phone;
-	private String age;
-	
-	public String getSeq() {
-		return seq;
-	}
-	public String getName() {
-		return name;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public String getAge() {
-		return age;
-	}
-	
-	public Student(String seq, String name, String phone, String age) {
-		this.seq = seq;
-		this.name = name;
-		this.phone = phone;
-		this.age = age;
-	}
+  private String seq;
+  private String name;
+  private String phone;
+  private String age;
+
+  public String getSeq() {
+    return seq;
+  }
+  public String getName() {
+    return name;
+  }
+  public String getPhone() {
+    return phone;
+  }
+  public String getAge() {
+    return age;
+  }
+
+  public Student(String seq, String name, String phone, String age) {
+    this.seq = seq;
+    this.name = name;
+    this.phone = phone;
+    this.age = age;
+  }
 }
 
 public class DataEx01 {
   public static void main(String[] args){
-	  Student s1 = new Student("1", "홍길동", "010-111-1111", "20");
-	  Student s2 = new Student("2", "박문수", "010-222-2222", "22");
-	  Student s3 = new Student("3", "임꺽정", "010-333-3333", "25");
-  
-	  ArrayList<Student> datas = new ArrayList<>();
-	  datas.add(s1);
-	  datas.add(s2);
-	  datas.add(s3);
-  
-	  for(Student s : datas) {
-	  	System.out.printf("%s %s %s %s%n", s.getSeq(), s.getName(), s.getPhone(), s.getAge());
-	  }
+    Student s1 = new Student("1", "홍길동", "010-111-1111", "20");
+    Student s2 = new Student("2", "박문수", "010-222-2222", "22");
+    Student s3 = new Student("3", "임꺽정", "010-333-3333", "25");
+
+    ArrayList<Student> datas = new ArrayList<>();
+    datas.add(s1);
+    datas.add(s2);
+    datas.add(s3);
+
+    for(Student s : datas) {
+      System.out.printf("%s %s %s %s%n", s.getSeq(), s.getName(), s.getPhone(), s.getAge());
+    }
   }
 }
 ```
@@ -5041,19 +4998,16 @@ import java.util.Set;
 public class SetEx {
   public static void main(String[] args) {
     HashSet<String> hs1 = new HashSet<>();
-    Set<String> hs2 = new HashSet<>();
-
+    Set<String> hs2 = new HashSet<>();  
     hs1.add("홍길동");
     hs1.add("박문수");
     hs1.add("임꺽정");
     System.out.println(hs1); // [홍길동, 박문수, 임꺽정]
-    System.out.println(hs1.size()); // 3
-
+    System.out.println(hs1.size()); // 3  
     hs1.add("홍길동");
     hs1.add("장길산");
     System.out.println(hs1); // [홍길동, 박문수, 임꺽정, 장길산]
-    // 중복된 데이터는 추가하지 않는다
-
+    // 중복된 데이터는 추가하지 않는다  
     Iterator<String> i = hs1.iterator();
     while(i.hasNext()){
       System.out.println(i.next());
@@ -5141,13 +5095,13 @@ public class PropertiesEx {
 
     Enumeration e = pro.propertyNames();
     while(e.hasMoreElements()) {
-    	System.out.println(e.nextElement());
+      System.out.println(e.nextElement());
     }
     // pro의 키값만 모두 출력
 
     Set<String> names = pro.stringPropertyNames();
     for (String name : names) {
-    	System.out.println(name);
+      System.out.println(name);
     }
     // pro의 키값만 모두 출력
   }
@@ -5164,7 +5118,7 @@ public class PropertiesEx02 {
     // 시스템 속성을 할당받는다
     Set<String> names = prop.stringPropertyNames();
     for(String name : names) {
-    	System.out.println(name);
+      System.out.println(name);
     }
     // 시스템 속성의 키를 모두 출력
 
@@ -5178,6 +5132,8 @@ public class PropertiesEx02 {
 - 자료구조
 #### 스택(Stack)
 - 나중에 들어간 데이터가 먼저 나온다
+
+- Java는 스택이 클래스로 만들어져 있다
 <img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
 
 ```java
@@ -5192,9 +5148,9 @@ public class StackEx01 {
     stack.push("임꺽정");
     System.out.println(stack); // [홍길동, 박문수, 임꺽정]
     System.out.println(stack.pop()); // 임꺽정
-    // 마지막에 추가 된 데이터를 반환한다
+    // 스택에 있는 데이터 중 마지막에 추가 된 데이터를 반환한다
     System.out.println(stack); // [홍길동, 박문수]
-    // pop() 메서드를 사용하면 반환된 값이 제거된다
+    // pop()을 사용하면 반환된 값이 스택에서 제거된다
     System.out.println(stack.pop()); // 박문수
     System.out.println(stack); // [홍길동]
   }
@@ -5204,6 +5160,8 @@ public class StackEx01 {
 
 #### 큐(Queue)
 - 먼저 들어간 데이터가 먼저 나온다
+
+- Java는 큐가 클래스로 만들어져 있다
 
 <img src="https://cdn.programiz.com/sites/tutorial2program/files/queue.png">
 
@@ -5220,9 +5178,9 @@ public class QueueEx01 {
     queue.offer("임꺽정");
     System.out.println(queue); // [홍길동, 박문수, 임꺽정]
     System.out.println(queue.poll()); // 홍길동
-    // 가장 먼저 추가된 값을 반환한다
+    // 큐에 있는 데이터 중 가장 먼저 추가된 데이터를 반환한다
     System.out.println(queue); // [박문수, 임꺽정]
-    // poll() 메서드를 사용하면 반환된 값이 제거된다
+    // poll()을 사용하면 반환된 값이 큐에서 제거된다
     System.out.println(queue.poll()); // 박문수
     System.out.println(queue); // [임꺽정]
   }
@@ -5244,39 +5202,39 @@ import java.text.ParseException;
 
 public class DecimalFormatEx {
 
-	public static void main(String[] args) {
-		DecimalFormat format1 = new DecimalFormat("$#,###.#");
-		
-		double db1Num1 = 1234.5;
-		double db1Num2 = 1234.56;
-		double db1Num3 = 234.5;
-		
-		String strNum1 = format1.format(db1Num1);
-		String strNum2 = format1.format(db1Num2);
-		String strNum3 = format1.format(db1Num3);
-		// 데이터를 특정 문자열 형태로 만들어 반환한다
-		
-		System.out.println(strNum1); // $1,234.5
-		System.out.println(strNum2); // $1,234.6
-		System.out.println(strNum3); // $234.5
-		
-		format1.applyPattern("0000.0");
-		// 새로운 패턴을 적용시킨다
-		System.out.println(format1.format(db1Num1)); // 1234.5
-		System.out.println(format1.format(db1Num2)); // 1234.6
-		System.out.println(format1.format(db1Num3)); // 0234.5
-		
-		format1.applyPattern("$#,###.#");
-		
-		try {
-			String strNum4 = "$1,234.5";
-			// "$"에 주의하자
-			double parseNum = (double)format1.parse(strNum4);
-			System.out.println(parseNum); // 1234.5
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}
+  public static void main(String[] args) {
+    DecimalFormat format1 = new DecimalFormat("$#,###.#");
+
+    double db1Num1 = 1234.5;
+    double db1Num2 = 1234.56;
+    double db1Num3 = 234.5;
+
+    String strNum1 = format1.format(db1Num1);
+    String strNum2 = format1.format(db1Num2);
+    String strNum3 = format1.format(db1Num3);
+    // 데이터를 특정 문자열 형태로 만들어 반환한다
+
+    System.out.println(strNum1); // $1,234.5
+    System.out.println(strNum2); // $1,234.6
+    System.out.println(strNum3); // $234.5
+
+    format1.applyPattern("0000.0");
+    // 새로운 패턴을 적용시킨다
+    System.out.println(format1.format(db1Num1)); // 1234.5
+    System.out.println(format1.format(db1Num2)); // 1234.6
+    System.out.println(format1.format(db1Num3)); // 0234.5
+
+    format1.applyPattern("$#,###.#");
+
+    try {
+      String strNum4 = "$1,234.5";
+      // "$"에 주의하자
+      double parseNum = (double)format1.parse(strNum4);
+      System.out.println(parseNum); // 1234.5
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
 
 }
 ```
@@ -5289,20 +5247,20 @@ import java.util.Date;
 
 public class SimpleDateFormatEx {
 
-	public static void main(String[] args) {
-		String source = "2020년 12월 25일";
-		System.out.println(source + "를 요일 정보까지 출력한다면?");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
-		try {
-			Date parsed = format.parse(source);
+  public static void main(String[] args) {
+    String source = "2020년 12월 25일";
+    System.out.println(source + "를 요일 정보까지 출력한다면?");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
+    try {
+      Date parsed = format.parse(source);
       // 문자열을 지정한 패턴을 이용해 Date 객체로 변환 시킨다
-			format.applyPattern("yyyy년 MM월 dd일(E)");
+      format.applyPattern("yyyy년 MM월 dd일(E)");
       // 새로운 패턴을 적용시킨다
-			System.out.println(format.format(parsed));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}
+      System.out.println(format.format(parsed));
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
 }
 ```
 ### MessageFormat
@@ -5312,16 +5270,16 @@ import java.text.MessageFormat;
 
 public class MessageFormatTest {
 
-	public static void main(String[] args) {
-		String pattern = "이름:{0}, Java:{1}, HTML:{2}, Script:{3}";
+  public static void main(String[] args) {
+    String pattern = "이름:{0}, Java:{1}, HTML:{2}, Script:{3}";
     // 데이터가 삽입되는 위치에 중괄호를 써준다
     // 이때, 중괄호 안에는 인덱스 값이 들어간다
-		String src = "홍길동:100:90:85,임꺽정:90:95:70,장길산:75:85:90";
-		String[] stuInfo = src.split(",");
-		for(String stu : stuInfo) {
-			System.out.println(MessageFormat.format(pattern, stu.split(":")));
-		}
-	}
+    String src = "홍길동:100:90:85,임꺽정:90:95:70,장길산:75:85:90";
+    String[] stuInfo = src.split(",");
+    for(String stu : stuInfo) {
+      System.out.println(MessageFormat.format(pattern, stu.split(":")));
+    }
+  }
 
 }
 ```
@@ -5339,7 +5297,7 @@ public class MessageFormatTest {
 
     <sup> ex) 변수, 상수, 배열, 객체, 컬렉션 ...</sup>
 
-  - 영구 저장 데이터 : 프로그램 종료와 상관없이 영구적을 저장되는 데이터
+  - 영구 저장 데이터 : 프로그램 종료와 상관없이 영구적으로 저장되는 데이터
 
 
     - 로컬 저장 데이터 : 프로그램과 같은 컴퓨터에 있는 데이터
@@ -5368,7 +5326,7 @@ public class MessageFormatTest {
   - 출력스트림(OutputStream) / Writer
 
     <small> 프로그램 &nbsp;&nbsp;&rarr; &rarr; &rarr;&nbsp;&nbsp; 파일</small> 
-- 데이터를 한번에 이동하는게 아니라 일정량씩 이동한다
+- 데이터가 한번에 이동하는게 아니라 일정량씩 이동한다
 - 입출력 단위
   - 1byte : 영문자, 특수문자, 숫자, byte 자료형, ...
 
@@ -5407,17 +5365,17 @@ public class InputStreamEx01 {
     try {
       fis = new FileInputStream("./src/test1.txt");
       int data = fis.read();
-      // int 자료형인 아스키 코드 값으로 하나의 문자를 반환한다
+      // 하나의 문자를 int 자료형인 아스키 코드 값으로 반환한다
       System.out.println(data); // 49
       // '1'의 아스키 코드값으로 반환된다
       System.out.println((char)data); // 1
       data = fis.read();
-      System.out.println((char)data); // 2 
       // 다음 문자가 반환된다
+      System.out.println((char)data); // 2 
 
       byte[] datas = new byte[5];
       fis.read(datas);
-      // 5개 문자 반환하기
+      // 다음의 5개 문자 반환하기
       System.out.println((char)datas[0]); // 3
       System.out.println((char)datas[4]); // 7
 
@@ -5450,13 +5408,13 @@ public class InputStreamEx02 {
       while((data = fis.read()) != -1) {
       	// read()는 더 이상 읽을 문자가 없을 시 -1을 반환한다
       	System.out.println((char)data);
-      }
+      } // 한국어만 깨져 나온다
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
-      try {fis.close();} catch(IOException e) {}
+      if(fis != null) try {fis.close();} catch(IOException e) {}
     }
     // 전체 파일 내용 읽기
   }
@@ -5473,22 +5431,22 @@ import java.io.IOException;
 
 public class ReaderEx {
 
-	public static void main(String[] args) {
-		FileReader br = null;
-		try {
-			br = new FileReader("./test1.txt");
-			int data = 0;
-			while((data = br.read()) != -1) {
-				System.out.print((char)data);
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		}finally {
-			if(br != null)try {br.close();}catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    FileReader br = null;
+    try {
+      br = new FileReader("./test1.txt");
+      int data = 0;
+      while((data = br.read()) != -1) {
+      	System.out.print((char)data);
+      } // 한국어가 깨져 나오지 않는다
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    }finally {
+      if(br != null)try {br.close();}catch(IOException e) {}
+    }
+  }
 }
 ```
 ##### FileOutputStream
@@ -5503,7 +5461,7 @@ import java.io.IOException;
 public class OutputStreamEx01 {
 
   public static void main(String[] args) {
-    FileOutputStream fos = null;
+    FileOutputStream fos = null;  
 
     try {
       fos = new FileOutputStream("./test2.txt", true);
@@ -5521,7 +5479,7 @@ public class OutputStreamEx01 {
     } catch(IOException e) {
       System.out.println("에러 : " + e.getMessage());
     } finally {
-      try {fos.close();} catch(IOException e) {}
+      if(fos != null) try {fos.close();} catch(IOException e) {}
     }
     // test2.txt 파일이 없을 경우 파일을 만들고 그 파일 안에 내용을 출력한다
   }
@@ -5538,22 +5496,22 @@ import java.io.IOException;
 
 public class WriterEx {
 
-	public static void main(String[] args) {
-		FileWriter bw = null;
-		
-		try {
-			bw = new FileWriter("./test1.txt");
-			bw.write("가나다");
-			bw.write("\n");
-			bw.write("cde");
-			// FileOutStream과 달리 문자열을 출력할 수 있다
-			System.out.println("출력 완료");
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(bw != null)try {bw.close();}catch(IOException e) {}
-		}
-	}	
+  public static void main(String[] args) {
+    FileWriter bw = null;
+
+    try {
+      bw = new FileWriter("./test1.txt");
+      bw.write("가나다");
+      bw.write("\n");
+      bw.write("cde");
+      // FileOutStream과 달리 문자열을 출력할 수 있다
+      System.out.println("출력 완료");
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(bw != null) try {bw.close();}catch(IOException e) {}
+    }
+  }	
 }
 ```
 !! 텍스트 파일뿐만아니라 이미지, 음악 파일도 데이터를 입력받고 출력하는 것이 가능하다
@@ -5566,29 +5524,29 @@ import java.io.IOException;
 public class CopyEx01 {
 
 	public static void main(String[] args) {
-		FileInputStream fis = null;
-		FileOutputStream fos = null;
-		
-		try {
-			fis = new FileInputStream("./daum.png");
-			fos = new FileOutputStream("./daum2.png");
-			
-			int data = 0; 
-			while((data = fis.read()) != -1) {
-				fos.write(data);
-			} 
+	  FileInputStream fis = null;
+	  FileOutputStream fos = null;
+  
+	  try {
+	    fis = new FileInputStream("./daum.png");
+	    fos = new FileOutputStream("./daum2.png");
+
+	    int data = 0; 
+	    while((data = fis.read()) != -1) {
+	      fos.write(data);
+	    } 
       // daum.png를 입력받아서 daum2.png에 출력
       // 복사하는 것과 같다
-			System.out.println("복사 성공");
-		} catch (FileNotFoundException e) {			
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(fos != null) try {fos.close();}catch(IOException e) {}
-			if(fis != null) try {fis.close();}catch(IOException e) {}
-		}
-		
+	    System.out.println("복사 성공");
+	  } catch (FileNotFoundException e) {			
+	    System.out.println("에러 : " + e.getMessage());
+	  } catch (IOException e) {
+	    System.out.println("에러 : " + e.getMessage());
+	  }finally {
+	    if(fos != null) try {fos.close();}catch(IOException e) {}
+	    if(fis != null) try {fis.close();}catch(IOException e) {}
+	  }
+
 	}
 
 }
@@ -5614,30 +5572,30 @@ import java.io.IOException;
 
 public class CopyEx01 {
 
-	public static void main(String[] args) {
-		// FileInputStream fis = null;
-		BufferedInputStream bis = null;
-		
-		try {
-			// fis = new FileInputStream("./test2.txt");
-			// bis = new BufferedInputStream(fis);
-			bis = new BufferedInputStream(new FileInputStream("./test2.txt"));
-			// 버퍼를 이용해 데이터를 입력받는다
+  public static void main(String[] args) {
+    // FileInputStream fis = null;
+    BufferedInputStream bis = null;
+
+    try {
+      // fis = new FileInputStream("./test2.txt");
+      // bis = new BufferedInputStream(fis);
+      bis = new BufferedInputStream(new FileInputStream("./test2.txt"));
+      // 버퍼를 이용해 데이터를 입력받는다
       // 버퍼는 1차 스트림을 통해 데이터를 입력받는다
-			
-			int data = 0;
-			while((data = bis.read()) != -1) {
-				System.out.print((char)data);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if(bis != null)try {bis.close();}catch(IOException e) {}
-			if(fis != null)try {fis.close();}catch(IOException e) {}
-		}
-	}
+
+      int data = 0;
+      while((data = bis.read()) != -1) {
+        System.out.print((char)data);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if(bis != null)try {bis.close();}catch(IOException e) {}
+      if(fis != null)try {fis.close();}catch(IOException e) {}
+    }
+  }
 }
 ```
 ##### BufferedReader
@@ -5650,28 +5608,28 @@ import java.io.IOException;
 
 public class ReaderEx {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		
-		try {
-			br = new BufferedReader(new FileReader("./test2.txt"));
-			
-			int data = 0;
-			while((data = br.read()) != -1) {
-				System.out.print((char)data);
-			}
-			// 한 문자씩 읽는 경우
-			
-			String str = "";
-			while((str = br.readLine()) != null) {
-				System.out.println(str);
-			}
-			// 한 줄씩 문자열로 읽을 수 있다
-			// 엔터키가 출력되지 않아서 한줄로 출력되기 때문에 System.out.println()을 사용해야 한다
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}	
+  public static void main(String[] args) {
+    BufferedReader br = null;
+
+    try {
+      br = new BufferedReader(new FileReader("./test2.txt"));
+
+      int data = 0;
+      while((data = br.read()) != -1) {
+        System.out.print((char)data);
+      }
+      // 한 문자씩 읽는 경우
+
+      String str = "";
+      while((str = br.readLine()) != null) {
+        System.out.println(str);
+      }
+      // 한 줄씩 문자열로 읽을 수 있다
+      // 엔터키가 출력되지 않아서 한줄로 출력되기 때문에 System.out.println()을 사용해야 한다
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }	
 }
 ```
 ##### BufferedOutputStream
@@ -5686,29 +5644,31 @@ import java.io.IOException;
 
 public class CopyEx01 {
 
-	public static void main(String[] args) {
-		BufferedOutputStream bos = null;
-		
-		try {
-			bos = new BufferedOutputStream(new FileOutputStream("./test2.txt", true));
-			bos.write('a');
-			bos.write('b');
-			bos.write('c');
-			System.out.println("출력 완료");
-		} catch (FileNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bos != null)try {bos.close();}catch(IOException e) {}
-		}
-	
-	}
+  public static void main(String[] args) {
+    BufferedOutputStream bos = null;
+
+    try {
+      bos = new BufferedOutputStream(new FileOutputStream("./test2.txt", true));
+      bos.write('a');
+      bos.write('b');
+      bos.write('c');
+      System.out.println("출력 완료");
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bos != null)try {bos.close();}catch(IOException e) {}
+    }
+
+  }
 }
 ```
 
 ##### BufferedWriter
 - BufferedOutputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
+
+- BufferedOutputStream과 달리 문자열을 출력한다
 
 ```java
 import java.io.BufferedWriter;
@@ -5719,22 +5679,22 @@ import java.io.IOException;
 
 public class ReaderEx {
 
-	public static void main(String[] args) {
-		BufferedWriter bw = null;
-		
-		try {
-			bw = new BufferedWriter(new FileWriter("./test2.txt"));
-			
-			bw.write("abc");
-			bw.write("\n");
-			bw.write("가나다");
-			System.out.println("출력 완료");
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bw != null)try {bw.close();}catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    BufferedWriter bw = null;
+
+    try {
+      bw = new BufferedWriter(new FileWriter("./test2.txt"));
+
+      bw.write("abc");
+      bw.write("\n");
+      bw.write("가나다");
+      System.out.println("출력 완료");
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bw != null) try {bw.close();}catch(IOException e) {}
+    }
+  }
 }
 ```
 보조 스트림을 이용해서 대용량의 파일 복사하기
@@ -5748,30 +5708,27 @@ import java.io.IOException;
 
 public class CopyEx01 {
 
-	public static void main(String[] args) {
-		
-		BufferedInputStream bis = null;
-		BufferedOutputStream bos = null;
+  public static void main(String[] args) {
+  	BufferedInputStream bis = null;
+  	BufferedOutputStream bos = null;  
 
-			try {
-				bis = new BufferedInputStream(new FileInputStream("./Jellyfish.jpg"));
-				bos = new BufferedOutputStream(new FileOutputStream("./Jellyfish2.jpg"));
-				
-				int data = 0;
-				while((data = bis.read()) != -1) {
-					bos.write(data);
-				}
-				System.out.println("복사 성공");
-			} catch (FileNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (IOException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(bis != null) try {bis.close();}catch(IOException e) {}
-				if(bos != null) try {bos.close();}catch(IOException e) {}
-			}
-
-	}
+  	try {
+  	  bis = new BufferedInputStream(new FileInputStream("./Jellyfish.jpg"));
+  	  bos = new BufferedOutputStream(new FileOutputStream("./Jellyfish2.jpg")); 
+  	  int data = 0;
+  	  while((data = bis.read()) != -1) {
+  	    bos.write(data);
+  	  }
+  	  System.out.println("복사 성공");
+  	} catch (FileNotFoundException e) {
+  	  System.out.println("에러 : " + e.getMessage());
+  	} catch (IOException e) {
+  	  System.out.println("에러 : " + e.getMessage());
+  	} finally {
+  	  if(bis != null) try {bis.close();}catch(IOException e) {}
+  	  if(bos != null) try {bos.close();}catch(IOException e) {}
+  	} 
+  }
 	
 }
 ```
@@ -5786,33 +5743,31 @@ import java.io.IOException;
 
 public class IOTest {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-    
-		try {
-			br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
-			bw = new BufferedWriter(new FileWriter("./seocho"));
-			
-			String str = "";
-			while((str = br.readLine()) != null) {
-				String[] check = str.split(",");
-				if(check[2].equals("서초구")) {
-					bw.write(str);
-					bw.write("\n");
+  public static void main(String[] args) {
+    BufferedReader br = null;
+    BufferedWriter bw = null; 
+
+    try {
+      br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2  csv"));
+      bw = new BufferedWriter(new FileWriter("./seocho"))   
+      String str = "";
+      while((str = br.readLine()) != null) {
+        String[] check = str.split(",");
+        if(check[2].equals("서초구")) {
+          bw.write(str);
+          bw.write("\n");
           // bw.write(str + System.lineSeparator());
-				}
-			}
-		} catch (FileNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();}catch(IOException e) {}
-			if(bw != null) try {bw.close();}catch(IOException e) {}
-		}
-		
-	}
+        }
+      }
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();}catch(IOException e) {}
+      if(bw != null) try {bw.close();}catch(IOException e) {}
+    }	
+  }
 
 }
 ```
@@ -5827,43 +5782,41 @@ import java.io.IOException;
 
 public class LottoIOEx {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-		
-		try {
-			br = new BufferedReader(new FileReader("./lotto(1~1059).csv"));
-			bw = new BufferedWriter(new FileWriter("./result.txt"));
-			int[] result = new int[46];
-			String str = "";
-			while((str = br.readLine()) != null) {
-				String[] strList = str.split(",");
-				int[] lottoNum = new int[7];
-				for(int i = 0; i < lottoNum.length; i++) {
-					lottoNum[i] = Integer.parseInt(strList[i + 2]);
-				}
-				for(int j = 0; j < lottoNum.length; j++) {
-					result[lottoNum[j]]++;
-				}
-			}
-			for(int k = 0; k < 45; k++) {
-				bw.write(k+1 + " : " + result[k+1] + System.lineSeparator());
-			}
-			System.out.println("완료");
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if(br != null) try {br.close();}catch(IOException e) {}
-			if(bw != null) try {bw.close();}catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+
+    try {
+      br = new BufferedReader(new FileReader("./lotto(1~1059).csv"));
+      bw = new BufferedWriter(new FileWriter("./result.txt"));
+
+      int[] result = new int[46];
+      String str = "";
+      while((str = br.readLine()) != null) {
+        String[] strList = str.split(",");
+        int[] lottoNum = new int[7];
+        for(int i = 0; i < lottoNum.length; i++) {
+          lottoNum[i] = Integer.parseInt(strList[i + 2]);
+        }
+        for(int j = 0; j < lottoNum.length; j++) {
+          result[lottoNum[j]]++;
+        }
+      }
+      for(int k = 0; k < 45; k++) {
+        bw.write(k+1 + " : " + result[k+1] + System.lineSeparator());
+      }
+      System.out.println("완료");
+    } catch (NumberFormatException e) {
+        System.out.println("에러 : " + e.getMessage()); 
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();}catch(IOException e) {}
+      if(bw != null) try {bw.close();}catch(IOException e) {}
+    }
+  }
 
 }
 ```
@@ -5892,22 +5845,22 @@ import java.io.File;
 
 public class FileEx {
 
-	public static void main(String[] args) {
-		File dir1 = new File("c:\\java");
-		// File dir1 = new File("c:/java");
-		// 절대경로를 이용한 디렉터리 객체 생성
-		File dir2 = new File("./java");
-		// 상대경로를 이용한 디렉터리 객체 생성
-		
-		File file1 = new File("c:\\java\\test1.txt");
-		// 절대경로를 이용한 test.txt 파일 객체 생성
-		File file2 = new File("./java/test2.txt");
-		// 상대경로를 이용한 test.txt 파일 객체 생성
-		File file3 = new File("c:/java/", "test3.txt");
-		// 경로와 파일 이름을 따로 줄 수도 있다
-    
+  public static void main(String[] args) {
+    File dir1 = new File("c:\\java");
+    // File dir1 = new File("c:/java");
+    // 절대경로를 이용한 디렉터리 객체 생성
+    File dir2 = new File("./java");
+    // 상대경로를 이용한 디렉터리 객체 생성
+
+    File file1 = new File("c:\\java\\test1.txt");
+    // 절대경로를 이용한 test.txt 파일 객체 생성
+    File file2 = new File("./java/test2.txt");
+    // 상대경로를 이용한 test.txt 파일 객체 생성
+    File file3 = new File("c:/java/", "test3.txt");
+    // 경로와 파일 이름을 따로 줄 수도 있다
+
     // 객체가 생성됐다고 실제 물리적인 파일, 디렉터리가 생성된 것은 아니다
-	}
+  }
 
 }
 ```
@@ -5917,23 +5870,22 @@ import java.io.File;
 
 public class FileEx02 {
 
-	public static void main(String[] args) {
-		File file1 = new File("c:/java");
-		System.out.println(file1.exists()); // true
-		// 현재 파일이 존재하는지 확인해서 진리값을 반환한다
-		File file2 = new File("c:/java/test1.txt");
-		System.out.println(file2.exists()); // true
-		// 직접 test1.txt 파일을 만들고 난 후 확인한 결과
-		
-		System.out.println(file2.isDirectory()); // false
-		// 디렉터리인지 확인해서 진리값을 반환한다
-		System.out.println(file2.isFile()); // true
-		// 파일인지 확인해서 진리값을 반환한다
-		
-		System.out.println(file2.isHidden()); // true
-		// text1.txt 파일 속성에서 숨김으로 설정한 후 확인
-	}
+  public static void main(String[] args) {
+    File file1 = new File("c:/java");
+    System.out.println(file1.exists()); // true
+    // 현재 파일이 존재하는지 확인해서 진리값을 반환한다
+    File file2 = new File("c:/java/test1.txt");
+    System.out.println(file2.exists()); // true
+    // 직접 test1.txt 파일을 만들고 난 후 확인한 결과
 
+    System.out.println(file2.isDirectory()); // false
+    // 디렉터리인지 확인해서 진리값을 반환한다
+    System.out.println(file2.isFile()); // true
+    // 파일인지 확인해서 진리값을 반환한다
+
+    System.out.println(file2.isHidden()); // true
+    // 숨긴 파일인지 확인해서 진리값을 반환한다
+  } 
 }
 ```
 ```java
@@ -5942,25 +5894,25 @@ import java.io.IOException;
 
 public class FileEx03 {
 
-	public static void main(String[] args) {
-		File file = new File("c:/java/test1.txt");
-		
-		System.out.println(file.getName()); // test1.txt
-		System.out.println(file.getParent()); // c:\java
-		// 파일이 현재 위치하고 있는 디렉터리의 경로를 반환한다
-		System.out.println(file.getPath()); // c:\java\test1.txt
-		// 파일의 현재 경로를 반환한다
-		
-		File file2 = new File("./");
-		System.out.println(file2.getPath()); // .
-		// 현재 위치의 경로를 반환하지 않고 "."이 출력된다
-		try {
-			System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx
-			// 상대 경로로 만든 파일 객체의 경로를 확인하기 위해서는 getCanonicalPath() 메서드를 사용한다
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static void main(String[] args) {
+    File file = new File("c:/java/test1.txt");
+
+    System.out.println(file.getName()); // test1.txt
+    System.out.println(file.getParent()); // c:\java
+    // 파일이 현재 위치하고 있는 디렉터리의 경로를 반환한다
+    System.out.println(file.getPath()); // c:\java\test1.txt
+    // 파일의 현재 경로를 반환한다
+
+    File file2 = new File("./");
+    System.out.println(file2.getPath()); // .
+    // 현재 위치의 경로를 반환하지 않고 "."이 출력된다
+    try {
+      System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx
+      // 상대 경로로 만든 파일 객체의 경로를 확인하기 위해서는 getCanonicalPath() 메서드를 사용한다
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
 ```
 ```java
@@ -5970,28 +5922,28 @@ import java.util.Date;
 
 public class FileEx04 {
 
-	public static void main(String[] args) {
-		File file1 = new File("C:\\java\\java-workspace\\JavaAPIEx\\src\\mariadb-10.11.2-winx64.msi");
-		File file2 = new File("./src/mariadb-10.11.2-winx64.msi");
-		
-		System.out.println(file1.exists()); // true
-		System.out.println(file2.exists()); // true
-		try {
-			System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx\src\mariadb-10.11.2-winx64.msi
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println(file1.length()); // 71266304
-		// 파일의 크기를 byte 단위로 반환한다
-		System.out.println(file1.length()/1024); // 69596
-		// 파일의 크기를 Kbyte 단위로 반환한다
-		System.out.println(file1.lastModified()); // 1679620871264
-		// 파일의 최종 수정일을 밀리초로 반환한다
-		// 타임스탬프
-		System.out.println(new Date(file1.lastModified())); // Fri Mar 24 10:21:11 KST 2023
-		// 파일의 최종 수정일을 날짜로 반환한다
-	}
+  public static void main(String[] args) {
+    File file1 = new File("C:\\java\\java-workspace\\JavaAPIEx\\src\\mariadb-10.11.2-winx64.msi");
+    File file2 = new File("./src/mariadb-10.11.2-winx64.msi");
+
+    System.out.println(file1.exists()); // true
+    System.out.println(file2.exists()); // true
+    try {
+      System.out.println(file2.getCanonicalPath()); // C:\java\java-workspace\JavaAPIEx\src\mariadb-10.11.2-winx64.msi
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println(file1.length()); // 71266304
+    // 파일의 크기를 byte 단위로 반환한다
+    System.out.println(file1.length()/1024); // 69596
+    // 파일의 크기를 Kbyte 단위로 반환한다
+    System.out.println(file1.lastModified()); // 1679620871264
+    // 파일의 최종 수정일을 밀리초로 반환한다
+    // 타임스탬프
+    System.out.println(new Date(file1.lastModified())); // Fri Mar 24 10:21:11 KST 2023
+    // 파일의 최종 수정일을 날짜로 반환한다
+  }
 
 }
 ```
@@ -6001,21 +5953,21 @@ import java.util.Arrays;
 
 public class FileEx05 {
 
-	public static void main(String[] args) {
-		File dir = new File("c:/java");
-		
-		String[] lists = dir.list();
-		System.out.println(Arrays.toString(lists)); // [DefaultMethodInterface.class, DieselSUV.class, eclipse, ElectricCar.class, ... ]
-		// java 디렉터리 안의 파일 이름의 목록이 출력된다
-		for(String list : lists) {
-			System.out.println(list);
-		} // java 디렉터리 안의 파일 이름의 목록이 출력된다
-		
-		File[] fileLists = dir.listFiles();
-		for(File f : fileLists) {
-			System.out.println(f.getName());
-		} // java 디렉터리 안의 파일 이름의 목록이 출력된다
-	}
+  public static void main(String[] args) {
+    File dir = new File("c:/java");
+
+    String[] lists = dir.list();
+    System.out.println(Arrays.toString(lists)); // [DefaultMethodInterface.class, DieselSUV.class, eclipse, ElectricCar.class, ... ]
+    // java 디렉터리 안의 파일 이름의 목록이 출력된다
+    for(String list : lists) {
+      System.out.println(list);
+    } // java 디렉터리 안의 파일 이름의 목록이 출력된다
+
+    File[] fileLists = dir.listFiles();
+    for(File f : fileLists) {
+      System.out.println(f.getName());
+    } // java 디렉터리 안의 파일 이름의 목록이 출력된다
+  }
 
 }
 ```
@@ -6025,19 +5977,19 @@ import java.io.File;
 
 public class FileTest {
 
-	public static void main(String[] args) {
-		File dir = new File("c:/java");
-		
-		File[] fileLists = dir.listFiles();
-		
-		for (File f : fileLists) {
-			if(f.isDirectory()) {
-				System.out.println("[" + f.getName() + "]");
-			}else {
-				System.out.println(f.getName());
-			}
-		}
-	}
+  public static void main(String[] args) {
+    File dir = new File("c:/java");
+
+    File[] fileLists = dir.listFiles();
+
+    for (File f : fileLists) {
+      if(f.isDirectory()) {
+        System.out.println("[" + f.getName() + "]");
+      }else {
+        System.out.println(f.getName());
+      }
+    }
+  }
 
 }
 ```
@@ -6047,28 +5999,28 @@ import java.io.IOException;
 
 public class FileEx07 {
 
-	public static void main(String[] args) {
-		File dir = new File("c:/java/dir1");
-		if(dir.mkdir()) { // mkdir()을 이용해 파일 객체의 디렉터리를 물리적인 실제 디렉터리로 생성할 수 있다
-			// !! 파일 객체에 파일을 만들었다고 물리적인 실제 파일이 생기는 것은 아니다
-			System.out.println("dir1 생성 성공");
-		}else {
-			System.out.println("dir1 생성 실패");
-		}
-		
-		File dir2 = new File("c:/java/dir2");
-		dir.renameTo(dir2); // dir 객체에 해당하는 파일의 이름을 dir2 객체에 해당하는 파일이름으로 변경한다
-		
-		dir.delete(); // dir 객체에 해당하는 디렉터리을 삭제한다
-		
-		try {
-			File file = new File("c:/java/test2.txt");
-			file.createNewFile(); // file 객체에 해당하는 파일을 생성한다
-			System.out.println("test2.txt 생성 성공");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+  public static void main(String[] args) {
+    File dir = new File("c:/java/dir1");
+    if(dir.mkdir()) { // mkdir()을 이용해 파일 객체의 디렉터리를 물리적인 실제 디렉터리로 생성할 수 있다
+      // !! 파일 객체에 파일을 만들었다고 물리적인 실제 파일이 생기는 것은 아니다
+      System.out.println("dir1 생성 성공");
+    }else {
+      System.out.println("dir1 생성 실패");
+    }
+
+    File dir2 = new File("c:/java/dir2");
+    dir.renameTo(dir2); // dir 객체에 해당하는 파일의 이름을 dir2 객체에 해당하는 파일 이름으로 변경한다
+
+    dir.delete(); // dir 객체에 해당하는 디렉터리을 삭제한다
+
+    try {
+      File file = new File("c:/java/test2.txt");
+      file.createNewFile(); // file 객체에 해당하는 파일을 생성한다
+      System.out.println("test2.txt 생성 성공");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     file.delete() // file 객체에 해당하는 파일을 삭제한다
-	}
+  }
 }
 ```
