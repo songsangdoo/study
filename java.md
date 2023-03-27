@@ -3524,6 +3524,69 @@ public class LambdaEx {
       } 
     }
     ```
+    #### try ~ catch ~ resourses
+    - try ~ catch ~ resourses 구문을 사용하면 입출력 스트림을 따로 닫아주지 않아도 된다
+
+    ```java
+    import java.io.File;
+    import java.io.FileInputStream;
+    import java.io.FileOutputStream;
+    import java.io.IOException;
+    import java.io.ObjectInputStream;
+    import java.io.ObjectOutputStream;
+    import java.io.Serializable;  
+    class Person implements Serializable{
+      private static final long serialVersionUID = 307583113306886480L;
+      private String name;
+      private int age;
+      private transient String ssn;
+      private LoginInfo lInfo;
+      public Person(String name, int age, String ssn, String userId, String userPass) {
+        this.name = name;
+        this.age = age;
+        this.ssn = ssn;
+        this.lInfo = new LoginInfo(userId, userPass);
+      }
+      @Override
+      public String toString() {
+        return "Person [name=" + name + ", age=" + age + ", ssn=" + ssn + ", lInfo=" + lInfo + "]";
+      } 
+    }
+
+    class LoginInfo implements Serializable{
+      private static final long serialVersionUID = 1L;
+      private String userId 
+      private transient String userPass   
+      public LoginInfo(String userId, S ring userPass) {
+        super();
+        this.userId = userId;
+      this.userPass = userPass;
+    } 
+    public String toString() {
+        return "LoginInfo [userId=" + userId + ", userPass=" + userPass + "]";
+      }
+    }
+    public class ObjectStreamTest {
+    
+      public static void main(String[] args) {
+        File target = new File("./objPerson.dat");
+        Person person = new Person("홍길동", 20, "1111-22222", "hong", "1234");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(target));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(target))){
+            // 이렇게 닫아줘야 하는 스트림이 여러개일 경우 세미콜론(;)으로 구분하여 써준다
+          oos.writeObject(person);
+          Object readed = ois.readObject();
+          if(readed != null && readed instanceof Person) {
+            Person casted = (Person) readed;
+            System.out.println(casted);
+          }
+        } catch(IOException | ClassNotFoundException e) {
+          e.printStackTrace();
+        }
+      }
+
+    }
+    ```
     #### throw
     - 구현부에 쓰여 의도적으로 예외를 발생시킨다
     
@@ -3585,15 +3648,15 @@ public class LambdaEx {
 
     public class ExceptionEx08 {
     
-    	public static void main(String[] args) {
-    		ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
-    		try{
-    			processBuilder.start();
-    			// start() 선언부에 "throws IOExcepiton"이 있기 때문에 예외처리를 해줘야 에러가 나지 않는다
-    		}catch(IOException e)	{
-    			System.out.println("에러 : " + e.getMessage());
-    		}
-    	}
+      public static void main(String[] args) {
+        ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
+        try{
+          processBuilder.start();
+          // start() 선언부에 "throws IOExcepiton"이 있기 때문에 예외처리를 해줘야 에러가 나지 않는다
+        }catch(IOException e)	{
+          System.out.println("에러 : " + e.getMessage());
+        }
+      }
     }
     ```
     ### 사용자 정의 예외
@@ -5128,6 +5191,48 @@ public class PropertiesEx02 {
 }
 ```
 
+```java
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Properties;
+import java.util.Set;
+
+public class PropertiesTestWithFile {
+  private final static String PROP_FILE_PATH = "./config.properties";
+  
+  private static void saveToFile() {
+    Properties props = new Properties();
+    props.setProperty("id", "andy");
+    props.setProperty("pass", "1234");
+    props.setProperty("addr", "192.168.0.2");
+    props.setProperty("이름", "홍길동");
+    System.out.println("속성 확인: " + props);
+    try(FileWriter output = new FileWriter(PROP_FILE_PATH)){
+      props.store(output,"System Config");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  private static void loadFromFile() {
+    Properties props = new Properties();
+    try(FileReader input = new FileReader(PROP_FILE_PATH)){
+      props.load(input);
+      Set<String> keys = props.stringPropertyNames();
+      for(String key : keys) {
+        System.out.println(key + " : " + props.getProperty(key));
+      }
+    }catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  public static void main(String[] args) {
+    saveToFile();
+    loadFromFile();
+  }
+
+}
+```
+
 ### 스택과 큐
 - 자료구조
 #### 스택(Stack)
@@ -5284,13 +5389,18 @@ public class MessageFormatTest {
 }
 ```
 ## I / O 
-- 입력(Input)과 출력(Output)
+
+- 입력(Input)과 출력(Output)으로 java.util 패키지를 사용한다
 
 - Java는 스트림(stream)을 통해 데이터를 주고 받는다
 
+
 ### 데이터
 
-- 프로그램을 만든다 &rarr; 데이터를 처리한다
+- 프로그램을 만든다 &rarr; 데이터를 처리, 가공한다
+
+  <small>!! CRUD (Create, Read, Update, Delete)
+  </small>
 
 - 데이터의 종류 
   - 임시 저장 데이터 : 프로그램 종료와 동시에 없어지는 데이터
@@ -5305,12 +5415,16 @@ public class MessageFormatTest {
       <sup> ex) 파일 </sup>
 
         <small>!! 파일의 종류
-        - 일반 파일 : text(.txt) 
+        - 일반 파일 : 메모장에서 내용을 볼수 있는 파일로 Oracle에서 제공한다
 
-        - 바이너리 파일 : .hwp, .docx, .xlsx, .pptx, image, sound </small>
+          <sup>ex) text(.txt, .csv)</sup> 
+
+        - 바이너리 파일 : 특별한 프로그램이 있어야 사용할 수 있는 파일로 "third party"라 불리는 외부 업체에서 제공한다
+
+          <sup>ex) .hwp, .docx, .xlsx, .pptx, image, sound</sup> </small>
     - 원격 저장 데이터 : 네트워크 상의 컴퓨터에 있는 데이터
 
-      <sup> ex) 데이터베이스</sup>
+      <sup> ex) 데이터베이스, OpenAPI</sup>
 
 - java.io 패키지를 이용해 영구 저장 데이터(일반 파일)를 다룬다
 
@@ -5771,6 +5885,42 @@ public class IOTest {
 
 }
 ```
+```java
+public class PostNumberSearch {
+
+  public static void main(String[] args) {
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+
+
+    if(args[0].length() >= 2) {
+      try {
+        br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
+        bw = new BufferedWriter(new FileWriter("./result"));
+        String data = "";
+        while((data = br.readLine()) != null) {
+          String[] dataArr = data.split(",");
+          if(dataArr[3].contains(args[0])) {
+            // dataArr[3].startswith(args[0])
+            String resultStr = String.format("[%s] %s %s %s %s %s %s ", dataArr[0], dataArr[1], dataArr[2], dataArr[3], dataArr[4], dataArr[5], dataArr[6]);
+            bw.write(resultStr + System.lineSeparator());
+          }
+        }
+      } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }finally {
+        System.out.println("완료");
+        if(br != null) try {br.close();} catch(IOException e) {}
+        if(bw != null) try {bw.close();} catch(IOException e) {}				
+      }
+    }else {
+      System.out.println("2자 이상 입력해주세요");
+    }
+  }
+}
+```
 로또 당첨 번호 횟수 통계 내보기
 ```java
 import java.io.BufferedReader;
@@ -5820,21 +5970,464 @@ public class LottoIOEx {
 
 }
 ```
+##### 기본형 입출력
+- 문자나 문자열이 아닌 기본형 출력을 위해서 사용한다
+- 입출력할 때 사용하는 메서드의 이름이 자료형마다 다르다
+
+- 보조 스트림이므로 노드 스트림을 통해 데이터를 받아온다
+
+###### DataOutputStream
+
+```java
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class DataOutputStreamEx {
+
+  public static void main(Strin [] args) {
+    DataOutputStream dos = null   
+    try   
+      dos = new DataOutputStream(new FileOutputStream("./value.dat"));  
+      dos.writeInt(1);
+      dos.writeUTF("utf-8 형식으로 문자열 저장");
+      dos.writeFloat(1.7f); 
+      System.out.println("출력 완료");
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(dos != null) try {dos.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+###### DataInputStream
+```java
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class DataInputStreamEx01 {
+
+  public static void main(Str ng[] args) {
+    DataInputStream dis = nul ; 
+    try   
+      dis = new DataInputStream(new FileInputStream("./value.dat"));  
+      System.out.println(dis.readInt());
+      System.out.println(dis.readUTF());
+      // 문자열을 읽어 반환한다
+      System.out.println(dis.readFloat());  
+      System.out.println("입력 완료");
+    } catch (FileNotFoundException e) {	
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(dis != null) try {dis.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+
+##### 객체 입출력
+- 기본형 입출력의 확장형
+
+- 입출력이 Object 객체로 형변환 되어 이루어지기 때문에 원래의 데이터를 얻기 위해서는 반드시 형변환 해줘야 한다
 
 
-### File
+###### ObjectOutputStream
+
+- 사용자 정의 클래스 객체를 출력하기 위해서는 반드시 Serializable 인터페이스를 구현해야 한다
+
+- 사용자 정의 클래스 객체의 멤버 변수 중 출력하고 싶지 않은 멤버 변수는 transient를 사용한다
+
+
+```java
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class ObjectOutputStreamEx01 {
+
+  public static void main(String[] args) {
+    ObjectOutputStream oos = null;  
+    try {
+      oos = new ObjectOutputStream(new FileOutputStream("./object.dat")); 
+      String[] names = {"홍길동", "박문수", "임꺽정", "이몽룡"};
+      int[] ages = {20, 23, 24, 40};
+      double[] height = {180.2, 194.3, 175.2, 182.0};
+      oos.writeObject(names);
+      oos.writeObject(ages);
+      oos.writeObject(height);
+      System.out.println("출력 완료");
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(oos != null) try {oos.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+```java
+import java.io.Serializable;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+class Person implements Serializable{
+// 사용자 정의 클래스를 출력하기위해서는 반드시 Serializable 인터페이스를 구현해야 한다
+  private String name;
+  private String phone;
+  private String age;
+  private transient String address;
+  // 직렬화 시키고 싶지 않은 변수는 transient를 사용한다
+  public Person(String name, String phone, String age, String address) {
+    this.name = name;
+    this.phone = phone;
+    this.age = age;
+    this.address = address;
+  }
+  public String getName() {
+    return name;
+  }
+  public String getPhone() {
+    return phone;
+  }
+  public String getAge() {
+    return age;
+  }
+  public String getAddress() {
+    return address;
+  }
+}
+
+public class ObjectOutputStreamEx02 {
+
+  public static void main(String[] args) {
+    ObjectOutputStream oos = null;
+
+    try {
+      oos = new ObjectOutputStream(new FileOutputStream("./object2.dat"));
+
+      Person p1 = new Person("홍길동", "010-111-111", "22", "개포동");
+      oos.writeObject(p1);
+
+      System.out.println("출력 완료");
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(oos != null) try {oos.close();}	catch(IOException e) {}
+    }
+	}
+
+}
+```
+###### ObjectInputStream
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Arrays;
+
+public class ObjectInputSteamEx {
+
+  public static void main(String[] args) {
+    ObjectInputStream ois = null; 
+    try {
+      ois = new ObjectInputStream(new FileInputStream("./object.dat")); 
+      String[] names = (String[])ois.readObject();
+      int[] ages = (int[])ois.readObject();
+      double[] height = (double[])ois.readObject(); 
+      // 형변환 하는 것에 주의하자  
+      System.out.println(Arrays.toString(names));
+      System.out.println(Arrays.toString(ages));
+      System.out.println(Arrays.toString(height));
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+        if(ois != null) try {ois.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class ObjectInputStreamEx02 {
+
+  public static void main(String[] args) {
+    ObjectInputStream ois = null;
+
+    try {
+      ois = new ObjectInputStream(new FileInputStream("./object2.dat"));
+
+      Person p = (Person)ois.readObject();
+      System.out.println(p.getName());
+      System.out.println(p.getAddress());
+      // 첫번째 객체 데이터를 불러들인다
+      p = (Person)ois.readObject();
+      System.out.println(p.getName());
+      System.out.println(p.getAddress());
+      // 두번째 객체 데이터를 불러들인다
+
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(ois != null) try {ois.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+#### System.in
+
+- System.in을 통해서도 데이터를 입력받을 수 있다
+```java
+import java.io.IOException;
+import java.io.InputStream;
+
+public class SystemEx01 {
+
+  public static void main(String[] args) {
+    InputStream is = null;
+    try {
+      is = System.in;
+
+      System.out.print("데이터 입력 : ");
+      System.out.println((char)is.read());
+      // byte 데이터를 입력받고 한 문자를 바로 출력한다
+      // 다국어는 제대로 입력 받지 못한다
+      System.out.println("입력 완료");
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+        if(is != null) try {is.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+```java
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class SystemEx02 {
+
+  public static void main(String[] args) {
+    InputStreamReader isr = null;
+
+    try {
+      isr = new InputStreamReader(System.in);
+      // 다국어 입력이 가능하다
+      System.out.print("데이터 입력 : ");
+      System.out.println((char)isr.read());
+      System.out.println("입력 완료");
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(isr != null) try {isr.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class SystemEx02 {
+
+  public static void main(String[] args) {
+    BufferedReader br = null;
+
+    try {
+      br = new BufferedReader(new InputStreamReader(System.in));
+      System.out.print("데이터 입력 : ");
+      System.out.println(br.readLine());
+      System.out.println("입력 완료");
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+구구단 출력하기
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Gugudan {
+
+  public static void main(String[] args) {
+    BufferedReader br = null;
+
+    try {
+      br = new BufferedReader(new InputStreamReader(System.in));
+
+      System.out.print("시작단수 : ");
+      int start = Integer.parseInt(br.readLine());
+      System.out.print("끝단수 : ");
+      int end = Integer.parseInt(br.readLine());
+
+      for(int i = start; i <= end; i++) {
+        for(int j = 1; j <= 9; j++) {
+          System.out.printf("%2d X%2d = %2d%n", i, j, i*j);
+        }
+      }
+    } catch (NumberFormatException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    }
+  }
+
+}
+```
+#### memory 입출력
+
+```java
+import java.io.CharArrayReader;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class CharArrReaderEx01 {
+
+  public static void main(String[] args) {
+    char[] memory = {'안', '녕', ' ', 'j', 'a', 'v', 'a'};
+
+    try(CharArrayReader car = new CharArrayReader(memory)){
+      char[] buffer = new char[5];
+
+      int read = 0;
+      while((read = car.read(buffer)) > 0) {
+        System.out.println(Arrays.toString(buffer));
+      }
+    }catch(IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+
+}
+```
+```java
+import java.io.CharArrayReader;
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class MemoryIOTest {
+
+  public static void main(String[] args) {
+    char[] memory = "안녕 Java World".toCharArray();
+    char[] buffer = new char[5];
+    int read = 0;
+    try(CharArrayReader cReader = new CharArrayReader(memory);
+        CharArrayWriter cWriter = new CharArrayWriter();){
+      while((read = cReader.read(buffer)) > 0) {
+        cWriter.write(buffer, 0, read);
+      }
+      System.out.println(Arrays.toString(cWriter.toCharArray()));
+    }catch(IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+}
+```
+#### RandomAccessFile
+- 데이터를 순차적으로 읽는 것이 아니라 읽고 싶은 데이터부터 읽을 수 있다
+```java
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class RandomAccessFileEx01 {
+
+  public static void main(String[] args) {
+    RandomAccessFile raf = null;
+
+    try {
+    	raf = new RandomAccessFile("./score.dat", "rw");
+
+    	int[] scores = {
+    	    1, 100, 90, 91, 94,
+    	    2, 8, 15, 24, 67,
+    	    3, 40, 98, 21, 81
+    	};
+    	for(int i = 0; i < scores.length; i++) {
+        raf.writeInt(scores[i]);
+        // 정수형 배열의 값을 차례로 저장한다
+        System.out.println("파일 포인터 : " + raf.getFilePointer());
+    	}
+    	System.out.println("저장 완료");
+
+    	raf.seek(0); // 읽기 시작할 포인터를 지정한다
+    	while(true) {
+    	  System.out.println(raf.readInt());
+    	  // EOFException을 발생시키면서 끝이 난다
+    	}
+    	// 읽을 위치를 지정해서 읽을 수 있다
+    } catch (EOFException e) {
+        System.out.println("읽기 종료");
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+        if(raf != null) try {raf.close();}catch(IOException e) {}
+    }
+  }
+
+}
+```
+#### File
+- java.io 패키지의 하위 클래스
 - 파일과 디렉터리를 다루는 클래스
 
   <small>!! 디렉터리는 파일의 특수한 형태이다</small>
 
-- 파일의 상황(크기, 속성, 이름, 경로)을 다룬다
+- 파일의 정보(크기, 속성, 이름, 경로)을 다룬다
 
   <small>!! 운영체제 파일의 경로 구분자
     - windows : ' / ', ' \\ '
 
     - UNIX : ' / '</small>
 
-#### File 클래스의 생성자
+##### File 클래스의 생성자
 - File 생성자를 통해 객체를 만들었다고 실제 파일이 생성되지는 않는다
 
 
@@ -5864,7 +6457,7 @@ public class FileEx {
 
 }
 ```
-#### File 클래스의 메서드
+##### File 클래스의 메서드
 ```java
 import java.io.File;
 
@@ -6024,3 +6617,213 @@ public class FileEx07 {
   }
 }
 ```
+### NIO (New Input Output)
+- 스트림을 사용하는 IO와 달리 채널을 사용하기 때문에 양방향 입출력이 가능하다
+
+- 기본적으로 버퍼를 제공하기 때문에 빠른 속도를 가지고 있다
+```java
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class PathTest {
+
+  public static void main(String[] args) {
+    Path path1 = Paths.get("C:/windows/explorer.exe");
+    System.out.println("파일명 : "+ path1.getFileName()); // 파일명 : explorer.exe
+    System.out.println("이름의 개수 : " + path1.getNameCount()); // 이름의 개수 : 2
+    System.out.println("0번째 이름의 개수 : " + path1.getName(0) ); // 0번째 이름의 개수 : windows
+    System.out.println("0~2의 패스 : " + path1.subpath(0, 2)); // 0~2의 패스 : windows\explorer.exe
+    System.out.println("상위 경로 : " + path1.getParent()); // 상위 경로 : C:\windows
+    System.out.println("루트 경로 : " + path1.getRoot()); // 루트 경로 : C:\
+
+    Path relative = Paths.get("./src");
+    System.out.println("절대 경로로 : " + relative.toAbsolutePath()); // 절대 경로로 : C:\java\java-workspace\IOEx03\.\src
+    System.out.println("상대 경로 표시 삭제 : " + relative.normalize().toAbsolutePath()); // 상대 경로 표시 삭제 : C:\java\java-workspace\IOEx03\src
+
+    File file = relative.toFile();
+    System.out.println("URI 표현 : " + relative.toUri()); // URI 표현 : file:///C:/java/java-workspace/IOEx03/./src/
+  }
+
+}
+```
+```java
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.Date;
+import java.util.concurrent.TimeUnit;
+
+public class FileEx01 {
+
+  public static void main(String[] args) {
+    File file = new File("./result.txt");
+    Path filePath = file.toPath();
+
+    BasicFileAttributes attributes = null;
+
+    try {
+      attributes = Files.readAttributes(filePath, BasicFileAttributes.class);
+      long creationTime = attributes.creationTime().to(TimeUnit.MICROSECONDS);
+      // 파일의 생성시간을 마이크로초로 반환한다
+      System.out.println(creationTime); // 1679897504790454
+      Date date = new Date(creationTime / 1000); 
+      // 밀리초 = 마이크로초 * 1000
+      System.out.println(date.toLocaleString()); // 2023. 3. 27. 오후 3:11:44
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    }
+  }
+
+}
+```
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class FilesEx01 {
+
+  public static void main(String[] args) {
+    try {
+    Path target = Paths.get("./result.txt");
+      List<String> lines = Files.readAllLines(target);
+      for(String line : lines) {
+      // Path 객체의 모든 데이터를 읽어서 List<String>으로 반환한다
+        System.out.println(line);
+      }
+    } catch (IOException e) {
+      // result.txt 파일의 데이터를 모두 출력한다
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+
+}
+```
+## OpenAPI
+- 외부의 API를 이용해 데이터를 다룰 수 있다
+
+### 엑셀 데이터 다루기
+
+- 엑셀 파일 버전에 따라 사용하는 API가 달라진다
+
+  - .xls : JXL (https://jexcelapi.sourceforge.net/)
+
+  - .xlsx : Apache POI (https://poi.apache.org/)
+
+#### JXL
+- 2003년 이전 버전인 .xls문서에만 사용이 가능하다
+
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
+public class JXLEx01 {
+
+  public static void main(String[] args) {
+    Workbook workbook = null;
+    try {
+      workbook = Workbook.getWorkbook(new FileInputStream("./jxlrwtest.xls"));
+      // 노드 스트림을 통해 데이터를 받는다
+      System.out.println(workbook.getVersion()); // 2.6.12
+      // 엑셀 문서 버전을 반환한다
+      System.out.println("워크시트 갯수 : " + workbook.getNumberOfSheets()); // 2
+      // 워크시트의 개수를 반환한다
+      String[] sheetNames = workbook.getSheetNames();
+      // 워크시트의 이름을 반환한다
+      System.out.println(Arrays.toString(sheetNames)); // [original, modified]  
+
+      Sheet sheet = workbook.getSheet(0);
+      // 엑셀 문서의 특정 워크시트에 접근할 수도 있다
+      System.out.println(sheet.getName()); // original
+      // 워크시트의 이름을 반환한다
+      System.out.println(sheet.getRows()); // 175
+      // 워크시트의 행 개수를 반환한다
+      System.out.println(sheet.getColumns()); // 256
+      // 워크시트의 열 개수를 반환한다  
+
+      Cell cell = sheet.getCell(0, 0); // 엑셀 문서의 (0 + 1, 0 + 1) 셀을 할당
+      // 이때, getCell(columNum, rowNum)인 것에 주의하자 !!
+      System.out.println(cell.getContents()); // Java Excel API Modify Test
+    } catch (BiffException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(workbook != null)
+        workbook.close();
+    }
+  }
+}
+```
+```java
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
+public class LottoExcelToTxt {
+
+  public static void main(String[] args) {
+    Workbook workbook = null;
+    BufferedWriter bw = null;
+
+    try {
+      workbook = Workbook.getWorkbook(new FileInputStream("./lotto(1~1060).xls"));
+      bw = new BufferedWriter(new FileWriter("./result.txt"));
+      Sheet sheet = workbook.getSheet(0);
+
+      for(int i = 3; i < sheet.getRows(); i++) {
+        Cell cellTurn = sheet.getCell(1, i);
+        Cell cellDate = sheet.getCell(2, i);
+        Cell cellNum = null;
+        bw.write(cellTrun.getContents() + ",");
+        bw.write(cellDate.getContents() + ",");
+        for(int j = 0; j < 7; j++) {
+          cellNum = sheet.getCell(13 + j, i);
+          bw.write(cellNum.getContents());
+          if(j != 6) {
+            bw.write(",");
+          }
+        }
+        bw.write(System.lineSeparator());
+      }
+    } catch (BiffException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (FileNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IndexOutOfBoundsException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(workbook != null)
+        workbook.close();
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      System.out.println("완료");
+    }
+  
+  }
+
+}
+```
+
