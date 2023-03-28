@@ -110,7 +110,7 @@
 
 - 기본 명령어
 ```sql
-> show databases
+> show databases;
 -- 데이터베이스 목록을 보여준다
 
 > use DB1;
