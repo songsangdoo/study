@@ -2946,7 +2946,7 @@ enum Family{
   private String kor;
 
   /* private */ Family(String kor){
-  // enum에서 생성자의 접근 제어자는 private이고 생략이 가능하다
+  // enum에서 생성자의 접근 제어자는 private이기 때문에 외부에서 생성자를 호출할 수 없고, 내부에서 상수를 정의하면서 파라미터를 전달한다
     this.kor = kor;
   }
   // 생성자와 미리 정의된 상수를 이용해 값을 초기화 시킬 수 있다
@@ -3891,7 +3891,7 @@ public class StringEx01 {
     // 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다  
 
     String str2 = new String("Hello String");
-    // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 
+    // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 `
 
     char[] str3 = {'H', 'e', 'l', 'l', 'O', 'S', 't', 'r', 'i', 'n', 'g'};
     System.out.println(str3); // Hello String
@@ -4772,8 +4772,18 @@ public class LottoGeneratorByArray {
   - Map 계열 : 중복이 가능하지 않은 키와 중복이 가능한 값의 쌍으로 데이터를 관리하는 집합
 
 ### Generic
+- 클래스, 인터페이스 이름 
+바로 뒤에 "< >"를 붙여서 사용한다
 
-- Generic을 사용하면 컴파일할 때, 객체의 타입을 체크하도록 한다
+- 메서드 리턴 타입 바로 앞에 쓰여 파라미터로 받는 객체를 지정할 수도 있다
+```java
+public <P> TypeParameterMethod<T> ambigious(P p){
+  return this;
+// 여기서 <P>는 메서드에 선언된 타입파라미터이고, TypeParameterMethod<T>는 리턴 타입이다
+}
+```
+
+- Generic을 사용하면 컴파일할 때, 파라미터로 받은 객체의 타입을 체크하도록 한다
 
 - ArrayList에는 자료형 상관없이 데이터가 추가되기 때문에 데이터를 사용할 때 여러 문제가 생긴다
 
