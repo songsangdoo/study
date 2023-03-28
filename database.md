@@ -106,6 +106,7 @@
 
 
 #### MariaDB 명령어
+
   <small>!! 데이터베이스는 행과 열(컬럼)로 구성된 테이블로 이루어져 있다</small>
 
 - 기본 명령어
@@ -220,11 +221,11 @@ MariaDB [sample]> select 1 && 1;
 1 row in set (0.000 sec)
 
 MariaDB [sample]> select 1 and 1;
-+--------+
-| 1 && 1 |
-+--------+
-|      1 |
-+--------+
++---------+
+| 1 and 1 |
++---------+
+|       1 |
++---------+
 1 row in set (0.000 sec)
 
 MariaDB [sample]> select 1 || 1;
