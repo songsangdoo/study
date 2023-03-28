@@ -246,7 +246,6 @@ MariaDB [sample]> select 1 or 0;
 ```
 ```sql
 -- where를 이용해서 행제한 조건을 줄 수 있다
-
 MariaDB [sample]> select deptno from dept where deptno < 30;
 -- deptno 컬럼의 행 중에 30 미만의 값을 가지는 행만 출력한다 
 MariaDB [sample]> select deptno from dept where deptno <> 10;
@@ -345,6 +344,7 @@ MariaDB [sample]> select empno, ename, sal, hiredate from emp where hiredate > '
 |  7902 | FORD   | 3000.00 | 2011-12-03 |
 +-------+--------+---------+------------+
 10 rows in set (0.000 sec)
+
 -- 범위형 제한은 "between ~ and"를 사용할 수도 있다
 MariaDB [sample]> select empno, ename, sal, hiredate from emp where hiredate between '2011-01-01' and '2011-12-31';
 +-------+--------+---------+------------+
@@ -377,6 +377,7 @@ MariaDB [sample]> select empno, ename, job from emp where job = 'clerk' or job =
 |  7934 | MILLER | CLERK    |
 +-------+--------+----------+
 8 rows in set (0.001 sec)
+
 -- 목록형 제한은 "in()"를 사용할 수도 있다
 MariaDB [sample]> select empno, ename, job from emp where job in('clerk','salesman');
 +-------+--------+----------+
@@ -440,7 +441,7 @@ MariaDB [sample]> select empno, ename, sal, comm from emp where comm is not null
 
 MariaDB [sample]> select empno, ename, sal from emp where ename like 'k%';
 -- 'k'로 시작하는 값을 가진 값을 확인
--- '%' 임의의 문자 집합을 의미한다(공집합도 가능하다)
+-- '%'는 임의의 문자 집합을 의미한다(공집합도 가능하다)
 +-------+-------+---------+
 | empno | ename | sal     |
 +-------+-------+---------+
@@ -510,7 +511,7 @@ MariaDB [sample]> select empno, ename, sal from emp where ename like '_i%';
 ```sql
 MariaDB [sample]> select distinct deptno from emp;
 -- distinct는 중복되는 값 제거를 의미한다
--- deptno 컬럼이 갖고 있는 값을 확인한다
+-- deptno 컬럼이 갖고 있는 값을 모두 확인한다
 +--------+
 | deptno |
 +--------+
@@ -521,7 +522,7 @@ MariaDB [sample]> select distinct deptno from emp;
 3 rows in set (0.007 sec)
 
 MariaDB [sample]> select distinct job from emp;
--- job 컬럼이 갖고 있는 값을 확인한다
+-- job 컬럼이 갖고 있는 값을 모두 확인한다
 +-----------+
 | job       |
 +-----------+
@@ -534,7 +535,7 @@ MariaDB [sample]> select distinct job from emp;
 5 rows in set (0.000 sec)
 
 MariaDB [sample]> select distinct deptno, job from emp;
--- deptno, job을 한 쌍의 값으로 볼 때 중복이 되지 않는 값을 확인한다
+-- deptno, job을 한 쌍의 값으로 볼 때 중복이 되지 않는 값을 모두 확인한다
 +--------+-----------+
 | deptno | job       |
 +--------+-----------+
