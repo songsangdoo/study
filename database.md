@@ -92,7 +92,7 @@
 > mysql -u root -p
 -- -u 옵션은 user, root는 관리자(유저), -p 옵션은 패스워드를 의미한다
 > Enter password:******
---> mysql -u root -p123456
+-- > mysql -u root -p123456
 -- -p 옵션 뒤에 바로 암호를 써도 되지만 암호가 노출되기 때문에 지양한다
 ```
 
