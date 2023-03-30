@@ -107,7 +107,7 @@ public class HelloWorld {
 > javac HelloWorld.java
 // 에러가 나오지 않으면 현재 디렉터리에 HelloWorld.class 파일이 생성된다
 // Java 파일에 주석이라도 한글이 들어가 있는 경우에는 아래와 같이 -encoding utf-8 을 이용한다
-// > javac -encoding utf-8 HellowWorld.java
+// > javac -encoding utf-8 HelloWorld.java
 > java HelloWorld 
 // 실행 시킬 때, 파일명에 확장자 쓰지 않는 것에 주의하자
 > Hello world!
@@ -944,6 +944,8 @@ public class ArrayEx07 {
     int[][] arr1 = new int[4][]; // 가변 배열
     // new int[4][]에서 4는 생략이 불가하고, 뒤의 괄호는 배열의 길이가 각각 다르기 때문에 비워둔다
     arr1[0] = new int[]{1, 2, 3, 4};
+    // new int[]는 생략될 수 없다
+    // 선언과 동시에 초기화 되는 경우는 생략이 가능하다
     arr1[1] = new int[]{10, 20, 30, 40};
     arr1[2] = new int[]{100, 200, 300};
     arr1[3] = new int[]{1000, 2000};
@@ -992,7 +994,7 @@ public class ArrayEx07 {
     <small> !! 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다</small>
 
 - 객체(인스턴스) : 각각의 상태(멤버변수)와 기능(메서드)을 갖는다
-- 추상화와 구체화
+- 추상화와 구체화(인스턴스화)
 
   - 객체 &rarr; 추상화(공통점 추출) &rarr; 클래스
 
@@ -5059,6 +5061,65 @@ public class DataEx01 {
   }
 }
 ```
+##### 스택과 큐
+- List 인터페이스를 구현한 자료구조
+###### 스택(Stack)
+- 나중에 들어간 데이터가 먼저 나온다
+
+- Java는 스택이 클래스로 만들어져 있다
+<img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
+
+```java
+import java.util.Stack;
+
+public class StackEx01 {
+
+  public static void main(String[] args) {
+    Stack<String> stack = new Stack<>();
+    stack.push("홍길동");
+    stack.push("박문수");
+    stack.push("임꺽정");
+    System.out.println(stack); // [홍길동, 박문수, 임꺽정]
+    System.out.println(stack.pop()); // 임꺽정
+    // 스택에 있는 데이터 중 마지막에 추가 된 데이터를 반환한다
+    System.out.println(stack); // [홍길동, 박문수]
+    // pop()을 사용하면 반환된 값이 스택에서 제거된다
+    System.out.println(stack.pop()); // 박문수
+    System.out.println(stack); // [홍길동]
+  }
+
+}
+```
+
+###### 큐(Queue)
+- 먼저 들어간 데이터가 먼저 나온다
+
+- Java는 큐가 클래스로 만들어져 있다
+
+<img src="https://cdn.programiz.com/sites/tutorial2program/files/queue.png">
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class QueueEx01 {
+
+  public static void main(String[] args) {
+    Queue<String> queue = new LinkedList<>();
+    queue.offer("홍길동");
+    queue.offer("박문수");
+    queue.offer("임꺽정");
+    System.out.println(queue); // [홍길동, 박문수, 임꺽정]
+    System.out.println(queue.poll()); // 홍길동
+    // 큐에 있는 데이터 중 가장 먼저 추가된 데이터를 반환한다
+    System.out.println(queue); // [박문수, 임꺽정]
+    // poll()을 사용하면 반환된 값이 큐에서 제거된다
+    System.out.println(queue.poll()); // 박문수
+    System.out.println(queue); // [임꺽정]
+  }
+
+}
+```
 #### Set 인터페이스를 구현한 클래스
 - 순서가 없는 데이터를 표현할 때 사용한다
 
@@ -5243,65 +5304,7 @@ public class PropertiesTestWithFile {
 }
 ```
 
-### 스택과 큐
-- 자료구조
-#### 스택(Stack)
-- 나중에 들어간 데이터가 먼저 나온다
 
-- Java는 스택이 클래스로 만들어져 있다
-<img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
-
-```java
-import java.util.Stack;
-
-public class StackEx01 {
-
-  public static void main(String[] args) {
-    Stack<String> stack = new Stack<>();
-    stack.push("홍길동");
-    stack.push("박문수");
-    stack.push("임꺽정");
-    System.out.println(stack); // [홍길동, 박문수, 임꺽정]
-    System.out.println(stack.pop()); // 임꺽정
-    // 스택에 있는 데이터 중 마지막에 추가 된 데이터를 반환한다
-    System.out.println(stack); // [홍길동, 박문수]
-    // pop()을 사용하면 반환된 값이 스택에서 제거된다
-    System.out.println(stack.pop()); // 박문수
-    System.out.println(stack); // [홍길동]
-  }
-
-}
-```
-
-#### 큐(Queue)
-- 먼저 들어간 데이터가 먼저 나온다
-
-- Java는 큐가 클래스로 만들어져 있다
-
-<img src="https://cdn.programiz.com/sites/tutorial2program/files/queue.png">
-
-```java
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class QueueEx01 {
-
-  public static void main(String[] args) {
-    Queue<String> queue = new LinkedList<>();
-    queue.offer("홍길동");
-    queue.offer("박문수");
-    queue.offer("임꺽정");
-    System.out.println(queue); // [홍길동, 박문수, 임꺽정]
-    System.out.println(queue.poll()); // 홍길동
-    // 큐에 있는 데이터 중 가장 먼저 추가된 데이터를 반환한다
-    System.out.println(queue); // [박문수, 임꺽정]
-    // poll()을 사용하면 반환된 값이 큐에서 제거된다
-    System.out.println(queue.poll()); // 박문수
-    System.out.println(queue); // [임꺽정]
-  }
-
-}
-```
 ## 형식화 클래스
 - 데이터를 가시성 좋게 만들 때 사용하는 클래스
 

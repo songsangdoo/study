@@ -59,7 +59,7 @@
 
 ### SQL
 
-  <samll>!! https://www.w3schools.com/sql/default.asp 참조</small>
+  <samll>!! https://www.w3schools.com/mysql/default.asp 참조</small>
 - DBMS에 명령을 주고 바로 결과를 얻는 대화식 언어
 
 
@@ -136,11 +136,11 @@
 -- > desc user;
 -- user 테이블에 있는 컬럼(열)의 정보를 보여준다
 ```
-##### DML 기본 명령어
+##### select
 
 - 데이터베이스의 데이터를 조작한다
 
-- select, insert, update, delete
+- "Extended ERP"를 많이 사용하는 요즘 가장 많이 쓰인다
 
 ```sql
 -- 대소문자 구별을 하지 않는다
@@ -1898,7 +1898,7 @@ MariaDB [sample]> select ename, sal from emp
 13 rows in set (0.001 sec)
 
 ```
-##### 테이블 병합(relation, join)
+##### 테이블 병합(join, relation)
 - 테이블끼리 연결시켜 데이터 조작을 할 수 있다
 ###### EQUI JOIN
 - 테이블끼리 기준이 되는 컬럼이 있다면 연결시킬 수 있다
@@ -2255,8 +2255,962 @@ MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, ifnull(m.ename,'관�
 |  7902 | FORD   | 7566 | JONES            |
 |  7934 | MILLER | 7782 | CLARK            |
 +-------+--------+------+------------------+
-14 rows in set (0.014 sec)
+14 rows in set (0.014 Bsec)
+```
+<small> !! excution plan : SQL무으로 요청한 데이터를 어떻게 불러 올 것인지에 관한 계획</small>
+
+<small> !! query optimizer : execution plan을 세워서 query tunning을 할 수 있게 한다</small>
+
+##### create
+
+- 데이터베이스, 테이블을 생성한다
+
+```sql
+MariaDB [(none)]> create database test1;
+Query OK, 1 row affected (0.034 sec)
+-- test1 데이터베이스 생성
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample             |
+| sys                |
+| test1              |
++--------------------+
+
+MariaDB [(none)]> create database if not exists test1;
+Query OK, 0 rows affected, 1 warning (0.013 sec)
+-- 같은 이름의 데이터베이스가 있는지 확인하고 없으면 새로 만든다
+-- 에러가 나지 않는다
+```
+```sql
+MariaDB [(none)]> create database test2;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> drop database test2;
+Query OK, 0 rows affected (0.241 sec)
+-- test2 데이터베이스 삭제
+
+MariaDB [(none)]> drop database if exists test2;
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+-- 데이터베이스가 있는지 확인하고 있다면 삭제한다
+-- 에러가 나지 않는다
+```
+- 테이블의 구성요소 : 컬럼명, 데이터 타입, 나머지 옵션 정보
+
+  - 데이터 타입의 구성요소
+    - 문자형
+      - char : 고정형 &rarr; 저장공간이 고정되어 있기 때문에 검색속도가 빠르다
+
+      - varchar : 가변형 &rarr; 저장공간을 효율적으로 사용할 수 있다
+
+      - tinytext / text / mediumtext / longtext : 많은 공간을 할당해서 데이터를 저장한다
+
+    - 숫자형
+
+      - 정수형 (int)
+
+      - 실수형 (decimal / double)
+
+    - 날짜형 (datetime / date)
+    - 이진데이터 
+
+```sql
+MariaDB [sample]> create table tbl1
+    -> (col1 varchar(2));
+-- tbl1 테이블을 만들고 varchar(2) 데이터를 갖는 컬럼 col1을 만든다
+Query OK, 0 rows affected (0.252 sec)
+
+MariaDB [sample]> desc tbl1;
++-------+------------+------+-----+---------+-------+
+| Field | Type       | Null | Key | Default | Extra |
++-------+------------+------+-----+---------+-------+
+| col1  | varchar(2) | YES  |     | NULL    |       |
++-------+------------+------+-----+---------+-------+
+1 row in set (0.008 sec)
+
+MariaDB [sample]> create table dept2
+    -> (deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.129 sec)
+
+MariaDB [sample]> desc dept2;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+```
+```sql
+MariaDB [sample]> create table emp2
+    -> as select * from emp;
+Query OK, 14 rows affected (0.207 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+-- emp 테이블을 복제해서 emp2 테이블을 만든다
+MariaDB [sample]> select * from emp2;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2010-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2011-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2011-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2011-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2011-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2011-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2017-07-13 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2011-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2017-07-13 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2011-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2011-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.000 sec)
+
+MariaDB [sample]> create table emp10
+    -> as select * from emp
+    -> where deptno = 10;
+Query OK, 3 rows affected (0.175 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+-- emp 테이블에서 deptno가 10인 데이터만 복제해서 emp10 테이블을 만든다
+MariaDB [sample]> select * from emp10;
++-------+--------+-----------+------+------------+---------+------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm | deptno |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 | NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 | NULL |     10 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+3 rows in set (0.000 sec)
+
+MariaDB [sample]> create table emp11
+    -> as select empno, ename, job from emp
+    -> where deptno = 10;
+-- 특정 컬럼만 복사할 수도 있다
+Query OK, 3 rows affected (0.197 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> select * from emp11;
++-------+--------+-----------+
+| empno | ename  | job       |
++-------+--------+-----------+
+|  7782 | CLARK  | MANAGER   |
+|  7839 | KING   | PRESIDENT |
+|  7934 | MILLER | CLERK     |
++-------+--------+-----------+
+3 rows in set (0.000 sec)
+
+MariaDB [sample]> create table emp13
+    -> as select empno, ename, job, sal, sal * 12 + ifnull(comm, 0) annsal from emp
+    -> where deptno = 10;
+Query OK, 3 rows affected (0.180 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+-- 테이블을 복제해서 새로운 테이블을 만들때 컬럼 이름을 바꿔서 생성할 수도 있다
+MariaDB [sample]> select * from emp13;
++-------+--------+-----------+---------+----------+
+| empno | ename  | job       | sal     | annsal   |
++-------+--------+-----------+---------+----------+
+|  7782 | CLARK  | MANAGER   | 2450.00 | 29400.00 |
+|  7839 | KING   | PRESIDENT | 5000.00 | 60000.00 |
+|  7934 | MILLER | CLERK     | 1300.00 | 15600.00 |
++-------+--------+-----------+---------+----------+
+3 rows in set (0.000 sec)
+
+MariaDB [sample]> create table emp_dept
+    -> as select empno, ename, e.deptno, dname, loc from emp e inner join dept d
+    -> on (e.deptno = d.deptno);
+Query OK, 14 rows affected (0.180 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> select * from emp_dept;
++-------+--------+--------+------------+----------+
+| empno | ename  | deptno | dname      | loc      |
++-------+--------+--------+------------+----------+
+|  7369 | SMITH  |     20 | RESEARCH   | DALLAS   |
+|  7499 | ALLEN  |     30 | SALES      | CHICAGO  |
+|  7521 | WARD   |     30 | SALES      | CHICAGO  |
+|  7566 | JONES  |     20 | RESEARCH   | DALLAS   |
+|  7654 | MARTIN |     30 | SALES      | CHICAGO  |
+|  7698 | BLAKE  |     30 | SALES      | CHICAGO  |
+|  7782 | CLARK  |     10 | ACCOUNTING | NEW YORK |
+|  7788 | SCOTT  |     20 | RESEARCH   | DALLAS   |
+|  7839 | KING   |     10 | ACCOUNTING | NEW YORK |
+|  7844 | TURNER |     30 | SALES      | CHICAGO  |
+|  7876 | ADAMS  |     20 | RESEARCH   | DALLAS   |
+|  7900 | JAMES  |     30 | SALES      | CHICAGO  |
+|  7902 | FORD   |     20 | RESEARCH   | DALLAS   |
+|  7934 | MILLER |     10 | ACCOUNTING | NEW YORK |
++-------+--------+--------+------------+----------+
+14 rows in set (0.000 sec)
+
+MariaDB [sample]> create table empty_emp
+    -> as select * from emp where 1 != 1;
+-- where에 부정조건을 줘서 컬럼은 같지만 데이터는 없는 테이블을 만들수 수 있다
+-- 부정조건은 어떤 부정조건을 써도 상관없다
+Query OK, 0 rows affected (0.256 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> desc empty_emp;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| job      | varchar(9)   | YES  |     | NULL    |       |
+| mgr      | int(4)       | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| comm     | decimal(7,2) | YES  |     | NULL    |       |
+| deptno   | int(2)       | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+8 rows in set (0.008 sec)
+
+MariaDB [sample]> select * from empty_emp;
+Empty set (0.000 sec)
+```
+##### alter
+
+- 컬럼을 추가, 수정, 삭제한다
+```sql
+MariaDB [test1]> select * from sample.dept;
+-- test1 데이터베이스에서 sample 데이터베이스의 테이블에 접근할 수 있다
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [test1]> create table emp_alter
+    -> as select empno, ename, sal, hiredate from sample.emp
+    -> where 1 != 1;
+Query OK, 0 rows affected (0.185 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc emp_alter;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+4 rows in set (0.008 sec)
+
+MariaDB [test1]> alter table emp_alter add job varchar(10);
+-- "alter ~ add"를 사용해서 컬럼 추가
+-- 원하는 위치에 컬럼을 추가시킬 수는 없다
+Query OK, 0 rows affected (0.260 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc emp_alter;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| job      | varchar(10)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.012 sec)
+
+MariaDB [test1]> alter table emp_alter modify job varchar(20);
+Query OK, 0 rows affected (0.201 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+-- "alter ~ modify"를 사용해서 컬럼을 수정할 수도 있다
+MariaDB [test1]> desc emp_alter;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| job      | varchar(20)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.013 sec)
+
+MariaDB [test1]> create table emp_alter2
+    -> as select empno, ename, sal, hiredate, job from sample.emp;
+Query OK, 14 rows affected (0.181 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc emp_alter2;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| job      | varchar(9)   | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.008 sec)
+
+MariaDB [test1]> alter table emp_alter2 modify job varchar(5);
+ERROR 1265 (01000): Data truncated for column 'job' at row 2
+-- 컬럼의 자료형 타입을 수정하려고 할 때 큰 방향으로는 수정이 가능하지만 작은 방향으로는 에러가 생길 수 있다
+-- 컬럼에 저장된 데이터를 중심으로 생각하자
+
+MariaDB [test1]> alter table emp_alter rename column job to work;
+-- "alter ~ rename column A to B"로 컬럼의 이름을 바꿀 수 있다
+Query OK, 0 rows affected (0.187 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc emp_alter;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| work     | varchar(20)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.012 sec)
+
+MariaDB [test1]> alter table emp_alter drop work;
+--"alter ~ drop"으로 컬럼을 삭제 할 수 있다
+Query OK, 0 rows affected (0.222 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc emp_alter;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> alter table emp_alter2 drop job;
+-- 컬럼에 데이터가 있더라도 삭제가 된다
+-- drop을 사용할 때는 주의하자
+Query OK, 0 rows affected (0.199 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> select * from emp_alter2;
++-------+--------+---------+------------+
+| empno | ename  | sal     | hiredate   |
++-------+--------+---------+------------+
+|  7369 | SMITH  |  800.00 | 2010-12-17 |
+|  7499 | ALLEN  | 1600.00 | 2011-02-20 |
+|  7521 | WARD   | 1250.00 | 2011-02-22 |
+|  7566 | JONES  | 2975.00 | 2011-04-02 |
+|  7654 | MARTIN | 1250.00 | 2011-09-28 |
+|  7698 | BLAKE  | 2850.00 | 2011-05-01 |
+|  7782 | CLARK  | 2450.00 | 2011-06-09 |
+|  7788 | SCOTT  | 3000.00 | 2017-07-13 |
+|  7839 | KING   | 5000.00 | 2011-11-17 |
+|  7844 | TURNER | 1500.00 | 2011-09-08 |
+|  7876 | ADAMS  | 1100.00 | 2017-07-13 |
+|  7900 | JAMES  |  950.00 | 2011-12-03 |
+|  7902 | FORD   | 3000.00 | 2011-12-03 |
+|  7934 | MILLER | 1300.00 | 2012-01-23 |
++-------+--------+---------+------------+
+14 rows in set (0.007 sec)
+
+MariaDB [test1]> alter table emp_alter2 rename emp_alter3;
+-- "alter ~ rename"으로 테이블의 이름도 바꿀 수 있다
+Query OK, 0 rows affected (0.116 sec)
+MariaDB [test1]> rename table emp_alter3 to emp_alter2;
+-- rename으로도 이름을 바꿀 수 있다
+Query OK, 0 rows affected (0.131 sec)
+
+MariaDB [test1]> show create table emp_alter\G
+-- emp_alter 테이블의 컬럼 정보를 보여준다
+-- '\G'를 써야 기호 없이 내용만 나온다
+*************************** 1. row ***************************
+       Table: emp_alter
+Create Table: CREATE TABLE `emp_alter` (
+  `empno` int(4) NOT NULL,
+  `ename` varchar(10) DEFAULT NULL,
+  `sal` decimal(7,2) DEFAULT NULL,
+  `hiredate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+1 row in set (0.000 sec)
+
+MariaDB [test1]> show table status\G;
+-- test1 데이터베이스에 있는 테이블의 상세를 보여준다
+*************************** 1. row ***************************
+            Name: emp_alter
+          Engine: InnoDB
+         Version: 10
+      Row_format: Dynamic
+            Rows: 0
+  Avg_row_length: 0
+     Data_length: 16384
+ Max_data_length: 0
+    Index_length: 0
+       Data_free: 0
+  Auto_increment: NULL
+     Create_time: 2023-03-30 12:16:34
+     Update_time: 2023-03-30 12:16:34
+      Check_time: NULL
+       Collation: utf8mb4_general_ci
+        Checksum: NULL
+  Create_options:
+         Comment:
+Max_index_length: 0
+       Temporary: N
+*************************** 2. row ***************************
+            Name: emp_alter2
+          Engine: InnoDB
+         Version: 10
+      Row_format: Dynamic
+            Rows: 14
+  Avg_row_length: 1170
+     Data_length: 16384
+ Max_data_length: 0
+    Index_length: 0
+       Data_free: 0
+  Auto_increment: NULL
+     Create_time: 2023-03-30 12:17:45
+     Update_time: 2023-03-30 12:17:45
+      Check_time: NULL
+       Collation: utf8mb4_general_ci
+        Checksum: NULL
+  Create_options:
+         Comment:
+Max_index_length: 0
+       Temporary: N
+2 rows in set (0.001 sec)
+
+ERROR: No query specified
+```
+##### insert
+- 데이터 입력
+  - 값의 순서는 컬럼의 순서대로 넣는다
+
+  - 자료형의 크기
+  - 문자열데이터는 작은 따옴표를 사용한다
+
+
+```sql
+MariaDB [test1]> desc dept;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.009 sec)
+
+MariaDB [test1]> select * from dept;
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [test1]> insert into dept values(50, '생산', '부산');
+-- "insert into ~ value()"를 이용해 데이터를 입력할 수 있다
+Query OK, 1 row affected (0.028 sec)
+MariaDB [test1]> insert into dept values('52', '생산', '부산12121212112121212121212122');
+-- 자료형 저장공간보다 큰 값을 입력하면 에러가 생긴다
+-- 문자형은 정수형으로 형변환이 가능하다
+ERROR 1406 (22001): Data too long for column 'loc' at row 1
+
+MariaDB [test1]> insert into dept(deptno, dname, loc) values(53, '연구', '대전');
+-- 테이블명 뒤에 컬럼명을 써서 데이터 값과 순서대로 매칭시켜 입력할 수도 있다
+Query OK, 1 row affected (0.040 sec)
+```
+- 필수요소 
+
+  - describe로 테이블의 컬럼 정보를 봤을 때, Null의 값이 NO인 컬럼을 필수요소라고 한다
+```sql
+MariaDB [test1]> desc dept;
+-- deptno는 Null의 값이 NO로 되어 있다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.009 sec)
+
+MariaDB [test1]> create table dept2(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.154 sec)
+
+MariaDB [test1]> desc dept2;
+-- 테이블 생성 시 "not null"을 쓰지 않으면 기본값으로 YES를 가진다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [test1]> create table dept3(
+    -> deptno int(2) not null,
+    -> dname varchar(14),
+    -> loc varchar(13));
+-- "not null"을 써 주면 그 컬럼은 필수 요소가 된다
+Query OK, 0 rows affected (0.230 sec)
+
+MariaDB [test1]> desc dept3;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.014 sec)
+
+MariaDB [test1]> insert into dept3 values(null, '연구', '서울');
+-- 필수 요소에 null 값을 주면 에러가 생긴다
+ERROR 1048 (23000): Column 'deptno' cannot be null
+
+MariaDB [test1]> insert into dept3(deptno) values(50);
+-- MariaDB [test1]> insert into dept3 values(50, null, null);
+-- 위의 구문은 같은 데이터를 생성한다
+Query OK, 1 row affected (0.006 sec)
+```
+- 기본값 (default) 
+
+  - 테이블 생성시 컬럼에 default 값을 줄 수 있다
+```sql
+MariaDB [test1]> create table dept(
+    -> deptno int(2) default 90,
+    -> dename varchar(14),
+    -> loc varchar(13));
+-- default 값을 설정할 수도 있다
+Query OK, 0 rows affected (0.134 sec)
+
+MariaDB [test1]> desc dept;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | 90      |       |
+| dename | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.014 sec)
+
+MariaDB [test1]> insert into dept values(10, '연구', '서울');
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [test1]> select * from dept;
++--------+--------+--------+
+| deptno | dename | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
++--------+--------+--------+
+1 row in set (0.000 sec)
+
+MariaDB [test1]> insert into dept values(default, '연구', '서울');
+-- 값에 default를 쓰면 테이블을 생성할 때 줬던 default 값을 가진 데이터가 생성된다
+Query OK, 1 row affected (0.031 sec)
+
+MariaDB [test1]> insert into dept values(null, '연구', '서울');
+-- null 값을 주면 default 값이 있어도 null 값을 가진 데이터가 생성된다
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [test1]> select * from dept;
++--------+--------+--------+
+| deptno | dename | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     90 | 연구   | 서울   |
+|   NULL | 연구   | 서울   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+- 다수의 데이터 한번에 입력시키기
+
+```sql
+MariaDB [test1]> insert into dept values(31, '연구', '서울'), (32, '연구', '부산');
+-- 다수의 데이터를 한번에 입력시킬 수 있다
+Query OK, 2 rows affected (0.035 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> insert into dept select * from sample.dept where deptno = 30;
+-- 특정 테이블의 데이터를 가져와 한번에 입력시킬 수 있다
+Query OK, 1 row affected (0.018 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> select * from dept;
++--------+-------+---------+
+| deptno | dname | loc     |
++--------+-------+---------+
+|     30 | SALES | CHICAGO |
++--------+-------+---------+
+1 row in set (0.000 sec)
+```
+##### update
+- 컬럼 안의 내용을 특정 값으로 변경시킨다
+
+```sql
+MariaDB [test1]> update dept set loc = '부산';
+-- "update ~ set"을 이용해 테이블에 있는 컬럼의 내용을 변경시킬 수 있다
+Query OK, 5 rows affected (0.063 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [test1]> select * from dept;
++--------+------------+--------+
+| deptno | dname      | loc    |
++--------+------------+--------+
+|     30 | SALES      | 부산   |
+|     10 | ACCOUNTING | 부산   |
+|     20 | RESEARCH   | 부산   |
+|     30 | SALES      | 부산   |
+|     40 | OPERATIONS | 부산   |
++--------+------------+--------+
+5 rows in set (0.000 sec)
+
+MariaDB [test1]> update dept set loc = '대전' where deptno = 30;
+-- where로 조건을 줘서 특정 컬럼의 내용만 변경 시킬 수 있다
+Query OK, 2 rows affected (0.020 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [test1]> select * from dept;
++--------+------------+--------+
+| deptno | dname      | loc    |
++--------+------------+--------+
+|     30 | SALES      | 대전   |
+|     10 | ACCOUNTING | 부산   |
+|     20 | RESEARCH   | 부산   |
+|     30 | SALES      | 대전   |
+|     40 | OPERATIONS | 부산   |
++--------+------------+--------+
+5 rows in set (0.000 sec)
+```
+```sql
+MariaDB [test1]> create table emp_copy1
+    -> as select * from sample.emp;
+Query OK, 14 rows affected (0.189 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> update emp_copy1 set comm = 1000.0
+    -> where job = 'clerk' and deptno = 20;
+Query OK, 0 rows affected (0.000 sec)
+Rows matched: 2  Changed: 0  Warnings: 0
+
+MariaDB [test1]> select * from emp_copy1;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2010-12-17 |  800.00 | 1000.00 |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2011-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2011-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2011-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2011-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2011-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2017-07-13 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2011-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2017-07-13 | 1100.00 | 1000.00 |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2011-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2011-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.000 sec)
+```
+##### delete
+
+- 데이터(행)를 자체를 삭제 시킨다
+```sql
+MariaDB [test1]> delete from emp_copy1;
+-- "delete from"을 사용해 테이블의 모든 데이터(행)를 삭제 시킬 수 있다
+Query OK, 14 rows affected (0.013 sec)
+
+MariaDB [test1]> delete from dept where deptno = 30;
+-- where로 조건을 줘서 특정 데이터만 삭제 시킬 수 있다
+Query OK, 2 rows affected (0.012 sec)
+```
+!! 컬럼 안의 내용을 없애는 것은 delete가 아니라 update다
+```sql
+MariaDB [test1]> update emp set job = null;
+-- job 컬럼의 내용을 update를 통해 null로 변경시켰다
+Query OK, 6 rows affected (0.014 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+```
+##### constraint
+- 테이블에 입력할 데이터를 제한한다
+
+  - 필수 요소 (not null)
+
+  - 중복 방지 (unique) 
+
+  - 필수 + 중복 (primary key)
+  - 참조 (foreign key)
+
+  <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지  않았다</small>
+- 제약조건 확인 방법
+```sql
+MariaDB [test1]> desc sample.dept;
+-- Null, Key를 통해 확인 가능하다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   | PRI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.009 sec)
+
+MariaDB [test1]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample             |
+| sys                |
+| test1              |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [test1]> desc information_schema.table_constraints;
+-- infromation_schema 데이터베이스의 table_constraints 테이블의 컬럼 정보를 조회를 통해서도 확인할 수 있다
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| CONSTRAINT_CATALOG | varchar(512) | NO   |     | NULL    |       |
+| CONSTRAINT_SCHEMA  | varchar(64)  | NO   |     | NULL    |       |
+| CONSTRAINT_NAME    | varchar(64)  | NO   |     | NULL    |       |
+| TABLE_SCHEMA       | varchar(64)  | NO   |     | NULL    |       |
+| TABLE_NAME         | varchar(64)  | NO   |     | NULL    |       |
+| CONSTRAINT_TYPE    | varchar(64)  | NO   |     | NULL    |       |
++--------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.010 sec)
+
+MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where constraint_schema = 'sample';
+-- sample 테이블의 제약조건을 확인한다
+-- 필수 조건(not null)은 확인할 수 없다
++-----------------+--------------+------------+-----------------+
+| constraint_name | table_schema | table_name | constraint_type |
++-----------------+--------------+------------+-----------------+
+| PRIMARY         | sample       | dept       | PRIMARY KEY     |
+| PRIMARY         | sample       | emp        | PRIMARY KEY     |
++-----------------+--------------+------------+-----------------+
+2 rows in set (2.251 sec)
 ```
 
 
+- 컬럼 단위 제약조건 : 컬럼 선언 바로 뒤에 제약조건을 준다
 
+- 테이블 단위 제약조건 : 테이블 선언 제일 마지막에 제약조건을 준다
+
+```sql
+MariaDB [test1]> create table dept_n1(
+    -> deptno int(2) not null,
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.144 sec)
+
+MariaDB [test1]> desc dept_n1;
+-- Null 값이 no인 컬럼이 필수 요소이다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.012 sec)
+```
+```sql
+MariaDB [test1]> create table dept_u1(
+    -> deptno int(2) unique,
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.152 sec)
+
+MariaDB [test1]> desc dept_u1;
+-- Key 값이 UNI인 컬럼이 중복값이 방지된 컬럼이다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  | UNI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.012 sec)
+
+MariaDB [test1]> insert into dept_u1 values(10, '개발', '서울');
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [test1]> insert into dept_u1 values(10, '운영', '부산');
+-- 중복값이 방지된 컬럼에 중복인 데이터를 입력하면 에러가 생긴다
+ERROR 1062 (23000): Duplicate entry '10' for key 'deptno'
+
+MariaDB [test1]> insert into dept_u1 values(null, '연구', '대전');
+Query OK, 1 row affected (0.023 sec)
+
+MariaDB [test1]> insert into dept_u1 values(null, '운영', '부산');
+-- null은 중복 방지여도 중복 입력이 가능하다
+Query OK, 1 row affected (0.026 sec)
+
+MariaDB [test1]> select * from dept_u1;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 개발   | 서울   |
+|   NULL | 연구   | 대전   |
+|   NULL | 운영   | 부산   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+
+```sql
+MariaDB [test1]> create table dept_u2(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13),
+    -> constraint unique(deptno));
+-- 테이블 단위 제약조건에서는 컬럼 선언 후에 제약 조건을 명시해줘야 한다
+Query OK, 0 rows affected (0.133 sec)
+
+MariaDB [test1]> desc dept_u2;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  | UNI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.014 sec)
+
+MariaDB [test1]> create table dept_u3(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13),
+    -> constraint dept_u3_deptno_uk unique(deptno));
+-- constraint_name을 dept_u3_deptno_uk로 지정
+Query OK, 0 rows affected (0.141 sec)
+```
+```sql
+MariaDB [test1]> create table dept_p1(
+    -> deptno int(2) primary key,
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.132 sec)
+
+MariaDB [test1]> desc dept_p1;
+-- 컬럼에 primary key 지정을 하면 필수 요소 지정까지 된다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   | PRI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.011 sec)
+
+MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where constraint_schema = 'test1';
++-------------------+--------------+------------+-----------------+
+| constraint_name   | table_schema | table_name | constraint_type |
++-------------------+--------------+------------+-----------------+
+| PRIMARY           | test1        | dept_p1    | PRIMARY KEY     |
+| deptno            | test1        | dept_u1    | UNIQUE          |
+| deptno            | test1        | dept_u2    | UNIQUE          |
+| dept_u3_deptno_uk | test1        | dept_u3    | UNIQUE          |
++-------------------+--------------+------------+-----------------+
+4 rows in set (0.104 sec)
+
+MariaDB [test1]> insert into dept_p1 values(10, '연구', '서울');
+Query OK, 1 row affected (0.010 sec)
+
+MariaDB [test1]> insert into dept_p1 values(20, '개발', '대전');
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [test1]> insert into dept_p1 values(10, '운영', '제주');
+-- primary key 지정이 된 컬럼은 중복 값을 허용하지 않는다
+ERROR 1062 (23000): Duplicate entry '10' for key 'PRIMARY'
+MariaDB [test1]> insert into dept_p1 values(null, '운영', '제주');
+-- primary key 지정이 된 컬럼은 null 값도 가질 수 없다
+ERROR 1048 (23000): Column 'deptno' cannot be null
+```
+```sql
+MariaDB [test1]> create table dept_a2(
+    -> deptno int(2) unsigned primary key auto_increment,
+    -> dname varchar(14),
+    -> loc varchar(13));
+-- usigned는 0 또는 양수를 의미한다
+-- auto_increment 지정을 해서 데이터 값으로 0을 넣거나 값을 넣지 않을 경우, 그 이전의 값보다 1씩 증가하게 할 수 있다
+Query OK, 0 rows affected (0.173 sec)
+
+MariaDB [test1]> insert into dept_a2 values(10, '연구', '서울');
+-- auto_increment 지정을 한 경우, 처음 넣는 데이터의 값이 기준이 된다
+Query OK, 1 row affected (0.021 sec)
+
+MariaDB [test1]> insert into dept_a2 values(0, '운영', '제주');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [test1]> insert into dept_a2(dname, loc) values('기획', '대전');
+Query OK, 1 row affected (0.013 sec)
+
+MariaDB [test1]> select * from dept_a2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     11 | 운영   | 제주   |
+|     12 | 기획   | 대전   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+
+MariaDB [test1]> insert into dept_a2 values(1, '홍보', '부산');
+Query OK, 1 row affected (0.009 sec)
+
+MariaDB [test1]> select * from dept_a2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|      1 | 홍보   | 부산   |
+|     10 | 연구   | 서울   |
+|     11 | 운영   | 제주   |
+|     12 | 기획   | 대전   |
++--------+--------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [test1]> insert into dept_a2(dname, loc) values('연구', '전주');
+-- 처음 시작값이 10이었기 때문에 바로 이전에 1을 값으로 가지는 데이터를 넣어더라도 다음에 오는 값은 13이 된다
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [test1]> select * from dept_a2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|      1 | 홍보   | 부산   |
+|     10 | 연구   | 서울   |
+|     11 | 운영   | 제주   |
+|     12 | 기획   | 대전   |
+|     13 | 연구   | 전주   |
++--------+--------+--------+
+5 rows in set (0.000 sec)
+```
