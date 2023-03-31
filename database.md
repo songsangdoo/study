@@ -57,7 +57,7 @@
 
   - 개발자 : SQL을 이용해 데이터베이스와 프로그램을 연동시킨다
 
-### SQL
+### SQL (Structured Query Lang.)
 
   <samll>!! https://www.w3schools.com/mysql/default.asp 참조</small>
 - DBMS에 명령을 주고 바로 결과를 얻는 대화식 언어
@@ -1649,7 +1649,7 @@ MariaDB [sample]> select deptno, max(sal) from emp group by deptno;
 3 rows in set (0.013 sec)
 
 MariaDB [sample]> select deptno, max(sal), ename from emp group by deptno;
--- ename으로 그룹화 된 것이 아니기 때문에 세번째 컬럼은 나머지 다른 두개의 컬럼과 관계를 갖지 않는다
+-- ename으로 그룹화 된 것이 아니기 때문에 세번째 컬럼은 나머지 두개의 컬럼과 관계를 갖지 않는다
 +--------+----------+-------+
 | deptno | max(sal) | ename |
 +--------+----------+-------+
@@ -1692,11 +1692,10 @@ MariaDB [sample]> select deptno, job, sum(sal) from emp group by deptno, job;
 MariaDB [sample]> select deptno, job, sum(sal) from emp
     -> where sum(sal) >= 2000 group by deptno, job;
 ERROR 1111 (HY000): Invalid use of group function
--- where에 그룹화 함수를 사용한 경우, group by를 사용할 수 없다
+-- where에 그룹화 함수를 사용할 수는 없다
 
 MariaDB [sample]> select deptno, job, sum(sal) 
     -> from emp where sal >= 2000 group by deptno, job;
--- where에 그룹화 함수를 사용하지 않는 경우에는 group by 사용이 가능하다
 -- 조건에 맞는 데이터를 걸러낸 다음 그룹화를 진행하는 순서를 가진다
 +--------+-----------+----------+
 | deptno | job       | sum(sal) |
@@ -1711,7 +1710,7 @@ MariaDB [sample]> select deptno, job, sum(sal)
 
 MariaDB [sample]> select deptno, job, sum(sal) from emp
     -> group by deptno, job having sum(sal) >= 2000;
--- 그룹화를 시키고 그룹화 함수를 사용한 조건에 부합하는 결과만 보이고 싶을 때는 group by 뒤에 having을 사용한다
+-- 그룹화를 시키고 그룹화 함수를 사용한 조건에 부합하는 결과만 보이고 싶을 때는 having을 사용한다
 -- 그룹화를 먼저 하고 난 뒤 조건에 해당되는 데이터를 걸러낸다
 +--------+-----------+----------+
 | deptno | job       | sum(sal) |
@@ -1752,11 +1751,11 @@ MariaDB [sample]> select deptno, case deptno
 
 - 구분
 
-  - 단일행 : 하나의 결과를 가지고 다시 쿼리
+  - 단일행 : 하나의 결과를 가지는 서브 쿼리
 
     <small>!! 단일행 서브 쿼리에서는 비교연산자만 사용할 수 있다</small>
 
-  - 복수행 : 여러 데이터의 결과를 가지고 다시 쿼리
+  - 복수행 : 여러 데이터의 결과를 가지는 서브 쿼리
 
 ###### 단일행 서브쿼리
 - 비교 연산자를 사용한다
@@ -1792,7 +1791,7 @@ MariaDB [sample]> select ename, sal from emp
 MariaDB [sample]> select deptno, ename, sal from emp
     -> where sal in (select max(sal) from emp group by deptno);
 -- 부서별 최고 급여를 받는 사원 정보 확인
--- 여러 데이터(복수)의 결과를 가지고 쿼리는 in을 사용한다
+-- 여러 데이터(복수)를 결과로 가지는 서브 쿼리에 포함되는 조건을 주고 싶을 때는 in을 사용한다
 -- 복수형 서브쿼리
 +--------+-------+---------+
 | deptno | ename | sal     |
@@ -2011,7 +2010,7 @@ MariaDB [sample]> select empno, ename, dname, loc, e.deptno
 
 MariaDB [sample]> select empno, ename, dname, loc, e.deptno
     -> from emp e inner join dept d
-    -> on (e.deptno = d.deptno)
+    -> on(e.deptno = d.deptno)
     -> where e.deptno = 10;
 -- on에 join 조건을 주고 where에는 행 제한 조건을 줘서 모호한 표현을 피할 수 있다
 +-------+--------+------------+----------+--------+
@@ -2025,7 +2024,7 @@ MariaDB [sample]> select empno, ename, dname, loc, e.deptno
 
 MariaDB [sample]> select empno, ename, sal, dname, loc
     -> from emp e cross join dept d
-    -> on (e.deptno = d.deptno)
+    -> on(e.deptno = d.deptno)
     -> where job = 'clerk';
 +-------+--------+---------+------------+----------+
 | empno | ename  | sal     | dname      | loc      |
@@ -2066,7 +2065,7 @@ MariaDB [sample]> select * from emp e inner join salgrade s
 
 MariaDB [sample]> select empno, ename, sal, grade, hiredate
     -> from emp e inner join salgrade s
-    -> on (e.sal between s.losal and s.hisal)
+    -> on(e.sal between s.losal and s.hisal)
     -> where hiredate like '2011%';
 +-------+--------+---------+-------+------------+
 | empno | ename  | sal     | grade | hiredate   |
@@ -2140,9 +2139,9 @@ MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
   <small>!! 이때, 중심이 되는 테이블에서 결과값이 없는 컬럼의 값은 null이다</small>
 
 - 구분
-  - right outer join : 'right outer join'을 중심으로 오른쪽 테이블의 레코드를 중심으로 한다
+  - right outer join : 'right outer join'을 중심으로 오른쪽 테이블을 중심으로 한다
 
-  - left outer join : 'left outer join'을 중심으로 왼쪽 테이블의 레코드를 중심으로 한다
+  - left outer join : 'left outer join'을 중심으로 왼쪽 테이블을 중심으로 한다
 
   - full outer join
 
@@ -2173,7 +2172,7 @@ MariaDB [sample]> select d.deptno, d.dname, e.empno, e.ename
 
 MariaDB [sample]> select d.deptno, d.dname, e.empno, e.ename
     -> from dept d left outer join emp e
-    -> on (e.deptno = d.deptno);
+    -> on(e.deptno = d.deptno);
 +--------+------------+-------+--------+
 | deptno | dname      | empno | ename  |
 +--------+------------+-------+--------+
@@ -2213,7 +2212,7 @@ MariaDB [sample]> select d.deptno, d.dname, d.loc
 ```sql
 MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, m.ename '관리자'
     -> from emp e inner join emp m
-    -> on (e.mgr = m.empno);
+    -> on(e.mgr = m.empno);
 +-------+--------+------+-----------+
 | empno | 사원   | mgr  | 관리자    |
 +-------+--------+------+-----------+
@@ -2235,8 +2234,8 @@ MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, m.ename '관리자'
 
 MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, ifnull(m.ename,'관리자 없음') '관리자'
     -> from emp e left outer join emp m
-    -> on (e.mgr = m.empno);
--- left outer join을 사용해 관리자 값이 null인 king까지 확인할 수 있다
+    -> on(e.mgr = m.empno);
+-- outer join을 사용해 관리자 값이 null인 king까지 확인할 수 있다
 +-------+--------+------+------------------+
 | empno | 사원   | mgr  | 관리자           |
 +-------+--------+------+------------------+
@@ -2257,7 +2256,7 @@ MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, ifnull(m.ename,'관�
 +-------+--------+------+------------------+
 14 rows in set (0.014 Bsec)
 ```
-<small> !! excution plan : SQL무으로 요청한 데이터를 어떻게 불러 올 것인지에 관한 계획</small>
+<small> !! excution plan : SQL로 요청한 데이터를 어떻게 불러 올 것인지에 관한 계획</small>
 
 <small> !! query optimizer : execution plan을 세워서 query tunning을 할 수 있게 한다</small>
 
@@ -2319,8 +2318,8 @@ Query OK, 0 rows affected, 1 warning (0.000 sec)
     - 이진데이터 
 
 ```sql
-MariaDB [sample]> create table tbl1
-    -> (col1 varchar(2));
+MariaDB [sample]> create table tbl1(
+    -> col1 varchar(2));
 -- tbl1 테이블을 만들고 varchar(2) 데이터를 갖는 컬럼 col1을 만든다
 Query OK, 0 rows affected (0.252 sec)
 
@@ -2332,8 +2331,8 @@ MariaDB [sample]> desc tbl1;
 +-------+------------+------+-----+---------+-------+
 1 row in set (0.008 sec)
 
-MariaDB [sample]> create table dept2
-    -> (deptno int(2),
+MariaDB [sample]> create table dept2(
+    -> deptno int(2),
     -> dname varchar(14),
     -> loc varchar(13));
 Query OK, 0 rows affected (0.129 sec)
@@ -2394,7 +2393,7 @@ MariaDB [sample]> select * from emp10;
 MariaDB [sample]> create table emp11
     -> as select empno, ename, job from emp
     -> where deptno = 10;
--- 특정 컬럼만 복사할 수도 있다
+-- 특정 조건을 가진 특정 컬럼의 데이터만 복사할 수도 있다
 Query OK, 3 rows affected (0.197 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
@@ -2453,7 +2452,7 @@ MariaDB [sample]> select * from emp_dept;
 
 MariaDB [sample]> create table empty_emp
     -> as select * from emp where 1 != 1;
--- where에 부정조건을 줘서 컬럼은 같지만 데이터는 없는 테이블을 만들수 수 있다
+-- where에 부정조건을 줘서 컬럼은 그대로 복사하지만 데이터는 복사하지 않는 테이블을 만들수 수 있다
 -- 부정조건은 어떤 부정조건을 써도 상관없다
 Query OK, 0 rows affected (0.256 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -2510,7 +2509,7 @@ MariaDB [test1]> desc emp_alter;
 4 rows in set (0.008 sec)
 
 MariaDB [test1]> alter table emp_alter add job varchar(10);
--- "alter ~ add"를 사용해서 컬럼 추가
+-- "alter table ~ add ~"을 사용해서 컬럼 추가
 -- 원하는 위치에 컬럼을 추가시킬 수는 없다
 Query OK, 0 rows affected (0.260 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -2530,7 +2529,7 @@ MariaDB [test1]> desc emp_alter;
 MariaDB [test1]> alter table emp_alter modify job varchar(20);
 Query OK, 0 rows affected (0.201 sec)
 Records: 0  Duplicates: 0  Warnings: 0
--- "alter ~ modify"를 사용해서 컬럼을 수정할 수도 있다
+-- "alter table ~ modify ~"을 사용해서 테이블 내에 있는 컬럼을 수정할 수도 있다
 MariaDB [test1]> desc emp_alter;
 +----------+--------------+------+-----+---------+-------+
 | Field    | Type         | Null | Key | Default | Extra |
@@ -2566,7 +2565,7 @@ ERROR 1265 (01000): Data truncated for column 'job' at row 2
 -- 컬럼에 저장된 데이터를 중심으로 생각하자
 
 MariaDB [test1]> alter table emp_alter rename column job to work;
--- "alter ~ rename column A to B"로 컬럼의 이름을 바꿀 수 있다
+-- "alter table ~ rename column A to B"로 컬럼의 이름을 바꿀 수 있다
 Query OK, 0 rows affected (0.187 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
@@ -2583,7 +2582,7 @@ MariaDB [test1]> desc emp_alter;
 5 rows in set (0.012 sec)
 
 MariaDB [test1]> alter table emp_alter drop work;
---"alter ~ drop"으로 컬럼을 삭제 할 수 있다
+--"alter table ~ drop ~"을 사용해서 컬럼을 삭제 할 수 있다
 Query OK, 0 rows affected (0.222 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
@@ -2626,10 +2625,10 @@ MariaDB [test1]> select * from emp_alter2;
 14 rows in set (0.007 sec)
 
 MariaDB [test1]> alter table emp_alter2 rename emp_alter3;
--- "alter ~ rename"으로 테이블의 이름도 바꿀 수 있다
+-- "alter table ~ rename ~"을 사용해서 테이블의 이름도 바꿀 수 있다
 Query OK, 0 rows affected (0.116 sec)
 MariaDB [test1]> rename table emp_alter3 to emp_alter2;
--- rename으로도 이름을 바꿀 수 있다
+-- "rename table ~ to ~"을 사용해서 테이블 이름을 바꿀 수 있다
 Query OK, 0 rows affected (0.131 sec)
 
 MariaDB [test1]> show create table emp_alter\G
@@ -2790,7 +2789,7 @@ ERROR 1048 (23000): Column 'deptno' cannot be null
 
 MariaDB [test1]> insert into dept3(deptno) values(50);
 -- MariaDB [test1]> insert into dept3 values(50, null, null);
--- 위의 구문은 같은 데이터를 생성한다
+-- 위의 구문은 같은 데이터를 생성하는 SQL이다
 Query OK, 1 row affected (0.006 sec)
 ```
 - 기본값 (default) 
@@ -2946,7 +2945,7 @@ MariaDB [test1]> delete from dept where deptno = 30;
 -- where로 조건을 줘서 특정 데이터만 삭제 시킬 수 있다
 Query OK, 2 rows affected (0.012 sec)
 ```
-!! 컬럼 안의 내용을 없애는 것은 delete가 아니라 update다
+!! 행은 그대로 두고, 컬럼 안의 내용 없애는 것은 delete가 아니라 update다
 ```sql
 MariaDB [test1]> update emp set job = null;
 -- job 컬럼의 내용을 update를 통해 null로 변경시켰다
@@ -2954,17 +2953,19 @@ Query OK, 6 rows affected (0.014 sec)
 Rows matched: 6  Changed: 6  Warnings: 0
 ```
 ##### constraint
-- 테이블에 입력할 데이터를 제한한다
+- 테이블에 입력할 데이터에 제약 조건을 준다
+
+- 제약 조건
 
   - 필수 요소 (not null)
 
   - 중복 방지 (unique) 
 
   - 필수 + 중복 (primary key)
-  - 참조 (foreign key)
+  - 참조 (foreign key) : 보통 unique, primary key를 참조한다
 
   <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지  않았다</small>
-- 제약조건 확인 방법
+- constraint 확인 방법
 ```sql
 MariaDB [test1]> desc sample.dept;
 -- Null, Key를 통해 확인 가능하다
@@ -2991,7 +2992,7 @@ MariaDB [test1]> show databases;
 6 rows in set (0.001 sec)
 
 MariaDB [test1]> desc information_schema.table_constraints;
--- infromation_schema 데이터베이스의 table_constraints 테이블의 컬럼 정보를 조회를 통해서도 확인할 수 있다
+-- infromation_schema 데이터베이스의 table_constraints 테이블의 컬럼 정보를 조회해서도 확인할 수 있다
 +--------------------+--------------+------+-----+---------+-------+
 | Field              | Type         | Null | Key | Default | Extra |
 +--------------------+--------------+------+-----+---------+-------+
@@ -3018,10 +3019,10 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
 2 rows in set (2.251 sec)
 ```
 
+- constraint 선언 방법
+  - 컬럼 단위 제약조건 : 컬럼 선언 바로 뒤에 제약조건을 준다
 
-- 컬럼 단위 제약조건 : 컬럼 선언 바로 뒤에 제약조건을 준다
-
-- 테이블 단위 제약조건 : 테이블 선언 제일 마지막에 제약조건을 준다
+  - 테이블 단위 제약조건 : 테이블 선언에서 컬럼 선언을 마친 후, 제일 마지막에 제약조건을 준다
 
 ```sql
 MariaDB [test1]> create table dept_n1(
@@ -3090,7 +3091,7 @@ MariaDB [test1]> create table dept_u2(
     -> dname varchar(14),
     -> loc varchar(13),
     -> constraint unique(deptno));
--- 테이블 단위 제약조건에서는 컬럼 선언 후에 제약 조건을 명시해줘야 한다
+-- 테이블 단위 제약조건에서는 컬럼 선언 후, 마지막에 따로 제약 조건을 명시해줘야 한다
 Query OK, 0 rows affected (0.133 sec)
 
 MariaDB [test1]> desc dept_u2;
@@ -3160,8 +3161,8 @@ MariaDB [test1]> create table dept_a2(
     -> deptno int(2) unsigned primary key auto_increment,
     -> dname varchar(14),
     -> loc varchar(13));
--- usigned는 0 또는 양수를 의미한다
--- auto_increment 지정을 해서 데이터 값으로 0을 넣거나 값을 넣지 않을 경우, 그 이전의 값보다 1씩 증가하게 할 수 있다
+-- unsigned는 0 또는 양수를 의미한다
+-- primary key로 지정한 경우 auto_increment 옵션을 줘서 데이터 값으로 0을 넣거나 값을 아예 넣지 않을 경우, 그 이전의 값보다 1씩 증가하게 할 수 있다
 Query OK, 0 rows affected (0.173 sec)
 
 MariaDB [test1]> insert into dept_a2 values(10, '연구', '서울');
@@ -3214,3 +3215,807 @@ MariaDB [test1]> select * from dept_a2;
 +--------+--------+--------+
 5 rows in set (0.000 sec)
 ```
+```sql
+MariaDB [information_schema]> select * from sample.dept;
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.000 sec)
+
+MariaDB [information_schema]> select * from sample.emp;
+-- emp 테이블의 deptno 컬럼은 dept 테이블의 deptno 컬럼을 참조해서 만들어졌다
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2010-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2011-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2011-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2011-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2011-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2011-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2017-07-13 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2011-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2017-07-13 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2011-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2011-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.000 sec)
+
+MariaDB [test1]> create table dept_p(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.139 sec)
+
+MariaDB [test1]> create table emp_f(
+    -> empno int(4),
+    -> ename varchar(10),
+    -> job varchar(9),
+    -> deptno int(2),
+    -> constraint foreign key(deptno) references dept_p(detpno));
+    -- primary key가 아닌 컬럼을 참조하면 아래의 에러가 생긴다
+ERROR 1005 (HY000): Can't create table `test1`.`emp_f` (errno: 150 "Foreign key constraint is incorrectly formed")
+```
+```sql
+MariaDB [test1]> create table dept_p(
+    -> deptno int(2) primary key,
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.124 sec)
+
+MariaDB [test1]> create table emp_f(
+    -> empno int(4),
+    -> ename varchar(10),
+    -> job varchar(9),
+    -> deptno int(2),
+    -> constraint foreign key(deptno) references dept_p(deptno));
+Query OK, 0 rows affected (0.137 sec)
+
+MariaDB [test1]> desc emp_f;
+-- foreign key를 지정한 컬럼은 Key 값으로 MUL을 가진다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| empno  | int(4)      | YES  |     | NULL    |       |
+| ename  | varchar(10) | YES  |     | NULL    |       |
+| job    | varchar(9)  | YES  |     | NULL    |       |
+| deptno | int(2)      | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where constraint_schema = 'test1';
++-----------------+--------------+------------+-----------------+
+| constraint_name | table_schema | table_name | constraint_type |
++-----------------+--------------+------------+-----------------+
+| PRIMARY         | test1        | dept_p     | PRIMARY KEY     |
+| emp_f_ibfk_1    | test1        | emp_f      | FOREIGN KEY     |
++-----------------+--------------+------------+-----------------+
+2 rows in set (1.193 sec)
+
+MariaDB [test1]> insert into emp_f values(1000, '홍길동', 'clerk', 10);
+-- 참조되는 값이 먼저 들어가야 데이터를 입력할 수 있다
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test1`.`emp_f`, CONSTRAINT `emp_f_ibfk_1` FOREIGN KEY (`deptno`) REFERENCES `dept_p` (`deptno`))
+
+MariaDB [test1]> insert into dept_p values(10, '연구', '서울');
+-- 참조되는 테이블에 데이터를 먼저 입력한다
+Query OK, 1 row affected (0.019 sec)
+
+MariaDB [test1]> insert into emp_f values(1000, '홍길동', 'clerk', 10);
+-- 참조되는 테이블에서 값의 유무를 확인하고 값이 있다면 에러없이 데이터를 입력한다
+Query OK, 1 row affected (0.017 sec)
+
+MariaDB [test1]> update emp_f set deptno = 20 where empno = 1000;
+-- 참조되는 테이블에 20번 값이 없기 때문에 에러가 생긴다
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test1`.`emp_f`, CONSTRAINT `emp_f_ibfk_1` FOREIGN KEY (`deptno`) REFERENCES `dept_p` (`deptno`))
+
+MariaDB [test1]> insert into dept_p values(20, '개발', '대전');
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [test1]> update emp_f set deptno = 20 where empno = 1000;
+-- 참조되는 테이블에 20의 값을 넣어줬으므로 참조하는 테이블에서 20의 값을 사용하는 데이터로 업데이트 할 수 있다
+Query OK, 1 row affected (0.018 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [test1]> delete from dept_p;
+-- 참조되는 값을 가진 데이터를 먼저 삭제하면 아래와 같은 에러가 생긴다
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`test1`.`emp_f`, CONSTRAINT `emp_f_ibfk_1` FOREIGN KEY (`deptno`) REFERENCES `dept_p` (`deptno`))
+
+MariaDB [test1]> select * from emp_f;
++-------+-----------+-------+--------+
+| empno | ename     | job   | deptno |
++-------+-----------+-------+--------+
+|  1000 | 홍길동    | clerk |     20 |
+|  2000 | 박문수    | clerk |     10 |
++-------+-----------+-------+--------+
+2 rows in set (0.000 sec)
+
+MariaDB [test1]> delete from emp_f where deptno = 10;
+Query OK, 1 row affected (0.044 sec)
+
+MariaDB [test1]> delete from dept_p where deptno =10;
+-- 참조되지 않는 값을 가진 데이터는 삭제가 가능하다
+Query OK, 1 row affected (0.017 sec)
+
+MariaDB [test1]> drop table dept_p;
+-- 참조되는 테이블 자체를 먼저 삭제하면 에러가 생긴다
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+
+MariaDB [test1]> drop table emp_f;
+Query OK, 0 rows affected (0.125 sec)
+
+MariaDB [test1]> drop table dept_p;
+-- 참조를 하는 테이블을 먼저 삭제하면 참조되는 테이블도 삭제할 수 있다
+Query OK, 0 rows affected (0.134 sec)
+```
+- 두 개의 컬럼을 묶어서 한 쌍으로 제약조건을 주는 것을 복합키를 준다고 한다
+
+```sql
+MariaDB [test1]> create table order_c(
+    -> pcode int(4),
+    -> ccode int(4),
+    -> orderdate date,
+    -> etc varchar(20),
+    -> constraint unique(pcode, ccode));
+Query OK, 0 rows affected (0.146 sec)
+
+MariaDB [test1]> create table order_c(
+    -> pcode int(4),
+    -> ccode int(4),
+    -> orderdate date,
+    -> etc varchar(20),
+    -> constraint unique(pcode, ccode));
+-- pcode와 ccode에 unique 제약조건을 준다
+Query OK, 0 rows affected (0.146 sec)
+
+MariaDB [test1]> desc order_c;
+-- 두 개의 컬럼을 묶어 unique 제약 조건을 줄 경우, Key 값으로 UNI가 아닌 MUL을 가진다
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pcode     | int(4)      | YES  | MUL | NULL    |       |
+| ccode     | int(4)      | YES  |     | NULL    |       |
+| orderdate | date        | YES  |     | NULL    |       |
+| etc       | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> create table order_c2(
+    -> pcode int(4),
+    -> ccode int(4),
+    -> orderdate date,
+    -> etc varchar(20),
+    -> constraint primary key(pcode, ccode));
+-- pcode와 ccode에 primary key 제약조건을 준다
+Query OK, 0 rows affected (0.140 sec)
+
+MariaDB [test1]> desc order_c2;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pcode     | int(4)      | NO   | PRI | NULL    |       |
+| ccode     | int(4)      | NO   | PRI | NULL    |       |
+| orderdate | date        | YES  |     | NULL    |       |
+| etc       | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> insert into order_c2 values(1000, 1000, now(), 'order1');
+Query OK, 1 row affected, 1 warning (0.014 sec)
+
+MariaDB [test1]> insert into order_c2 values(2000, 1000, now(), 'order1');
+-- ccode 값에 1000이 이미 들어가 있지만, primary key로 지정한 
+-- 컬럼은 (pcode, ccode)이므로 값의 쌍인 (2000, 1000)으로 판단한다
+Query OK, 1 row affected, 1 warning (0.021 sec)
+
+MariaDB [test1]> insert into order_c2 values(1000, 1000, now(), 'order1');
+-- (1000, 1000)의 값이 이미 들어가 있기 때문에 에러가 생긴다
+ERROR 1062 (23000): Duplicate entry '1000-1000' for key 'PRIMARY'
+```
+- alter로 컬럼에 constraint를 줄 수 있다 
+```sql
+MariaDB [test]> create table dept_c(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.200 sec)
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [test]> alter table dept_c modify deptno int(2) not null;
+-- "alter table ~ modify ~ not null"을 사용해서 "not null" 제약조건을 줄 수 있다
+Query OK, 0 rows affected (0.321 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [test]> alter table dept_c modify deptno int(2);
+-- 제약조건을 적지 않고 수정하면 "not null" 제약조건이 사라진다
+Query OK, 0 rows affected (0.297 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [test]> alter table dept_c add constraint unique(deptno);
+-- unique 제약조건은 "alter ~ add constraint unique(~)"를 사용한다
+Query OK, 0 rows affected (0.235 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  | UNI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.012 sec)
+
+MariaDB [test]> alter table dept_c drop constraint deptno;
+Query OK, 0 rows affected (0.217 sec)
+-- unique 제약조건을 없애주기 위해서는 "alter table ~ drop constraint ~"를 사용한다
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | YES  |     | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.013 sec)
+
+MariaDB [test]> alter table dept_c add constraint primary key(deptno);
+-- primary key 제약조건을 주기 위해서는 "alter table ~ add constraint primary key(~)"를 사용한다
+Query OK, 0 rows affected (0.280 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptno | int(2)      | NO   | PRI | NULL    |       |
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.014 sec)
+
+MariaDB [test]> alter table dept_c drop constraint primary key;
+Query OK, 0 rows affected (0.325 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc dept_c;
+-- primary key는 없어졌지만 "not null"까지 없어지지는 않는다
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| dname  | varchar(14) | YES  |     | NULL    |       |
+| loc    | varchar(13) | YES  |     | NULL    |       |
+| deptno | int(2)      | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.049 sec)
+
+MariaDB [test]> alter table dept_c add constraint primary key(deptno);
+-- foreign key 설정을 위해서 primary key 설정
+Query OK, 0 rows affected (0.270 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> alter table emp_c add constraint foreign key(deptno) references dept_c(deptno);
+Query OK, 0 rows affected (0.303 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where table_schema = 'test';
++-----------------+--------------+------------+-----------------+
+| constraint_name | table_schema | table_name | constraint_type |
++-----------------+--------------+------------+-----------------+
+| PRIMARY         | test         | dept_c     | PRIMARY KEY     |
+| emp_c_ibfk_1    | test         | emp_c      | FOREIGN KEY     |
++-----------------+--------------+------------+-----------------+
+2 rows in set (0.040 sec)
+
+MariaDB [test]> alter table emp_c drop foreign key emp_c_ibfk_1;
+Query OK, 0 rows affected (0.168 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where table_schema = 'test';
++-----------------+--------------+------------+-----------------+
+| constraint_name | table_schema | table_name | constraint_type |
++-----------------+--------------+------------+-----------------+
+| PRIMARY         | test         | dept_c     | PRIMARY KEY     |
++-----------------+--------------+------------+-----------------+
+1 row in set (0.007 sec)
+
+MariaDB [test]> desc emp_c;
+-- foreign key를 constraint_name을 이용해 삭제하면 desc로 컬럼 정보를 확인했을 때 Key값이 MUL로 남아있다 
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| empno  | int(4)      | YES  |     | NULL    |       |
+| ename  | varchar(10) | YES  |     | NULL    |       |
+| job    | varchar(9)  | YES  |     | NULL    |       |
+| deptno | int(2)      | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.010 sec)
+
+MariaDB [test]> alter table emp_c drop index deptno;
+-- Key의 값인 MUL을 없애주기 위해서는 "alter table ~ drop index ~"를 사용한다
+Query OK, 0 rows affected (0.238 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test]> desc emp_c;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| empno  | int(4)      | YES  |     | NULL    |       |
+| ename  | varchar(10) | YES  |     | NULL    |       |
+| job    | varchar(9)  | YES  |     | NULL    |       |
+| deptno | int(2)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.014 sec)
+```
+##### 관계형 데이터베이스
+- tool
+
+  -  ERDCLOUD (https://www.erdcloud.com/)
+
+  - eXERD (https://ko.exerd.com/)
+
+!! 관계형 데이터베이스 만들기 실습
+
+<img src = "./img/erd.png">
+
+```sql
+MariaDB [(none)]> create database test1;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use test1;
+
+MariaDB [test1]> create table customers(
+    -> cno varchar(10) primary key,
+    -> cname varchar(50),
+    -> email varchar(20),
+    -> phone varchar(20));
+Query OK, 0 rows affected (0.123 sec)
+
+MariaDB [test1]> desc customers;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cno   | varchar(10) | NO   | PRI | NULL    |       |
+| cname | varchar(50) | YES  |     | NULL    |       |
+| email | varchar(20) | YES  |     | NULL    |       |
+| phone | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.014 sec)
+
+MariaDB [test1]> create table products(
+    -> pno varchar(5) primary key,
+    -> pname varchar(20),
+    -> cost int(8),
+    -> stock int(5));
+Query OK, 0 rows affected (0.139 sec)
+
+MariaDB [test1]> desc products;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pno   | varchar(5)  | NO   | PRI | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| cost  | int(8)      | YES  |     | NULL    |       |
+| stock | int(5)      | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> create table orders(
+    -> orderno varchar(10) primary key,
+    -> orderdate varchar(8),
+    -> address varchar(50),
+    -> phone varchar(20),
+    -> status varchar(5),
+    -> cno varchar(5),
+    -> constraint foreign key(cno) references customers(cno));
+Query OK, 0 rows affected (0.131 sec)
+
+MariaDB [test1]> desc orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| orderno   | varchar(10) | NO   | PRI | NULL    |       |
+| orderdate | varchar(8)  | YES  |     | NULL    |       |
+| address   | varchar(50) | YES  |     | NULL    |       |
+| phone     | varchar(20) | YES  |     | NULL    |       |
+| status    | varchar(5)  | YES  |     | NULL    |       |
+| cno       | varchar(5)  | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.013 sec)
+
+MariaDB [test1]> alter table orders modify cno varchar(5) not null;
+Query OK, 0 rows affected (0.305 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [test1]> desc orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| orderno   | varchar(10) | NO   | PRI | NULL    |       |
+| orderdate | varchar(8)  | YES  |     | NULL    |       |
+| address   | varchar(50) | YES  |     | NULL    |       |
+| phone     | varchar(20) | YES  |     | NULL    |       |
+| status    | varchar(5)  | YES  |     | NULL    |       |
+| cno       | varchar(5)  | NO   | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.013 sec)
+
+MariaDB [test1]> create table orderdetail(
+    -> orderno varchar(10),
+    -> pno varchar(5),
+    -> qty int(5),
+    -> cost int(8),
+    -> constraint foreign key(orderno) references orders(orderno),
+    -> constraint foreign key(pno) references products(pno),
+    -> constraint primary key(orderno, pno));
+Query OK, 0 rows affected (0.132 sec)
+
+MariaDB [test1]> desc orderdetail;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| orderno | varchar(10) | NO   | PRI | NULL    |       |
+| pno     | varchar(5)  | NO   | PRI | NULL    |       |
+| qty     | int(5)      | YES  |     | NULL    |       |
+| cost    | int(8)      | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_type
+    -> from information_schema.table_constraints
+    -> where table_schema = 'test1';
++--------------------+--------------+-------------+-----------------+
+| constraint_name    | table_schema | table_name  | constraint_type |
++--------------------+--------------+-------------+-----------------+
+| PRIMARY            | test1        | customers   | PRIMARY KEY     |
+| PRIMARY            | test1        | orderdetail | PRIMARY KEY     |
+| orderdetail_ibfk_1 | test1        | orderdetail | FOREIGN KEY     |
+| orderdetail_ibfk_2 | test1        | orderdetail | FOREIGN KEY     |
+| PRIMARY            | test1        | orders      | PRIMARY KEY     |
+| orders_ibfk_1      | test1        | orders      | FOREIGN KEY     |
+| PRIMARY            | test1        | products    | PRIMARY KEY     |
++--------------------+--------------+-------------+-----------------+
+7 rows in set (0.001 sec)
+```
+##### 데이터 조회
+- 테이블을 이용해 가상 테이블을 만들어서 데이터를 쉽게 조회할 수 있도록 한다
+
+  <small>!! 이때의 가상 테이블을 뷰(view)라고 한다</small>
+
+- 뷰(view)는 select문을 저장하고 있는다
+
+  &rarr; view를 select문의 별칭으로 사용한다고 생각해도 좋다
+```sql
+MariaDB [sample]> create view emp_vu1 as select * from emp;
+-- 뷰 생성은 "create view ~ as select ~"를 통해 이루어진다
+Query OK, 0 rows affected (0.105 sec)
+
+MariaDB [sample]> desc emp_vu1;
+-- emp_vu1의 모든 컬럼의 정보 확인
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| empno    | int(4)       | NO   |     | NULL    |       |
+| ename    | varchar(10)  | YES  |     | NULL    |       |
+| job      | varchar(9)   | YES  |     | NULL    |       |
+| mgr      | int(4)       | YES  |     | NULL    |       |
+| hiredate | date         | YES  |     | NULL    |       |
+| sal      | decimal(7,2) | YES  |     | NULL    |       |
+| comm     | decimal(7,2) | YES  |     | NULL    |       |
+| deptno   | int(2)       | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+8 rows in set (0.036 sec)
+
+MariaDB [sample]> select * from emp_vu1;
+-- emp_vu1의 모든 데이터 확인
++-------+--------+-----------+------+------------+---------+---------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2010-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2011-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2011-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2011-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2011-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2011-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2017-07-13 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2011-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2017-07-13 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2011-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2011-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.001 sec)
+
+MariaDB [sample]> create view emp_vu20
+    -> as select empno no, ename name, mgr, job from emp
+    -> where deptno = 20;
+-- alias를 사용할 수도 있다
+Query OK, 0 rows affected (0.059 sec)
+
+MariaDB [sample]> desc emp_vu20;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| no    | int(4)      | NO   |     | NULL    |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
+| mgr   | int(4)      | YES  |     | NULL    |       |
+| job   | varchar(9)  | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.014 sec)
+
+MariaDB [sample]> show tables;
+-- 기본 테이블과 뷰의 구분이 되지 않고 결과가 나온다
++------------------+
+| Tables_in_sample |
++------------------+
+| dept             |
+| emp              |
+| emp_vu1          |
+| salgrade         |
++------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [sample]> show full tables;
+-- Table_type의 값으로 기본 테이블과 뷰를 구분할 수 있다
++------------------+------------+
+| Tables_in_sample | Table_type |
++------------------+------------+
+| dept             | BASE TABLE |
+| emp              | BASE TABLE |
+| emp_vu1          | VIEW       |
+| salgrade         | BASE TABLE |
++------------------+------------+
+4 rows in set (0.001 sec)
+
+MariaDB [sample]> select table_name, table_type
+    -> from information_schema.tables
+    -> where table_schema = 'sample';
++------------+------------+
+| table_name | table_type |
++------------+------------+
+| dept       | BASE TABLE |
+| emp        | BASE TABLE |
+| emp_vu1    | VIEW       |
+| salgrade   | BASE TABLE |
++------------+------------+
+4 rows in set (0.001 sec)
+
+MariaDB [sample]> create view emp_dept
+    -> as select empno no, ename name, emp.deptno, dname, loc from emp inner join dept
+    -> where emp.deptno = dept.deptno;
+Query OK, 0 rows affected (0.057 sec)
+
+MariaDB [sample]> select * from emp_dept
+    -> ;
++------+--------+--------+------------+----------+
+| no   | name   | deptno | dname      | loc      |
++------+--------+--------+------------+----------+
+| 7369 | SMITH  |     20 | RESEARCH   | DALLAS   |
+| 7499 | ALLEN  |     30 | SALES      | CHICAGO  |
+| 7521 | WARD   |     30 | SALES      | CHICAGO  |
+| 7566 | JONES  |     20 | RESEARCH   | DALLAS   |
+| 7654 | MARTIN |     30 | SALES      | CHICAGO  |
+| 7698 | BLAKE  |     30 | SALES      | CHICAGO  |
+| 7782 | CLARK  |     10 | ACCOUNTING | NEW YORK |
+| 7788 | SCOTT  |     20 | RESEARCH   | DALLAS   |
+| 7839 | KING   |     10 | ACCOUNTING | NEW YORK |
+| 7844 | TURNER |     30 | SALES      | CHICAGO  |
+| 7876 | ADAMS  |     20 | RESEARCH   | DALLAS   |
+| 7900 | JAMES  |     30 | SALES      | CHICAGO  |
+| 7902 | FORD   |     20 | RESEARCH   | DALLAS   |
+| 7934 | MILLER |     10 | ACCOUNTING | NEW YORK |
++------+--------+--------+------------+----------+
+14 rows in set (0.007 sec)
+
+MariaDB [sample]> create view emp_mgr
+    -> as select e.empno, e.ename, ifnull(m.ename, '관리자 없음') mgrname from emp e left outer join emp m
+    -> on(e.mgr = m.empno);
+Query OK, 0 rows affected (0.057 sec)
+
+MariaDB [sample]> select * from emp_mgr;
++-------+--------+------------------+
+| empno | ename  | mgrname          |
++-------+--------+------------------+
+|  7369 | SMITH  | FORD             |
+|  7499 | ALLEN  | BLAKE            |
+|  7521 | WARD   | BLAKE            |
+|  7566 | JONES  | KING             |
+|  7654 | MARTIN | BLAKE            |
+|  7698 | BLAKE  | KING             |
+|  7782 | CLARK  | KING             |
+|  7788 | SCOTT  | JONES            |
+|  7839 | KING   | 관리자 없음      |
+|  7844 | TURNER | BLAKE            |
+|  7876 | ADAMS  | SCOTT            |
+|  7900 | JAMES  | BLAKE            |
+|  7902 | FORD   | JONES            |
+|  7934 | MILLER | CLARK            |
++-------+--------+------------------+
+14 rows in set (0.023 sec)
+```
+- select문을 바로 사용할 수도 있다
+```sql
+MariaDB [sample]> select * from (select * from emp where deptno = 10);
+-- 별칭을 주지 않으면 에러가 생긴다
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+
+MariaDB [sample]> select * from (select * from emp where deptno = 10) e;
++-------+--------+-----------+------+------------+---------+------+--------+
+| empno | ename  | job       | mgr  | hiredate   | sal     | comm | deptno |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7782 | CLARK  | MANAGER   | 7839 | 2011-06-09 | 2450.00 | NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 2011-11-17 | 5000.00 | NULL |     10 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+3 rows in set (0.000 sec)
+
+MariaDB [sample]> select e.empno, e.ename, e.deptno, d.dname, d.loc
+    -> from (select * from emp where deptno in (10, 20)) e inner join dept d
+    -> on e.deptno = d.deptno;
++-------+--------+--------+------------+----------+
+| empno | ename  | deptno | dname      | loc      |
++-------+--------+--------+------------+----------+
+|  7369 | SMITH  |     20 | RESEARCH   | DALLAS   |
+|  7566 | JONES  |     20 | RESEARCH   | DALLAS   |
+|  7782 | CLARK  |     10 | ACCOUNTING | NEW YORK |
+|  7788 | SCOTT  |     20 | RESEARCH   | DALLAS   |
+|  7839 | KING   |     10 | ACCOUNTING | NEW YORK |
+|  7876 | ADAMS  |     20 | RESEARCH   | DALLAS   |
+|  7902 | FORD   |     20 | RESEARCH   | DALLAS   |
+|  7934 | MILLER |     10 | ACCOUNTING | NEW YORK |
++-------+--------+--------+------------+----------+
+8 rows in set (0.001 sec)
+
+MariaDB [sample]> alter view emp_vu10
+    -> as select empno, ename, mgr, job from emp
+    -> where deptno = 20;
+-- "alter ~ view ~ as ~"를 통해서 뷰를 수정할 수 있다
+Query OK, 0 rows affected (0.082 sec)
+
+MariaDB [sample]> select * from emp_vu10;
++-------+-------+------+---------+
+| empno | ename | mgr  | job     |
++-------+-------+------+---------+
+|  7369 | SMITH | 7902 | CLERK   |
+|  7566 | JONES | 7839 | MANAGER |
+|  7788 | SCOTT | 7566 | ANALYST |
+|  7876 | ADAMS | 7788 | CLERK   |
+|  7902 | FORD  | 7566 | ANALYST |
++-------+-------+------+---------+
+5 rows in set (0.007 sec)
+
+MariaDB [sample]> show full tables where table_type = 'view';
++------------------+------------+
+| Tables_in_sample | Table_type |
++------------------+------------+
+| constraint_check | VIEW       |
+| emp_dept         | VIEW       |
+| emp_mgr          | VIEW       |
+| emp_mgr_name     | VIEW       |
+| emp_sal          | VIEW       |
+| emp_vu1          | VIEW       |
+| emp_vu10         | VIEW       |
+| emp_vu20         | VIEW       |
++------------------+------------+
+8 rows in set (0.007 sec)
+
+MariaDB [sample]> drop view emp_sal;
+-- "drop view"를 이용해 뷰를 삭제할 수 있다
+Query OK, 0 rows affected (0.116 sec)
+
+MariaDB [sample]> show full tables where table_type = 'view';
++------------------+------------+
+| Tables_in_sample | Table_type |
++------------------+------------+
+| constraint_check | VIEW       |
+| emp_dept         | VIEW       |
+| emp_mgr          | VIEW       |
+| emp_mgr_name     | VIEW       |
+| emp_vu1          | VIEW       |
+| emp_vu10         | VIEW       |
+| emp_vu20         | VIEW       |
++------------------+------------+
+7 rows in set (0.001 sec)
+```
+###### 인덱스를 이용한 데이터 조회
+<small>https://12bme.tistory.com/138 참조</small>
+- 책에서의 목차와 같은 역학을 한다
+
+```sql
+MariaDB [sample]> show index from emp;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Ignored |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| emp   |          0 | PRIMARY  |            1 | empno       | A         |          14 |     NULL | NULL   |      | BTREE      |         |               | NO      |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+1 row in set (0.001 sec)
+
+MariaDB [sample]> create table table_i(
+    -> deptno int(2),
+    -> dname varchar(14),
+    -> loc varchar(13));
+Query OK, 0 rows affected (0.163 sec)
+
+MariaDB [sample]> show index from table_i;
+Empty set (0.007 sec)
+
+MariaDB [sample]> alter table table_i add constraint primary key(deptno);
+-- primary key, unique, foreign key와 같은 제한요소가 붙은 컬럼은 자동으로 인덱스를 가진게 된다
+Query OK, 0 rows affected (0.291 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> show index from table_i;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Ignored |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| table_i |          0 | PRIMARY  |            1 | deptno      | A         |           0 |     NULL | NULL   |      | BTREE      |         |               | NO      |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+1 row in set (0.006 sec)
+
+MariaDB [sample]> alter table table_i drop constraint primary key;
+-- 제한 요소를 없애면 인덱스도 사라진다 
+Query OK, 0 rows affected (0.284 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> show index from table_i;
+Empty set (0.017 sec)
+
+MariaDB [sample]> alter table table_i add index table_i_idx(dname);
+Query OK, 0 rows affected (0.198 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> show index from table_i;
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| Table   | Non_unique | Key_name    | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Ignored |
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+| table_i |          1 | table_i_idx |            1 | dname       | A         |           0 |     NULL | NULL   | YES  | BTREE      |         |               | NO      |
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+1 row in set (0.006 sec)
+```
+ 
