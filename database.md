@@ -1789,7 +1789,7 @@ MariaDB [sample]> select ename, sal from emp
 - 연산자로 "in ,< All, > All, < Any, > Any"를 사용한다
 ```sql
 MariaDB [sample]> select deptno, ename, sal from emp
-    -> where sal in (select max(sal) from emp group by deptno);
+    -> where sal in(select max(sal) from emp group by deptno);
 -- 부서별 최고 급여를 받는 사원 정보 확인
 -- 여러 데이터(복수)를 결과로 가지는 서브 쿼리에 포함되는 조건을 주고 싶을 때는 in을 사용한다
 -- 복수형 서브쿼리
@@ -1804,7 +1804,7 @@ MariaDB [sample]> select deptno, ename, sal from emp
 4 rows in set (0.001 sec)
 
 MariaDB [sample]> select ename, job from emp
-    -> where job in (select distinct job from emp where deptno = 20);
+    -> where job in(select distinct job from emp where deptno = 20);
 -- 20번 부서에 속한 직원의 직책과 같은 사원의 정보 확인
 -- distinct를 사용해 중복되는 값을 제거했다
 +--------+---------+
@@ -1826,8 +1826,7 @@ MariaDB [sample]> select ename, job from emp
 MariaDB [sample]> select ename, sal from emp
     -> where sal > All(select sal from emp where job = 'manager');
 -- 서브 쿼리의 모든 리턴값보다 큰 값을 구하고 싶을 때는 '> All(subquery)'를 사용한다 
--- 서브 쿼리의 리턴값 중 최대값보다 큰 값을 구하는 것과 같다
-+-------+---------+
+-- 서브 쿼리의 리턴값 중 최대값보다 큰 값을 구하는 것과 같다elelelel+-------+---------+
 | ename | sal     |
 +-------+---------+
 | SCOTT | 3000.00 |
@@ -1838,7 +1837,7 @@ MariaDB [sample]> select ename, sal from emp
 
 
 MariaDB [sample]> select ename, sal from emp
-    -> where sal < Any(select sal from emp where job = 'manager');
+    s-> where sal < Any(select sal from emp where job = 'manager');
 -- 서브 쿼리의 리턴값 중 최대값보다 작은 값을 구하고 싶을 때는 '< Any(subquery)'를 사용한다
 +--------+---------+
 | ename  | sal     |
@@ -1875,7 +1874,7 @@ MariaDB [sample]> select ename, sal from emp
 7 rows in set (0.001 sec)
 
 MariaDB [sample]> select ename, sal from emp
-    -> where sal > Any (select sal from emp where job = 'clerk');
+    -> where sal > Any(select sal from emp where job = 'clerk');
 -- 서브 쿼리의 리턴값 중 최솟값 보다 큰 값을 구하고 싶을 때는 '> Any(subquery)'를 사용한다
 +--------+---------+
 | ename  | sal     |
@@ -1900,7 +1899,7 @@ MariaDB [sample]> select ename, sal from emp
 ##### 테이블 병합(join, relation)
 - 테이블끼리 연결시켜 데이터 조작을 할 수 있다
 ###### EQUI JOIN
-- 테이블끼리 기준이 되는 컬럼이 있다면 연결시킬 수 있다
+- 테이블끼리 공통되는 컬럼이 있고, 그 컬럼을 기준으로 연결시킨다
 ```sql
 MariaDB [sample]> select * from emp cross join dept limit 4;
 -- deptno가 기준이 되는 컬럼
@@ -2037,10 +2036,10 @@ MariaDB [sample]> select empno, ename, sal, dname, loc
 4 rows in set (0.000 sec)
 ```
 ###### NON-EQUI JOIN
-- 기준이 되는 컬럼이 없어도 테이블을 연결시켜 사용할 수 있다
+- 공통된 테이블이 없더라도 join 조건을 줘서 테이블을 연결시킬 수 있다
 ```sql
 MariaDB [sample]> select * from emp e inner join salgrade s
-    -> on (e.sal >= s.losal and e.sal <= s.hisal)
+    -> on(e.sal >= s.losal and e.sal <= s.hisal)
     -> where deptno = 10;
 +-------+--------+-----------+------+------------+---------+------+--------+-------+---------+---------+
 | empno | ename  | job       | mgr  | hiredate   | sal     | comm | deptno | grade | losal   | hisal   |
@@ -2052,7 +2051,7 @@ MariaDB [sample]> select * from emp e inner join salgrade s
 3 rows in set (0.001 sec)
 
 MariaDB [sample]> select * from emp e inner join salgrade s
-    -> on (e.sal between s.losal and s.hisal)
+    -> on(e.sal between s.losal and s.hisal)
     -> where e.deptno = 10;
 +-------+--------+-----------+------+------------+---------+------+--------+-------+---------+---------+
 | empno | ename  | job       | mgr  | hiredate   | sal     | comm | deptno | grade | losal   | hisal   |
@@ -2087,9 +2086,9 @@ MariaDB [sample]> select empno, ename, sal, grade, hiredate
 ```sql
 MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
     -> from emp e inner join dept d
-    -> on (e.deptno = d.deptno)
+    -> on(e.deptno = d.deptno)
     -> inner join salgrade s
-    -> on (e.sal between s.losal and s.hisal);
+    -> on(e.sal between s.losal and s.hisal);
 +-------+--------+---------+-------+------------+----------+
 | empno | ename  | sal     | grade | dname      | loc      |
 +-------+--------+---------+-------+------------+----------+
@@ -2112,7 +2111,7 @@ MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
 
 MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
     -> from emp e inner join dept d inner join salgrade s
-    -> on (e.deptno = d.deptno and e.sal between s.losal and s.hisal);
+    -> on(e.deptno = d.deptno and e.sal between s.losal and s.hisal);
 +-------+--------+---------+-------+------------+----------+
 | empno | ename  | sal     | grade | dname      | loc      |
 +-------+--------+---------+-------+------------+----------+
@@ -2148,7 +2147,7 @@ MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
 ```sql
 MariaDB [sample]> select d.deptno, d.dname, e.empno, e.ename
     -> from emp e right outer join dept d
-    -> on (e.deptno = d.deptno);
+    -> on(e.deptno = d.deptno);
 +--------+------------+-------+--------+
 | deptno | dname      | empno | ename  |
 +--------+------------+-------+--------+
@@ -2196,7 +2195,7 @@ MariaDB [sample]> select d.deptno, d.dname, e.empno, e.ename
 
 MariaDB [sample]> select d.deptno, d.dname, d.loc
     -> from dept d left outer join emp e
-    -> on (e.deptno = d.deptno)
+    -> on(e.deptno = d.deptno)
     -> where e.empno is null;
 -- 사원이 없는 부서 출력
 +--------+------------+--------+
@@ -2260,9 +2259,9 @@ MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, ifnull(m.ename,'관�
 
 <small> !! query optimizer : execution plan을 세워서 query tunning을 할 수 있게 한다</small>
 
-##### create
+##### create, drop
 
-- 데이터베이스, 테이블을 생성한다
+- 데이터베이스, 테이블을 생성하고 삭제한다
 
 ```sql
 MariaDB [(none)]> create database test1;
@@ -2334,7 +2333,8 @@ MariaDB [sample]> desc tbl1;
 MariaDB [sample]> create table dept2(
     -> deptno int(2),
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );    
 Query OK, 0 rows affected (0.129 sec)
 
 MariaDB [sample]> desc dept2;
@@ -2425,7 +2425,7 @@ MariaDB [sample]> select * from emp13;
 
 MariaDB [sample]> create table emp_dept
     -> as select empno, ename, e.deptno, dname, loc from emp e inner join dept d
-    -> on (e.deptno = d.deptno);
+    -> on(e.deptno = d.deptno);
 Query OK, 14 rows affected (0.180 sec)
 Records: 14  Duplicates: 0  Warnings: 0
 
@@ -2752,7 +2752,8 @@ MariaDB [test1]> desc dept;
 MariaDB [test1]> create table dept2(
     -> deptno int(2),
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );   
 Query OK, 0 rows affected (0.154 sec)
 
 MariaDB [test1]> desc dept2;
@@ -2769,7 +2770,8 @@ MariaDB [test1]> desc dept2;
 MariaDB [test1]> create table dept3(
     -> deptno int(2) not null,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 -- "not null"을 써 주면 그 컬럼은 필수 요소가 된다
 Query OK, 0 rows affected (0.230 sec)
 
@@ -2961,8 +2963,8 @@ Rows matched: 6  Changed: 6  Warnings: 0
 
   - 중복 방지 (unique) 
 
-  - 필수 + 중복 (primary key)
-  - 참조 (foreign key) : 보통 unique, primary key를 참조한다
+  - 필수 요소 + 중복 방지 (primary key)
+  - 참조 (foreign key) : 다른 테이블의 unique, primary key를 참조하는데 보통 primary keyf를 참조한다
 
   <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지  않았다</small>
 - constraint 확인 방법
@@ -3009,7 +3011,7 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
     -> from information_schema.table_constraints
     -> where constraint_schema = 'sample';
 -- sample 테이블의 제약조건을 확인한다
--- 필수 조건(not null)은 확인할 수 없다
+-- 필수 요소(not null)는 확인할 수 없다
 +-----------------+--------------+------------+-----------------+
 | constraint_name | table_schema | table_name | constraint_type |
 +-----------------+--------------+------------+-----------------+
@@ -3028,7 +3030,8 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
 MariaDB [test1]> create table dept_n1(
     -> deptno int(2) not null,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.144 sec)
 
 MariaDB [test1]> desc dept_n1;
@@ -3046,7 +3049,8 @@ MariaDB [test1]> desc dept_n1;
 MariaDB [test1]> create table dept_u1(
     -> deptno int(2) unique,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.152 sec)
 
 MariaDB [test1]> desc dept_u1;
@@ -3090,7 +3094,8 @@ MariaDB [test1]> create table dept_u2(
     -> deptno int(2),
     -> dname varchar(14),
     -> loc varchar(13),
-    -> constraint unique(deptno));
+    -> constraint unique(deptno)
+    -> );
 -- 테이블 단위 제약조건에서는 컬럼 선언 후, 마지막에 따로 제약 조건을 명시해줘야 한다
 Query OK, 0 rows affected (0.133 sec)
 
@@ -3108,7 +3113,8 @@ MariaDB [test1]> create table dept_u3(
     -> deptno int(2),
     -> dname varchar(14),
     -> loc varchar(13),
-    -> constraint dept_u3_deptno_uk unique(deptno));
+    -> constraint dept_u3_deptno_uk unique(deptno)
+    -> );
 -- constraint_name을 dept_u3_deptno_uk로 지정
 Query OK, 0 rows affected (0.141 sec)
 ```
@@ -3116,7 +3122,8 @@ Query OK, 0 rows affected (0.141 sec)
 MariaDB [test1]> create table dept_p1(
     -> deptno int(2) primary key,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.132 sec)
 
 MariaDB [test1]> desc dept_p1;
@@ -3160,7 +3167,8 @@ ERROR 1048 (23000): Column 'deptno' cannot be null
 MariaDB [test1]> create table dept_a2(
     -> deptno int(2) unsigned primary key auto_increment,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 -- unsigned는 0 또는 양수를 의미한다
 -- primary key로 지정한 경우 auto_increment 옵션을 줘서 데이터 값으로 0을 넣거나 값을 아예 넣지 않을 경우, 그 이전의 값보다 1씩 증가하게 할 수 있다
 Query OK, 0 rows affected (0.173 sec)
@@ -3252,7 +3260,8 @@ MariaDB [information_schema]> select * from sample.emp;
 MariaDB [test1]> create table dept_p(
     -> deptno int(2),
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.139 sec)
 
 MariaDB [test1]> create table emp_f(
@@ -3260,7 +3269,8 @@ MariaDB [test1]> create table emp_f(
     -> ename varchar(10),
     -> job varchar(9),
     -> deptno int(2),
-    -> constraint foreign key(deptno) references dept_p(detpno));
+    -> constraint foreign key(deptno) references dept_p(detpno)
+    -> );
     -- primary key가 아닌 컬럼을 참조하면 아래의 에러가 생긴다
 ERROR 1005 (HY000): Can't create table `test1`.`emp_f` (errno: 150 "Foreign key constraint is incorrectly formed")
 ```
@@ -3268,7 +3278,8 @@ ERROR 1005 (HY000): Can't create table `test1`.`emp_f` (errno: 150 "Foreign key 
 MariaDB [test1]> create table dept_p(
     -> deptno int(2) primary key,
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.124 sec)
 
 MariaDB [test1]> create table emp_f(
@@ -3276,7 +3287,8 @@ MariaDB [test1]> create table emp_f(
     -> ename varchar(10),
     -> job varchar(9),
     -> deptno int(2),
-    -> constraint foreign key(deptno) references dept_p(deptno));
+    -> constraint foreign key(deptno) references dept_p(deptno)
+    -> );
 Query OK, 0 rows affected (0.137 sec)
 
 MariaDB [test1]> desc emp_f;
@@ -3357,7 +3369,7 @@ MariaDB [test1]> drop table dept_p;
 -- 참조를 하는 테이블을 먼저 삭제하면 참조되는 테이블도 삭제할 수 있다
 Query OK, 0 rows affected (0.134 sec)
 ```
-- 두 개의 컬럼을 묶어서 한 쌍으로 제약조건을 주는 것을 복합키를 준다고 한다
+- 두 개의 컬럼을 묶어서 한 쌍으로 제약조건을 줘서 복합키 설정을 할 수 있다 
 
 ```sql
 MariaDB [test1]> create table order_c(
@@ -3365,15 +3377,8 @@ MariaDB [test1]> create table order_c(
     -> ccode int(4),
     -> orderdate date,
     -> etc varchar(20),
-    -> constraint unique(pcode, ccode));
-Query OK, 0 rows affected (0.146 sec)
-
-MariaDB [test1]> create table order_c(
-    -> pcode int(4),
-    -> ccode int(4),
-    -> orderdate date,
-    -> etc varchar(20),
-    -> constraint unique(pcode, ccode));
+    -> constraint unique(pcode, ccode)
+    -> );
 -- pcode와 ccode에 unique 제약조건을 준다
 Query OK, 0 rows affected (0.146 sec)
 
@@ -3394,8 +3399,9 @@ MariaDB [test1]> create table order_c2(
     -> ccode int(4),
     -> orderdate date,
     -> etc varchar(20),
-    -> constraint primary key(pcode, ccode));
--- pcode와 ccode에 primary key 제약조건을 준다
+    -> constraint primary key(pcode, ccode)
+    -> );
+-- pcode와 ccode의 값의 쌍으로 primary key 제약조건을 준다
 Query OK, 0 rows affected (0.140 sec)
 
 MariaDB [test1]> desc order_c2;
@@ -3426,7 +3432,8 @@ ERROR 1062 (23000): Duplicate entry '1000-1000' for key 'PRIMARY'
 MariaDB [test]> create table dept_c(
     -> deptno int(2),
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.200 sec)
 
 MariaDB [test]> desc dept_c;
@@ -3440,7 +3447,7 @@ MariaDB [test]> desc dept_c;
 3 rows in set (0.013 sec)
 
 MariaDB [test]> alter table dept_c modify deptno int(2) not null;
--- "alter table ~ modify ~ not null"을 사용해서 "not null" 제약조건을 줄 수 있다
+-- "alter table ~ modify ~ not null"을 사용해서 필수 요소 제약조건을 줄 수 있다
 Query OK, 0 rows affected (0.321 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
@@ -3592,7 +3599,7 @@ MariaDB [test]> desc emp_c;
 4 rows in set (0.014 sec)
 ```
 ##### 관계형 데이터베이스
-- tool
+- 관계형 데이터베이스 그리기 tool
 
   -  ERDCLOUD (https://www.erdcloud.com/)
 
@@ -3612,7 +3619,8 @@ MariaDB [test1]> create table customers(
     -> cno varchar(10) primary key,
     -> cname varchar(50),
     -> email varchar(20),
-    -> phone varchar(20));
+    -> phone varchar(20)
+    -> );
 Query OK, 0 rows affected (0.123 sec)
 
 MariaDB [test1]> desc customers;
@@ -3630,7 +3638,8 @@ MariaDB [test1]> create table products(
     -> pno varchar(5) primary key,
     -> pname varchar(20),
     -> cost int(8),
-    -> stock int(5));
+    -> stock int(5)
+    -> );
 Query OK, 0 rows affected (0.139 sec)
 
 MariaDB [test1]> desc products;
@@ -3651,7 +3660,8 @@ MariaDB [test1]> create table orders(
     -> phone varchar(20),
     -> status varchar(5),
     -> cno varchar(5),
-    -> constraint foreign key(cno) references customers(cno));
+    -> constraint foreign key(cno) references customers(cno)
+    -> );
 Query OK, 0 rows affected (0.131 sec)
 
 MariaDB [test1]> desc orders;
@@ -3691,7 +3701,8 @@ MariaDB [test1]> create table orderdetail(
     -> cost int(8),
     -> constraint foreign key(orderno) references orders(orderno),
     -> constraint foreign key(pno) references products(pno),
-    -> constraint primary key(orderno, pno));
+    -> constraint primary key(orderno, pno)
+    -> );
 Query OK, 0 rows affected (0.132 sec)
 
 MariaDB [test1]> desc orderdetail;
@@ -3728,7 +3739,8 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
 
 - 뷰(view)는 select문을 저장하고 있는다
 
-  &rarr; view를 select문의 별칭으로 사용한다고 생각해도 좋다
+  &rarr; view를 select문의 별칭으로 
+  사용한다고 생각해도 좋다
 ```sql
 MariaDB [sample]> create view emp_vu1 as select * from emp;
 -- 뷰 생성은 "create view ~ as select ~"를 통해 이루어진다
@@ -3979,14 +3991,15 @@ MariaDB [sample]> show index from emp;
 MariaDB [sample]> create table table_i(
     -> deptno int(2),
     -> dname varchar(14),
-    -> loc varchar(13));
+    -> loc varchar(13)
+    -> );
 Query OK, 0 rows affected (0.163 sec)
 
 MariaDB [sample]> show index from table_i;
 Empty set (0.007 sec)
 
 MariaDB [sample]> alter table table_i add constraint primary key(deptno);
--- primary key, unique, foreign key와 같은 제한요소가 붙은 컬럼은 자동으로 인덱스를 가진게 된다
+-- primary key, unique, foreign key와 같은 제한 요소가 붙은 컬럼은 자동으로 인덱스를 가진게 된다
 Query OK, 0 rows affected (0.291 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
