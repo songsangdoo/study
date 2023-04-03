@@ -1,15 +1,19 @@
-
 # 데이터베이스
-- 데이터베이스의 정의 
+
+- 데이터베이스의 정의
 
   - 데이터의 집합
 
   - 여러 명의 사용자가 공유
 
+    - 관리자(root)
+
+    - 일반 사용자
+
   - 동시 접근이 가능
   - MariaDB에서는 '데이터의 저장공간' 자체를 의미하기도 한다
-
-  <img src="https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/DBMS_%EA%B0%9C%EB%85%90.png" width="500">
+  - 네트워크를 이용한 원격 접속
+    <img src="https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/DBMS_%EA%B0%9C%EB%85%90.png" width="500">
 
 - 데이터베이스의 역사
 
@@ -18,17 +22,15 @@
   - 파일시스템을 사용하다가 대량의 데이터를 보다 효율적으로 관리, 운영하기 위해 데이터베이스를 사용하기 시작했다
 
     <b><small> 장부 &rarr; 프로그램화(ERP) &rarr; Extended ERP</small></b>
+
   - 영구 저장소 구분
 
     - 로컬 저장소 : 파일
 
     - 원격 저장소 : 데이터베이스
-  
-
-
-
 
 ## DBMS (DataBase Management System)
+
 - 데이터베이스를 관리, 운영하는 역할을 한다
 
 - 저장용량에 따라 많이 쓰이는 DBMS
@@ -38,13 +40,16 @@
     - DB2
 
     - Oracle
+
   - 범용
+
     - MySQL
     - MariaDB
 
     - SQLServer
 
   - 소형
+
     - Access
 
     - SQLite
@@ -59,9 +64,9 @@
 
 ### SQL (Structured Query Lang.)
 
-  <samll>!! https://www.w3schools.com/mysql/default.asp 참조</small>
-- DBMS에 명령을 주고 바로 결과를 얻는 대화식 언어
+<samll>!! https://www.w3schools.com/mysql/default.asp 참조</small>
 
+- DBMS에 명령을 주고 바로 결과를 얻는 대화식 언어
 
 - DBMS 제작회사와 독립적으로 ANSI 표준을 따른다
 
@@ -70,19 +75,21 @@
 - DBMS간에 상호 호환성이 뛰어나 다른 시스템으로 이식이 쉽다
 
 - 구성
+
   - DML(Data Manipulation Lang.) : 데이터 조작
 
     - select, insert, update, delete
+
   - DDL(Data Definition Lang.) : 데이터 정의
 
     - create, alter, drop, rename, truncate
+
   - DCL(Data Control Lang.) : 데이터 접근 권한
 
     - grant, revoke
+
   - TCL(Transaction Control Lang.) : 트랜잭션
     - commit, rollback, savepoint
-  
-
 
 ### MariaDB
 
@@ -95,6 +102,7 @@
   <b>3<sub>rd</sub> .</b> MariaDB
 
 - 클라이언트 관리자로 서버 접속 방법
+
 ```sql
 -- Command Prompt(MariaDB)
 
@@ -111,17 +119,16 @@
 ```sql
 -- Mysql Client(MariaDB)
 
-> Enter password:****** 
+> Enter password:******
 -- mysql Client는 기본 설정이 관리자 접속이다
 ```
 
-
-
 #### MariaDB 명령어
 
-  <small>!! 데이터베이스는 행과 열(컬럼)로 구성된 테이블로 이루어져 있다</small>
+<small>!! 데이터베이스는 행과 열(컬럼)로 구성된 테이블로 이루어져 있다</small>
 
 - 기본 명령어
+
 ```sql
 > show databases;
 -- 데이터베이스 목록을 보여준다
@@ -136,6 +143,7 @@
 -- > desc user;
 -- user 테이블에 있는 컬럼(열)의 정보를 보여준다
 ```
+
 ##### select
 
 - 데이터베이스의 데이터를 조작한다
@@ -162,7 +170,6 @@ MariaDB [sample]> select deptno as no, dname as name, loc as location from dept;
 -- as를 이용해 alias(별칭)으로 보이게 할 수도 있다
 -- as를 생략하고 alias를 바로 적을 수 있다
 ```
-
 
 ```sql
 -- 산술 연산자
@@ -259,10 +266,11 @@ MariaDB [sample]> select 1 or 0;
 +--------+
 1 row in set (0.000 sec)
 ```
+
 ```sql
 -- where를 이용해서 행제한 조건을 줄 수 있다
 MariaDB [sample]> select deptno from dept where deptno < 30;
--- deptno 컬럼의 행 중에 30 미만의 값을 가지는 행만 출력한다 
+-- deptno 컬럼의 행 중에 30 미만의 값을 가지는 행만 출력한다
 MariaDB [sample]> select deptno from dept where deptno <> 10;
 -- deptno 컬럼의 행 중에 값이 10이 아닌 행만 출력한다
 
@@ -523,6 +531,7 @@ MariaDB [sample]> select empno, ename, sal from emp where ename like '_i%';
 +-------+--------+---------+
 2 rows in set (0.001 sec)
 ```
+
 ```sql
 MariaDB [sample]> select distinct deptno from emp;
 -- distinct는 중복되는 값 제거를 의미한다
@@ -566,6 +575,7 @@ MariaDB [sample]> select distinct deptno, job from emp;
 +--------+-----------+
 9 rows in set (0.001 sec)
 ```
+
 ```sql
 MariaDB [sample]> select * from emp limit 3;
 -- "limit"을 이용해서 전체 데이터가 아닌 일부 데이터만 확인할 수 있다
@@ -591,6 +601,7 @@ MariaDB [sample]> select * from emp limit 1, 3;
 +-------+-------+----------+------+------------+---------+--------+--------+
 3 rows in set (0.000 sec)
 ```
+
 ```sql
 MariaDB [sample]> select * from emp order by deptno asc;
 -- "order by"를 이용해서 순서대로 정렬할 수 있다
@@ -729,6 +740,7 @@ MariaDB [sample]> select deptno no, job, empno, ename from emp order by no;
 ```
 
 ###### Information Function
+
 - 시스템 정보에 관한 함수
 
 <small>!! https://mariadb.com/kb/en/documentation/ 참조</small>
@@ -787,8 +799,11 @@ Uptime:                 4 hours 55 min 22 sec
 Threads: 1  Questions: 161  Slow queries: 0  Opens: 23  Open tables: 16  Queries per second avg: 0.009
 --------------
 ```
+
 ###### Numeric Function
+
 - 숫자에 관련된 함수
+
 ```sql
 MariaDB [sample]> select abs(123), abs(-123);
 -- 절대값
@@ -903,7 +918,9 @@ MariaDB [sample]> select least(sal, 2000) from emp;
 ```
 
 ###### String function
+
 - 문자열에 관련된 함수
+
 ```sql
 MariaDB [sample]> select ascii('A'), ascii('a');
 -- 아스키 코드 값 확인
@@ -934,7 +951,7 @@ MariaDB [sample]> select ename, char_length(ename) from emp where deptno = 10;
 3 rows in set (0.000 sec)
 
 MariaDB [sample]> select ename from emp where char_length(ename) = 4;
--- 이름이 4자인 직원 확인 
+-- 이름이 4자인 직원 확인
 +-------+
 | ename |
 +-------+
@@ -1144,8 +1161,11 @@ MariaDB [sample]> select rpad('hi', 4, '?');
 +--------------------+
 1 row in set (0.000 sec)
 ```
+
 ###### Date function
+
 - 날짜, 시간에 관련된 함수
+
 ```sql
 MariaDB [sample]> select now(), sysdate(), current_timestamp();
 -- 현재 날짜, 시간 출력
@@ -1386,6 +1406,7 @@ MariaDB [sample]> select empno, ename, sal, comm, sal * 12, sal * 12 + ifnull(co
 +-------+--------+---------+---------+----------+----------+
 14 rows in set (0.001 sec)
 ```
+
 ```sql
 MariaDB [sample]> select case 1
     -> when 1 then 'one'
@@ -1492,11 +1513,13 @@ MariaDB [sample]> select empno, ename, sal, case deptno
 - 외부에 만들어 놓은 .sql 파일 사용하기
 
   <small>!! .sql 파일은 utf-8형식으로 저장되어 있어야 다국어가 깨지지 않는다</small>
+
 ```sql
 -- c:\mariadb\ex01.sql
 
 select sal * 12 + ifnull(null, 0) from emp;
 ```
+
 ```sql
 MariaDB [sample]> source c:\mariadb\ex01.sql
 -- 끝에 세미콜론(;) 붙히지 않는 것에 주의하자
@@ -1512,6 +1535,7 @@ MariaDB [sample]> source c:\mariadb\ex01.sql
 +----------------------------+
 6 rows in set (0.001 sec)
 ```
+
 ###### 그룹형 함수
 
 - 그룹별 데이터에 대한 함수
@@ -1544,7 +1568,7 @@ MariaDB [sample]> select count(empno), count(comm) from emp;
 1 row in set (0.000 sec)
 
 MariaDB [sample]> select count(*) from emp;
--- null 값을 가진 데이터를 세지 않기 때문에 특정 컬럼명을 쓰지 않고 '*'를 사용해서 데이터 
+-- null 값을 가진 데이터를 세지 않기 때문에 특정 컬럼명을 쓰지 않고 '*'를 사용해서 데이터
 개수를 확인한다
 -- '*'를 사용하면 각 컬럼 별 데이터 개수 중 최대값을 출력한다
 +----------+
@@ -1554,7 +1578,6 @@ MariaDB [sample]> select count(*) from emp;
 +----------+
 1 row in set (0.001 sec)
 ```
-
 
 !! 모르는 데이터베이스에 접근했을 때,
 
@@ -1615,6 +1638,7 @@ MariaDB [sample]> select avg(ifnull(comm,0)) from emp;
 +---------------------+
 1 row in set (0.001 sec)
 ```
+
 ```sql
 MariaDB [sample]> select count(*) from emp group by deptno;
 -- deptno 별 데이터 갯수를 확인한다
@@ -1694,7 +1718,7 @@ MariaDB [sample]> select deptno, job, sum(sal) from emp
 ERROR 1111 (HY000): Invalid use of group function
 -- where에 그룹화 함수를 사용할 수는 없다
 
-MariaDB [sample]> select deptno, job, sum(sal) 
+MariaDB [sample]> select deptno, job, sum(sal)
     -> from emp where sal >= 2000 group by deptno, job;
 -- 조건에 맞는 데이터를 걸러낸 다음 그룹화를 진행하는 순서를 가진다
 +--------+-----------+----------+
@@ -1741,6 +1765,7 @@ MariaDB [sample]> select deptno, case deptno
 +--------+--------+-----------+
 1 row in set (0.000 sec)
 ```
+
 ##### 서브 쿼리
 
 - 중첩된 쿼리
@@ -1758,6 +1783,7 @@ MariaDB [sample]> select deptno, case deptno
   - 복수행 : 여러 데이터의 결과를 가지는 서브 쿼리
 
 ###### 단일행 서브쿼리
+
 - 비교 연산자를 사용한다
 
 ```sql
@@ -1784,9 +1810,11 @@ MariaDB [sample]> select ename, sal from emp
 +-------+---------+
 1 row in set (0.000 sec)
 ```
+
 ###### 복수형 서브 쿼리
 
 - 연산자로 "in ,< All, > All, < Any, > Any"를 사용한다
+
 ```sql
 MariaDB [sample]> select deptno, ename, sal from emp
     -> where sal in(select max(sal) from emp group by deptno);
@@ -1825,7 +1853,7 @@ MariaDB [sample]> select ename, job from emp
 
 MariaDB [sample]> select ename, sal from emp
     -> where sal > All(select sal from emp where job = 'manager');
--- 서브 쿼리의 모든 리턴값보다 큰 값을 구하고 싶을 때는 '> All(subquery)'를 사용한다 
+-- 서브 쿼리의 모든 리턴값보다 큰 값을 구하고 싶을 때는 '> All(subquery)'를 사용한다
 -- 서브 쿼리의 리턴값 중 최대값보다 큰 값을 구하는 것과 같다elelelel+-------+---------+
 | ename | sal     |
 +-------+---------+
@@ -1896,10 +1924,15 @@ MariaDB [sample]> select ename, sal from emp
 13 rows in set (0.001 sec)
 
 ```
+
 ##### 테이블 병합(join, relation)
+
 - 테이블끼리 연결시켜 데이터 조작을 할 수 있다
+
 ###### EQUI JOIN
+
 - 테이블끼리 공통되는 컬럼이 있고, 그 컬럼을 기준으로 연결시킨다
+
 ```sql
 MariaDB [sample]> select * from emp cross join dept limit 4;
 -- deptno가 기준이 되는 컬럼
@@ -2035,8 +2068,11 @@ MariaDB [sample]> select empno, ename, sal, dname, loc
 +-------+--------+---------+------------+----------+
 4 rows in set (0.000 sec)
 ```
+
 ###### NON-EQUI JOIN
+
 - 공통된 테이블이 없더라도 join 조건을 줘서 테이블을 연결시킬 수 있다
+
 ```sql
 MariaDB [sample]> select * from emp e inner join salgrade s
     -> on(e.sal >= s.losal and e.sal <= s.hisal)
@@ -2082,7 +2118,9 @@ MariaDB [sample]> select empno, ename, sal, grade, hiredate
 +-------+--------+---------+-------+------------+
 10 rows in set (0.001 sec)
 ```
+
 !! 세 개 이상의 테이블도 연결시킬 수 있다
+
 ```sql
 MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
     -> from emp e inner join dept d
@@ -2132,12 +2170,15 @@ MariaDB [sample]> select e.empno, e.ename, e.sal, s.grade, d.dname, d.loc
 +-------+--------+---------+-------+------------+----------+
 14 rows in set (0.001 sec)
 ```
+
 ###### OUTER-JOIN
+
 - join 조건에 해당되지 않더라도 중심이 되는 테이블의 데이터는 모두 출력하게 한다
 
   <small>!! 이때, 중심이 되는 테이블에서 결과값이 없는 컬럼의 값은 null이다</small>
 
 - 구분
+
   - right outer join : 'right outer join'을 중심으로 오른쪽 테이블을 중심으로 한다
 
   - left outer join : 'left outer join'을 중심으로 왼쪽 테이블을 중심으로 한다
@@ -2205,7 +2246,9 @@ MariaDB [sample]> select d.deptno, d.dname, d.loc
 +--------+------------+--------+
 1 row in set (0.000 sec)
 ```
+
 ###### SELF-JOIN
+
 - 한 테이블 안에서 join을 사용해 내부 데이터를 연결 시켜 정보를 얻어낸다
 
 ```sql
@@ -2255,6 +2298,7 @@ MariaDB [sample]> select e.empno, e.ename '사원', e.mgr, ifnull(m.ename,'관�
 +-------+--------+------+------------------+
 14 rows in set (0.014 Bsec)
 ```
+
 <small> !! excution plan : SQL로 요청한 데이터를 어떻게 불러 올 것인지에 관한 계획</small>
 
 <small> !! query optimizer : execution plan을 세워서 query tunning을 할 수 있게 한다</small>
@@ -2284,6 +2328,7 @@ Query OK, 0 rows affected, 1 warning (0.013 sec)
 -- 같은 이름의 데이터베이스가 있는지 확인하고 없으면 새로 만든다
 -- 에러가 나지 않는다
 ```
+
 ```sql
 MariaDB [(none)]> create database test2;
 Query OK, 1 row affected (0.001 sec)
@@ -2297,10 +2342,13 @@ Query OK, 0 rows affected, 1 warning (0.000 sec)
 -- 데이터베이스가 있는지 확인하고 있다면 삭제한다
 -- 에러가 나지 않는다
 ```
-- 테이블의 구성요소 : 컬럼명, 데이터 타입, 나머지 옵션 정보
+
+- 테이블의 구성요소 : 컬럼명, 데이터 타입, 나머지 옵션(constraint)
 
   - 데이터 타입의 구성요소
+
     - 문자형
+
       - char : 고정형 &rarr; 저장공간이 고정되어 있기 때문에 검색속도가 빠르다
 
       - varchar : 가변형 &rarr; 저장공간을 효율적으로 사용할 수 있다
@@ -2314,7 +2362,7 @@ Query OK, 0 rows affected, 1 warning (0.000 sec)
       - 실수형 (decimal / double)
 
     - 날짜형 (datetime / date)
-    - 이진데이터 
+    - 이진데이터
 
 ```sql
 MariaDB [sample]> create table tbl1(
@@ -2334,7 +2382,7 @@ MariaDB [sample]> create table dept2(
     -> deptno int(2),
     -> dname varchar(14),
     -> loc varchar(13)
-    -> );    
+    -> );
 Query OK, 0 rows affected (0.129 sec)
 
 MariaDB [sample]> desc dept2;
@@ -2347,6 +2395,7 @@ MariaDB [sample]> desc dept2;
 +--------+-------------+------+-----+---------+-------+
 3 rows in set (0.013 sec)
 ```
+
 ```sql
 MariaDB [sample]> create table emp2
     -> as select * from emp;
@@ -2475,9 +2524,11 @@ MariaDB [sample]> desc empty_emp;
 MariaDB [sample]> select * from empty_emp;
 Empty set (0.000 sec)
 ```
+
 ##### alter
 
 - 컬럼을 추가, 수정, 삭제한다
+
 ```sql
 MariaDB [test1]> select * from sample.dept;
 -- test1 데이터베이스에서 sample 데이터베이스의 테이블에 접근할 수 있다
@@ -2692,13 +2743,15 @@ Max_index_length: 0
 
 ERROR: No query specified
 ```
+
 ##### insert
+
 - 데이터 입력
+
   - 값의 순서는 컬럼의 순서대로 넣는다
 
   - 자료형의 크기
   - 문자열데이터는 작은 따옴표를 사용한다
-
 
 ```sql
 MariaDB [test1]> desc dept;
@@ -2734,9 +2787,11 @@ MariaDB [test1]> insert into dept(deptno, dname, loc) values(53, '연구', '대�
 -- 테이블명 뒤에 컬럼명을 써서 데이터 값과 순서대로 매칭시켜 입력할 수도 있다
 Query OK, 1 row affected (0.040 sec)
 ```
-- 필수요소 
+
+- 필수요소
 
   - describe로 테이블의 컬럼 정보를 봤을 때, Null의 값이 NO인 컬럼을 필수요소라고 한다
+
 ```sql
 MariaDB [test1]> desc dept;
 -- deptno는 Null의 값이 NO로 되어 있다
@@ -2753,7 +2808,7 @@ MariaDB [test1]> create table dept2(
     -> deptno int(2),
     -> dname varchar(14),
     -> loc varchar(13)
-    -> );   
+    -> );
 Query OK, 0 rows affected (0.154 sec)
 
 MariaDB [test1]> desc dept2;
@@ -2794,9 +2849,11 @@ MariaDB [test1]> insert into dept3(deptno) values(50);
 -- 위의 구문은 같은 데이터를 생성하는 SQL이다
 Query OK, 1 row affected (0.006 sec)
 ```
-- 기본값 (default) 
+
+- 기본값 (default)
 
   - 테이블 생성시 컬럼에 default 값을 줄 수 있다
+
 ```sql
 MariaDB [test1]> create table dept(
     -> deptno int(2) default 90,
@@ -2844,6 +2901,7 @@ MariaDB [test1]> select * from dept;
 +--------+--------+--------+
 3 rows in set (0.000 sec)
 ```
+
 - 다수의 데이터 한번에 입력시키기
 
 ```sql
@@ -2865,7 +2923,9 @@ MariaDB [test1]> select * from dept;
 +--------+-------+---------+
 1 row in set (0.000 sec)
 ```
+
 ##### update
+
 - 컬럼 안의 내용을 특정 값으로 변경시킨다
 
 ```sql
@@ -2903,6 +2963,7 @@ MariaDB [test1]> select * from dept;
 +--------+------------+--------+
 5 rows in set (0.000 sec)
 ```
+
 ```sql
 MariaDB [test1]> create table emp_copy1
     -> as select * from sample.emp;
@@ -2935,9 +2996,11 @@ MariaDB [test1]> select * from emp_copy1;
 +-------+--------+-----------+------+------------+---------+---------+--------+
 14 rows in set (0.000 sec)
 ```
+
 ##### delete
 
 - 데이터(행)를 자체를 삭제 시킨다
+
 ```sql
 MariaDB [test1]> delete from emp_copy1;
 -- "delete from"을 사용해 테이블의 모든 데이터(행)를 삭제 시킬 수 있다
@@ -2947,27 +3010,33 @@ MariaDB [test1]> delete from dept where deptno = 30;
 -- where로 조건을 줘서 특정 데이터만 삭제 시킬 수 있다
 Query OK, 2 rows affected (0.012 sec)
 ```
+
 !! 행은 그대로 두고, 컬럼 안의 내용 없애는 것은 delete가 아니라 update다
+
 ```sql
 MariaDB [test1]> update emp set job = null;
 -- job 컬럼의 내용을 update를 통해 null로 변경시켰다
 Query OK, 6 rows affected (0.014 sec)
 Rows matched: 6  Changed: 6  Warnings: 0
 ```
+
 ##### constraint
+
 - 테이블에 입력할 데이터에 제약 조건을 준다
 
 - 제약 조건
 
   - 필수 요소 (not null)
 
-  - 중복 방지 (unique) 
+  - 중복 방지 (unique)
 
   - 필수 요소 + 중복 방지 (primary key)
   - 참조 (foreign key) : 다른 테이블의 unique, primary key를 참조하는데 보통 primary keyf를 참조한다
 
-  <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지  않았다</small>
+  <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지 않았다</small>
+
 - constraint 확인 방법
+
 ```sql
 MariaDB [test1]> desc sample.dept;
 -- Null, Key를 통해 확인 가능하다
@@ -3022,6 +3091,7 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
 ```
 
 - constraint 선언 방법
+
   - 컬럼 단위 제약조건 : 컬럼 선언 바로 뒤에 제약조건을 준다
 
   - 테이블 단위 제약조건 : 테이블 선언에서 컬럼 선언을 마친 후, 제일 마지막에 제약조건을 준다
@@ -3045,6 +3115,7 @@ MariaDB [test1]> desc dept_n1;
 +--------+-------------+------+-----+---------+-------+
 3 rows in set (0.012 sec)
 ```
+
 ```sql
 MariaDB [test1]> create table dept_u1(
     -> deptno int(2) unique,
@@ -3118,6 +3189,7 @@ MariaDB [test1]> create table dept_u3(
 -- constraint_name을 dept_u3_deptno_uk로 지정
 Query OK, 0 rows affected (0.141 sec)
 ```
+
 ```sql
 MariaDB [test1]> create table dept_p1(
     -> deptno int(2) primary key,
@@ -3163,6 +3235,7 @@ MariaDB [test1]> insert into dept_p1 values(null, '운영', '제주');
 -- primary key 지정이 된 컬럼은 null 값도 가질 수 없다
 ERROR 1048 (23000): Column 'deptno' cannot be null
 ```
+
 ```sql
 MariaDB [test1]> create table dept_a2(
     -> deptno int(2) unsigned primary key auto_increment,
@@ -3223,6 +3296,7 @@ MariaDB [test1]> select * from dept_a2;
 +--------+--------+--------+
 5 rows in set (0.000 sec)
 ```
+
 ```sql
 MariaDB [information_schema]> select * from sample.dept;
 +--------+------------+----------+
@@ -3274,6 +3348,7 @@ MariaDB [test1]> create table emp_f(
     -- primary key가 아닌 컬럼을 참조하면 아래의 에러가 생긴다
 ERROR 1005 (HY000): Can't create table `test1`.`emp_f` (errno: 150 "Foreign key constraint is incorrectly formed")
 ```
+
 ```sql
 MariaDB [test1]> create table dept_p(
     -> deptno int(2) primary key,
@@ -3369,7 +3444,8 @@ MariaDB [test1]> drop table dept_p;
 -- 참조를 하는 테이블을 먼저 삭제하면 참조되는 테이블도 삭제할 수 있다
 Query OK, 0 rows affected (0.134 sec)
 ```
-- 두 개의 컬럼을 묶어서 한 쌍으로 제약조건을 줘서 복합키 설정을 할 수 있다 
+
+- 두 개의 컬럼을 묶어서 한 쌍으로 제약조건을 줘서 복합키 설정을 할 수 있다
 
 ```sql
 MariaDB [test1]> create table order_c(
@@ -3419,7 +3495,7 @@ MariaDB [test1]> insert into order_c2 values(1000, 1000, now(), 'order1');
 Query OK, 1 row affected, 1 warning (0.014 sec)
 
 MariaDB [test1]> insert into order_c2 values(2000, 1000, now(), 'order1');
--- ccode 값에 1000이 이미 들어가 있지만, primary key로 지정한 
+-- ccode 값에 1000이 이미 들어가 있지만, primary key로 지정한
 -- 컬럼은 (pcode, ccode)이므로 값의 쌍인 (2000, 1000)으로 판단한다
 Query OK, 1 row affected, 1 warning (0.021 sec)
 
@@ -3427,7 +3503,9 @@ MariaDB [test1]> insert into order_c2 values(1000, 1000, now(), 'order1');
 -- (1000, 1000)의 값이 이미 들어가 있기 때문에 에러가 생긴다
 ERROR 1062 (23000): Duplicate entry '1000-1000' for key 'PRIMARY'
 ```
-- alter로 컬럼에 constraint를 줄 수 있다 
+
+- alter로 컬럼에 constraint를 줄 수 있다
+
 ```sql
 MariaDB [test]> create table dept_c(
     -> deptno int(2),
@@ -3571,7 +3649,7 @@ MariaDB [test]> select constraint_name, table_schema, table_name, constraint_typ
 1 row in set (0.007 sec)
 
 MariaDB [test]> desc emp_c;
--- foreign key를 constraint_name을 이용해 삭제하면 desc로 컬럼 정보를 확인했을 때 Key값이 MUL로 남아있다 
+-- foreign key를 constraint_name을 이용해 삭제하면 desc로 컬럼 정보를 확인했을 때 Key값이 MUL로 남아있다
 +--------+-------------+------+-----+---------+-------+
 | Field  | Type        | Null | Key | Default | Extra |
 +--------+-------------+------+-----+---------+-------+
@@ -3598,10 +3676,18 @@ MariaDB [test]> desc emp_c;
 +--------+-------------+------+-----+---------+-------+
 4 rows in set (0.014 sec)
 ```
-##### 관계형 데이터베이스
+
+##### 관계형 데이터베이스(ERD)
+
+- 구성
+
+  - logical diagram
+
+  - physical diagram
+
 - 관계형 데이터베이스 그리기 tool
 
-  -  ERDCLOUD (https://www.erdcloud.com/)
+  - ERDCLOUD (https://www.erdcloud.com/)
 
   - eXERD (https://ko.exerd.com/)
 
@@ -3732,15 +3818,18 @@ MariaDB [test1]> select constraint_name, table_schema, table_name, constraint_ty
 +--------------------+--------------+-------------+-----------------+
 7 rows in set (0.001 sec)
 ```
+
 ##### 데이터 조회
+
 - 테이블을 이용해 가상 테이블을 만들어서 데이터를 쉽게 조회할 수 있도록 한다
 
   <small>!! 이때의 가상 테이블을 뷰(view)라고 한다</small>
 
 - 뷰(view)는 select문을 저장하고 있는다
 
-  &rarr; view를 select문의 별칭으로 
+  &rarr; view를 select문의 별칭으로
   사용한다고 생각해도 좋다
+
 ```sql
 MariaDB [sample]> create view emp_vu1 as select * from emp;
 -- 뷰 생성은 "create view ~ as select ~"를 통해 이루어진다
@@ -3891,7 +3980,9 @@ MariaDB [sample]> select * from emp_mgr;
 +-------+--------+------------------+
 14 rows in set (0.023 sec)
 ```
+
 - select문을 바로 사용할 수도 있다
+
 ```sql
 MariaDB [sample]> select * from (select * from emp where deptno = 10);
 -- 별칭을 주지 않으면 에러가 생긴다
@@ -3975,8 +4066,11 @@ MariaDB [sample]> show full tables where table_type = 'view';
 +------------------+------------+
 7 rows in set (0.001 sec)
 ```
+
 ###### 인덱스를 이용한 데이터 조회
+
 <small>https://12bme.tistory.com/138 참조</small>
+
 - 책에서의 목차와 같은 역학을 한다
 
 ```sql
@@ -4012,7 +4106,7 @@ MariaDB [sample]> show index from table_i;
 1 row in set (0.006 sec)
 
 MariaDB [sample]> alter table table_i drop constraint primary key;
--- 제한 요소를 없애면 인덱스도 사라진다 
+-- 제한 요소를 없애면 인덱스도 사라진다
 Query OK, 0 rows affected (0.284 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
@@ -4031,4 +4125,1203 @@ MariaDB [sample]> show index from table_i;
 +---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
 1 row in set (0.006 sec)
 ```
- 
+
+#### 사용자 만들기
+
+```sql
+-- root
+MariaDB [(none)]> select user();
+-- 현재 사용자의 '아이디@ip'를 확인한다
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.020 sec)
+
+MariaDB [(none)]> show create user;
+-- 사용자의 정보 상세를 확인한다
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| CREATE USER for root@localhost                                                                                                                 |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| CREATE USER `root`@`localhost` IDENTIFIED VIA mysql_native_password USING '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' OR gssapi USING 'SID:BA' |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [mysql]> desc user;
++------------------------+---------------------+------+-----+----------+-------+
+| Field                  | Type                | Null | Key | Default  | Extra |
++------------------------+---------------------+------+-----+----------+-------+
+| Host                   | char(255)           | NO   |     |          |       |
+| User                   | char(128)           | NO   |     |          |       |
+| Password               | longtext            | YES  |     | NULL     |       |
+| Select_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Insert_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Update_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Delete_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Create_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Drop_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Reload_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Shutdown_priv          | varchar(1)          | YES  |     | NULL     |       |
+| Process_priv           | varchar(1)          | YES  |     | NULL     |       |
+| File_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Grant_priv             | varchar(1)          | YES  |     | NULL     |       |
+| References_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Index_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Alter_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Show_db_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Super_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Create_tmp_table_priv  | varchar(1)          | YES  |     | NULL     |       |
+| Lock_tables_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Execute_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Repl_slave_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Repl_client_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Create_view_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Show_view_priv         | varchar(1)          | YES  |     | NULL     |       |
+| Create_routine_priv    | varchar(1)          | YES  |     | NULL     |       |
+| Alter_routine_priv     | varchar(1)          | YES  |     | NULL     |       |
+| Create_user_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Event_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Trigger_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Create_tablespace_priv | varchar(1)          | YES  |     | NULL     |       |
+| Delete_history_priv    | varchar(1)          | YES  |     | NULL     |       |
+| ssl_type               | varchar(9)          | YES  |     | NULL     |       |
+| ssl_cipher             | longtext            | NO   |     |          |       |
+| x509_issuer            | longtext            | NO   |     |          |       |
+| x509_subject           | longtext            | NO   |     |          |       |
+| max_questions          | bigint(20) unsigned | NO   |     | 0        |       |
+| max_updates            | bigint(20) unsigned | NO   |     | 0        |       |
+| max_connections        | bigint(20) unsigned | NO   |     | 0        |       |
+| max_user_connections   | bigint(21)          | NO   |     | 0        |       |
+| plugin                 | longtext            | NO   |     |          |       |
+| authentication_string  | longtext            | NO   |     |          |       |
+| password_expired       | varchar(1)          | NO   |     |          |       |
+| is_role                | varchar(1)          | YES  |     | NULL     |       |
+| default_role           | longtext            | NO   |     |          |       |
+| max_statement_time     | decimal(12,6)       | NO   |     | 0.000000 |       |
++------------------------+---------------------+------+-----+----------+-------+
+47 rows in set (0.010 sec)
+
+MariaDB [mysql]> select host, user, password from user;
+-- 데이터베이스를 사용할 수 있는 사용자들의 정보 확인
++-----------------+-------------+-------------------------------------------+
+| Host            | User        | Password                                  |
++-----------------+-------------+-------------------------------------------+
+| localhost       | mariadb.sys |                                           |
+| localhost       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| desktop-69dv163 | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| 127.0.0.1       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| ::1             | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| %               | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
++-----------------+-------------+-------------------------------------------+
+6 rows in set (0.009 sec)
+
+MariaDB [mysql]> desc db;
++-----------------------+---------------+------+-----+---------+-------+
+| Field                 | Type          | Null | Key | Default | Extra |
++-----------------------+---------------+------+-----+---------+-------+
+| Host                  | char(255)     | NO   | PRI |         |       |
+| Db                    | char(64)      | NO   | PRI |         |       |
+| User                  | char(128)     | NO   | PRI |         |       |
+| Select_priv           | enum('N','Y') | NO   |     | N       |       |
+| Insert_priv           | enum('N','Y') | NO   |     | N       |       |
+| Update_priv           | enum('N','Y') | NO   |     | N       |       |
+| Delete_priv           | enum('N','Y') | NO   |     | N       |       |
+| Create_priv           | enum('N','Y') | NO   |     | N       |       |
+| Drop_priv             | enum('N','Y') | NO   |     | N       |       |
+| Grant_priv            | enum('N','Y') | NO   |     | N       |       |
+| References_priv       | enum('N','Y') | NO   |     | N       |       |
+| Index_priv            | enum('N','Y') | NO   |     | N       |       |
+| Alter_priv            | enum('N','Y') | NO   |     | N       |       |
+| Create_tmp_table_priv | enum('N','Y') | NO   |     | N       |       |
+| Lock_tables_priv      | enum('N','Y') | NO   |     | N       |       |
+| Create_view_priv      | enum('N','Y') | NO   |     | N       |       |
+| Show_view_priv        | enum('N','Y') | NO   |     | N       |       |
+| Create_routine_priv   | enum('N','Y') | NO   |     | N       |       |
+| Alter_routine_priv    | enum('N','Y') | NO   |     | N       |       |
+| Execute_priv          | enum('N','Y') | NO   |     | N       |       |
+| Event_priv            | enum('N','Y') | NO   |     | N       |       |
+| Trigger_priv          | enum('N','Y') | NO   |     | N       |       |
+| Delete_history_priv   | enum('N','Y') | NO   |     | N       |       |
++-----------------------+---------------+------+-----+---------+-------+
+23 rows in set (0.010 sec)
+```
+
+```sql
+MariaDB [mysql]> create user tester@localhost identified by '1234';
+-- 아이디 'tester', 비밀번호 '1234'를 사용해 localhost ip로 접속할 수 있는 사용자 생성
+Query OK, 0 rows affected (0.067 sec)
+
+MariaDB [mysql]> select host, user, password from user;
++-----------------+-------------+-------------------------------------------+
+| Host            | User        | Password                                  |
++-----------------+-------------+-------------------------------------------+
+| localhost       | mariadb.sys |                                           |
+| localhost       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| desktop-69dv163 | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| 127.0.0.1       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| ::1             | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| %               | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| localhost       | tester      | *A4B6157319038724E3560894F7F932C8886EBFCF |
++-----------------+-------------+-------------------------------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [mysql]> show create user tester@localhost;
++-----------------------------------------------------------------------------------------------------+
+| CREATE USER for tester@localhost                                                                    |
++-----------------------------------------------------------------------------------------------------+
+| CREATE USER `tester`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
++-----------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+```
+
+```sql
+-- 명령프롬프트
+C:\Users\KITCOOP>mysql -u tester -p1234
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 10.11.2-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+-- tester
+MariaDB [(none)]> show databases;
+-- 권한이 없어서 모든 데이터베이스가 보이지 않는다
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
++--------------------+
+1 row in set (0.001 sec)
+```
+
+```sql
+-- 명령프롬프트
+C:\Users\KITCOOP>mysql -h 192.168.0.87 -u tester -p1234
+-- localhost ip가 아닌 인트라넷 ip로 접속했기 때문에 아래와 같은 에러가 생긴다
+ERROR 1045 (28000): Access denied for user 'tester'@'DESKTOP-69DV163' (using password: YES)
+
+C:\Users\KITCOOP>mysql -h 127.0.0.1 -u tester -p1234
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 14
+Server version: 10.11.2-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+```
+
+<small>!! 네트워크
+
+- 루프백 : 기본적으로 있는 ip(127.0.0.1 / localhost)
+
+- 인터넷용 아아피 : 공유기, 라우터에 의해 설정되는 ip
+
+  - 인트라넷 : 기관, 회사 내부 ip(192.168.xxx.xxx
+
+  - 개인용 ip
+
+  </small>
+
+```sql
+MariaDB [(none)]> create user tester@'%' identified by '1234';
+-- 접속 ip 상관없이 tester가 데이터베이스에 접근할 수 있도록 한다
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [mysql]> select host, user, password from user;
++-----------------+-------------+-------------------------------------------+
+| Host            | User        | Password                                  |
++-----------------+-------------+-------------------------------------------+
+| localhost       | mariadb.sys |                                           |
+| localhost       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| desktop-69dv163 | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| 127.0.0.1       | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| ::1             | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| %               | root        | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
+| localhost       | tester      | *A4B6157319038724E3560894F7F932C8886EBFCF |
+| %               | tester      | *A4B6157319038724E3560894F7F932C8886EBFCF |
++-----------------+-------------+-------------------------------------------+
+8 rows in set (0.001 sec)
+```
+
+```sql
+MariaDB [mysql]> drop user tester@'%';
+- 사용자 삭제
+Query OK, 0 rows affected (0.023 sec)
+```
+
+##### grant, revoke
+
+- DCL(Data Control Lang.)
+
+  - 권한 부여 : grant
+
+  - 권한 회수 : revoke
+
+  <small>!! 권한 부여, 회수는 관리자(root)로 접속했을 때만 가능하다</small>
+
+```sql
+MariaDB [(none)]> show privileges;
+-- 권한(privileges) 확인
++--------------------------+---------------------------------------+--------------------------------------------------------------------+
+| Privilege                | Context                               | Comment                                                            |
++--------------------------+---------------------------------------+--------------------------------------------------------------------+
+| Alter                    | Tables                                | To alter the table                                                 |
+| Alter routine            | Functions,Procedures                  | To alter or drop stored functions/procedures                       |
+| Create                   | Databases,Tables,Indexes              | To create new databases and tables                                 |
+| Create routine           | Databases                             | To use CREATE FUNCTION/PROCEDURE                                   |
+| Create temporary tables  | Databases                             | To use CREATE TEMPORARY TABLE                                      |
+| Create view              | Tables                                | To create new views                                                |
+| Create user              | Server Admin                          | To create new users                                                |
+| Delete                   | Tables                                | To delete existing rows                                            |
+| Delete history           | Tables                                | To delete versioning table historical rows                         |
+| Drop                     | Databases,Tables                      | To drop databases, tables, and views                               |
+| Event                    | Server Admin                          | To create, alter, drop and execute events                          |
+| Execute                  | Functions,Procedures                  | To execute stored routines                                         |
+| File                     | File access on server                 | To read and write files on the server                              |
+| Grant option             | Databases,Tables,Functions,Procedures | To give to other users those privileges you possess                |
+| Index                    | Tables                                | To create or drop indexes                                          |
+| Insert                   | Tables                                | To insert data into tables                                         |
+| Lock tables              | Databases                             | To use LOCK TABLES (together with SELECT privilege)                |
+| Process                  | Server Admin                          | To view the plain text of currently executing queries              |
+| Proxy                    | Server Admin                          | To make proxy user possible                                        |
+| References               | Databases,Tables                      | To have references on tables                                       |
+| Reload                   | Server Admin                          | To reload or refresh tables, logs and privileges                   |
+| Binlog admin             | Server                                | To purge binary logs                                               |
+| Binlog monitor           | Server                                | To use SHOW BINLOG STATUS and SHOW BINARY LOG                      |
+| Binlog replay            | Server                                | To use BINLOG (generated by mariadb-binlog)                        |
+| Replication master admin | Server                                | To monitor connected slaves                                        |
+| Replication slave admin  | Server                                | To start/stop slave and apply binlog events                        |
+| Slave monitor            | Server                                | To use SHOW SLAVE STATUS and SHOW RELAYLOG EVENTS                  |
+| Replication slave        | Server Admin                          | To read binary log events from the master                          |
+| Select                   | Tables                                | To retrieve rows from table                                        |
+| Show databases           | Server Admin                          | To see all databases with SHOW DATABASES                           |
+| Show view                | Tables                                | To see views with SHOW CREATE VIEW                                 |
+| Shutdown                 | Server Admin                          | To shut down the server                                            |
+| Super                    | Server Admin                          | To use KILL thread, SET GLOBAL, CHANGE MASTER, etc.                |
+| Trigger                  | Tables                                | To use triggers                                                    |
+| Create tablespace        | Server Admin                          | To create/alter/drop tablespaces                                   |
+| Update                   | Tables                                | To update existing rows                                            |
+| Set user                 | Server                                | To create views and stored routines with a different definer       |
+| Federated admin          | Server                                | To execute the CREATE SERVER, ALTER SERVER, DROP SERVER statements |
+| Connection admin         | Server                                | To bypass connection limits and kill other users' connections      |
+| Read_only admin          | Server                                | To perform write operations even if @@read_only=ON                 |
+| Usage                    | Server Admin                          | No privileges - allow connect only                                 |
++--------------------------+---------------------------------------+--------------------------------------------------------------------+
+41 rows in set (0.000 sec)
+```
+
+```sql
+-- root
+MariaDB [(none)]> show grants for root@localhost;
+-- 관리자의 권한 확인
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                                                                                           |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO `root`@`localhost` IDENTIFIED VIA mysql_native_password USING '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' OR gssapi USING 'SID:BA' WITH GRANT OPTION |
+| GRANT PROXY ON ''@'%' TO 'root'@'localhost' WITH GRANT OPTION                                                                                                                       |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.006 sec)
+```
+
+```sql
+-- tester
+MariaDB [(none)]> show grants for root@localhost;
+-- 일반사용자로 접속해서 권한을 확인하려고 하면 아래와 같은 에러가 생긴다
+ERROR 1044 (42000): Access denied for user 'tester'@'localhost' to database 'mysql'
+```
+
+```sql
+-- root
+MariaDB [(none)]> create database testerdb;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> grant create on testerdb.* to tester@localhost;
+-- testerdb에서의 create에 대한 권한을 tester에게 준다
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [(none)]> show databases;
+-- tester에서 확인했을 때 testerdb 데이터베이스가 보인다
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| testerdb           |
++--------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [testerdb]> show grants for tester@localhost;
++---------------------------------------------------------------------------------------------------------------+
+| Grants for tester@localhost                                                                                   |
++---------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tester`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
+| GRANT CREATE ON `testerdb`.* TO `tester`@`localhost`                                                          |
++---------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.000 sec)
+
+-- tester
+MariaDB [(none)]> use testerdb;
+Database changed
+
+MariaDB [testerdb]> create table testertb1(col1 varchar(10));
+Query OK, 0 rows affected (0.125 sec)
+
+MariaDB [testerdb]> desc testerdb;
+-- create 명령어에 대한 권한만 줬기 때문에 다른 권한과 연결된 명령어는 사용할 수 없다
+ERROR 1142 (42000): SELECT command denied to user
+'tester'@'localhost' for table `testerdb`.`testerdb`
+
+MariaDB [testerdb]> select * from testerdb;
+ERROR 1142 (42000): SELECT command denied to user 'tester'@'localhost' for table `testerdb`.`testerdb`
+```
+
+```sql
+-- root
+MariaDB [(none)]> revoke create on testerdb.* from tester@localhost;
+-- testerdb에서의 create 권한을 tester로부터 회수한다
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [testerdb]> show grants for tester@localhost;
+-- tester의 모든 권한 확인
++---------------------------------------------------------------------------------------------------------------+
+| Grants for tester@localhost                                                                                   |
++---------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tester`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
++---------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+```
+
+```sql
+-- root
+MariaDB [(none)]> create table testerdb.emp as select * from sample.emp;
+Query OK, 14 rows affected (0.193 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+MariaDB [(none)]> select * from testerdb.emp limit 0, 2;
++-------+-------+----------+------+------------+---------+--------+--------+
+| empno | ename | job      | mgr  | hiredate   | sal     | comm   | deptno |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7369 | SMITH | CLERK    | 7902 | 2010-12-17 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN | SALESMAN | 7698 | 2011-02-20 | 1600.00 | 300.00 |     30 |
++-------+-------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.005 sec)
+
+MariaDB [(none)]> grant select on testerdb.emp to tester@localhost;
+Query OK, 0 rows affected (0.345 sec)
+
+-- tester
+MariaDB [testerdb]> select * from emp limit 0, 2;
++-------+-------+----------+------+------------+---------+--------+--------+
+| empno | ename | job      | mgr  | hiredate   | sal     | comm   | deptno |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7369 | SMITH | CLERK    | 7902 | 2010-12-17 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN | SALESMAN | 7698 | 2011-02-20 | 1600.00 | 300.00 |     30 |
++-------+-------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.000 sec)
+
+-- root
+MariaDB [(none)]> grant insert on testerdb.emp to tester@localhost;
+-- tester에게 testerdb의 emp 테이블에 관한 insert 권한을 준다
+Query OK, 0 rows affected (0.345 sec)
+
+-- tester
+MariaDB [testerdb]> insert into emp values (8000, '홍길동', 'manager', 7782, now(), 3000, 1000, 10);
+Query OK, 1 row affected, 1 warning (0.011 sec)
+```
+
+```sql
+-- root
+MariaDB [(none)]> grant all privileges on testerdb.* to tester@localhost;
+-- testerdb에 관한 모든 권한을 tester에게 준다
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [testerdb]> show grants for tester@localhost;
++---------------------------------------------------------------------------------------------------------------+
+| Grants for tester@localhost                                                                                   |
++---------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tester`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
+| GRANT ALL PRIVILEGES ON `testerdb`.* TO `tester`@`localhost`                                                  |
++---------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.000 sec)
+
+-- tester
+MariaDB [testerdb]> create table testertb1(col1 varchar(10));
+Query OK, 0 rows affected (0.125 sec)
+
+MariaDB [testerdb]> desc testertb1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| col1  | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.023 sec)
+
+MariaDB [testerdb]> select * from testertb1;
+Empty set (0.000 sec)
+```
+
+```sql
+MariaDB [(none)]> revoke all privileges on testerdb.* from tester@localhost;
+-- testerdb에 관한 모든 권한을 tester로부터 회수한다
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [testerdb]> show grants for tester@localhost;
++---------------------------------------------------------------------------------------------------------------+
+| Grants for tester@localhost                                                                                   |
++---------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tester`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
++---------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+```
+
+```sql
+-- root
+MariaDB [(none)]> create database testerdb2;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> grant all privileges on testerdb2.*
+    -> to tester2@localhost identified by '1234';
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [mysql]> select host, user from user;
++-----------------+-------------+
+| Host            | User        |
++-----------------+-------------+
+| %               | root        |
+| %               | tester      |
+| 127.0.0.1       | root        |
+| ::1             | root        |
+| desktop-69dv163 | root        |
+| localhost       | mariadb.sys |
+| localhost       | root        |
+| localhost       | tester      |
+| localhost       | tester2     |
++-----------------+-------------+
+9 rows in set (0.001 sec)
+
+MariaDB [mysql]> select host, user, db from db;
++-----------+---------+-----------+
+| host      | user    | db        |
++-----------+---------+-----------+
+| localhost | tester2 | testerdb2 |
++-----------+---------+-----------+
+1 row in set (0.000 sec)
+
+-- tester2
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| testerdb2          |
++--------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [(none)]> show grants for tester2@localhost;
++----------------------------------------------------------------------------------------------------------------+
+| Grants for tester2@localhost                                                                                   |
++----------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tester2`@`localhost` IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF' |
+| GRANT ALL PRIVILEGES ON `testerdb2`.* TO `tester2`@`localhost`                                                 |
++----------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.000 sec)
+```
+
+#### 데이터베이스 백업
+
+- MariaDB 설치시에 Data directory로 설정한 디렉터리에 생성된 데이터베이스가 디렉터리, 파일로 저장되어 있다
+
+- 복원용 스크립트를 만들거나 백업을 할 때는 데이터베이스를 멈추고 해야 데이터가 손상되지 않는다
+
+##### mysqldump
+
+- 복원용 스크립트를 생성한다
+
+```sql
+-- 명령프롬프트
+c:\mariadb>mysqldump -u root -p sample > dump_all.sql
+Enter password: ******
+-- sample 데이터베이스를 가지고 복원용 스크립트 dump_all.sql을 생성한다
+
+c:\mariadb>mysqldump -u root -p sample emp > dump_all_emp.sql
+Enter password: ******
+-- sample 데이터베이스의 emp 테이블을 가지고 복원용 스크립트 dump_all_emp.sql을 생성한다
+```
+
+```sql
+-- 명령프롬프트
+c:\mariadb>mysql -u root -p sample < dump_all_emp.sql
+Enter password: ******
+-- dump_all_emp.sql로 백업한다
+-- 부등호 방향에 주의하자
+
+c:\mariadb>mysql -u root -p123456
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 31
+Server version: 10.11.2-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use sample;
+Database changed
+MariaDB [sample]> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| constraint_check |
+| dept             |
+| emp              |
+| emp_dept         |
+| emp_mgr          |
+| emp_mgr_name     |
+| emp_vu1          |
+| emp_vu10         |
+| emp_vu20         |
+| salgrade         |
+| table_i          |
++------------------+
+11 rows in set (0.001 sec)
+```
+
+```sql
+MariaDB [sample]> drop database sample;
+-- 원래 있던 sample 데이터베이스 삭제
+Query OK, 11 rows affected (0.475 sec)
+
+MariaDB [(none)]> create database sample;
+-- 데이터가 없는 빈 sample 데이터베이스 생성
+Query OK, 1 row affected (0.001 sec)
+
+c:\mariadb>mysql -u root -p sample < dump_all.sql
+Enter password: ******
+-- 명령프롬프트에서 복원용 스크립트를 이용해 백업
+-- 이미 존재하고 있는 데이터베이스에만 백업이 가능하다
+```
+
+## JDBC(Java DataBase Connectivity)
+
+- 데이터베이스를 Java 프로그램과 연동시키는 것은 Java 라이브러리가 제공하는 "JDBC API" 와 DBMS 제공 업체가 제공하는 Connector, "JDBC Driver"를 통해 이루어진다
+
+- JDBC와 연결시켜주는 Connector는 DBMS마다 다르다
+
+  <img src = "https://postfiles.pstatic.net/MjAyMjA3MTVfNDUg/MDAxNjU3ODQ4NzM3ODk0.AsvxQap1nSrfbbujn3ki9YhaApvK2uwcYECSjBd51u8g.d0xwFSvHeSVNy3q2vXK0acuzSNZXwNc9c7UR6kX6fQMg.JPEG.jang0_0yw/%EC%82%AC%EC%A7%84_1.jpg?type=w966">
+
+### MariaDB JDBC
+
+#### Connection
+
+- 준비
+
+  - JDBC : "org.mariadb.jdbc.Driver"
+
+  - url : "jdbc:mysql://ip번호:포트번호/데이터베이스명"
+
+    <sup>ex) "jdbc:mysql://localhost:3306/sample"</sup>
+
+  - 데이터베이스 아이디
+  - 데이터베이스 패스워드
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+	  String url = "jdbc:mysql://localhost:3306/sample";
+	  String user = "root";
+	  String password = "123456";
+
+	  Connection conn = null;
+
+	    try {
+	      Class.forName("org.mariadb.jdbc.Driver");
+	      System.out.println("드라이버 로딩 완료");
+
+	      conn = DriverManager.getConnection(url, user, password);
+	      System.out.println("연결 성공");
+	    } catch (ClassNotFoundException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } catch (SQLException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } finally {
+	      if(conn != null) try {conn.close();} catch(SQLException e) {}
+	    }
+
+	}
+
+}
+```
+
+#### Statement, PreparedStatement
+
+- int executeUpdate() : select 이외의 모든 sql에 사용된다(반환 타입은 int로 처리 결과를 알려준다)
+
+```sql
+MariaDB [sample]> create table dept2 as select * from dept where 1 !=1;
+Query OK, 0 rows affected (0.162 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> select * from dept2;
+Empty set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+	  String url = "jdbc:mysql://localhost:3306/sample";
+	  String user = "root";
+	  String password = "123456";
+
+	  Connection conn = null;
+	  Statement stmt = null;
+
+	    try {
+	      Class.forName("org.mariadb.jdbc.Driver");
+	      System.out.println("드라이버 로딩 완료");
+	      conn = DriverManager.getConnection(url, user, password);
+	      System.out.println("연결 성공");
+
+	      stmt = conn.createStatement();
+        String sql = "insert into dept2 values (10 , '연구', '서울')";
+	      int result = stmt.executeUpdate(sql);
+	      System.out.println("실행 결과 : " + result);
+	    } catch (ClassNotFoundException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } catch (SQLException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } finally {
+	      if(conn != null) try {conn.close();} catch(SQLException e) {}
+	      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+	    }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
++--------+--------+--------+
+1 row in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "20";
+        String dname = "개발";
+        String loc = "제주";
+        String sql = "insert into dept2 values (" + deptno + " , '" + dname + "', + '" + loc + "')";
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     20 | 개발   | 제주   |
++--------+--------+--------+
+2 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "30";
+        String dname = "운영";
+        String loc = "부산";
+        String sql = String.format("insert into dept2 values ( %s, '%s', '%s')", deptno, dname,loc);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "10";
+        String dname = "생산";
+        String sql = String.format("update dept2 set dname = '%s' where deptno = %s", dname, deptno);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 생산   | 서울   |
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+        stmt = conn.createStatement();
+        String deptno = "10";
+        String sql = String.format("delete from dept2 where deptno = %s", deptno);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+2 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String sql = "create table testtb1 (col1 varchar(10))";
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+```sql
+MariaDB [sample]> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| constraint_check |
+| dept             |
+| dept2            |
+| emp              |
+| emp_dept         |
+| emp_mgr          |
+| emp_mgr_name     |
+| emp_vu1          |
+| emp_vu10         |
+| emp_vu20         |
+| salgrade         |
+| table_i          |
+| testtb1          |
++------------------+
+13 rows in set (0.001 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+        stmt = conn.createStatement();
+        // StringBuilder sbSQL = new StringBuilder();
+        // sbSQL.append("create table detp3(");
+        // sbSQL.append("deptno int(2),");
+        // sbSQL.append("dname varchar(14),");
+        // sbSQL.append("loc varchar(13)");
+        // sbSQL.append(")");
+        String sql = `create table dept3 (deptno int(2),
+                                      dname varchar(14),
+                                      loc varchar(13)
+                                      )`;
+        int result = stmt.executeUpdate(sql);
+        // int result = stmt.executeUpdate(sbSQL);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+- ResultSet executeQuery() : select, desc 문을 처리한다
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				System.out.println(rs.getString("deptno"));
+				System.out.println(rs.getString("dname"));
+				System.out.println(rs.getString("loc"));
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+// 첫행 이전을 가리키고 있기 때문에 값을 못 읽는다는 에러가 생긴다
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				rs.next(); // 다음 행으로 읽어줘야 첫행의 값을 읽어 올 수 있다
+				System.out.println(rs.getString("deptno")); // 20
+				System.out.println(rs.getString("dname")); // 개발
+				System.out.println(rs.getString("loc")); // 제주
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				while(rs.next()) {
+					System.out.println(rs.getString("deptno"));
+					System.out.println(rs.getString("dname"));
+					System.out.println(rs.getString("loc"));
+				} // dept2 테이블의 모든 값을 읽어서 출력한다
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select empno, ename, sal, sal * 12 + ifnull(comm, 0) '연봉' from emp where deptno = 10";
+				rs = stmt.executeQuery(sql);
+				while(rs.next()) {
+					System.out.println(rs.getString("empno"));
+					System.out.println(rs.getString("ename"));
+					System.out.println(rs.getString("sal"));
+					System.out.println(rs.getString("연봉"));
+					// System.out.println(rs.getString(1));
+					// System.out.println(rs.getString(2));
+					// System.out.println(rs.getString(3));
+					// System.out.println(rs.getString(4));
+				}
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
