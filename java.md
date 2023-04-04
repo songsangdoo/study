@@ -108,7 +108,7 @@ public class HelloWorld {
 // 에러가 나오지 않으면 현재 디렉터리에 HelloWorld.class 파일이 생성된다
 // Java 파일에 주석이라도 한글이 들어가 있는 경우에는 아래와 같이 -encoding utf-8 을 이용한다
 // > javac -encoding utf-8 HelloWorld.java
-> java HelloWorld 
+> java HelloWorld
 // 실행 시킬 때, 파일명에 확장자 쓰지 않는 것에 주의하자
 > Hello world!
 ```
@@ -226,6 +226,7 @@ public class VariableEx04 {
   }
 }
 ```
+
 ```java
 public class VariableEx05 {
   public static void main(String[] args) {
@@ -279,7 +280,7 @@ public class VariableEx06 {
     // 실수형 - float < double (할당할 수 있는 값의 범위 차이가 있다)
 
     // int i = 2.5;  에러!!
-    
+
 
     // float f = 2.5;
     // 에러!! f를 붙이지 않은 실수는 double 자료형으로 float 자료형에 할당시킬 수 없다
@@ -341,7 +342,7 @@ public class VariableEx03 {
   public class TypeCastingEx01 {
     public static void main(String[] args) {
       short s1 = 10;
-      int i1 = s1; 
+      int i1 = s1;
       System.out.println(i1); // 10
       char c1 = 'A';
       int i2 = c1; // char 자료형도 int 자료형으로 묵시적 형변환 가능하다
@@ -390,14 +391,14 @@ public class VariableEx03 {
       int i1 = 10;
       int i2 = 20;
       int sum1 = i1 + i2;
-      System.out.println(sum1); 
+      System.out.println(sum1);
       // short s1 = 10;
       // short s2 = 20;
       // short sum2 = s1 + s2;
       // 에러!! byte, short 자료형은 산술 연산시  int 자료형으로 형변환 된 후 연산된다
       short s1 = 10;
       short s2 = 20;
-      int sum2 = s1 + s2; 
+      int sum2 = s1 + s2;
       // int 자료형으로 결과를 받으면 에러가 생기지 않는다
       // short sum2 = (short)(s1 + s2);
       // 명시적 형변환을 이용할 수도 있다
@@ -535,7 +536,8 @@ public class VariableEx03 {
   }
   ```
 
-  ##### switch 
+  ##### switch
+
   - 소괄호 안 조건식의 값은 정수, 문자열, 상수 값을 가진다
 
   ```java
@@ -607,7 +609,8 @@ public class VariableEx03 {
 
     <small>!! 의도적으로 무한루프를 만들고 특정 경우에만 break로 빠져나오게 하는 경우도 있다</small>
 
-  ##### for 
+  ##### for
+
   - 반복횟수가 정해져 있을 때 사용한다
 
   ```java
@@ -684,7 +687,8 @@ public class VariableEx03 {
   }
   ```
 
-  ##### while 
+  ##### while
+
   - 상황에 의해서 반복이 진행될 때 사용한다
 
   ```java
@@ -719,7 +723,8 @@ public class VariableEx03 {
   }
   ```
 
-  ##### do ~ while 
+  ##### do ~ while
+
   - while 작업 중 최소 한번은 실행되어야 하는 곳에 사용한다
 
   ```java
@@ -762,7 +767,8 @@ public class VariableEx03 {
 
 ### 배열
 
-  <small>!! 배열의 메모리 구조를 잘 이해하자 </small>
+<small>!! 배열의 메모리 구조를 잘 이해하자 </small>
+
 - 같은 타입의 데이터 여러 개를 연속된 데이터 공간에 할당시켜 하나의 변수로 다루는 것을 배열이라고 한다
 
 - 같은 타입의 데이터를 넣어야 하지만, 묵시적 형변환이 되는 값이라면 할당시킬 수 있다
@@ -770,7 +776,6 @@ public class VariableEx03 {
   <sup>ex) int[] 자료형에 byte, short, char 자료형 값을 할당시킬 수 있다</sup>
 
 - 배열의 크기는 변경시킬 수 없다
-
 
 #### 배열의 기본
 
@@ -790,7 +795,7 @@ public class ArrayEx01 {
     arr[1] = 20;
     arr[2] = 30;
     arr[3] = 40;
-    arr[4] = 50; 
+    arr[4] = 50;
     // 배열의 초기화
 
     System.out.println(arr[4]); // 50
@@ -891,7 +896,7 @@ public class Arrayex06 {
     arr1[1][0] = 30;
     arr1[1][1] = 40;
     arr1[2][0] = 50;
-    arr1[2][1] = 60; 
+    arr1[2][1] = 60;
     // 배열의 초기화
     // 중괄호 중첩을 이용할 수도 있다
     // int[][] arr1 = new int[][]{{10, 20}, {30, 40}, {50, 60}};
@@ -930,7 +935,7 @@ public class ArrayEx08 {
           System.out.println(data);
         }
       }
-    } 
+    }
     // 3차원 배열의 출력
   }
 }
@@ -980,7 +985,6 @@ public class ArrayEx07 {
 
       - 다형(Polymorphism)
 
-
 - 클래스 : 참조형 자료이고 객체를 생성할 수 있다
 
   - 사용자 정의 클래스
@@ -990,7 +994,7 @@ public class ArrayEx07 {
 
   - 내장 클래스
   - 외부 클래스
-  
+
     <small> !! 클래스에 대한 문법을 배워서 라이브러리(API)를 사용할 수 있어야 한다</small>
 
 - 객체(인스턴스) : 각각의 상태(멤버변수)와 기능(메서드)을 갖는다
@@ -1003,7 +1007,6 @@ public class ArrayEx07 {
   - 클래스 &rarr; 구체화(구체적 상태, 기능 추가) &rarr; 객체
 
     <sup>ex) 자동차 &rarr; 그랜저 상태, 기능 추가 &rarr; 그랜저
-
 
 ### 클래스 기본 문법
 
@@ -1040,7 +1043,7 @@ public class ClassName {
     - Field 정보 : 멤버변수, 변수의 접근 제어자 정보
     - Method 정보 : 메서드, 리턴타입, 파라미터, 메서드의 접근 제어자 정보
     - Type 정보 : 타입의 이름, 상위 클래스
-     이름, 클래스의 접근 제어자, 타입의 속성이 클래스인지 인터페이스인지에 대한 정보
+      이름, 클래스의 접근 제어자, 타입의 속성이 클래스인지 인터페이스인지에 대한 정보
 
     - 상수 풀 : 상수에 대한 정보
 
@@ -1191,11 +1194,11 @@ public class ObjectEx02 {
     MethodEx ex = new MethodEx();
     ex.doFunc1();
     // doFunc1 메서드 호출
-    ex.doFunc2(10); 
-    // doFunc2 메서드 호출 
-    ex.doFunc3(10, "abc"); 
-    // doFunc3 메서드 호출 
-    int result = ex.doFunc4(20, 30); 
+    ex.doFunc2(10);
+    // doFunc2 메서드 호출
+    ex.doFunc3(10, "abc");
+    // doFunc3 메서드 호출
+    int result = ex.doFunc4(20, 30);
     // doFunc4 메서드 호출하고 반환값을 변수에 할당
     System.out.println("result : " + result);
   }
@@ -1402,7 +1405,6 @@ public class MainEx04 {
 
 <sup> ex) !! String 클래스의 indexof 메서드 오버로딩 확인<br>https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#indexOf(int)</sup>
 
-
 <sup>!! Deprecated : 미래에 사라질 지 모르니 사용을 지양하라는 뜻을 가지고 있다</sup>
 
 ##### 가변인자
@@ -1503,7 +1505,6 @@ public class MethodEx01 {
 
 - 클래스의 이름과 같은 이름을 가지며 반환타입은 적지 않는다
 
-
 - 구성
 
 ```java
@@ -1526,7 +1527,7 @@ class Constructor {
 }
 public class ConstructorEx01 {
   public static void main(String[] args) {
-    Constructor c1 = new Constructor(); 
+    Constructor c1 = new Constructor();
     // 따로 생성자를 만들지 않았기 때문에 기본생성자인 Constructor()를 컴파일러가 만들어준다
     c1.doFunc();
   }
@@ -1561,8 +1562,6 @@ public class ConstructorEx02 {
   }
 }
 ```
-
-
 
 ##### this()
 
@@ -2144,7 +2143,7 @@ public class OverridingEx02 {
 
   &rarr; 객체에 대한 참조
 
-- 자식 객체를 생성할 때 같이 생성된 부모 객체의 참조값을 값으로 가진다 
+- 자식 객체를 생성할 때 같이 생성된 부모 객체의 참조값을 값으로 가진다
   <small> !! 단, 부모 객체에만 접근이 가능하다</small>
 
   <small> !! this와 비교하기</small>
@@ -2215,7 +2214,7 @@ class Child extends Parent {
 }
 public class ConstructorEx11 {
   public static void main(String[] args) {
-    Child c = new Child(); 
+    Child c = new Child();
     // Parent(String data) 생성자 호출 : 19
     // Child 생성자 호출
   }
@@ -2431,8 +2430,8 @@ public class MainEx01 {
 
   public static void main(String[] args) {
     Person p1 = new Employee1();
-    Person p2 = new Employee2();    
-    p1.salary(); // Employee salary 호출    
+    Person p2 = new Employee2();
+    p1.salary(); // Employee salary 호출
     p2.salary(); // Employee2 salary 호출
     System.out.println(p1 instanceof Person); // true
     System.out.println(p1 instanceof Employee1); // true
@@ -2445,7 +2444,6 @@ public class MainEx01 {
 ```
 
 !! 조상 클래스의 객체는 자식 클래스의 변수로 참조하더라도 자식 클래스 객체의 메서드는 사용할 수 없다
-
 
 ```java
 class Person {
@@ -2480,11 +2478,11 @@ public class MainEx02 {
       e1.viewEmployee();
     }else {
       System.out.println("자식 클래스 메서드 사용불가");
-    } 
+    }
     Person p2 = new Employee2();
     Employee2 e2 = (Employee2)p2;
     e2.viewEmployee(); // Employee2 viewEmployee 호출
-  } 
+  }
 }
 ```
 
@@ -2620,24 +2618,25 @@ public class PackMain {
   }
 }
 ```
+
 ### 추상 클래스
+
 - OOP의 네가지 속성 중 추상(Abstraction)에 해당한다
-  
 
   <small>!! 여기서 추상은 공통성을 의미한다</small>
+
 - 자손 클래스의 공통된 부분을 추상화해서 만든 클래스
 
-  <small>!! 반대로 공통적인 부분을 조상 클래스로 만들어주고 특정 속성을 추가해 자손 클래스를 만든다고 생각할 수도 있다</small> 
-
+  <small>!! 반대로 공통적인 부분을 조상 클래스로 만들어주고 특정 속성을 추가해 자손 클래스를 만든다고 생각할 수도 있다</small>
 
 - 추상 메서드를 가질 수 있다
 
-
   ```java
   // 구현부({})가 없는 메서드를 추상 메서드라고 한다
-  abstract void method(); 
+  abstract void method();
   ```
-  <small>!! 일반 클래스는 추상 메서드를 가질 수 없다</small> 
+
+  <small>!! 일반 클래스는 추상 메서드를 가질 수 없다</small>
 
   <small>!! 추상 메서드가 없어도 추상 클래스로 선언할 수 있다</small>
 
@@ -2646,11 +2645,13 @@ public class PackMain {
   &rarr; &nbsp;직접 객체 생성을 못하기 때문에 자식 클래스의 객체를 참조한다
 
 - 추상 클래스에 선언된 추상 메서드는 상속을 통해 구현되어야 한다
-  
-    <small>!! 자식 클래스에서도 추상 메서드가 구현되지 않는다면 자식 클래스도 추상 클래스가 된다</small>
-  
-    <small>!! 상속받은 메서드의 구현을 강제하여 표준화할 수 있다 </small>
+
+  <small>!! 자식 클래스에서도 추상 메서드가 구현되지 않는다면 자식 클래스도 추상 클래스가 된다</small>
+
+  <small>!! 상속받은 메서드의 구현을 강제하여 표준화할 수 있다 </small>
+
 - 선언방법
+
 ```java
 abstract class ClassName{
   void method1(){}; // 구현부에 내용이 없는 일반 메서드
@@ -2661,7 +2662,6 @@ public static void main(String[] args){
   // 에러!! 추상 클래스는 인스턴스화가 불가능하다
 }
 ```
-
 
 ```java
 class Parent1 {
@@ -2701,16 +2701,17 @@ public class ObjectEx01 {
   }
 }
 ```
+
 #### 인터페이스(interface)
 
 - 상수, 추상 메서드만 가질 수 있는 클래스
-
 
   <small>!! 추상 클래스는 일반 메서드를 가질 수 있고, 추상 메서드가 없더라도 추상 클래스로 선언이 가능하다</small>
 
   <small>!! 인터페이스는 추상 클래스와 다르게 생성자도 가질 수 없다</small>
 
-  <small> !! jdk 1.8부터는 default, static 메서드 선언은 가능해졌다</small> 
+  <small> !! jdk 1.8부터는 default, static 메서드 선언은 가능해졌다</small>
+
   ```java
   interface DefaultMethodInterface {
     void abstractMethod();
@@ -2733,6 +2734,7 @@ public class ObjectEx01 {
     }
   }
   ```
+
   ```java
   interface StaticMethodInterface{
     static void staticMethod(){
@@ -2743,17 +2745,17 @@ public class ObjectEx01 {
 
     public static void main(String[] args){
       StaticMethodInterface.staticMethod(); // Static 메서드
-      // static 메서드이기 때문에 객체 생성 없이 인터페이스 이름을 통해서 바로 사용할 수 있다 
+      // static 메서드이기 때문에 객체 생성 없이 인터페이스 이름을 통해서 바로 사용할 수 있다
     }
   }
   ```
-
 
 - 상속 관계가 없는 클래스들에게 인터페이스를 통해 관계를 줄 수 있다
 
 - 모듈간 독립적 프로그래밍을 가능하게 해서 개발 시간을 단축 시킨다
 
 - 선언 및 구현
+
 ```java
 interface InterfaceName1{
   public static final int var1;
@@ -2818,15 +2820,16 @@ public class MainEx{
 }
 ```
 
-  <small>!! 다중 상속으로 메서드 선언부가 중복되더라도 구현부가 없는 추상 메서드만 가지고 있어서 문제가 생기지 않는다</small>
-  
-  <small>!! 인터페이스에서 구현이 되는 default 메서드와 조상 클래스의 메서드가 구현이 될 경우 조상 클래스의 메서드가 우선 순위를 가진다 </small>
+<small>!! 다중 상속으로 메서드 선언부가 중복되더라도 구현부가 없는 추상 메서드만 가지고 있어서 문제가 생기지 않는다</small>
+
+<small>!! 인터페이스에서 구현이 되는 default 메서드와 조상 클래스의 메서드가 구현이 될 경우 조상 클래스의 메서드가 우선 순위를 가진다 </small>
+
 ```java
 interface InterA{
   public static final String STR1 = "홍길동";
   // 상수
   String STR2 = "박문수";
-  // 인터페이스에서는 public static final 변수만 가질 수 있으므로 
+  // 인터페이스에서는 public static final 변수만 가질 수 있으므로
   //"public static final"은 생략이 가능하다
   public abstract void methodA();
   // 추상 메서드
@@ -2851,19 +2854,16 @@ public class MainEx{
   public static void main(String[] args){
     ClassA a = new ClassA();
     a.methodA(); // methodA 호출
-    a.methodB(); // methodB 호출 
+    a.methodB(); // methodB 호출
     System.out.println(a.STR1); // 홍길동
     System.out.println(a.STR2); // 박문수
   }
 }
 ```
+
 - 인터페이스끼리는 다중 상속도 가능하다
 
-
   <small>!! 어떤 인터페이스의 default 메서드가 다른 인터페이스의 default 메서드 또는 추상 메서드와 중복이 되는 경우는 인터페이스를 구현하는 자식 클래스에서 반드시 구현을 하도록 되어 있다</small>
-
-  
-
 
 ```java
 interface Fightable{
@@ -2877,15 +2877,17 @@ public interface Heroable extends Fightable, Transformable{
   void upgrade();
 } // Heroable 인터페이스가 Fightable, Transformable 인터페이스를 다중 상속하고 있다
 ```
+
 ### 열거형(enum)
-- 한정된 상수값으로 이루어진 데이터를 한번에 관리하기  위해 사용하는 자료형
+
+- 한정된 상수값으로 이루어진 데이터를 한번에 관리하기 위해 사용하는 자료형
 
   <sup>ex) {봄, 여름, 가을, 겨울}, {월, 화, 수, 목, 금, 토, 일}
 
 - java.lang.Enum 클래스를 상속받는 클래스이다
 
-
 - 선언 및 사용법
+
 ```java
 public class EnumEx {
 
@@ -2903,6 +2905,7 @@ public class EnumEx {
   }
 }
 ```
+
 ```java
 enum Season {
   SPRING, SUMMER, FALL, WINTER // 각각 0 ~ 3의 index를 가진다
@@ -2938,13 +2941,14 @@ public class EnumEx01 {
     EnumEx01 set = new EnumEx01();
     set.compareEnumTest(Season.FALL); // 최소한 봄날은 아니잖아요
     set.enumSwitch(Season.SPRING); // 새 잎이 나는 시기
-  } 
+  }
 }
 ```
+
 ```java
 enum Family{
   FATHER("아빠"), MOTHER("엄마"), SON("아들"), DAUGHTER("딸");
-  // 괄호 안의 값이 생성자의 인수가 된다  
+  // 괄호 안의 값이 생성자의 인수가 된다
   private String kor;
 
   /* private */ Family(String kor){
@@ -2970,26 +2974,28 @@ public class EnumEx02 {
     System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 엄마
     current.setKor("어머니");
     System.out.printf("값 확인 : %s, kor : %s%n", current, current.getKor()); // 값 확인 : MOTHER, kor : 어머니
-  } 
+  }
 }
 ```
+
 ### 애노테이션(annotation)
 
 - 사람이 아니라 컴파일러, 프레임워크에게 전달되는 메타데이터을 의미한다
 
 - 기본 애노테이션
 
-  |애노테이션|설명|
-  |---|---|
-  |@Override|컴파일러에게 재정의된 메서드라고 알려준다|
-  |@Deprecated|앞으로 없어질 수 있으니 사용을 자제하라고 알려준다|
-  |@SupressWarnings|컴파일러에게 특정 경고 메세지를 무시하라고 알려준다|
-  |@FunctionallInterface|함수형 인터페이스라는 것을 알려준다(Lamda 참조)|
+  | 애노테이션            | 설명                                                |
+  | --------------------- | --------------------------------------------------- |
+  | @Override             | 컴파일러에게 재정의된 메서드라고 알려준다           |
+  | @Deprecated           | 앞으로 없어질 수 있으니 사용을 자제하라고 알려준다  |
+  | @SupressWarnings      | 컴파일러에게 특정 경고 메세지를 무시하라고 알려준다 |
+  | @FunctionallInterface | 함수형 인터페이스라는 것을 알려준다(Lamda 참조)     |
 
 ### UML(Unified Modeling Language)
 
 - 객체지향 프로그래밍에 사용되는 표준화된 추상화 모델링 표기 체계
 - 특징
+
   - 가시화 : 설계 내용을 그래프 형태로 작성
 
   - 명세화 : 정확하고 완전하게 명세
@@ -2998,25 +3004,30 @@ public class EnumEx02 {
     <small>!! 순공학(Forward Engineering)<br>
     : 요구사항 정의 &rarr; 분석 &rarr; 설계 &rarr; 구현</small>
 
-
     <small>!! 역공학(Forward Engineering)<br>
     : 구현 &rarr; 설계 &rarr; 분석 &rarr; 요구사항 정의</small>
-  - 문서화 : 프로젝트 참가자들의 통제, 평가, 의사소통에 필요한 문서화 기능 
+
+  - 문서화 : 프로젝트 참가자들의 통제, 평가, 의사소통에 필요한 문서화 기능
 
 - 종류
+
   - Class Diagram
 
   - Sequence Diagram
   - Use Case Diagram
 
 - 작성방법
+
   - 직접 수기로 작성
 
   - tool을 사용
+
     - Eclipse(UML)
 
     - starUML (https://staruml.io/)
+
 ### 내부 클래스
+
 - 클래스 안에서 멤버변수처럼 사용되는 클래스
 
   <small>!! 컴파일 후 생성되는 내부 클래스 파일명은 "외부클래스명$내부클래스명" 이다</small>
@@ -3042,162 +3053,171 @@ public class EnumEx02 {
   <td>익명 내부 클래스</td>
   </tr>
   </table>
-  
 
-    - 멤버영역에 선언된 내부 클래스
-      - 인스턴스 내부 클래스 
-        - static이 없는 내부 클래스로 주로 외부 클래스의 인스턴스 멤버들과 관련된 작업을 수행한다
+  - 멤버영역에 선언된 내부 클래스
 
-        - 접근 제어자 상관없이 외부 클래스 멤버를 참조할 수 있다
+    - 인스턴스 내부 클래스
 
-        - 인스턴스 내부 클래스는 static 멤버를 가질 수 없다
+      - static이 없는 내부 클래스로 주로 외부 클래스의 인스턴스 멤버들과 관련된 작업을 수행한다
 
-          <small>!! 단, static final 멤버는 상수로 취급되므로 사용할 수 있다</small>
-        - 외부 클래스에서 내부 클래스를 사용할 때, static 영역에서는 <br>외부클래스의 객체를 만든 후 내부 클래스 객체 생성을 통해서 사용할 수 있지만,<br> static 영역이 아닌 경우 바로 내부클래스 객체를 생성할 수 있다
-        ```java
-        public class InstanceInnerTest {
-          class Inner {
-            int innerMember = 10;
-            // static int staticMember = 10;  
-            // !! 에러
-            static final int staticFinalMember = 20;  
-            private void innerMethod() {
-            	System.out.println("om : " + outerMember + ", im : " + innerMember);
-            }
-          } 
-          private int outerMember = 1;  
-          private void outerMethod() {
-            Inner inner = new Inner();
-            // static 영역이 아니기 때문에 바로 내부 클래스 객체 생성 가능
-            inner.innerMember = 100;
-            inner.innerMethod();
-          } 
-          public static void main(String[] args) {
-            InstanceInnerTest iit = new InstanceInnerTest();
-            Inner inner = iit.new Inner();
-            inner.innerMethod();
-            // static 영역이기 때문에 외부 클래스 객체 생성 후 그 객체 를 통해 내부 클래스 객체 생성이 가능하다 
-          } 
-        }
-        ```
+      - 접근 제어자 상관없이 외부 클래스 멤버를 참조할 수 있다
 
+      - 인스턴스 내부 클래스는 static 멤버를 가질 수 없다
 
-      - 클래스 내부 클래스 
-        - static이 붙은 내부 클래스로 주로 외부 클래스의 static 멤버들과 관련된 작업을 수행한다
+        <small>!! 단, static final 멤버는 상수로 취급되므로 사용할 수 있다</small>
 
-          <small>!! 일반 클래스에는 static이 붙을 수 없다</small>
-        - 외부 클래스의 객체 생성과 무관하게 사용할 수 있다
+      - 외부 클래스에서 내부 클래스를 사용할 때, static 영역에서는 <br>외부클래스의 객체를 만든 후 내부 클래스 객체 생성을 통해서 사용할 수 있지만,<br> static 영역이 아닌 경우 바로 내부클래스 객체를 생성할 수 있다
 
-        - 외부 클래스의 모든 멤버를 참조할 수 있다
-
-          <small>!! 단, 외부 클래스는 static이 아니기 때문에 외부 클래스 객체가 생성되어야 사용할 수 있다</small>
-
-        - 인스턴스 내부 클래스와 달리 static 멤버를 가질 수 있다
-        ```java
-        public class StaticInnerTest {
-          static class StaticInner {
-            private int iMember = 10;
-            private static int sMember = 0;
-            // static 멤버를 사용할 수 있다
-            private void innerMethod() {
-              StaticInnerTest sit = new StaticInnerTest();
-              // 외부 클래스의 멤버를 참조하기 위해서 외부 클래스 객체 생성
-              System.out.println("om : " + sit.oMember + " im : " + iMember);
-            } 
-          } 
-          private int oMember = 1;  
-          private void outerMethod() {
-            StaticInner inner = new StaticInner();
-            inner.iMember = 100;
-            inner.innerMethod();
-          }
-          public static void main(String[] args) {
-            StaticInner inner = new StaticInner();
-            // 외부 클래스 객체 생성 없이 없이 바로 객체 생성이 가능하다
-            inner.innerMethod();
+      ```java
+      public class InstanceInnerTest {
+        class Inner {
+          int innerMember = 10;
+          // static int staticMember = 10;
+          // !! 에러
+          static final int staticFinalMember = 20;
+          private void innerMethod() {
+          	System.out.println("om : " + outerMember + ", im : " + innerMember);
           }
         }
-        ```
+        private int outerMember = 1;
+        private void outerMethod() {
+          Inner inner = new Inner();
+          // static 영역이 아니기 때문에 바로 내부 클래스 객체 생성 가능
+          inner.innerMember = 100;
+          inner.innerMethod();
+        }
+        public static void main(String[] args) {
+          InstanceInnerTest iit = new InstanceInnerTest();
+          Inner inner = iit.new Inner();
+          inner.innerMethod();
+          // static 영역이기 때문에 외부 클래스 객체 생성 후 그 객체 를 통해 내부 클래스 객체 생성이 가능하다
+        }
+      }
+      ```
 
-    - 로컬영역에 선언된 내부 클래스
-      - 로컬 내부 클래스 
-        - 외부 클래스의 메서드나 생성자, 초기화 블록에서 선언된 클래스로 선언된 블록 내에서만 사용 가능하다
+    - 클래스 내부 클래스
 
-        - 인스턴스 내부 클래스와 마찬가지로 static 변수는 가질 수 없지만, static final 변수는 가질 수 있다
-        - 외부 클래스 객체 생성 없이 외부 클래스의 모든 멤버에 접근 가능하다
-        - 로컬 내부 클래스가 선언된 로컬 영역의 변수를 사용할 때, 변수의 값을 변환시킬 수는 없다
+      - static이 붙은 내부 클래스로 주로 외부 클래스의 static 멤버들과 관련된 작업을 수행한다
 
-          <small>!! 컴파일할 때 컴파일러가 내부적으로 로컬 변수 앞에 final 키워드를 추가하기 때문이다</small>
+        <small>!! 일반 클래스에는 static이 붙을 수 없다</small>
 
-          ```java
-          public class LocalInnerTest {
-            int iMember = 1;
-            static int cMember = 3; 
-            void method() {
-              int localVar = 3; 
-              class LocalInner {
-                int innerLocalVar = 4;
-                void innerMehod() {
-                  System.out.println("외부 인스턴스 멤버변수 : " + iMember);
-                  System.out.println("외부 클래스 멤버변수 : " + cMember);
-                  System.out.println("외부 로컬 변수 : " + localVar);
-                  System.out.println("내부 인스턴스 : " + innerLocalVar);
-                  iMember++;
-                  cMember++;
-                  // localVar++
-                  // 에러!!
-                  innerLocalVar++;
-                }
-              }
-              LocalInner lInner = new LocalInner();
-              lInner.innerMehod();
-            } 
-            public static void main(String[] args) {
-              LocalInnerTest lit = new LocalInnerTest();
-              lit.method();
-            }
+      - 외부 클래스의 객체 생성과 무관하게 사용할 수 있다
+
+      - 외부 클래스의 모든 멤버를 참조할 수 있다
+
+        <small>!! 단, 외부 클래스는 static이 아니기 때문에 외부 클래스 객체가 생성되어야 사용할 수 있다</small>
+
+      - 인스턴스 내부 클래스와 달리 static 멤버를 가질 수 있다
+
+      ```java
+      public class StaticInnerTest {
+        static class StaticInner {
+          private int iMember = 10;
+          private static int sMember = 0;
+          // static 멤버를 사용할 수 있다
+          private void innerMethod() {
+            StaticInnerTest sit = new StaticInnerTest();
+            // 외부 클래스의 멤버를 참조하기 위해서 외부 클래스 객체 생성
+            System.out.println("om : " + sit.oMember + " im : " + iMember);
           }
-          ```
+        }
+        private int oMember = 1;
+        private void outerMethod() {
+          StaticInner inner = new StaticInner();
+          inner.iMember = 100;
+          inner.innerMethod();
+        }
+        public static void main(String[] args) {
+          StaticInner inner = new StaticInner();
+          // 외부 클래스 객체 생성 없이 없이 바로 객체 생성이 가능하다
+          inner.innerMethod();
+        }
+      }
+      ```
 
-      - 익명 내부 클래스 
-        - 클래스의 선언과 객체 생성을 동시에 하는 이름이 없는 클래스로 객체를 재사용하지 않을 클래스의 사용 방식이다
+  - 로컬영역에 선언된 내부 클래스
 
-        - 추상 클래스나 인터페이스 구현에 주로 사용된다
+    - 로컬 내부 클래스
 
-          <small>!! 특히 함수형 인터페이스에 많이 사용된다</small>
+      - 외부 클래스의 메서드나 생성자, 초기화 블록에서 선언된 클래스로 선언된 블록 내에서만 사용 가능하다
+
+      - 인스턴스 내부 클래스와 마찬가지로 static 변수는 가질 수 없지만, static final 변수는 가질 수 있다
+      - 외부 클래스 객체 생성 없이 외부 클래스의 모든 멤버에 접근 가능하다
+      - 로컬 내부 클래스가 선언된 로컬 영역의 변수를 사용할 때, 변수의 값을 변환시킬 수는 없다
+
+        <small>!! 컴파일할 때 컴파일러가 내부적으로 로컬 변수 앞에 final 키워드를 추가하기 때문이다</small>
 
         ```java
-        interface SomeInterface {
-          void printInfo();
-        }
-        public class AnonymousInnerTest {
+        public class LocalInnerTest {
           int iMember = 1;
-          static int cMember = 2; 
-          void method(SomeInterface si) {
-            si.printInfo();
+          static int cMember = 3;
+          void method() {
+            int localVar = 3;
+            class LocalInner {
+              int innerLocalVar = 4;
+              void innerMehod() {
+                System.out.println("외부 인스턴스 멤버변수 : " + iMember);
+                System.out.println("외부 클래스 멤버변수 : " + cMember);
+                System.out.println("외부 로컬 변수 : " + localVar);
+                System.out.println("내부 인스턴스 : " + innerLocalVar);
+                iMember++;
+                cMember++;
+                // localVar++
+                // 에러!!
+                innerLocalVar++;
+              }
+            }
+            LocalInner lInner = new LocalInner();
+            lInner.innerMehod();
           }
           public static void main(String[] args) {
-            AnonymousInnerTest lit = new AnonymousInnerTest();
-            int localVar = 3; 
-            lit.method(new SomeInterface(){  
-              public void printInfo(){
-                System.out.println("외부 인스턴스 멤버 변수 : " + lit.iMember);
-                // 메인 메서드에서는 생성된 객체를 통해야만 인스턴스 멤버 변수를 사용할 수 있다
-                System.out.println("외부 클래스 멤버 변수 : " + cMember);
-                System.out.println("외부 로컬 변수 : " + localVar ; 
-                cMember++ 
-              }
-            });
+            LocalInnerTest lit = new LocalInnerTest();
+            lit.method();
           }
         }
         ```
+
+    - 익명 내부 클래스
+
+      - 클래스의 선언과 객체 생성을 동시에 하는 이름이 없는 클래스로 객체를 재사용하지 않을 클래스의 사용 방식이다
+
+      - 추상 클래스나 인터페이스 구현에 주로 사용된다
+
+        <small>!! 특히 함수형 인터페이스에 많이 사용된다</small>
+
+      ```java
+      interface SomeInterface {
+        void printInfo();
+      }
+      public class AnonymousInnerTest {
+        int iMember = 1;
+        static int cMember = 2;
+        void method(SomeInterface si) {
+          si.printInfo();
+        }
+        public static void main(String[] args) {
+          AnonymousInnerTest lit = new AnonymousInnerTest();
+          int localVar = 3;
+          lit.method(new SomeInterface(){
+            public void printInfo(){
+              System.out.println("외부 인스턴스 멤버 변수 : " + lit.iMember);
+              // 메인 메서드에서는 생성된 객체를 통해야만 인스턴스 멤버 변수를 사용할 수 있다
+              System.out.println("외부 클래스 멤버 변수 : " + cMember);
+              System.out.println("외부 로컬 변수 : " + localVar ;
+              cMember++
+            }
+          });
+        }
+      }
+      ```
+
 ### 람다식
+
 - 화살표 함수
 
 - 함수형 인터페이스에 사용된다
-  
-  <small>!! 함수형 인터페이스 : 하나의 추상 메서드만 존재하는 함수</small>
 
+  <small>!! 함수형 인터페이스 : 하나의 추상 메서드만 존재하는 함수</small>
 
 ```java
 @FunctionalInterface
@@ -3212,16 +3232,16 @@ public class MyFunctionalInterMain {
 
   public static void main(String[] args) {
     new MyFunctionalInter() {
-      
+
       @Override
       public void methodA() {
       	System.out.println("method1 호출");
       }
     }.methodA(); // method1 호출
     // 익명 클래스를 사용해서 인터페이스를 구현
-  
+
     MyFunctionalInter f = new MyFunctionalInter() {
-      
+
       @Override
       public void methodA() {
       	System.out.println("method2 호출");
@@ -3229,7 +3249,7 @@ public class MyFunctionalInterMain {
     };
     f.methodA(); // method2 호출
     // 객체 변수 선언을 이용해서 인터페이스를 구현
-  
+
     MyFunctionalInter f1 = () -> {
       System.out.println("method3 호출");
     };
@@ -3269,6 +3289,7 @@ public class LambdaEx {
 
 }
 ```
+
 ```java
 @FunctionalInterface
 interface FunctionalInterface2 {
@@ -3279,7 +3300,7 @@ public class LambdaEx {
   public static void useFlMethod(FunctionalInterface2 fi) {
     fi.methodB("홍길동");
   }
-  public static void main(String[] args) {  
+  public static void main(String[] args) {
     useFIMethod((String msg) -> {
       System.out.println("람다식 이용1 : " + msg);
     }); // 람다식 이용1 : 홍길동
@@ -3287,6 +3308,7 @@ public class LambdaEx {
   }
 }
 ```
+
 ```java
 @FunctionalInterface
 interface FunctionalInterface2 {
@@ -3306,33 +3328,39 @@ public class LambdaEx {
   }
 }
 ```
+
 ## 예외처리와 디버깅
+
 - 런타임 에러는 프로그램을 비정상으로 종료시킨다
 
 - 에러의 종류
+
   - 컴파일 에러
+
     - 문법적으로 문제가 있어 컴파일할 때 생기는 에러이다
 
     - 문법에 맞게 명령문을 수정해서 해결할 수 있다
     - 일어나서는 안되는 에러
+
   - 런타임(실행) 에러
 
     - 시스템 에러 : 시스템 이상으로 생기는 에러로 처리가 불가능하다
 
     - 예외
+
       - 컴파일 된 명령을 실행하다가 나타나는 에러
 
       - 예외 처리를 통해 처리가 가능하다(프로그램이 정상 종료할 수 있게 한다)
 
     ```java
     public class ExceptionEx01 {
-    
+
       public static void main(String[] args) {
-      
+
         int num1 = 0;
         int num2 = 20;
         // int result = num2 / num1;
-        // 실행시 에러가 발생한다 
+        // 실행시 에러가 발생한다
         if (num1 != 0) {
         	int result = num2 / num1;
         	System.out.println(result);
@@ -3343,30 +3371,32 @@ public class LambdaEx {
 
         String[] datas = {"1", "2", "3"};
         // System.out.println(datas[6]);
-        // 실행시 에러가 발생한다 
+        // 실행시 에러가 발생한다
       }
     }
     ```
+
     ### try ~ catch
 
     - 발생한 예외를 처리하는 구문
 
-    - 구문 실행 순서 
+    - 구문 실행 순서
 
       <b>1<sub>st</sub> .</b> try 블록 안에 명령문을 실행하다가 예외가 발생하면 JVM이 예외 객체를 생성해 던진다(throw)
 
       <b>2<sub>nd</sub> .</b> catch 블록이 예외 객체를 잡아서(catch) 블록 안에 있는 예외 발생시 처리할 명령문을 실행한다
 
-        <small>!! 이때, catch 블록 안에서 예외 객체를 사용한 명령문을 쓸 수 있다</small>
+      <small>!! 이때, catch 블록 안에서 예외 객체를 사용한 명령문을 쓸 수 있다</small>
 
-        ```java
-        try{
-          ...
-        }catch(Exception e)  {
-          System.out.println(e.getMessage());
-        }
-        ```
-        <small>!! 예외 객체 확인은 위의 catch 블록부터 순차적으로 한다</small>
+      ```java
+      try{
+        ...
+      }catch(Exception e)  {
+        System.out.println(e.getMessage());
+      }
+      ```
+
+      <small>!! 예외 객체 확인은 위의 catch 블록부터 순차적으로 한다</small>
 
       <b>3<sub>rd</sub> .</b> catch 블록의 명령문이 끝나면 블록 다음의 명령문이 실행된다
 
@@ -3374,33 +3404,35 @@ public class LambdaEx {
     try {
       // 예외가 발생할 수 있는 명령문
     }catch(Exception e){ // catch는 특정 예외 객체를 파라미터로 받는다
-      // try 블록에서 예외 e 발생시 처리하는 명령문 
+      // try 블록에서 예외 e 발생시 처리하는 명령문
     }
     // 예외가 발생하지 않을 경우 catch 블록은 실행되지 않는다
     ... // try ~ catch 구문을 벗어난 뒤 실행되는 명령문
     ```
+
     ```java
     public class ExceptionEx01 {
-    
+
       public static void main(String[] args) {
-      
+
         int num1 = 0;
-        int num2 = 20;  
+        int num2 = 20;
         try {
           int result = num2 / num1;
           System.out.println(result);
         }catch(ArithmeticException e) {
           System.out.println("exception 발생");
-        } 
+        }
       }
 
     }
     ```
+
     ```java
     import java.util.Random;
 
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         int num = new Random().nextInt(2);
         try {
@@ -3413,14 +3445,13 @@ public class LambdaEx {
         }
         System.out.println("code 4");
       }
-    
+
     }
     ```
 
-    
     ```java
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         String name = null;
         int num1 = 0;
@@ -3430,9 +3461,9 @@ public class LambdaEx {
           // 참조하는 객체가 없기 때문에 인스턴스 메서드 length()를 사용할 수 없다
         }catch(NullPointerException e) {
           System.out.println("객체 생성 후 메서드 사용");
-        } 
+        }
         try {
-          System.out.println(num2/num1);	
+          System.out.println(num2/num1);
           // 숫자를 0으로 나눌 수는 없다
         }catch(ArithmeticException e) {
           System.out.println("0으로 나눌 수 없ㅏ");
@@ -3440,74 +3471,82 @@ public class LambdaEx {
       }
     }
     ```
+
     !! 다중 예외 처리를 이용해 위의 코드를 아래와 같이 바꿀 수도 있다
+
     ```java
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         String name = null;
         int num1 = 0;
         int num2 = 10;
         try {
           System.out.println(name.length());
-          System.out.println(num2/num1);	
+          System.out.println(num2/num1);
         }catch(NullPointerException e) {
           System.out.println("객체 생성 후 메서드 사용");
         }catch(ArithmeticException e) {
           System.out.println("0으로 나눌 수 없다");
         }
-      } 
+      }
       // catch문을 여러개 이용할 수 있다
     }
     ```
+
     !! 모든 예외 클래스의 조상이 Exception이기 때문에 다형성을 이용해 여러 예외 객체에 대한 예외 처리를 하나의 catch문으로 처리할 수 있다
+
     ```java
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         String name = null;
         int num1 = 0;
         int num2 = 10;
         try {
           System.out.println(name.length());
-          System.out.println(num2/num1);	
+          System.out.println(num2/num1);
         }catch(Exception e) {
           System.out.println("에러 : " + e.getMessage());
           // 예외 객체의 대한 메세지 출력
         }
-      } 
+      }
     }
     ```
+
     !! Exception 클래스는 모든 예외 클래스의 조상이기 때문에 항상 다중 catch문의 마지막에 위치해야 한다
+
     ```java
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         String name = null;
         int num1 = 0;
         int num2 = 10;
         try {
           System.out.println(name.length());
-          System.out.println(num2/num1);	
+          System.out.println(num2/num1);
         }catch(NullPointerException e){
           System.out.println("객체 생성 후 메서드 사용");
         }catch(Exception e) {
           System.out.println(e.getMessage());
         }
         // NullPointerException 예외를 제외한 나머지 객체들을 한번에 처리하게 할 수 있다
-      } 
+      }
     }
     ```
+
     #### try ~ catch ~ finally
+
     - finally 블록 안의 명령문은 예외 발생 여부, return문 상관없이 무조건 실행된다
 
       <small>!! 실행 중 return문을 만나더라도 finally 블록 안에 있는 명령문이 먼저 실행되고 메서드가 리턴된다</small>
 
     ```java
-    import java.util.Random;  
+    import java.util.Random;
 
     public class TryCatchFlow {
-    
+
       public static void main(String[] args) {
         int num = new Random().nextInt(2);
         try {
@@ -3523,10 +3562,12 @@ public class LambdaEx {
         System.out.println("code5");
         // 예외가 발생하지 않아서 return 문이 실행되면,
         // "code5"는 출력되지 않는다
-      } 
+      }
     }
     ```
+
     #### try ~ catch ~ resourses
+
     - try ~ catch ~ resourses 구문을 사용하면 입출력 스트림을 따로 닫아주지 않아도 된다
 
     ```java
@@ -3536,7 +3577,7 @@ public class LambdaEx {
     import java.io.IOException;
     import java.io.ObjectInputStream;
     import java.io.ObjectOutputStream;
-    import java.io.Serializable;  
+    import java.io.Serializable;
     class Person implements Serializable{
       private static final long serialVersionUID = 307583113306886480L;
       private String name;
@@ -3552,24 +3593,24 @@ public class LambdaEx {
       @Override
       public String toString() {
         return "Person [name=" + name + ", age=" + age + ", ssn=" + ssn + ", lInfo=" + lInfo + "]";
-      } 
+      }
     }
 
     class LoginInfo implements Serializable{
       private static final long serialVersionUID = 1L;
-      private String userId 
-      private transient String userPass   
+      private String userId
+      private transient String userPass
       public LoginInfo(String userId, S ring userPass) {
         super();
         this.userId = userId;
       this.userPass = userPass;
-    } 
+    }
     public String toString() {
         return "LoginInfo [userId=" + userId + ", userPass=" + userPass + "]";
       }
     }
     public class ObjectStreamTest {
-    
+
       public static void main(String[] args) {
         File target = new File("./objPerson.dat");
         Person person = new Person("홍길동", 20, "1111-22222", "hong", "1234");
@@ -3589,9 +3630,10 @@ public class LambdaEx {
 
     }
     ```
+
     #### throw
+
     - 구현부에 쓰여 의도적으로 예외를 발생시킨다
-    
 
     ```java
     public class ExceptionEx07 {
@@ -3608,7 +3650,7 @@ public class LambdaEx {
           }
         }
         System.out.println("메서드 끝");
-      } 
+      }
       public static void main(String[] args) {
         System.out.println("시작");
         ExceptionEx07 ee = new ExceptionEx07();
@@ -3619,8 +3661,11 @@ public class LambdaEx {
 
     }
     ```
+
     #### throws
+
     - 선언부에 쓰여서 호출 메서드에게 예외 처리를 넘긴다는 정보를 알려준다
+
     ```java
     public class ExceptionEx07 {
       public void method2(int num) throws Exception{ // throws로 호출 메서드에 예외처리를 맡긴다
@@ -3631,10 +3676,10 @@ public class LambdaEx {
           throw new Exception("100보다 작다");
           // 강제로 예외를 발생시킨다
         System.out.println("메서드 끝");
-      } 
+      }
       public static void main(String[] args) {
         System.out.println("시작");
-        ExceptionEx07 ee = new ExceptionEx07(); 
+        ExceptionEx07 ee = new ExceptionEx07();
         try {
         ee.method2(40);
         }catch(Exception e) {
@@ -3644,12 +3689,14 @@ public class LambdaEx {
       }
     }
     ```
+
     !! Unhandled Exception 에러는 예외 처리 관련 에러다
+
     ```java
     import java.io.IOException;
 
     public class ExceptionEx08 {
-    
+
       public static void main(String[] args) {
         ProcessBuilder processBuilder = new ProcessBuilder("c:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", "www.daum.net");
         try{
@@ -3661,10 +3708,13 @@ public class LambdaEx {
       }
     }
     ```
+
     ### 사용자 정의 예외
+
     - 사용자가 필요에 따라 작성한 예외 클래스
 
     - Exception 또는 RuntimeExcetion 클래스를 상속 받아 만들어야 한다
+
     ```java
     public class CustomException extends Exception {
       public CustomException() {
@@ -3675,6 +3725,7 @@ public class LambdaEx {
       }
     }
     ```
+
     - 다른 예외 클래스와 똑같이 사용할 수 있다
 
     ```java
@@ -3687,8 +3738,8 @@ public class LambdaEx {
       }
     }
 
-    public class ExceptionEx07 {   
-      public void method2(int num) throws CustomException{ 
+    public class ExceptionEx07 {
+      public void method2(int num) throws CustomException{
         System.out.println("메서드 시작");
         if(num >= 100) {
           System.out.println("100보다 크다");
@@ -3696,11 +3747,11 @@ public class LambdaEx {
           throw new CustomException("100보다 작다");
         }
         System.out.println("메서드 끝");
-      } 
+      }
 
       public static void main(String[] args) {
         System.out.println("시작");
-        ExceptionEx07 ee = new ExceptionEx07(); 
+        ExceptionEx07 ee = new ExceptionEx07();
         try {
         ee.method2(40);
         }catch(CustomException e) {
@@ -3711,6 +3762,7 @@ public class LambdaEx {
 
     }
     ```
+
     ```java
     // LoginFailException.java
 
@@ -3718,11 +3770,11 @@ public class LambdaEx {
       enum ErrorCode{
         INVALID_ID, INVALID_PASS
       }
-      private ErrorCode errorCode;  
+      private ErrorCode errorCode;
       public LoginFailException(ErrorCode errorCode, String data) {
         super(data);
         this.errorCode = errorCode;
-      } 
+      }
       public String getLocalizedMessage() {
         String msg = this.getMessage();
         switch(errorCode) {
@@ -3737,6 +3789,7 @@ public class LambdaEx {
       }
     }
     ```
+
     ```java
     // UserManagerWithException.java
     // 위에서 정의한 사용자 정의 클래스 LoginFailException을 사용
@@ -3748,7 +3801,7 @@ public class LambdaEx {
           throw new LoginFailException(LoginFailException.ErrorCode.INVALID_PASS, pass);
         }
         return true;
-      } 
+      }
       public static void main(String[] args) {
         UserManagerWithException userManger = new UserManagerWithException();
         try {
@@ -3761,7 +3814,7 @@ public class LambdaEx {
       }
     }
     ```
-    
+
 ## java.lang
 
 <small>!! API (Application Programming Interface) : 미리 만들어진 클래스들의 모임</small>
@@ -3890,7 +3943,7 @@ public class StringEx01 {
   public static void main(String[] args) {
     String str1 = "Hello String";
     // 큰 따옴표를 이용해 문자열을 만들면 클래스 영역에 상수 풀에 저장되기 때문에
-    // 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다  
+    // 같은 내용의 문자열은 새로 생성되지 않고 만들어져 있는 문자열을 이용한다
 
     String str2 = new String("Hello String");
     // 생성자를 사용해 문자열을 만들면 힙 영역에 만들어져서 같은 내용의 문자열이라도 계속 새로 생성된다 `
@@ -3977,11 +4030,11 @@ public class Capitaliztion {
 #### StringBuffer, StringBuilder 클래스의 메서드
 
 ```java
-public class StringBuilderEx01 {  
+public class StringBuilderEx01 {
   public static void main(String[] args) {
     StringBuilder sb1 = new StringBuilder();
     StringBuilder sb2 = new StringBuilder(100);
-    StringBuilder sb3 = new StringBuilder("Hello StringBulider"); 
+    StringBuilder sb3 = new StringBuilder("Hello StringBulider");
     System.out.println(sb1.capacity()); // 16
     System.out.println(sb2.capacity()); // 100
     System.out.println(sb3.capacity()); // 35
@@ -3991,7 +4044,7 @@ public class StringBuilderEx01 {
     System.out.println(sb3.length()); // 19
     // 저장 문자열의 길이를 반환한다
     System.out.println(sb3.charAt(0)); // H
-    System.out.println(sb3.substring(4)); // o StringBulider  
+    System.out.println(sb3.substring(4)); // o StringBulider
     StringBuilder builder = new StringBuilder("사봉-용산-사가정-용마산");
     builder.append("-중곡");
     // builder의 문자열 뒤에 "-중곡"을 붇인다
@@ -4075,20 +4128,20 @@ public class WrapperEx01 {
     // double 자료형 최대, 최소값 반환
 
     Integer i1 = Integer.valueOf(123);
-    // Integer i1 = Integer.valueOf("123"); 
+    // Integer i1 = Integer.valueOf("123");
     // Integer i1 = 123;
     // Wrapper 클래스로 자동형변환
-    // 오토박싱 
+    // 오토박싱
     int i2 = i1.intValue();
     float f1 = i1.floatValue();
     System.out.println(i2); // 123
     System.out.println(f1); // 123.0
-    // Wrapper 클래스의 객체가 저장하고 있는 값을 기본형 변수에 할당한다 
+    // Wrapper 클래스의 객체가 저장하고 있는 값을 기본형 변수에 할당한다
     int i3 = Integer.parseInt("123");
     float f2 = Float.parseFloat("123");
     System.out.println(i3); // 123
     System.out.println(f2); // 123.0
-    // 문자열을 정수, 실수로 형변환시킨다 
+    // 문자열을 정수, 실수로 형변환시킨다
     int i4 = 10;
     int i5 = 20;
     int sum1 = i4 + i5;
@@ -4167,6 +4220,7 @@ public class JuminCheckMain {
 - 운영체제와의 소통을 위한 클래스로 static 메서드만을 제공한다
 
   <small>!! static 메서드만 제공하기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용한다</small>
+
 #### System 클래스의 메서드
 
 ```java
@@ -4262,6 +4316,7 @@ public class SystemEx {
 ```
 
 ### ProcessBuilder
+
 - 명령 프롬프트에 명령을 주려고 할 때 사용하는 클래스
 
 ```java
@@ -4346,10 +4401,10 @@ public class DateEx01 {
     System.out.println(d1.getDay()); // 2
     // 일요일이 0이다
     String[] weekName = {"일", "월", "화", "수", "목", "금", "토"};
-    System.out.println(weekName[d1.getDay()]); // 화  
+    System.out.println(weekName[d1.getDay()]); // 화
     Date d2 = new Date(2023 - 1900, 3 - 1, 1);
     // 날짜를 지정할 수도 있다
-    System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:37:05  
+    System.out.println(d1.toLocaleString()); // 2023. 3. 21. 오전 11:37:05
     Date d3 = new Date(2023 - 1900, 12 - 1, 24);
     System.out.println(weekName[d3.getDay()]); // 일
   }
@@ -4369,7 +4424,7 @@ public class DateTest {
     System.out.println(d2);
     long gap = d1.getTime() - d2.getTime();
     // getTime()은 Date 객체의 밀리초를 반환한다
-    System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");  
+    System.out.println("두 날짜의 차는 " + (gap/1000/60/60/24) + "일 이다");
   }
 
 }
@@ -4402,7 +4457,7 @@ public class CalendarEx01 {
     // 1월이 0이다
     System.out.println(calendar.get(Calendar.DATE)); // 21
     System.out.println(calendar.get(Calendar.DAY_OF_WEEK)); // 3
-    // 일요일이 1이다 
+    // 일요일이 1이다
   }
 
 }
@@ -4419,12 +4474,12 @@ public class CalendarEx02 {
     c.set(2023, 3-1, 1);
     // 특정 날짜 설정
     System.out.println(c.getTime()); // Wed Mar 01 12:20:18 KST 2023
-    // 특정 날짜, 현재 시간 반환 
+    // 특정 날짜, 현재 시간 반환
     c.add(Calendar.DATE, 3);
     // 3일 후의 날짜로 설정
     c.add(Calendar.MONTH, -6);
     // 6개월 전의 날짜로 설정
-    System.out.println(c.getTime()); // Sun Sep 04 12:20:18 KST 2022  
+    System.out.println(c.getTime()); // Sun Sep 04 12:20:18 KST 2022
     Date date = c.getTime();
     System.out.println(date); // Sun Sep 04 12:20:18 KST 2022
     // getTime()으로 Date 객체를 만들 수 있다
@@ -4443,13 +4498,13 @@ public class CalendarEx03 {
 
   public static void main(String[] args) {
     int year = 2023;
-    int month = 3;  
+    int month = 3;
     Calendar startCalendar = Calendar.getInstance();
     Calendar endCalendar = Calendar.getInstance();
     startCalendar.set(year, month - 1, 1);
     endCalendar.set(year, month, 1 - 1);
     int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
-    int endDate = endCalendar.get(Calendar.DATE); 
+    int endDate = endCalendar.get(Calendar.DATE);
     System.out.println(" SU MO TU WE TH FR SA");
     for (int i = 1; i < startDayOfWeek; i++) {
       System.out.print("   ");
@@ -4476,7 +4531,7 @@ public class StringTokenizerEx {
 
   public static void main(String[] args) {
     String strData1 = "사과 참외 수박 딸기";
-    StringTokenizer str1 = new StringTokenizer(strData1); 
+    StringTokenizer str1 = new StringTokenizer(strData1);
     // 구분자가 주어지지 않을 경우, 공백을 구분자로 해서 구분한다
     System.out.println(str1.countTokens()); // 4
     System.out.println(str1.nextToken()); // 사과
@@ -4487,7 +4542,7 @@ public class StringTokenizerEx {
     // 에러!! 다음 토큰이 존재하지 않는다
     while(str1.hasMoreTokens()) { // str1이 토큰을 가지고 있다면 반복문 실행
       System.out.println(str1.nextToken());
-    } // str1이 가지고 있는 토큰 모두 출력  
+    } // str1이 가지고 있는 토큰 모두 출력
     String strData3 = "x=100*(200+300)/2";
     StringTokenizer str3 = new StringTokenizer(strData3, "+-*/=()");
     // 구분자가 여러개일 경우 각각의 구분자가 나올 때마다 구분한다
@@ -4512,7 +4567,7 @@ public class StringTokenizerEx {
     String strData = "사과&참외&&수박&&딸기";
     StringTokenizer st = new StringTokenizer(strData, "&");
     while(st.hasMoreTokens()) {
-      System.out.print(st.nextToken() + ' '); 
+      System.out.print(st.nextToken() + ' ');
     } // 사과 참외 수박 딸기
     // 구분자 사이에 값이 없으면 넘어간다
     System.out.println();
@@ -4520,7 +4575,7 @@ public class StringTokenizerEx {
     for(String data : arrData) {
       System.out.print(data + ' ');
     } // 사과 참외  수박  딸기
-    // 구분자 사이에 값이 없으면 빈 문자열이 생긴다 
+    // 구분자 사이에 값이 없으면 빈 문자열이 생긴다
   }
 
 }
@@ -4541,10 +4596,10 @@ public class StringJoinerEx {
     String str2 = "사과".concat(",수박").concat(",딸기").concat(",참외");
     System.out.println(str2); // 사과,수박,딸기,참외
     String str3 = String.format("%s,%s,%s,%s", "사과", "수박", "딸기", "참외");
-    System.out.println(str3); // 사과,수박,딸기,참외  
+    System.out.println(str3); // 사과,수박,딸기,참외
     String[] arrStr = {"사과","수박","딸기","참외"};
     String str4 = String.join(",", arrStr);
-    System.out.println(str4); // 사과,수박,딸기,참외  
+    System.out.println(str4); // 사과,수박,딸기,참외
     StringJoiner sj = new StringJoiner(",");
     // 괄호 안의 문자를 구분자로 add()를 통해 문자열을 연결시킨다
     sj.add("사과");
@@ -4573,7 +4628,7 @@ public class RandomEx {
     System.out.println(r1.nextInt(10)); // 4
     // 0 <= x < 10인 정수값을 가지는 난수 추출
     System.out.println(r1.nextInt(45) + 1); // 34
-    // (0 + 1) <= x < (45 + 1)인 정수값을 가지는 난수 추출  
+    // (0 + 1) <= x < (45 + 1)인 정수값을 가지는 난수 추출
   }
 
 }
@@ -4608,7 +4663,7 @@ import java.util.Scanner;
 public class ScannerEx {
 
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in); 
+    Scanner sc = new Scanner(System.in);
     // 키보드를 통해 입력을 받는 Scanner 객체를 변수 sc에 할당
     System.out.print("입력 : ");
     String msg = sc.next();
@@ -4616,7 +4671,7 @@ public class ScannerEx {
     // 입력 : "aaa bbb ccc"
     // msg : "aaa
     // 큰 따옴표를 써서 하나의 문자열로 묶어도 공백 이전까지만 입력을 받는다
-    System.out.print("msg : " + msg); 
+    System.out.print("msg : " + msg);
     sc.close();
     // 반드시 닫아줘야 한다
   }
@@ -4629,16 +4684,16 @@ import java.util.Scanner;
 
 public class ScannerEx02 {
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);  
+    Scanner sc = new Scanner(System.in);
     System.out.print("아이디 : ");
     String id = sc.nextLine();
     // 공백이 있더라도 한줄 전체를 입력받아 반환한다
     System.out.print("비밀번호 : ");
-    String pw = sc.nextLine();  
+    String pw = sc.nextLine();
     System.out.println("id : " + id);
-    System.out.println("pw : " + pw); 
+    System.out.println("pw : " + pw);
     sc.close();
-  } 
+  }
 }
 ```
 
@@ -4650,7 +4705,7 @@ import java.util.Scanner;
 public class ScannerEx03 {
 
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);  
+    Scanner sc = new Scanner(System.in);
     String msg = "";
     while(true) {
       System.out.print("입력(종료 : exit) > ");
@@ -4685,7 +4740,7 @@ public class Gugudan {
         System.out.println("종료");
         break;
       }
-      int dan = Integer.parseInt(in); 
+      int dan = Integer.parseInt(in);
       for(int i = 1; i <= 9; i++) {
         System.out.printf("%2d X %2d = %2d%n", dan, i, dan * i);
       }
@@ -4694,13 +4749,17 @@ public class Gugudan {
 
 }
 ```
+
 ### Arrays
+
 - 배열과 관련된 클래스로 static 메서드만 제공한다
 
   <small>!! static 메서드만 가지고 있기 때문에 객체 생성없이 클래스 이름으로 메서드를 사용하기만 하면 된다 </small>
 
   <small>!! 당연히 생성자는 없다</small>
+
 #### Arrays의 메서드
+
 ```java
 public class ArraysEx01 {
 
@@ -4732,13 +4791,15 @@ public class ArraysEx01 {
 
 }
 ```
+
 배열을 이용해 로또 번호 뽑기
+
 ```java
 import java.util.Arrays;
 import java.util.Random;
 
 public class LottoGeneratorByArray {
-	
+
   public static void main(String[] args) {
     int[] selected = new int[6];
     int[] fullBall = new int[46];
@@ -4761,7 +4822,6 @@ public class LottoGeneratorByArray {
 }
 ```
 
-
 ## 컬렉션 프레임워크
 
 - java.util 패키지의 하위 클래스로 자료구조에 사용된다
@@ -4774,10 +4834,12 @@ public class LottoGeneratorByArray {
   - Map 계열 : 중복이 가능하지 않은 키와 중복이 가능한 값의 쌍으로 데이터를 관리하는 집합
 
 ### Generic
-- 클래스, 인터페이스 이름 
-바로 뒤에 "< >"를 붙여서 사용한다
+
+- 클래스, 인터페이스 이름
+  바로 뒤에 "< >"를 붙여서 사용한다
 
 - 메서드 리턴 타입 바로 앞에 쓰여 파라미터로 받는 객체를 지정할 수도 있다
+
 ```java
 public <P> TypeParameterMethod<T> ambigious(P p){
   return this;
@@ -4808,7 +4870,7 @@ class Person{
 public class ArrayListEx04 {
 
   public static void main(String[] args) {
-    ArrayList al1 = new ArrayList();  
+    ArrayList al1 = new ArrayList();
     al1.add("홍길동");
     al1.add(new Person("1001", "홍길동"));
     // 모든 객체를 추가시킬 수 있다
@@ -4817,7 +4879,7 @@ public class ArrayListEx04 {
     //  	String s = (String)al1.get(i);
     //  	System.out.println(s);
     //  }
-    // 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다  
+    // 컴파일에서는 문제가 생기지 않지만, 실행시에 에러가 생긴다
 
     ArrayList<String> al2 = new ArrayList<>();
     al2.add("홍길동");
@@ -4833,7 +4895,6 @@ public class ArrayListEx04 {
 }
 ```
 
-
 ### Collection 인터페이스
 
 - List, Set 인터페이스의 조상이 되는 인터페이스
@@ -4843,6 +4904,7 @@ public class ArrayListEx04 {
 - 순서가 있는 데이터의 집합을 표현할 때 사용한다
 
   &rarr; &nbsp; 순서가 있기 때문에 데이터가 중복될 수 있다
+
 ```java
 import java.util.ArrayList;
 import java.util.List;
@@ -4860,7 +4922,7 @@ public class ListEx {
     v.add("박문수");
     v.add("이몽룡");
     System.out.println(v);
-    // ArrayList와 Vector는 같은 List 인터페이스를 구현한 클래스이기 때문에 메서드 이름과 기능이 같다  
+    // ArrayList와 Vector는 같은 List 인터페이스를 구현한 클래스이기 때문에 메서드 이름과 기능이 같다
     List<String> l1 = new ArrayList<>();
     l1.add("홍길동");
     l1.add("박문수");
@@ -4875,7 +4937,6 @@ public class ListEx {
 }
 ```
 
-
 ```java
 import java.util.ArrayList;
 
@@ -4885,7 +4946,7 @@ public class ArrayListEx {
     ArrayList al = new ArrayList();
     al.add("홍길동");
     al.add("박문수");
-    al.add("이몽룡"); 
+    al.add("이몽룡");
     System.out.println(al.toString()); // [홍길동, 박문수, 이몽룡]
     al.add(2, "장길산");
     System.out.println(al.toString()); // [홍길동, 박문수, 장길산, 이몽룡]
@@ -4904,7 +4965,6 @@ public class ArrayListEx {
 ```
 
 !! ArrayList에 추가 될때 Object 객체로 형변환 된 후 추가되는 것에 주의하자
-
 
 ```java
 import java.util.ArrayList;
@@ -4938,35 +4998,35 @@ import java.util.ArrayList;
 
 class Person {
   private String hakbun;
-  private String name;  
+  private String name;
   public Person(String hakbun, String name) {
     this.hakbun = hakbun;
     this.name = name;
-  } 
+  }
   public String getHakbun() {
     return hakbun;
   }
   public String getName() {
     return name;
-  } 
+  }
   @Override
   public String toString() {
     return super.toString();
-  } 
+  }
 }
 
 public class ArrayListEx03 {
 
   public static void main(String[] args) {
-    ArrayList al = new ArrayList(); 
+    ArrayList al = new ArrayList();
     Person p1 = new Person("1001", "홍길동");
-    Person p2 = new Person("1002", "박문수"); 
+    Person p2 = new Person("1002", "박문수");
     al.add(p1);
     al.add(p2);
     // Person 객체가 Object 객체로 형변환 되서 추가된다
     for(int i = 0; i < al.size(); i++) {
       Person p = (Person)al.get(i);
-      System.out.println(p.getHakbun()); 
+      System.out.println(p.getHakbun());
       // 학번 출력
       System.out.println(p.getName());
       // 이름 출력
@@ -4974,6 +5034,7 @@ public class ArrayListEx03 {
   }
 }
 ```
+
 ```java
 import java.util.ArrayList;
 
@@ -4984,7 +5045,7 @@ public class ArrayListEx {
     al.add(2);
     al.add(3);
     al.add(4);
-    al.add(5);  
+    al.add(5);
 
     for(int i = 0; i < al.size(); i++) {
       if(al.get(i) instanceof Integer) {
@@ -4998,11 +5059,12 @@ public class ArrayListEx {
   }
 }
 ```
+
 ```java
 public class ArraysEx01 {
 
-  public static void main(String[] args) {  
-    String[] arrs1 = {"aaa", "bbb", "ccc"}; 
+  public static void main(String[] args) {
+    String[] arrs1 = {"aaa", "bbb", "ccc"};
     List<String> lists = Arrays.asList(arrs1);
     // Arrays.asList()를 통해 배열로 List 객체를 만들 수 있다
     System.out.println(lists); // [aaa, bbb, ccc]
@@ -5010,9 +5072,10 @@ public class ArraysEx01 {
 
 }
 ```
+
 !! 표 형식의 데이터를 출력하기
 
-  <small>!! 데이터를 엑셀 형식의 표에 집어넣는 클래스를 TO(Transfer Object) 또는 VO(Value Object)라고 한다</small>
+<small>!! 데이터를 엑셀 형식의 표에 집어넣는 클래스를 TO(Transfer Object) 또는 VO(Value Object)라고 한다</small>
 
 ```java
 import java.util.ArrayList;
@@ -5061,13 +5124,17 @@ public class DataEx01 {
   }
 }
 ```
+
 ##### 스택과 큐
+
 - List 인터페이스를 구현한 자료구조
+
 ###### 스택(Stack)
+
 - 나중에 들어간 데이터가 먼저 나온다
 
 - Java는 스택이 클래스로 만들어져 있다
-<img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
+  <img src="https://cdn.programiz.com/sites/tutorial2program/files/stack.png">
 
 ```java
 import java.util.Stack;
@@ -5092,6 +5159,7 @@ public class StackEx01 {
 ```
 
 ###### 큐(Queue)
+
 - 먼저 들어간 데이터가 먼저 나온다
 
 - Java는 큐가 클래스로 만들어져 있다
@@ -5120,10 +5188,13 @@ public class QueueEx01 {
 
 }
 ```
+
 #### Set 인터페이스를 구현한 클래스
+
 - 순서가 없는 데이터를 표현할 때 사용한다
 
   &rarr; &nbsp; 순서가 없기 때문에 데이터가 중복될 수 없다
+
 ```java
 import java.util.HashSet;
 import java.util.Iterator;
@@ -5132,20 +5203,20 @@ import java.util.Set;
 public class SetEx {
   public static void main(String[] args) {
     HashSet<String> hs1 = new HashSet<>();
-    Set<String> hs2 = new HashSet<>();  
+    Set<String> hs2 = new HashSet<>();
     hs1.add("홍길동");
     hs1.add("박문수");
     hs1.add("임꺽정");
     System.out.println(hs1); // [홍길동, 박문수, 임꺽정]
-    System.out.println(hs1.size()); // 3  
+    System.out.println(hs1.size()); // 3
     hs1.add("홍길동");
     hs1.add("장길산");
     System.out.println(hs1); // [홍길동, 박문수, 임꺽정, 장길산]
-    // 중복된 데이터는 추가하지 않는다  
+    // 중복된 데이터는 추가하지 않는다
     Iterator<String> i = hs1.iterator();
     while(i.hasNext()){
       System.out.println(i.next());
-    } 
+    }
     // hs1의 데이터를 모두 출력한다
     for(String str : hs2){
       System.out.println(str);
@@ -5154,7 +5225,9 @@ public class SetEx {
   }
 }
 ```
+
 중복이 허용되지 않는 속성을 이용해 로또 출력하기
+
 ```java
 import java.util.HashSet;
 import java.util.Random;
@@ -5177,10 +5250,13 @@ public class LottoEx {
   }
 }
 ```
+
 ### Map 인터페이스
+
 - 키, 값으로 이루어진 데이터의 집합을 표현할 때 사용한다
 
 #### Map 인터페이스를 구현한 클래스
+
 ```java
 import java.util.HashMap;
 
@@ -5196,21 +5272,22 @@ public class HashMapEx {
     hm.put("d", "장길산");
     System.out.println(hm); // {a=홍길동, b=박문수, c=임꺽정, d=장길산}
 
-    hm.put("c", "이몽룡"); 
+    hm.put("c", "이몽룡");
     System.out.println(hm); // {a=홍길동, b=박문수, c=이몽룡, d=장길산}
 
     System.out.println(hm.get("a")); // 홍길동
     System.out.println(hm.get("b")); // 박문수
     System.out.println(hm.get("c")); // 이몽룡
-    
+
     hm.remove("c");
     System.out.println(hm); // {a=홍길동, b=박문수, d=장길산}
-    
+
     hm.clear();
     System.out.println(hm); // {}
   }
 }
 ```
+
 ```java
 import java.util.Enumeration;
 import java.util.Properties;
@@ -5218,9 +5295,9 @@ import java.util.Set;
 
 public class PropertiesEx {
   public static void main(String[] args) {
-  
+
     Properties pro = new Properties();
-    pro.setProperty("timeout", "30"); 
+    pro.setProperty("timeout", "30");
     pro.setProperty("language", "kr");
     pro.setProperty("size", "10");
 
@@ -5241,6 +5318,7 @@ public class PropertiesEx {
   }
 }
 ```
+
 ```java
 import java.util.Properties;
 import java.util.Set;
@@ -5270,7 +5348,7 @@ import java.util.Set;
 
 public class PropertiesTestWithFile {
   private final static String PROP_FILE_PATH = "./config.properties";
-  
+
   private static void saveToFile() {
     Properties props = new Properties();
     props.setProperty("id", "andy");
@@ -5304,14 +5382,14 @@ public class PropertiesTestWithFile {
 }
 ```
 
-
 ## 형식화 클래스
+
 - 데이터를 가시성 좋게 만들 때 사용하는 클래스
 
 - java.text 패키지의 하위 클래스
 
-
 ### DeciamlFormat
+
 - 숫자를 형식화 할때 사용하는 클래스
 
 ```java
@@ -5356,8 +5434,11 @@ public class DecimalFormatEx {
 
 }
 ```
+
 ### SimpleDateFormat
+
 - Date 객체에 사용돼서 날짜, 시간을 형식화 할 때 사용하는 클래스
+
 ```java
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -5381,8 +5462,11 @@ public class SimpleDateFormatEx {
   }
 }
 ```
+
 ### MessageFormat
+
 - 문자열에 패턴을 지정할 때 사용하는 클래스
+
 ```java
 import java.text.MessageFormat;
 
@@ -5401,12 +5485,12 @@ public class MessageFormatTest {
 
 }
 ```
-## I / O 
+
+## I / O
 
 - 입력(Input)과 출력(Output)으로 java.util 패키지를 사용한다
 
 - Java는 스트림(stream)을 통해 데이터를 주고 받는다
-
 
 ### 데이터
 
@@ -5415,26 +5499,28 @@ public class MessageFormatTest {
   <small>!! CRUD (Create, Read, Update, Delete)
   </small>
 
-- 데이터의 종류 
+- 데이터의 종류
+
   - 임시 저장 데이터 : 프로그램 종료와 동시에 없어지는 데이터
 
     <sup> ex) 변수, 상수, 배열, 객체, 컬렉션 ...</sup>
 
   - 영구 저장 데이터 : 프로그램 종료와 상관없이 영구적으로 저장되는 데이터
 
-
     - 로컬 저장 데이터 : 프로그램과 같은 컴퓨터에 있는 데이터
 
       <sup> ex) 파일 </sup>
 
-        <small>!! 파일의 종류
-        - 일반 파일 : 메모장에서 내용을 볼수 있는 파일로 Oracle에서 제공한다
+      <small>!! 파일의 종류
 
-          <sup>ex) text(.txt, .csv)</sup> 
+      - 일반 파일 : 메모장에서 내용을 볼수 있는 파일로 Oracle에서 제공한다
 
-        - 바이너리 파일 : 특별한 프로그램이 있어야 사용할 수 있는 파일로 "third party"라 불리는 외부 업체에서 제공한다
+        <sup>ex) text(.txt, .csv)</sup>
 
-          <sup>ex) .hwp, .docx, .xlsx, .pptx, image, sound</sup> </small>
+      - 바이너리 파일 : 특별한 프로그램이 있어야 사용할 수 있는 파일로 "third party"라 불리는 외부 업체에서 제공한다
+
+        <sup>ex) .hwp, .docx, .xlsx, .pptx, image, sound</sup> </small>
+
     - 원격 저장 데이터 : 네트워크 상의 컴퓨터에 있는 데이터
 
       <sup> ex) 데이터베이스, OpenAPI</sup>
@@ -5442,36 +5528,46 @@ public class MessageFormatTest {
 - java.io 패키지를 이용해 영구 저장 데이터(일반 파일)를 다룬다
 
 ### 스트림(Stream)
+
 - 방향이 정해져 있는 데이터 통로이다
 
 - 스트림은 사용하고 반드시 닫아줘야 된다
 
 - 구분
+
   - 입력스트림(InputStream) / Reader
 
     <small> 프로그램 &nbsp;&nbsp;&larr; &larr; &larr;&nbsp;&nbsp; 파일</small>
+
   - 출력스트림(OutputStream) / Writer
 
-    <small> 프로그램 &nbsp;&nbsp;&rarr; &rarr; &rarr;&nbsp;&nbsp; 파일</small> 
+    <small> 프로그램 &nbsp;&nbsp;&rarr; &rarr; &rarr;&nbsp;&nbsp; 파일</small>
+
 - 데이터가 한번에 이동하는게 아니라 일정량씩 이동한다
 - 입출력 단위
+
   - 1byte : 영문자, 특수문자, 숫자, byte 자료형, ...
 
   - 2byte : 다국어, char 자료형, ...
+
 - 연결 방식
+
   - 1차 스트림(직접) : 파일(데이터)에 연결
 
   - 2차 스트림(간접) : 1차 스트림에 연결
 
 #### 노드 스트림
+
 - 1차 스트림으로 파일과 직접 연결해서 데이터의 입출력이 일어난다
 
 - 노드 스트림의 대표적인 클래스로는 FileInputStream, FileOutputStream, FileReader, FileWriter가 있다
 
 ##### FileInputStream
+
 - byte 단위의 데이터를 입력받는다
 
   <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+
 ```java
 // test1.txt
 
@@ -5479,6 +5575,7 @@ public class MessageFormatTest {
 abcdefghijk
 가나다라마바사
 ```
+
 ```java
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -5498,7 +5595,7 @@ public class InputStreamEx01 {
       System.out.println((char)data); // 1
       data = fis.read();
       // 다음 문자가 반환된다
-      System.out.println((char)data); // 2 
+      System.out.println((char)data); // 2
 
       byte[] datas = new byte[5];
       fis.read(datas);
@@ -5519,6 +5616,7 @@ public class InputStreamEx01 {
 
 }
 ```
+
 ```java
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -5548,9 +5646,11 @@ public class InputStreamEx02 {
 
 }
 ```
+
 ##### FileReader
 
 - FileInputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
+
 ```java
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -5567,19 +5667,22 @@ public class ReaderEx {
       	System.out.print((char)data);
       } // 한국어가 깨져 나오지 않는다
     } catch (FileNotFoundException e) {
-      System.out.println("에러 : " + e.getMessage()); 
+      System.out.println("에러 : " + e.getMessage());
     } catch (IOException e) {
-      System.out.println("에러 : " + e.getMessage()); 
+      System.out.println("에러 : " + e.getMessage());
     }finally {
       if(br != null)try {br.close();}catch(IOException e) {}
     }
   }
 }
 ```
+
 ##### FileOutputStream
+
 - byte 단위의 데이터의 문자를 출력한다
 
   <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+
 ```java
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -5588,7 +5691,7 @@ import java.io.IOException;
 public class OutputStreamEx01 {
 
   public static void main(String[] args) {
-    FileOutputStream fos = null;  
+    FileOutputStream fos = null;
 
     try {
       fos = new FileOutputStream("./test2.txt", true);
@@ -5613,10 +5716,13 @@ public class OutputStreamEx01 {
 
 }
 ```
+
 ##### FileWriter
+
 - FileOutputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 출력할 수 있다
 
 - FileOutputStream은 문자를 출력하지만, FileWriter는 문자열을 출력한다
+
 ```java
 import java.io.FileWriter;
 import java.io.IOException;
@@ -5638,10 +5744,12 @@ public class WriterEx {
     }finally {
       if(bw != null) try {bw.close();}catch(IOException e) {}
     }
-  }	
+  }
 }
 ```
+
 !! 텍스트 파일뿐만아니라 이미지, 음악 파일도 데이터를 입력받고 출력하는 것이 가능하다
+
 ```java
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -5653,19 +5761,19 @@ public class CopyEx01 {
 	public static void main(String[] args) {
 	  FileInputStream fis = null;
 	  FileOutputStream fos = null;
-  
+
 	  try {
 	    fis = new FileInputStream("./daum.png");
 	    fos = new FileOutputStream("./daum2.png");
 
-	    int data = 0; 
+	    int data = 0;
 	    while((data = fis.read()) != -1) {
 	      fos.write(data);
-	    } 
+	    }
       // daum.png를 입력받아서 daum2.png에 출력
       // 복사하는 것과 같다
 	    System.out.println("복사 성공");
-	  } catch (FileNotFoundException e) {			
+	  } catch (FileNotFoundException e) {
 	    System.out.println("에러 : " + e.getMessage());
 	  } catch (IOException e) {
 	    System.out.println("에러 : " + e.getMessage());
@@ -5678,6 +5786,7 @@ public class CopyEx01 {
 
 }
 ```
+
 #### 보조 스트림
 
 - 파일을 통해 직접 데이터의 입출력이 발생하는 것이 아니라 1차 스트림을 통해 데이터의 입출력이 발생한다
@@ -5686,7 +5795,9 @@ public class CopyEx01 {
 - 보조 스트림을 사용하는게 속도가 빠르다
 
 - 보조 스트림 클래스로는 BufferedInputStream, BufferedOutputStream, BufferedReader, BufferedWriter가 있다
+
 ##### BufferedInputStream
+
 - byte 단위의 데이터를 입력받는다
 
   <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
@@ -5725,7 +5836,9 @@ public class CopyEx01 {
   }
 }
 ```
+
 ##### BufferedReader
+
 - BufferedInputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
 
 ```java
@@ -5756,13 +5869,16 @@ public class ReaderEx {
     } catch (IOException e) {
       System.out.println("에러 : " + e.getMessage());
     }
-  }	
+  }
 }
 ```
+
 ##### BufferedOutputStream
+
 - byte 단위의 데이터의 문자를 출력한다
 
   <small>!! 이미지, 사운드와 같은 바이너리 데이터도 byte 단위의 데이터다</small>
+
 ```java
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -5793,6 +5909,7 @@ public class CopyEx01 {
 ```
 
 ##### BufferedWriter
+
 - BufferedOutputStream과 달리 char 자료형 데이터를 다루기 때문에 다국어 데이터를 읽을 수 있다
 
 - BufferedOutputStream과 달리 문자열을 출력한다
@@ -5824,7 +5941,9 @@ public class ReaderEx {
   }
 }
 ```
+
 보조 스트림을 이용해서 대용량의 파일 복사하기
+
 ```java
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -5837,11 +5956,11 @@ public class CopyEx01 {
 
   public static void main(String[] args) {
   	BufferedInputStream bis = null;
-  	BufferedOutputStream bos = null;  
+  	BufferedOutputStream bos = null;
 
   	try {
   	  bis = new BufferedInputStream(new FileInputStream("./Jellyfish.jpg"));
-  	  bos = new BufferedOutputStream(new FileOutputStream("./Jellyfish2.jpg")); 
+  	  bos = new BufferedOutputStream(new FileOutputStream("./Jellyfish2.jpg"));
   	  int data = 0;
   	  while((data = bis.read()) != -1) {
   	    bos.write(data);
@@ -5854,12 +5973,14 @@ public class CopyEx01 {
   	} finally {
   	  if(bis != null) try {bis.close();}catch(IOException e) {}
   	  if(bos != null) try {bos.close();}catch(IOException e) {}
-  	} 
+  	}
   }
-	
+
 }
 ```
+
 csv 파일에서 특정 데이터만 출력하기
+
 ```java
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -5872,11 +5993,11 @@ public class IOTest {
 
   public static void main(String[] args) {
     BufferedReader br = null;
-    BufferedWriter bw = null; 
+    BufferedWriter bw = null;
 
     try {
       br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2  csv"));
-      bw = new BufferedWriter(new FileWriter("./seocho"))   
+      bw = new BufferedWriter(new FileWriter("./seocho"))
       String str = "";
       while((str = br.readLine()) != null) {
         String[] check = str.split(",");
@@ -5893,11 +6014,12 @@ public class IOTest {
     } finally {
       if(br != null) try {br.close();}catch(IOException e) {}
       if(bw != null) try {bw.close();}catch(IOException e) {}
-    }	
+    }
   }
 
 }
 ```
+
 ```java
 public class PostNumberSearch {
 
@@ -5926,7 +6048,7 @@ public class PostNumberSearch {
       }finally {
         System.out.println("완료");
         if(br != null) try {br.close();} catch(IOException e) {}
-        if(bw != null) try {bw.close();} catch(IOException e) {}				
+        if(bw != null) try {bw.close();} catch(IOException e) {}
       }
     }else {
       System.out.println("2자 이상 입력해주세요");
@@ -5934,7 +6056,9 @@ public class PostNumberSearch {
   }
 }
 ```
+
 로또 당첨 번호 횟수 통계 내보기
+
 ```java
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -5970,7 +6094,7 @@ public class LottoIOEx {
       }
       System.out.println("완료");
     } catch (NumberFormatException e) {
-        System.out.println("에러 : " + e.getMessage()); 
+        System.out.println("에러 : " + e.getMessage());
     } catch (FileNotFoundException e) {
         System.out.println("에러 : " + e.getMessage());
     } catch (IOException e) {
@@ -5983,7 +6107,9 @@ public class LottoIOEx {
 
 }
 ```
+
 ##### 기본형 입출력
+
 - 문자나 문자열이 아닌 기본형 출력을 위해서 사용한다
 - 입출력할 때 사용하는 메서드의 이름이 자료형마다 다르다
 
@@ -6000,12 +6126,12 @@ import java.io.IOException;
 public class DataOutputStreamEx {
 
   public static void main(Strin [] args) {
-    DataOutputStream dos = null   
-    try   
-      dos = new DataOutputStream(new FileOutputStream("./value.dat"));  
+    DataOutputStream dos = null
+    try
+      dos = new DataOutputStream(new FileOutputStream("./value.dat"));
       dos.writeInt(1);
       dos.writeUTF("utf-8 형식으로 문자열 저장");
-      dos.writeFloat(1.7f); 
+      dos.writeFloat(1.7f);
       System.out.println("출력 완료");
     } catch (FileNotFoundException e) {
       System.out.println("에러 : " + e.getMessage());
@@ -6018,7 +6144,9 @@ public class DataOutputStreamEx {
 
 }
 ```
+
 ###### DataInputStream
+
 ```java
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -6028,15 +6156,15 @@ import java.io.IOException;
 public class DataInputStreamEx01 {
 
   public static void main(Str ng[] args) {
-    DataInputStream dis = nul ; 
-    try   
-      dis = new DataInputStream(new FileInputStream("./value.dat"));  
+    DataInputStream dis = nul ;
+    try
+      dis = new DataInputStream(new FileInputStream("./value.dat"));
       System.out.println(dis.readInt());
       System.out.println(dis.readUTF());
       // 문자열을 읽어 반환한다
-      System.out.println(dis.readFloat());  
+      System.out.println(dis.readFloat());
       System.out.println("입력 완료");
-    } catch (FileNotFoundException e) {	
+    } catch (FileNotFoundException e) {
       System.out.println("에러 : " + e.getMessage());
     } catch (IOException e) {
       System.out.println("에러 : " + e.getMessage());
@@ -6049,17 +6177,16 @@ public class DataInputStreamEx01 {
 ```
 
 ##### 객체 입출력
+
 - 기본형 입출력의 확장형
 
 - 입출력이 Object 객체로 형변환 되어 이루어지기 때문에 원래의 데이터를 얻기 위해서는 반드시 형변환 해줘야 한다
-
 
 ###### ObjectOutputStream
 
 - 사용자 정의 클래스 객체를 출력하기 위해서는 반드시 Serializable 인터페이스를 구현해야 한다
 
 - 사용자 정의 클래스 객체의 멤버 변수 중 출력하고 싶지 않은 멤버 변수는 transient를 사용한다
-
 
 ```java
 import java.io.FileNotFoundException;
@@ -6070,9 +6197,9 @@ import java.io.ObjectOutputStream;
 public class ObjectOutputStreamEx01 {
 
   public static void main(String[] args) {
-    ObjectOutputStream oos = null;  
+    ObjectOutputStream oos = null;
     try {
-      oos = new ObjectOutputStream(new FileOutputStream("./object.dat")); 
+      oos = new ObjectOutputStream(new FileOutputStream("./object.dat"));
       String[] names = {"홍길동", "박문수", "임꺽정", "이몽룡"};
       int[] ages = {20, 23, 24, 40};
       double[] height = {180.2, 194.3, 175.2, 182.0};
@@ -6091,6 +6218,7 @@ public class ObjectOutputStreamEx01 {
 
 }
 ```
+
 ```java
 import java.io.Serializable;
 import java.io.FileNotFoundException;
@@ -6148,7 +6276,9 @@ public class ObjectOutputStreamEx02 {
 
 }
 ```
+
 ###### ObjectInputStream
+
 ```java
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -6159,13 +6289,13 @@ import java.util.Arrays;
 public class ObjectInputSteamEx {
 
   public static void main(String[] args) {
-    ObjectInputStream ois = null; 
+    ObjectInputStream ois = null;
     try {
-      ois = new ObjectInputStream(new FileInputStream("./object.dat")); 
+      ois = new ObjectInputStream(new FileInputStream("./object.dat"));
       String[] names = (String[])ois.readObject();
       int[] ages = (int[])ois.readObject();
-      double[] height = (double[])ois.readObject(); 
-      // 형변환 하는 것에 주의하자  
+      double[] height = (double[])ois.readObject();
+      // 형변환 하는 것에 주의하자
       System.out.println(Arrays.toString(names));
       System.out.println(Arrays.toString(ages));
       System.out.println(Arrays.toString(height));
@@ -6182,6 +6312,7 @@ public class ObjectInputSteamEx {
 
 }
 ```
+
 ```java
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -6218,9 +6349,11 @@ public class ObjectInputStreamEx02 {
 
 }
 ```
+
 #### System.in
 
 - System.in을 통해서도 데이터를 입력받을 수 있다
+
 ```java
 import java.io.IOException;
 import java.io.InputStream;
@@ -6246,6 +6379,7 @@ public class SystemEx01 {
 
 }
 ```
+
 ```java
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6270,6 +6404,7 @@ public class SystemEx02 {
 
 }
 ```
+
 ```java
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6294,7 +6429,9 @@ public class SystemEx02 {
 
 }
 ```
+
 구구단 출력하기
+
 ```java
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6329,6 +6466,7 @@ public class Gugudan {
 
 }
 ```
+
 #### memory 입출력
 
 ```java
@@ -6355,6 +6493,7 @@ public class CharArrReaderEx01 {
 
 }
 ```
+
 ```java
 import java.io.CharArrayReader;
 import java.io.CharArrayWriter;
@@ -6380,8 +6519,11 @@ public class MemoryIOTest {
 
 }
 ```
+
 #### RandomAccessFile
+
 - 데이터를 순차적으로 읽는 것이 아니라 읽고 싶은 데이터부터 읽을 수 있다
+
 ```java
 import java.io.EOFException;
 import java.io.FileNotFoundException;
@@ -6427,7 +6569,9 @@ public class RandomAccessFileEx01 {
 
 }
 ```
+
 #### File
+
 - java.io 패키지의 하위 클래스
 - 파일과 디렉터리를 다루는 클래스
 
@@ -6436,13 +6580,14 @@ public class RandomAccessFileEx01 {
 - 파일의 정보(크기, 속성, 이름, 경로)을 다룬다
 
   <small>!! 운영체제 파일의 경로 구분자
-    - windows : ' / ', ' \\ '
 
-    - UNIX : ' / '</small>
+  - windows : ' / ', ' \\ '
+
+  - UNIX : ' / '</small>
 
 ##### File 클래스의 생성자
-- File 생성자를 통해 객체를 만들었다고 실제 파일이 생성되지는 않는다
 
+- File 생성자를 통해 객체를 만들었다고 실제 파일이 생성되지는 않는다
 
 - 생성자를 사용하기 위해서는 경로가 필요하다
 
@@ -6470,7 +6615,9 @@ public class FileEx {
 
 }
 ```
+
 ##### File 클래스의 메서드
+
 ```java
 import java.io.File;
 
@@ -6491,9 +6638,10 @@ public class FileEx02 {
 
     System.out.println(file2.isHidden()); // true
     // 숨긴 파일인지 확인해서 진리값을 반환한다
-  } 
+  }
 }
 ```
+
 ```java
 import java.io.File;
 import java.io.IOException;
@@ -6521,6 +6669,7 @@ public class FileEx03 {
   }
 }
 ```
+
 ```java
 import java.io.File;
 import java.io.IOException;
@@ -6553,6 +6702,7 @@ public class FileEx04 {
 
 }
 ```
+
 ```java
 import java.io.File;
 import java.util.Arrays;
@@ -6577,7 +6727,9 @@ public class FileEx05 {
 
 }
 ```
+
 파일리스트를 출력할 때 디렉터리이름은 대괄호("[ ]")로 묶여서 나오게 하기
+
 ```java
 import java.io.File;
 
@@ -6599,6 +6751,7 @@ public class FileTest {
 
 }
 ```
+
 ```java
 import java.io.File;
 import java.io.IOException;
@@ -6630,10 +6783,13 @@ public class FileEx07 {
   }
 }
 ```
+
 ### NIO (New Input Output)
+
 - 스트림을 사용하는 IO와 달리 채널을 사용하기 때문에 양방향 입출력이 가능하다
 
 - 기본적으로 버퍼를 제공하기 때문에 빠른 속도를 가지고 있다
+
 ```java
 import java.io.File;
 import java.nio.file.Path;
@@ -6660,6 +6816,7 @@ public class PathTest {
 
 }
 ```
+
 ```java
 import java.io.File;
 import java.io.IOException;
@@ -6682,7 +6839,7 @@ public class FileEx01 {
       long creationTime = attributes.creationTime().to(TimeUnit.MICROSECONDS);
       // 파일의 생성시간을 마이크로초로 반환한다
       System.out.println(creationTime); // 1679897504790454
-      Date date = new Date(creationTime / 1000); 
+      Date date = new Date(creationTime / 1000);
       // 밀리초 = 마이크로초 * 1000
       System.out.println(date.toLocaleString()); // 2023. 3. 27. 오후 3:11:44
     } catch (IOException e) {
@@ -6692,6 +6849,7 @@ public class FileEx01 {
 
 }
 ```
+
 ```java
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6717,7 +6875,9 @@ public class FilesEx01 {
 
 }
 ```
+
 ## OpenAPI
+
 - 외부의 API를 이용해 데이터를 다룰 수 있다
 
 ### 엑셀 데이터 다루기
@@ -6729,6 +6889,7 @@ public class FilesEx01 {
   - .xlsx : Apache POI (https://poi.apache.org/)
 
 #### JXL
+
 - 2003년 이전 버전인 .xls문서에만 사용이 가능하다
 
 ```java
@@ -6755,7 +6916,7 @@ public class JXLEx01 {
       // 워크시트의 개수를 반환한다
       String[] sheetNames = workbook.getSheetNames();
       // 워크시트의 이름을 반환한다
-      System.out.println(Arrays.toString(sheetNames)); // [original, modified]  
+      System.out.println(Arrays.toString(sheetNames)); // [original, modified]
 
       Sheet sheet = workbook.getSheet(0);
       // 엑셀 문서의 특정 워크시트에 접근할 수도 있다
@@ -6764,7 +6925,7 @@ public class JXLEx01 {
       System.out.println(sheet.getRows()); // 175
       // 워크시트의 행 개수를 반환한다
       System.out.println(sheet.getColumns()); // 256
-      // 워크시트의 열 개수를 반환한다  
+      // 워크시트의 열 개수를 반환한다
 
       Cell cell = sheet.getCell(0, 0); // 엑셀 문서의 (0 + 1, 0 + 1) 셀을 할당
       // 이때, getCell(columNum, rowNum)인 것에 주의하자 !!
@@ -6782,6 +6943,7 @@ public class JXLEx01 {
   }
 }
 ```
+
 ```java
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -6834,9 +6996,1542 @@ public class LottoExcelToTxt {
       if(bw != null) try {bw.close();} catch(IOException e) {}
       System.out.println("완료");
     }
-  
+
   }
 
 }
 ```
 
+## JDBC(Java DataBase Connectivity)
+
+- 데이터베이스를 Java 프로그램과 연동시키는 것은 Java 라이브러리가 제공하는 "JDBC API" 와 DBMS 제공 업체가 제공하는 Connector, "JDBC Driver"를 통해 이루어진다
+
+- JDBC와 연결시켜주는 Connector는 DBMS마다 다르다
+
+  <img src = "https://postfiles.pstatic.net/MjAyMjA3MTVfNDUg/MDAxNjU3ODQ4NzM3ODk0.AsvxQap1nSrfbbujn3ki9YhaApvK2uwcYECSjBd51u8g.d0xwFSvHeSVNy3q2vXK0acuzSNZXwNc9c7UR6kX6fQMg.JPEG.jang0_0yw/%EC%82%AC%EC%A7%84_1.jpg?type=w966">
+
+### MariaDB JDBC
+
+- java.sql 패키지의 하위 클래스(인터페이스)를 사용한다
+
+  - Connection : 접속관리
+
+  - Statement : SQL 실행
+  - PreparedStatement
+  - ResultSet : select문의 반환값 관리
+
+#### Connection
+
+- 준비
+
+  - JDBC : "org.mariadb.jdbc.Driver"
+
+  - url : "jdbc:mariadb://ip번호:포트번호/데이터베이스명"
+
+    <sup>ex) "jdbc:mariadb://localhost:3306/sample"</sup>
+
+  - 데이터베이스 아이디
+  - 데이터베이스 패스워드
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+	  String url = "jdbc:mariadb://localhost:3306/sample";
+	  String user = "root";
+	  String password = "123456";
+
+	  Connection conn = null;
+
+	    try {
+	      Class.forName("org.mariadb.jdbc.Driver");
+	      System.out.println("드라이버 로딩 완료");
+
+	      conn = DriverManager.getConnection(url, user, password);
+	      System.out.println("연결 성공");
+	    } catch (ClassNotFoundException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } catch (SQLException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } finally {
+	      if(conn != null) try {conn.close();} catch(SQLException e) {}
+	    }
+
+	}
+
+}
+```
+
+#### Statement, PreparedStatement
+
+##### executeUpdate()
+
+- select 이외의 모든 sql에 사용된다(반환 타입은 int로 처리 후 변화된 결과의 개수를 알려준다)
+
+```sql
+MariaDB [sample]> create table dept2 as select * from dept where 1 !=1;
+Query OK, 0 rows affected (0.162 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sample]> select * from dept2;
+Empty set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+	  String url = "jdbc:mariadb://localhost:3306/sample";
+	  String user = "root";
+	  String password = "123456";
+
+	  Connection conn = null;
+	  Statement stmt = null;
+
+	    try {
+	      Class.forName("org.mariadb.jdbc.Driver");
+	      System.out.println("드라이버 로딩 완료");
+	      conn = DriverManager.getConnection(url, user, password);
+	      System.out.println("연결 성공");
+
+	      stmt = conn.createStatement();
+        String sql = "insert into dept2 values (10 , '연구', '서울')";
+	      int result = stmt.executeUpdate(sql);
+	      System.out.println("실행 결과 : " + result);
+	    } catch (ClassNotFoundException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } catch (SQLException e) {
+	      System.out.println("에러 : " + e.getMessage());
+	    } finally {
+	      if(conn != null) try {conn.close();} catch(SQLException e) {}
+	      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+	    }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
++--------+--------+--------+
+1 row in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "20";
+        String dname = "개발";
+        String loc = "제주";
+        String sql = "insert into dept2 values (" + deptno + " , '" + dname + "', + '" + loc + "')";
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     20 | 개발   | 제주   |
++--------+--------+--------+
+2 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "30";
+        String dname = "운영";
+        String loc = "부산";
+        String sql = String.format("insert into dept2 values ( %s, '%s', '%s')", deptno, dname,loc);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 연구   | 서울   |
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String deptno = "10";
+        String dname = "생산";
+        String sql = String.format("update dept2 set dname = '%s' where deptno = %s", dname, deptno);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+
+	}
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     10 | 생산   | 서울   |
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+3 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+        stmt = conn.createStatement();
+        String deptno = "10";
+        String sql = String.format("delete from dept2 where deptno = %s", deptno);
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+```sql
+MariaDB [sample]> select * from dept2;
++--------+--------+--------+
+| deptno | dname  | loc    |
++--------+--------+--------+
+|     20 | 개발   | 제주   |
+|     30 | 운영   | 부산   |
++--------+--------+--------+
+2 rows in set (0.000 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+
+        stmt = conn.createStatement();
+        String sql = "create table testtb1 (col1 varchar(10))";
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+```sql
+MariaDB [sample]> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| constraint_check |
+| dept             |
+| dept2            |
+| emp              |
+| emp_dept         |
+| emp_mgr          |
+| emp_mgr_name     |
+| emp_vu1          |
+| emp_vu10         |
+| emp_vu20         |
+| salgrade         |
+| table_i          |
+| testtb1          |
++------------------+
+13 rows in set (0.001 sec)
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    Connection conn = null;
+    Statement stmt = null;
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        System.out.println("드라이버 로딩 완료");
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("연결 성공");
+        stmt = conn.createStatement();
+        // StringBuilder sbSQL = new StringBuilder();
+        // sbSQL.append("create table detp3(");
+        // sbSQL.append("deptno int(2),");
+        // sbSQL.append("dname varchar(14),");
+        // sbSQL.append("loc varchar(13)");
+        // sbSQL.append(")");
+        String sql = `create table dept3 (deptno int(2),
+                                      dname varchar(14),
+                                      loc varchar(13)
+                                      )`;
+        int result = stmt.executeUpdate(sql);
+        // int result = stmt.executeUpdate(sbSQL);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      }
+  }
+
+}
+```
+
+##### ResultSet executeQuery()
+
+- select, desc 문을 처리한다
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				System.out.println(rs.getString("deptno"));
+				System.out.println(rs.getString("dname"));
+				System.out.println(rs.getString("loc"));
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+// 첫행 이전을 가리키고 있기 때문에 값을 못 읽는다는 에러가 생긴다
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				rs.next(); // 다음 행으로 읽어줘야 첫행의 값을 읽어 올 수 있다
+				System.out.println(rs.getString("deptno")); // 20
+				System.out.println(rs.getString("dname")); // 개발
+				System.out.println(rs.getString("loc")); // 제주
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select * from dept2";
+				rs = stmt.executeQuery(sql);
+				while(rs.next()) {
+					System.out.println(rs.getString("deptno"));
+					System.out.println(rs.getString("dname"));
+					System.out.println(rs.getString("loc"));
+				} // dept2 테이블의 모든 값을 읽어서 출력한다
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				System.out.println("드라이버 로딩 완료");
+
+				conn = DriverManager.getConnection(url, user, password);
+				System.out.println("연결 성공");
+
+				stmt = conn.createStatement();
+				String sql = "select empno, ename, sal, sal * 12 + ifnull(comm, 0) '연봉' from emp where deptno = 10";
+				rs = stmt.executeQuery(sql);
+				while(rs.next()) {
+					System.out.println(rs.getString("empno"));
+					System.out.println(rs.getString("ename"));
+					System.out.println(rs.getString("sal"));
+					System.out.println(rs.getString("연봉"));
+					// System.out.println(rs.getString(1));
+					// System.out.println(rs.getString(2));
+					// System.out.println(rs.getString(3));
+					// System.out.println(rs.getString(4));
+				}
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+			}
+
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Emp {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "insert into dept2 values (?, ?, ?)";
+      // 물음표(?)는 값에만 해당된다
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "10");
+			pstmt.setString(2, "개발");
+			pstmt.setString(3, "서울");
+
+			int result = pstmt.executeUpdate();
+			System.out.println("실행완료 : " + result);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Emp2 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "update dept2 set loc = ? where deptno = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "부산");
+			pstmt.setString(2, "10");
+			int result = pstmt.executeUpdate();
+			System.out.println("실행완료 : " + result);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Emp3 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+
+			String sql = "delete from dept2 where deptno = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "10");
+
+			int result = pstmt.executeUpdate();
+			System.out.println("실행완료 : " + result);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Emp4 {
+
+  public static void main(String[] args) {
+  	String url = "jdbc:mysql://localhost:3306/sample";
+  	String user = "root";
+  	String password = "123456";
+
+  	Connection conn = null;
+  	PreparedStatement pstmt = null;
+  	ResultSet rs = null;
+
+  	try {
+  	  Class.forName("org.mariadb.jdbc.Driver");
+  	  conn = DriverManager.getConnection(url, user, password);
+
+  	  String sql = "select empno, ename, sal, job from emp where deptno = ?";
+  	  pstmt = conn.prepareStatement(sql);
+  	  pstmt.setString(1, "20");
+
+  	  rs = pstmt.executeQuery();
+  	  while(rs.next()) {
+  	    System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
+  	  }
+  	} catch (ClassNotFoundException e) {
+  	  System.out.println("에러 : " + e.getMessage());
+  	} catch (SQLException e) {
+  	  System.out.println("에러 : " + e.getMessage());
+  	} finally {
+  	  if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+  	  if(rs != null) try {rs.close();} catch(SQLException e) {}
+  	  if(conn != null) try {conn.close();} catch(SQLException e) {}
+  	}
+  }
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Emp4 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				conn = DriverManager.getConnection(url, user, password);
+
+				String sql = "select empno, ename, sal, job from emp where ename like ?";
+				// ?%를 직접 넣을 수는 없다
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "s%");
+
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
+				}
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+			}
+	}
+}
+```
+
+!! 우편 데이터 입력 프로그램
+
+```java
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+import org.mariadb.jdbc.Driver;
+
+public class Test {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/project";
+		String user = "project";
+		String password = "1234";
+		String tableName = "zipcode";
+
+		BufferedReader br = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+			String sqlInsert = "insert into " + tableName +" values(?, ?, ?, ?, ?, ?, ?)" + System.lineSeparator();
+			pstmt = conn.prepareStatement(sqlInsert);
+
+			br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
+			String[] dataArr = new String[7];
+			String data = "";
+      int count = 0;
+			while((data = br.readLine()) != null) {
+				dataArr = data.split(",");
+				for(int i = 0, index = 1; i < dataArr.length; i++, index++) {
+						pstmt.setString(index, dataArr[i]);
+				}
+				count += pstmt.executeUpdate();
+			}
+      System.out.println("실행결과 : " + count);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (FileNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+			if(br != null) try {br.close();} catch(IOException e) {}
+		}
+
+	}
+
+}
+
+```
+
+!! mysqldump 프로그램
+
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MysqlTest {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+		String tableName = args[0];
+		String resultName = tableName;
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		BufferedWriter bw = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+			stmt = conn.createStatement();
+
+			List<String> colNames = new ArrayList<>();
+			List<String> typeNames = new ArrayList<>();
+
+			String sqlDesc = "desc " + tableName;
+			rs = stmt.executeQuery(sqlDesc);
+			while(rs.next()) {
+				colNames.add(rs.getString("Field"));
+				typeNames.add(rs.getString("Type"));
+			}
+
+			bw = new BufferedWriter(new FileWriter("./" + resultName + ".sql"));
+
+			bw.write(String.format("create table %s values (", tableName));
+			for(int i = 0; i < colNames.size(); i++) {
+				bw.write(colNames.get(i));
+				bw.write(" ");
+				bw.write(typeNames.get(i));
+				if(i != colNames.size()-1) {
+					bw.write("," + System.lineSeparator());
+				} else {
+					bw.write(")" + System.lineSeparator());
+				}
+			}
+			System.out.println("create 성공");
+
+			String data = "select * from " + tableName;
+			rs = stmt.executeQuery(data);
+			while(rs.next()) {
+				bw.write(String.format("insert into %s values(", tableName));
+				for(int i = 0; i < colNames.size(); i++) {
+					String strData = "";
+					if(rs.getString(colNames.get(i)) == null) {
+						strData = "null";
+					} else {
+						if(typeNames.get(i).contains("varchar") || typeNames.get(i).contains("date")) {
+							strData = "'" + rs.getString(colNames.get(i)) + "'";
+						} else {
+							strData = rs.getString(colNames.get(i));
+						}
+					}
+					bw.write(strData);
+					if(i != colNames.size() - 1) {
+						bw.write(",");
+					}else {
+						bw.write(")" + System.lineSeparator());
+					}
+				}
+			}
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+		}
+	}
+
+}
+```
+
+!! 데이터베이스를 이용한 우편번호 검색 프로그램
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class PostSearch {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/project";
+		String user = "project";
+		String password = "1234";
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(System.in);
+			while(true) {
+				System.out.print("동이름을 입려하세요 > ");
+				String dongName = scanner.nextLine();
+				if(dongName.equals("exit")) {
+					System.out.println("프로그램 종료");
+					break;
+				}
+				Class.forName("org.mariadb.jdbc.Driver");
+				conn = DriverManager.getConnection(url, user, password);
+				stmt = conn.createStatement();
+
+				String sqlSelect = "select * from zipcode where dong like '" + dongName + "%'";
+				rs = stmt.executeQuery(sqlSelect);
+				while(rs.next()) {
+					System.out.printf("%s %s %s %s %s %s%n", rs.getString("zipcode"),rs.getString("sido"),rs.getString("gugun"),rs.getString("dong"),rs.getString("ri"),rs.getString("bunji"));
+				}
+
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+
+}
+```
+
+- ResultSet의 커서 이동
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Emp4 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				conn = DriverManager.getConnection(url, user, password);
+
+				String sql = "select * from emp";
+				pstmt = conn.prepareStatement(sql);
+
+				rs = pstmt.executeQuery();
+				rs.absolute(1); // 1행으로 이동
+				System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
+				System.out.println("행번호 : " + rs.getRow());
+				rs.absolute(10); // 10행으로 이동
+				System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
+				System.out.println("행번호 : " + rs.getRow());
+
+				rs.beforeFirst(); // 커서의 초기화
+				System.out.println("행번호 : " + rs.getRow());
+
+			} catch (ClassNotFoundException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} catch (SQLException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+				if(rs != null) try {rs.close();} catch(SQLException e) {}
+				if(conn != null) try {conn.close();} catch(SQLException e) {}
+			}
+	}
+}
+```
+
+- MariaDB 버전 확인하기
+
+```java
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DatabaseMetaEx01 {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+
+			DatabaseMetaData dmd = conn.getMetaData();
+
+			System.out.println(dmd.getDatabaseProductName()); // MariaDB
+			System.out.println(dmd.getDatabaseProductVersion()); // 10.11.2-MariaDB
+			System.out.println(dmd.getJDBCMajorVersion() + " : " + dmd.getJDBCMinorVersion()); // 4 : 2
+		} catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+
+}
+```
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+public class ResultSetMetaEx {
+
+	public static void main(String[] args) {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+
+			String sql = "select * from emp";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			ResultSetMetaData rsmd = rs.getMetaData();
+			System.out.println(rsmd.getColumnCount()); // 8
+			for(int i = 1 ; i <= rsmd.getColumnCount(); i++) {
+				System.out.print(rsmd.getColumnName(i) + " ");
+				System.out.print(rsmd.getColumnTypeName(i));
+				System.out.println("(" + rsmd.getPrecision(i) + ")");
+			} // emp 테이블의 컬럼명, 타입(저장공간) 모두 출력
+		} catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+	}
+
+}
+```
+
+#### Connection Pool
+
+- 데이터베이스와 연결된 커넥션을 미리 만들어 풀(pool) 속에 저장해 두고 있다가 필요할 때 커넥션을 가져다 사용하고 다시 풀에 반환하는 기법
+
+  <img src = "./img/connectionPool.png">
+
+## Multi-Thread 프로그래밍
+
+- 프로세스(Process) : 운영체제로부터 일부 자원을 할당받아 코드 덩어리인 애플리케이션을 실행시켜 동작하는 것을 프로세스라고 한다
+
+  <small>!! 이때, 할당받는 자원은 다른 프로세스와 공유하지 않는다</small>
+
+  - Forground-Process : 일반 애플리케이션, 응용프로그램
+
+  - Background-Process : 서버
+
+    <small> !! background-Process는 실행 모습이 보이지 않는 프로그램이므로 작업관리자에서만 확인할 수 있다</small>
+
+    <small> !! Background-Process와 윈도우 관리 프로그램을 합쳐서 서비스로 부르기도 한다</small>
+
+- Java에서는 ProcessBuilder 클래스를 통해 프로세스를 진행시킨다
+
+- 스레드(thread) : 프로세스 동작의 최소단위로 모든 프로그램은 하나 이상으 스레드로 구성된다
+
+- 멀티스레드의 장점 : CPU 사용률 향상, 응답성 향상, 스레드 간의 자원 공유를 통한 효율성 증대
+
+- 멀티스레드의 단점 : 작업 전환(Context Switching)에 대한 비용이 발생, 스레드 제어의 어려움
+
+### 스레드 생성과 수행
+
+- Thread 클래스를 상속받거나 Runnable 인터페이스를 구현해서 스레드를 생성할 수 있다
+
+- 스레드 생애 주기
+
+<img src="https://postfiles.pstatic.net/MjAyMjAyMjVfODQg/MDAxNjQ1NzU3NDIxOTk3.6221-zRpPTzrGMdqLNNkXHUjNqz3VK4qEpynl2UR_3Eg.LXrLN4RrYAQpolc53104-Zwg9J9yc2OR3iiwBEUj7uYg.PNG.seounghye95/%EC%8A%A4%EB%A0%88%EB%93%9C%EC%83%81%ED%83%9C%EC%99%80%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0.PNG?type=w966">
+
+#### Thread 클래스 상속
+
+```java
+// Go.java
+package pack2;
+
+public class Go extends Thread {
+	public void run() {
+		for(int i = 1; i <= 10; i++) {
+			System.out.println("go : " + i);
+		}
+	}
+}
+
+// Come.java
+package pack2;
+
+public class Come extends Thread {
+	public void run() {
+		for(int i = 10; i >= 1; i--) {
+			System.out.println("come : " + i);
+		}
+	}
+}
+
+// MainEx.java
+package pack2;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		Go g = new Go();
+		Come c = new Come();
+
+		g.run();
+		c.run();
+		// g.run() 실행 후 c.run()이 실행된다
+		// 순차처리
+    // 코드로 직접 run()을 실행시킨다
+		g.start();
+		c.start();
+		// 스레드 실행
+		// 순차처리가 아니고 병렬처리이기 때문에 번갈아가며 실행된다
+		// 결과가 항상 달라진다
+    // 코드로는 스레드를 실행시키고,
+    // 스레드 스케줄러에 의해 run()이 실행된다
+	}
+}
+```
+
+#### Runnable 인터페이스 구현
+
+```java
+// Go.java
+package pack3;
+
+public class Go implements Runnable {
+
+	@Override
+	public void run() {
+		for(int i = 1; i <= 10; i++) {
+			System.out.println("go : " + i);
+		}
+	}
+}
+
+// Come.java
+package pack3;
+public class Come implements Runnable {
+
+	@Override
+	public void run() {
+		for(int i = 10; i >= 1; i--) {
+			System.out.println("come : " + i);
+		}
+	}
+}
+
+// MainEx.java
+package pack3;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		Go g = new Go();
+		Come c = new Come();
+
+		Thread t1 = new Thread(g);
+		Thread t2 = new Thread(c);
+
+		System.out.println("시작");
+		t1.start();
+		t2.start();
+		System.out.println("끝");
+    // 메인, t1, t2 스레드가 각각 동작되기 때문에 결과는 "끝"이 항상 마지막에 출력되는 것이 아니다
+	}
+
+}
+```
+
+```java
+package pack4;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		Thread t1 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for(int i = 1; i <= 10; i++) {
+					System.out.println("go : " + i);
+				}
+			}
+		});
+    // 익명함수를 이용할 수 있다
+		Thread t2 = new Thread(() -> {
+			for(int i = 10; i >= 1; i--) {
+			  System.out.println("come : " + i);
+			}
+		});
+    // 람다식을 이용할 수 있다
+		System.out.println("시작");
+		t1.start();
+		t2.start();
+		System.out.println("끝");
+	}
+
+}
+```
+
+- 스레드 우선순위
+
+  <small> !! 스레드 우선순위로 스레드를 완벽하게 제어할 수는 없다</small>
+
+```java
+package pack5;
+
+public class ThreadEx {
+
+	public static void main(String[] args) {
+		System.out.println(Thread.currentThread().getName()); // main
+		System.out.println(Thread.currentThread().getPriority()); // 5
+		// 스레드의 이름과 우선순위 확인
+	}
+}
+```
+
+```java
+// MyThread1.java
+
+package pack5;
+
+public class MyThread1 extends Thread {
+
+	@Override
+	public void run() {
+		System.out.println(this.getName() + " 스레드 시작");
+
+		for(int i = 0; i <= 300; i++) {
+			System.out.println("-");
+			for(int x = 0; x < 10_000_000; x++);
+		}
+	}
+
+}
+
+// MyThread2.java
+package pack5;
+
+public class MyThread2 extends Thread {
+
+	@Override
+	public void run() {
+		System.out.println(this.getName() + " 스레드 시작");
+
+		for(int i = 0; i <= 300; i++) {
+			System.out.println("|");
+			for(int x = 0; x < 10_000_000; x++);
+		}
+	}
+
+}
+
+// MainEx.java
+
+package pack5;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		MyThread1 t1 = new MyThread1();
+		MyThread2 t2 = new MyThread2();
+
+		System.out.println(t1.getPriority()); // 5
+		t1.setPriority(7); // t1 스레드의 우선순위 변경
+
+		System.out.println("시작");
+		t1.start();
+		t2.start();
+		System.out.println("끝");
+	} // t1 스레드의 우선순위가 가장 높기 때문에 되도록이면 먼저 실행된 결과를 얻는다
+
+}
+```
+
+```java
+package pack5;
+
+public class PriorityTest {
+	static class MessengerThread extends Thread{
+		public MessengerThread(String name) {
+			super(name);
+		}
+
+		public void run() {
+			for(int i = 0; i < 30; i++) {
+				System.out.print(this.getName());
+			}
+		}
+	}
+	public static void main(String[] args) {
+		Thread fThread = new MessengerThread("F");
+		Thread tThread = new MessengerThread("T");
+		fThread.setPriority(Thread.MIN_PRIORITY);
+		tThread.setPriority(Thread.MAX_PRIORITY);
+		fThread.start();
+		tThread.start();
+	}
+
+}
+```
+
+### 스레드 관련 메서드
+
+- Thread 클래스의 메서드로 스레드를 제어할 수 있다
+
+#### sleep()
+
+```java
+// Gugudan.java
+
+package pack6;
+
+public class Gugudan implements Runnable {
+	private int dan;
+
+	public Gugudan(int dan) {
+		this.dan = dan;
+	}
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(1000); // 1초 지연시킨 후 동작시킨다
+		} catch (InterruptedException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+		for(int i = 1; i <= 9; i++) {
+			System.out.printf("%s X %s = %s%n", dan, i, (dan * i));
+		}
+	}
+
+}
+
+// MainEx.java
+
+package pack6;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		Thread t1 = new Thread(new Gugudan(2));
+
+		t1.start(); // 실행시키면 1초가 흐르고 난 뒤 동작한다
+	}
+}
+```
+
+```java
+package pack6;
+
+import java.time.LocalTime;
+
+public class SleepTest1 {
+	static class Timer extends Thread{
+		public void run() {
+			for(int i = 0; i < 3; i++) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					System.out.println("에러 : " + e.getMessage());
+				}
+				System.out.println("째깍 : " + LocalTime.now());
+			}
+		}
+	}
+	public static void main(String[] args) {
+		Timer timer = new Timer();
+		timer.start();
+	}
+
+}
+```
