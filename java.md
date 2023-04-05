@@ -8202,7 +8202,7 @@ public class ResultSetMetaEx {
 
   <img src = "./img/connectionPool.png">
 
-## Multi-Thread 프로그래밍
+## Multi-Thread
 
 - 프로세스(Process) : 운영체제로부터 일부 자원을 할당받아 코드 덩어리인 애플리케이션을 실행시켜 동작하는 것을 프로세스라고 한다
 
@@ -8212,7 +8212,7 @@ public class ResultSetMetaEx {
 
   - Background-Process : 서버
 
-    <small> !! background-Process는 실행 모습이 보이지 않는 프로그램이므로 작업관리자에서만 확인할 수 있다</small>
+    <small> !! background-Process는 실행 모습이 보이지 않는 프로그램이므로 작업관리자를 통해 확인할 수 있다</small>
 
     <small> !! Background-Process와 윈도우 관리 프로그램을 합쳐서 서비스로 부르기도 한다</small>
 
@@ -8220,9 +8220,20 @@ public class ResultSetMetaEx {
 
 - 스레드(thread) : 프로세스 동작의 최소단위로 모든 프로그램은 하나 이상으 스레드로 구성된다
 
-- 멀티스레드의 장점 : CPU 사용률 향상, 응답성 향상, 스레드 간의 자원 공유를 통한 효율성 증대
+  <small>!! 지금까지 실행시켰던 Java 프로그램은 모두 메인 스레드가 메인 메서드를 실행해줬던 것이다</small>
 
-- 멀티스레드의 단점 : 작업 전환(Context Switching)에 대한 비용이 발생, 스레드 제어의 어려움
+- 멀티스레드의 장점
+
+  - CPU 사용률 향상
+  - 응답성 향상
+
+  - 스레드 간의 자원 공유를 통한 효율성 증대
+
+- 멀티스레드의 단점
+
+  - 작업 전환(Context Switching)에 대한 비용이 발생
+
+  - 스레드 제어의 어려움
 
 ### 스레드 생성과 수행
 
@@ -8277,7 +8288,7 @@ public class MainEx {
 		// 순차처리가 아니고 병렬처리이기 때문에 번갈아가며 실행된다
 		// 결과가 항상 달라진다
     // 코드로는 스레드를 실행시키고,
-    // 스레드 스케줄러에 의해 run()이 실행된다
+    // JVM의 스레드 스케줄러에 의해 run()이 실행된다
 	}
 }
 ```
@@ -8300,6 +8311,7 @@ public class Go implements Runnable {
 
 // Come.java
 package pack3;
+
 public class Come implements Runnable {
 
 	@Override
@@ -8337,35 +8349,40 @@ package pack4;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		Thread t1 = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				for(int i = 1; i <= 10; i++) {
-					System.out.println("go : " + i);
-				}
-			}
-		});
+  public static void main(String[] args) {
+    Thread t1 = new Thread(new Runnable() {
+    	@Override
+    	public void run() {
+    		for(int i = 1; i <= 10; i++) {
+    			System.out.println("go : " + i);
+    		}
+    	}
+  	});
     // 익명함수를 이용할 수 있다
-		Thread t2 = new Thread(() -> {
-			for(int i = 10; i >= 1; i--) {
-			  System.out.println("come : " + i);
-			}
-		});
+  	Thread t2 = new Thread(() -> {
+  		for(int i = 10; i >= 1; i--) {
+  		  System.out.println("come : " + i);
+  		}
+  	});
     // 람다식을 이용할 수 있다
-		System.out.println("시작");
-		t1.start();
-		t2.start();
-		System.out.println("끝");
-	}
+  	System.out.println("시작");
+  	t1.start();
+  	t2.start();
+  	System.out.println("끝");
+  }
 
 }
 ```
 
 - 스레드 우선순위
 
-  <small> !! 스레드 우선순위로 스레드를 완벽하게 제어할 수는 없다</small>
+```java
+public final static int MIN_PRIORITY = 1;
+public final static int NORM_PRIORITY = 5; // 기본값
+public final static int MAX_PRIORITY = 10;
+```
+
+<small> !! 스레드 우선순위로 스레드를 완벽하게 제어할 수는 없는 것에 주의하자</small>
 
 ```java
 package pack5;
@@ -8433,7 +8450,9 @@ public class MainEx {
 		t1.start();
 		t2.start();
 		System.out.println("끝");
-	} // t1 스레드의 우선순위가 가장 높기 때문에 되도록이면 먼저 실행된 결과를 얻는다
+	}
+  // t1 스레드의 우선순위가 가장 높기 때문에 되도록이면 먼저 실행된 결과를 얻는다
+  // 단, 우선순위가 높다고 무조건 먼저 실행되는 것은 아니다
 
 }
 ```
@@ -8470,6 +8489,8 @@ public class PriorityTest {
 - Thread 클래스의 메서드로 스레드를 제어할 수 있다
 
 #### sleep()
+
+- 스레드를 일정 시간 대기하게 한다
 
 ```java
 // Gugudan.java
@@ -8531,6 +8552,894 @@ public class SleepTest1 {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
 		timer.start();
+	}
+
+}
+```
+
+#### join()
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class JoinTest {
+
+	static class GuguThread extends Thread {
+		private int dan;
+		String[] result = new String[9];
+
+		public GuguThread(int dan) {
+			this.dan = dan;
+		}
+
+		public void run() {
+			for(int i = 1; i < 10; i++) {
+				result[i - 1] = dan + "*" + i + "=" + (dan * i);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					System.out.println("에러 : " + e.getMessage());
+				}
+			}
+			System.out.println(dan + "단 완료\t");
+		}
+	}
+
+	public static void main(String[] args) {
+		List<GuguThread> gugus = new ArrayList<>();
+
+		for(int i = 1; i < 10 ; i++) {
+			GuguThread gugu = new GuguThread(i);
+			gugus.add(gugu);
+			gugu.start();
+		}
+
+		for(GuguThread gugu : gugus) {
+			try {
+				gugu.join();
+			} catch (InterruptedException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+
+		System.out.println("\n 구구단 출력");
+
+		for(GuguThread gugu : gugus) {
+			System.out.println(Arrays.toString(gugu.result));
+		}
+	}
+
+}
+```
+
+### Daemon Thread
+
+- 일반 스레드의 작업을 돕는 보조적인 스레드로 작업을 마치지 못했더라도 메인 스레드가 종료될 때 같이 종료된다
+
+  <small> !! 데몬스레드 작업이 먼저 끝나는 경우가 있기도 하다</small>
+
+```java
+// Gugudan.java
+package pack7;
+
+public class Gugudan implements Runnable {
+	private int dan;
+
+	public Gugudan(int dan) {
+		this.dan = dan;
+	}
+
+	@Override
+	public void run() {
+		for (int i = 1; i <= 9; i++	) {
+			System.out.printf("%s X %s = %s%n", dan, i, dan * i);
+		}
+	}
+
+}
+
+// MainEx.java
+package pack7;
+
+public class MainEx {
+
+	public static void main(String[] args) {
+		Thread t1 = new Thread(new Gugudan(2));
+		Thread t2 = new Thread(new Gugudan(4));
+
+		System.out.println("시작");
+
+		t1.setDaemon(true);
+		t2.setDaemon(true);
+
+		t1.start();
+		t2.start();
+
+		try {
+			Thread.sleep(1000 * 3);
+		} catch (InterruptedException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+    // try ~ catch 구문을 주석 처리하면 스레드가 t1, t2 스레드가 실행되기 전
+    // 메인 스레드가 종료되기 때문에 구구단이 출력되지 않는다
+		System.out.println("끝");
+	}
+
+}
+```
+
+```java
+package pack7;
+
+public class DaemonThreadTest {
+
+	static class SaveDaemon extends Thread{
+		public SaveDaemon() {
+			this.setDaemon(true);
+		}
+		public void run() {
+			while(true) {
+				try {
+					Thread.sleep(1000 * 5);
+				} catch(InterruptedException e) {
+					System.out.println("에러 : " + e.getMessage());
+				}
+				System.out.println("자동 저장함");
+			}
+		}
+	}
+
+
+	public static void main(String[] args) {
+		Thread daemon = new SaveDaemon();
+		daemon.start();
+
+		for( int i = 0; i < 20; i++) {
+			try {
+				Thread.sleep(1000);
+				System.out.println("작업 중..." + i);
+			} catch (InterruptedException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+		System.out.println("main over");
+	}
+
+}
+```
+
+### Multi-thread의 문제점
+
+#### 데이터 공유와 동기화 문제
+
+```java
+// Account.java
+package pack8;
+
+public class Account {
+	private int balance = 1000;
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void withdraw(int money) {
+		if(balance >= money) {
+			try {
+				Thread.sleep(1000 * 1);
+
+				balance -= money;
+			} catch (InterruptedException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		} else {
+			System.out.println("잔고 부족");
+		}
+	}
+}
+
+// Client.java
+package pack8;
+
+public class Client implements Runnable {
+
+	private Account account;
+
+	public Client(Account account) {
+		this.account = account;
+	}
+
+	@Override
+	public void run() {
+		while(account.getBalance() > 0) {
+			int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
+			account.withdraw(money);
+
+			System.out.println("통장 잔고 : " + account.getBalance());
+		}
+	}
+
+}
+// ClientMain.java
+package pack8;
+
+public class ClientMain {
+
+	public static void main(String[] args) {
+		Account account = new Account();
+
+		Thread t1 = new Thread(new Client(account));
+		Thread t2 = new Thread(new Client(account));
+
+		t1.start();
+		t2.start();
+	}
+
+}
+
+// account를 공유하기 때문에 잔액이 음수가 나오는 결과를 출력할 때가 있다
+```
+
+##### synchronized
+
+- 공유 자원을 사용하는 메서드에 synchronized 키워드를 사용한다
+
+```java
+// Account.java
+package pack8;
+
+public class Account {
+	private int balance = 1000;
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public synchronized void withdraw(int money) {
+		if(balance >= money) {
+			try {
+				Thread.sleep(1000 * 1);
+
+				balance -= money;
+			} catch (InterruptedException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		} else {
+			System.out.println("잔고 부족");
+		}
+	}
+}
+
+// Client.java
+package pack8;
+
+public class Client implements Runnable {
+
+	private Account account;
+
+	public Client(Account account) {
+		this.account = account;
+	}
+
+	@Override
+	public void run() {
+		while(account.getBalance() > 0) {
+			int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
+			account.withdraw(money);
+
+			System.out.println("통장 잔고 : " + account.getBalance());
+		}
+	}
+
+}
+// ClientMain.java
+package pack8;
+
+public class ClientMain {
+
+	public static void main(String[] args) {
+		Account account = new Account();
+
+		Thread t1 = new Thread(new Client(account));
+		Thread t2 = new Thread(new Client(account));
+
+		t1.start();
+		t2.start();
+	}
+
+}
+```
+
+## UI
+
+- 화면 구현
+
+- 종류
+
+  - CUI (Character User Interface) : 텍스트 중심의 프로그램으로 순차 처리를 한다
+
+    - 입력 : 키보드
+
+    - 출력 : 텍스트
+
+      <sup> ex) cmd
+
+  - GUI (Graphic User Interface) : 그래픽을 이용하는 사용자 입출력 프로그램으로 발생한 이벤트를 처리하는 것을 중심으로 한다
+
+    - 입력 : 마우스 / 키보드
+
+    - 출력 : 그래픽
+
+- GUI를 구현하기 위한 Java 라이브러리
+
+  - Oracle
+
+    - AWT (Abstract Window Toolkit) : 초기부터 제공한 라이브러리로 java.awt 패키지를 사용한다
+
+    - Swing : AWT를 확장해서 만든 라이브러리로 javax.swing 패키지를 사용한다
+      <small>!! AWT와 Swing은 보통 같이 쓰인다</small>
+
+    - JavaFX : GUI를 구현하기 위해 AWT, Swing과 다르게 새로 만든 라이브러리
+
+  - eclipse (IBM)
+    - SWT (Standard Widget Toolkit)
+
+### Swing
+
+<small> !! https://yooniron.tistory.com/12 참조</small>
+
+- 명령 프롬프트에서 .jar 파일 실행방법
+
+```java
+// 명령 프롬프트
+
+> java -jar Notepad.jar
+// Notepad.jar 파일을 실행
+```
+
+- 컨테이너와 컴포넌트로 구성된다
+
+  - 컨테이너
+
+    - 다른 컴포넌트를 포함할 수 있는 GUI 컴포넌트
+    - 다른 컨테이너에 포함될 수 있다
+
+    - window에서의 프레임
+
+      <b>&rarr; window &supset; Frame &supset; Panel</b>
+
+  - 컴포넌트
+
+    - 컨테이너에 포함되어야 화면에 출력될 수 있는 GUI 객체
+
+    - 다른 컴포넌트를 포함할 수 없다
+
+#### Swing으로 GUI 구현
+
+1. 컨테이너
+
+- 프로그램은 1개의 JFrame과 여러개의 JDialog로 구성된다
+
+2. 레이아웃
+3. 컴포넌트
+4. 이벤트
+
+##### JFrame
+
+```java
+import javax.swing.JFrame;
+
+public class JFrameEx {
+
+	public static void main(String[] args) {
+		// "has ~ a" 관계로 JFrame 프레임 구현
+		JFrame frame = new JFrame();
+
+		frame.setSize(1024, 768); // 프레임 크기 설정
+
+		frame.setVisible(true); // 프레임을 보이게 한다
+	}
+}
+```
+
+```java
+import javax.swing.JFrame;
+
+public class JFrameEx02 extends JFrame {
+  // 상속관계로 JFrame 프레임 구현
+	public static void main(String[] args) {
+		JFrameEx02 frame = new JFrameEx02();
+		frame.setSize(1024, 768);
+		frame.setVisible(true);
+	}
+
+}
+```
+
+```java
+// UserFrame.java
+package pack8;
+
+import javax.swing.JFrame;
+
+public class UserFrame extends JFrame {
+	public UserFrame() {
+		this.setSize(1024, 768);
+	}
+}
+
+// JFrameMainEx.java
+package pack8;
+
+public class JFrameMainEx {
+
+	public static void main(String[] args) {
+		UserFrame frame = new UserFrame();
+		frame.setVisible(true);
+	}
+
+}
+```
+
+```java
+import javax.swing.JFrame;
+
+public class JFrameEx3 extends JFrame {
+
+	public JFrameEx3() {
+		this.setSize(1024, 768);
+		this.setLocation(100, 100); // 프레임의 위치 설정
+
+		// 위의 코드를 합쳐서 아래와 같이 한번에 쓸 수도 있다
+		// this.setBounds(100, 100, 1024, 768);
+
+		this.setTitle("JFrame 데모"); // 프레임의 제목 설정
+		System.out.println(this.getTitle());
+
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// 프레임의 종료 버튼을 누르면 프로그램도 같이 종료되게 설정
+		this.setResizable(false); // 컨테이너의 크기를 조절할 수 없게 설정
+	}
+	public static void main(String[] args) {
+		JFrameEx3 frame = new JFrameEx3();
+		frame.setSize(1024, 768);
+		frame.setVisible(true);
+	}
+
+}
+```
+
+```java
+import java.awt.Color;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class JFrameEx4 extends JFrame {
+	private JPanel contentPane;
+
+	public JFrameEx4() {
+		this.setSize(1024, 768);
+		this.setLocation(100, 100);
+
+
+		contentPane = new JPanel();
+
+		contentPane.setBackground(Color.RED);
+
+		JButton btn1 = new JButton("버튼1");
+		btn1.setBounds(10, 10, 100, 25); // 버튼 컴포넌트의 크기, 위치 지정
+
+		contentPane.add(btn1); // 생성한 버튼 컴포넌트를 패널에 추가한다
+
+		this.setContentPane(contentPane); // 프레임에 패널을 붙힌다
+	}
+	public static void main(String[] args) {
+		JFrameEx4 frame = new JFr ameEx4();
+		frame.setSize(1024, 768);
+		frame.setVisible(true);
+	}
+
+}
+```
+
+```java
+import java.awt.Color;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class JFrameEx4 extends JFrame {
+	private JPanel contentPane;
+
+	public JFrameEx4() {
+		this.setSize(1024, 768);
+		this.setLocation(100, 100);
+
+
+		contentPane = new JPanel();
+
+		contentPane.setBackground(Color.RED);
+
+		JButton btn1 = new JButton("버튼1");
+		btn1.setBounds(10, 10, 100, 25);
+
+		JButton btn2 = new JButton("버튼2");
+		btn2.setBounds(10, 40, 100, 25);
+
+		contentPane.setLayout(null);
+		// 레이아웃매니저로 컴포넌트 배치를 관리한다
+		// null - null layout / absolute layout
+
+		contentPane.add(btn1); // 생성한 버튼을 패널에 붙힌다
+		contentPane.add(btn2); // 생성한 버튼을 패널에 붙힌다
+
+		this.setContentPane(contentPane); // 컨테이너에 패널을 붙힌다
+	}
+	public static void main(String[] args) {
+		JFrameEx4 frame = new JFrameEx4();
+		frame.setSize(1024, 768);
+		frame.setVisible(true);
+	}
+
+}
+```
+
+##### 레이아웃 구성
+
+- 직접 레이아웃을 구성하기 힘들기 대문에 eclipse에 있는 WindowBuilder를 사용한다
+
+  <small>!! WindowBuilder로 레이아웃을 구성하는 경우 코드를 직접 입력하지 말고 WindowBuilder만 사용해서 레이아웃을 구성해야 한다</small>
+
+  <img src = "./img/windowbuilder.png" width = "600">
+
+##### 컴포넌트
+
+- label : 출력문, 안내문용 컴포넌트
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
+
+public class JFrameEx03 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFrameEx03 frame = new JFrameEx03();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFrameEx03() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lbl1 = new JLabel("라벨1");
+		lbl1.setBounds(12, 10, 139, 15);
+		contentPane.add(lbl1);
+
+		String text = "<html><body>Hello label <br><font color = \"red\"> Hello label</font></body></html>";
+		// html을 사용할 수 있다
+		JLabel lbl2 = new JLabel(text);
+		lbl2.setIcon(new ImageIcon("C:\\html\\apache-tomcat-9.0.71\\webapps\\ROOT\\miniproject01\\img\\heart.png"));
+		lbl2.setFont(new Font("D2Coding", Font.BOLD, 17));
+		lbl2.setForeground(new Color(176, 90, 254));
+		lbl2.setVerticalAlignment(SwingConstants.BOTTOM);
+		lbl2.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl2.setBounds(12, 46, 299, 267);
+		contentPane.add(lbl2);
+
+		System.out.println(lbl1.getText());
+		System.out.println(lbl2.getText());
+
+		lbl1.setText("새 라벨1");
+	}
+}
+```
+
+<img src="./img/labelResult.png" width = "600">
+
+- button
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class JFrame05 extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lbl;
+  // label을 멤버변수로 선언해서 버튼 컴포넌트가 접근할 수 있게 한다
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFrame05 frame = new JFrame05();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JFrame05() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JButton btn1 = new JButton("button 1");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("버튼 1 클릭");
+				lbl.setText("결과 : 버튼 1 클릭");
+			}
+		});
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn1.setBounds(12, 10, 97, 23);
+		contentPane.add(btn1);
+
+		JButton btn2 = new JButton("button 2");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("버튼 2 클릭");
+				lbl.setText("결과 : 버튼 2 클릭");
+			}
+		});
+		btn2.setBounds(121, 10, 97, 23);
+		contentPane.add(btn2);
+
+		JButton btn3 = new JButton("button 3");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("버튼 3 클릭");
+				lbl.setText("결과 : 버튼 3 클릭");
+			}
+		});
+		btn3.setBounds(230, 10, 97, 23);
+		contentPane.add(btn3);
+
+		lbl = new JLabel("결과");
+		lbl.setFont(new Font("굴림", Font.BOLD, 18));
+		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl.setBounds(12, 43, 315, 42);
+		contentPane.add(lbl);
+	}
+
+}
+```
+
+  <img src = "./img/event1.png" width = "600">
+
+- textfield
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
+
+public class JTextFieldEx extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JLabel lbl;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JTextFieldEx frame = new JTextFieldEx();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JTextFieldEx() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		textField = new JTextField();
+		textField.setText("초기값");
+		textField.setBounds(12, 10, 403, 28);
+		contentPane.add(textField);
+		textField.setColumns(10);
+
+		JButton btn = new JButton("입력 내용 출력");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(textField.getText());
+				lbl.setText(textField.getText());
+			}
+		});
+		btn.setBounds(12, 61, 148, 37);
+		contentPane.add(btn);
+
+		lbl = new JLabel("출력 결과");
+		lbl.setBounds(12, 126, 403, 28);
+		contentPane.add(lbl);
+	}
+}
+```
+
+  <img src = "./img/event2.png" width = "600">
+
+GUI 주민등록 형식 검사기
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class JuminCheck extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField num1;
+	private JTextField num2;
+	private JLabel lbl;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JuminCheck frame = new JuminCheck();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JuminCheck() {
+    setTitle("주민등록 형식 검사기");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		num1 = new JTextField();
+		num1.setBounds(12, 10, 116, 21);
+		contentPane.add(num1);
+		num1.setColumns(10);
+
+		num2 = new JTextField();
+		num2.setBounds(140, 10, 116, 21);
+		contentPane.add(num2);
+		num2.setColumns(10);
+
+		JButton btn = new JButton("검사");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String strNum = num1.getText() + num2.getText();
+        int checkNum = Integer.parseInt(strNum.substring(strNum.length() - 1));
+				int sum = 0;
+				for(int i = 0, mulNum = 2; i < strNum.length() - 1; i++, mulNum++) {
+					if(mulNum == 10) {
+						mulNum = 2;
+					}
+					sum += Integer.parseInt(strNum.substring(i, i + 1)) * mulNum;
+				}
+				if(11 - (sum % 11) == checkNum) {
+					lbl.setText("형식이 맞습니다");
+				}else {
+					lbl.setText("형식이 맞지 않습니다");
+				}
+			}
+		});
+		btn.setBounds(284, 9, 66, 23);
+		contentPane.add(btn);
+
+		lbl = new JLabel("결과");
+		lbl.setFont(new Font("D2Coding", Font.BOLD, 13));
+		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl.setBounds(12, 54, 352, 33);
+		contentPane.add(lbl);
 	}
 
 }
