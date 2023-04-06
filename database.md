@@ -13,7 +13,7 @@
   - 동시 접근이 가능
   - MariaDB에서는 '데이터의 저장공간' 자체를 의미하기도 한다
   - 네트워크를 이용한 원격 접속
-    <img src="https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/DBMS_%EA%B0%9C%EB%85%90.png" width="500">
+  <img src="https://hongong.hanbit.co.kr/wp-content/uploads/2021/11/DBMS_%EA%B0%9C%EB%85%90.png" width="500">
 
 - 데이터베이스의 역사
 
@@ -70,7 +70,7 @@
 
 - DBMS 제작회사와 독립적으로 ANSI 표준을 따른다
 
-  <small>!! DBMS 제작회사는 표준 SQL을 확장해 사용한다</small>
+  <small>!! DBMS 제작회사는 표준 SQL을 확장시켜서 사용한다</small>
 
 - DBMS간에 상호 호환성이 뛰어나 다른 시스템으로 이식이 쉽다
 
@@ -402,7 +402,7 @@ MariaDB [sample]> select empno, ename, job from emp where job = 'clerk' or job =
 8 rows in set (0.001 sec)
 
 -- 목록형 제한은 "in()"를 사용할 수도 있다
-MariaDB [sample]> select empno, ename, job from emp where job in('clerk','salesman');
+MariaDB [sample]> select empno, ename, job from emp where job in ('clerk','salesman');
 +-------+--------+----------+
 | empno | ename  | job      |
 +-------+--------+----------+
@@ -417,7 +417,7 @@ MariaDB [sample]> select empno, ename, job from emp where job in('clerk','salesm
 +-------+--------+----------+
 8 rows in set (0.000 sec)
 
-MariaDB [sample]> select empno, ename, job, deptno from emp where deptno in(10, 20);
+MariaDB [sample]> select empno, ename, job, deptno from emp where deptno in (10, 20);
 +-------+--------+-----------+--------+
 | empno | ename  | job       | deptno |
 +-------+--------+-----------+--------+
@@ -522,7 +522,7 @@ MariaDB [sample]> select empno, ename, hiredate from emp where hiredate like '%-
 2 rows in set (0.000 sec)
 
 MariaDB [sample]> select empno, ename, sal from emp where ename like '_i%';
--- '_'는 한개의 임의의 문자를 의미한다
+-- '_'는 공백 문자를 제외한 한개의 임의의 문자를 의미한다
 +-------+--------+---------+
 | empno | ename  | sal     |
 +-------+--------+---------+
