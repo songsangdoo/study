@@ -8923,11 +8923,13 @@ public class ClientMain {
 1. 컨테이너 (JFrame)
 
 - 프로그램은 1개의 JFrame과 여러개의 JDialog로 구성된다
-
+2. 패널(JPanel)
 2. Layout-Manager 
-- 좌표중심배치인 null 레이아웃을 사용한다
+- 좌표중심배치인  (null / absolute) 레이아웃을 사용한다
 3. 컴포넌트
 4. 이벤트
+
+5. 이벤트 내부 코딩
 
 
 ##### JFrame
@@ -9970,7 +9972,947 @@ public class SwingEx06 extends JFrame {
 }
 ```
 
+- 알림창
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn1 = new JButton("New Button");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.WARNING_MESSAGE);
+				// 현재 프레임 객체를 기반으로 해서 "새 타이틀" 경고창을 통해서 "메세지"를 보여준다
+				// JOptionPane.WARNING_MESSAGE는 경고창임을 알리는 이미지를 보여준다
+				// 에러, 경고를 알리기 위해 많이 사용한다
+			}
+		});
+		btn1.setBounds(12, 10, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int result = JOptionPane.showConfirmDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.OK_CANCEL_OPTION);
+				// 기본적으로는 예, 아니오, 취소가 있는 알림창을 보여준다
+				// JOptionPane.OK_CANCEL_OTION을 사용해서 확인, 취소만 보여진다
+				// int 자료형을 리턴값으로 준다 
+				
+				if(result == JOptionPane.OK_OPTION) {
+					System.out.println("OK 클릭");
+				}else if(result == JOptionPane.CANCEL_OPTION) {
+					System.out.println("CANCEL 클릭");
+				}else {
+					System.out.println("기타");
+				}
+			}
+		});
+		btn2.setBounds(12, 43, 97, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("New button");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String result = JOptionPane.showInputDialog("메세지", "초기값");
+				// 내용을 입력받을 수 있는 창이 생긴다
+				// String을 리턴값으로 준다
+			  // 창을 닫거나, 취소를 누르면 null을 리턴한다
+				if(result != null) { 
+					System.out.println("결과 : " + result);
+				}else {
+					System.out.println("입력 취소");
+				}
+			}
+		});
+		btn3.setBounds(12, 76, 97, 23);
+		contentPane.add(btn3);
+	}
+}
+```
+- progressbar
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JProgressBar;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex02 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex02 frame = new Ex02();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex02() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		// 비율 표시
+		progressBar.setMaximum(200);
+		// 최대값 설정
+		progressBar.setValue(51);
+		// 현재값 설정
+		progressBar.setBounds(12, 10, 408, 118);
+		contentPane.add(progressBar);
+		
+		JButton btn1 = new JButton("증가 (+ 10)");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(progressBar.getValue() == progressBar.getMaximum()) {
+					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 증가시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+				}else {
+					System.out.println(progressBar.getValue());
+					progressBar.setValue(progressBar.getValue() + 10);
+				}
+			}
+		});
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn1.setBounds(12, 140, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("감소 (- 10)");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(progressBar.getValue() == progressBar.getMinimum()) {
+					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 감소시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+				}else {
+					System.out.println(progressBar.getValue());
+					progressBar.setValue(progressBar.getValue() - 10);
+				}
+			}
+		});
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn2.setBounds(121, 140, 97, 23);
+		contentPane.add(btn2);
+	}
+}
+```
+- slider
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSlider;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+public class Ex03 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex03 frame = new Ex03();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex03() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		
+		JSlider slider = new JSlider();
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println(slider.getValue());
+				// 슬라이더의 값을 변경시킬 때마다 변경된 값을 출력한다
+				// 시작했을 때는 기본값이 출력된다
+				if(textArea != null) {
+					textArea.append(slider.getValue() + System.lineSeparator());
+					// 객체가 생성돼야 그 객체를 사용할 수 있기 때문에
+					// textArea 객체가 먼저 생성되어야 에러가 생기지 않는다
+				}
+			}
+		});
+		slider.setMinorTickSpacing(5);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(10);
+		slider.setPaintLabels(true);
+		// 슬라이더의 간격을 표시한다
+		slider.setMaximum(200);
+		slider.setBounds(12, 10, 501, 66);
+		contentPane.add(slider);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(slider.getValue());
+			}
+		});
+		btn.setBounds(12, 96, 97, 23);
+		contentPane.add(btn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 131, 501, 278);
+		contentPane.add(scrollPane);
+		
+		scrollPane.setViewportView(textArea);
+
+	}
+}
+```
+Color picker 
+```java
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.Font;
+
+public class Test1 extends JFrame {
+
+	private JPanel contentPane;
+	private JSlider redSlider;
+	private JSlider greenSlider;
+	private JSlider blueSlider;
+	private JPanel panel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Test1 frame = new Test1();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Test1() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel green = new JLabel("GREEN");
+		green.setFont(new Font("굴림", Font.BOLD, 13));
+		green.setBounds(56, 168, 96, 23);
+		contentPane.add(green);
+		
+		JLabel red = new JLabel("RED");
+		red.setFont(new Font("굴림", Font.BOLD, 13));
+		red.setBounds(56, 88, 96, 23);
+		contentPane.add(red);
+		
+		JLabel blue = new JLabel("BLUE");
+		blue.setFont(new Font("굴림", Font.BOLD, 13));
+		blue.setBounds(56, 254, 96, 23);
+		contentPane.add(blue);
+				
+		panel = new JPanel();
+		panel.setForeground(new Color(255, 255, 255));
+		panel.setBorder(null);
+		panel.setBounds(56, 311, 597, 206);
+		contentPane.add(panel);
+		
+		redSlider = new JSlider();
+		redSlider.setPaintLabels(true);
+		redSlider.setPaintTicks(true);
+		redSlider.setMinorTickSpacing(10);
+		greenSlider = new JSlider();
+		greenSlider.setPaintLabels(true);
+		greenSlider.setMinorTickSpacing(10);
+		blueSlider = new JSlider();
+		blueSlider.setPaintLabels(true);
+		blueSlider.setMinorTickSpacing(10);
+		
+		redSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		greenSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		blueSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		
+		
+		redSlider.setMajorTickSpacing(100);
+		redSlider.setMaximum(255);
+		redSlider.setBounds(153, 85, 488, 39);
+		contentPane.add(redSlider);
+		
+		greenSlider.setPaintTicks(true);
+		greenSlider.setMajorTickSpacing(100);
+		greenSlider.setMaximum(255);
+		greenSlider.setBounds(153, 165, 488, 39);
+		contentPane.add(greenSlider);
+		
+		blueSlider.setPaintTicks(true);
+		blueSlider.setMajorTickSpacing(100);
+		blueSlider.setMaximum(255);
+		blueSlider.setBounds(153, 251, 488, 39);
+		contentPane.add(blueSlider);
+		
+		
+	}
+}
+
+- spinner
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SpinnerListModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.SpinnerDateModel;
+import java.util.Date;
+import java.util.Calendar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ex04 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex04 frame = new Ex04();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex04() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JSpinner spinner1 = new JSpinner();
+		spinner1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println((Integer)spinner1.getValue());
+			}
+		});
+		spinner1.setModel(new SpinnerNumberModel(50, 20, 100, 5));
+		spinner1.setBounds(12, 10, 142, 27);
+		contentPane.add(spinner1);
+		
+		JSpinner spinner2 = new JSpinner();
+		spinner2.setModel(new SpinnerListModel(new String[] {"\uC0AC\uACFC", "\uB538\uAE30", "\uC218\uBC15", "\uCC38\uC678", "\uADE4"}));
+    // 다국어가 유니코드로 처리된다
+
+    // String items = {"사과", "딸기", "수박", "참외", "귤"};
+    // SpinnerListModel spinnerListModel = new SpinnerListModel(items);
+    // spinner2.setModel(spinnerListModel);
+
+		spinner2.setBounds(12, 47, 142, 27);
+		contentPane.add(spinner2);
+		
+		JSpinner spinner3 = new JSpinner();
+		spinner3.setModel(new SpinnerDateModel(new Date(1675695600000L), new Date(-62109277200000L), new Date(4079170800000L), Calendar.MONTH));
+		spinner3.setBounds(12, 84, 142, 27);
+		contentPane.add(spinner3);
+		
+		JButton btn1 = new JButton("New button");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)spinner1.getValue());
+			}
+		});
+		btn1.setBounds(166, 12, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((String)spinner2.getValue());
+			}
+		});
+		btn2.setBounds(166, 49, 97, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("New button");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Date)spinner3.getValue());
+			}
+		});
+		btn3.setBounds(166, 86, 97, 23);
+		contentPane.add(btn3);
+	}
+}
+```
+
+```java
+// CustomSpinnerListModel.java
+package pack1;
+
+import javax.swing.SpinnerListModel;
+
+public class CustomSpinnerListModel extends SpinnerListModel {
+	public CustomSpinnerListModel() {
+		super(new String[] {
+				"사과", "딸기", "수박", "참외", "귤"
+		});
+	}
+}
+
+// Ex05.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex05 extends JFrame {
+
+	private JPanel contentPane;
+	private JButton btn;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex05 frame = new Ex05();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex05() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerListModel(new String[] {""}));
+		spinner.setBounds(12, 10, 219, 34);
+		contentPane.add(spinner);
+		
+		btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				spinner.setModel(new CustomSpinnerListModel());
+			}
+		});
+		btn.setBounds(266, 15, 97, 23);
+		contentPane.add(btn);
+	}
+
+}
+```
+- comboBoxModel
+
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JComboBox comboBox;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+		comboBox.setBounds(12, 10, 188, 28);
+		contentPane.add(comboBox);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)comboBox.getSelectedIndex());
+				System.out.println((String)comboBox.getSelectedItem());
+				// ComboBoxModel model = comboBox.getModel();
+				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+			}
+		});
+		btnNewButton.setBounds(212, 13, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+
+```java
+// CustemComboBoxModel.java
+package pack1;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class CustomComboBoxModel extends DefaultComboBoxModel<String> {
+	private String[] items = new String[] { "사과", "참외", "딸기", "귤"};
+	
+	@Override
+	public int getSize() {
+		System.out.println("getSize() 호출");
+		return items.length;
+	}
+	@Override
+	public String getElementAt(int index) {
+		System.out.println("getElementAt() 호출");
+		return items[index];
+	}
+	
+}
+
+// Ex06.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JComboBox comboBox;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		comboBox = new JComboBox();
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					System.out.println((String)comboBox.getSelectedItem());
+				}
+				// itemStateChanged()는 selected, deselected를 모두 감지해서 값을 내기 때문에
+				// itemEvent.SELECTED를 이용해 selected만 감지해서 작동하게 해야한다
+			}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+		comboBox.setBounds(12, 10, 188, 28);
+		contentPane.add(comboBox);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)comboBox.getSelectedIndex());
+				// System.out.println((String)comboBox.getSelectedItem());
+				
+				// ComboBoxModel model = comboBox.getModel();
+				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+				
+				CustomComboBoxModel2 cb = new CustomComboBoxModel2();
+				System.out.println(cb.getElementAt(comboBox.getSelectedIndex()));
+			}
+		});
+		btnNewButton.setBounds(212, 13, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+
+```
+- list
+
+```java
+// CustomComboBoxModel2.java
+package pack1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class CustomComboBoxModel2 extends DefaultComboBoxModel<String> {
+	private List<String> items = new ArrayList<>();
+	
+	public CustomComboBoxModel2() {
+		items.add("사과");
+		items.add("참외");
+		items.add("수박");
+		items.add("딸기");
+	}
+	
+	@Override
+	public int getSize() {
+		return items.size();
+	}
+	
+	@Override
+	public String getElementAt(int index) {
+		return items.get(index);
+	}
+}
+
+// Ex07.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
+public class Ex07 extends JFrame {
+
+	private JPanel contentPane;
+	private JButton btn;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex07 frame = new Ex07();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex07() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 29, 258, 196);
+		contentPane.add(scrollPane);
+		
+		JList list = new JList();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(e.getValueIsAdjusting()) {
+					return;
+				} // selected만 감지하도록 한다
+				System.out.println((String)list.getSelectedValue());
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+//		list.setModel(new AbstractListModel() {
+//			String[] values = new String[] {"사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "참외", "수박", "딸기"};
+//			public int getSize() {
+//				return values.length;
+//			}
+//			public Object getElementAt(int index) {
+//				return values[index];
+//			}
+//		});
+		list.setModel(new CustomAbstractModel());
+		list.setSelectedIndex(2);
+		
+		btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(list.getSelectedIndex());
+				System.out.println((String)list.getSelectedValue());
+			}
+		});
+		btn.setBounds(12, 254, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
+
+###### DAO (Data Access Object), DTO (Data Transfer Object)
+
+<img src="https://opensilex.github.io/docs-community-dev/img/global_dao_dto_model.png">
+
+- 역할에 따라 클래스를 분리시킨다
+
+  1. 클래스
+
+  2. 분리  
+
+      &rarr;  MVC (Model View Controller) 
+      - Model : 연결, 데이터 전송 
+
+        <sup>ex) DAO(데이터, 파일과 연결해주는 객체), DTO(데이터 객체)</sup>
+
+        <small> !! 보통 sql문 하나당 한개의 메서드에 연결시킨다</small>
+
+      - view : 디자인 
+
+        <sup>ex) UI</sup>
+
+      - Controller : 흐름제어
+
+!! 우편번호 검사기를 분리해서 작성해보기 
+
 우편번호 검색기(GUI version.)
+
 ```java
 import java.awt.EventQueue;
 
@@ -10113,30 +11055,6 @@ public class PostSearchTest extends JFrame {
 
 }
 ```
-#### DAO, DTO
-
-<img src="https://opensilex.github.io/docs-community-dev/img/global_dao_dto_model.png">
-
-- 역할에 따라 클래스를 분리시킨다
-
-  1. 클래스
-
-  2. 분리  
-
-      &rarr;  MVC (Model View Controller) 
-      - Model : 연결, 데이터 전송 
-
-        <sup>ex) DAO(연결 객체), DTO(데이터 객체)</sup>
-
-        <small> !! 보통 sql문 하나당 한개의 메서드에 연결시킨다</small>
-
-      - view : 디자인 
-
-        <sup>ex) UI</sup>
-
-      - Controller : 흐름제어
-
-!! 우편번호 검사기를 분리해서 작성해보기 
 
 ```java
 // ZipcodeTO.java
@@ -10263,6 +11181,7 @@ public class ZipcodeDAO {
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
@@ -10355,8 +11274,7 @@ public class PostSearchTest extends JFrame {
 				String dongStr = dongName.getText();
 
 					if(dongStr.trim().length() < 2) {
-						resultArea.setText("동이름을 두자 이상 입력해야 됩니다");
-						dongName.setText("");
+						JOptionPane.showMessageDialog(PostSearchTest.this, "동이름을 두자 이상 입력해야 합니다", "에러", JOptionPane.ERROR_MESSAGE);
 					} else {
 						resultArea.setText("");
 						ZipcodeDAO dao = new ZipcodeDAO();
@@ -10366,7 +11284,8 @@ public class PostSearchTest extends JFrame {
 							resultArea.append(address);
 						}
 						if(resultArea.getText().trim().equals("")) {
-							resultArea.setText("검색 결과가 없습니다");
+							JOptionPane.showMessageDialog(PostSearchTest.this, "검색 결과가 없습니다", "에러", JOptionPane.ERROR_MESSAGE);
+							dongName.setText("");
 						}
 					}
 			}
@@ -10586,5 +11505,295 @@ public class DeptSearch extends JFrame {
 		scrollPane.setViewportView(resultArea);
 	}
 
+}
+```
+```java
+// PostSearchTO.java
+package Test;
+
+public class PostSearchTO {
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getSido() {
+		return sido;
+	}
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+	public String getGugun() {
+		return gugun;
+	}
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
+	}
+	public String getDong() {
+		return dong;
+	}
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+	public String getRi() {
+		return ri;
+	}
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+	public String getBunji() {
+		return bunji;
+	}
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
+	}
+}
+
+// PostSearchDAO.java
+package Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostSearchDAO {
+	String url = "jdbc:mariadb://localhost:3306/project";
+	String user = "root";
+	String password = "123456";
+	
+	Connection conn = null;
+	
+	public PostSearchDAO() {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public List<PostSearchTO> searchPost(String dongName) {
+		List<PostSearchTO> informations = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dongName + '%');
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PostSearchTO pt = new PostSearchTO();
+				pt.setZipcode(rs.getString("zipcode"));
+				pt.setSido(rs.getString("sido"));
+				pt.setGugun(rs.getString("gugun"));
+				pt.setDong(rs.getString("dong"));
+				pt.setRi(rs.getString("ri"));
+				pt.setBunji(rs.getString("bunji"));
+				
+				informations.add(pt);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return informations;
+	}
+	
+}
+
+// informationList.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
+public class InformaitonList extends AbstractListModel<String>{
+	private List<String> list = new ArrayList<>();
+	
+	public InformaitonList(String dongName) {
+		
+		PostSearchDAO dao = new PostSearchDAO();
+		
+		List<PostSearchTO> to = dao.searchPost(dongName);
+		
+		for(PostSearchTO data : to) {
+			String information = "";
+			information = String.format("[%s] %s %s %s %s %s%n", data.getZipcode(), data.getSido(), data.getGugun(), data.getDong(), data.getRi(), data.getBunji());
+			
+			list.add(information);
+		}
+	}
+
+	@Override
+	public int getSize() {
+		return list.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		return list.get(index);
+	}
+}
+
+// PostSearch.java
+package Test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
+public class PostSearch extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField input;
+	private JTextField address1;
+	private JTextField address2;
+	private JList resultList;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PostSearch frame = new PostSearch();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public PostSearch() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(33, 24, 687, 51);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		input = new JTextField();
+		input.setBounds(6, 17, 518, 24);
+		panel.add(input);
+		input.setColumns(10);
+		
+		JButton btn = new JButton("검색");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(input.getText().trim().length() < 2) {
+					JOptionPane.showMessageDialog(PostSearch.this, "동 이름을 두자 이상 입력해주세요", "경고", JOptionPane.ERROR_MESSAGE);
+					input.setText("");
+				}else {
+						resultList.setModel(new InformaitonList(input.getText()));
+				}
+			}
+		});
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn.setBounds(536, 17, 132, 23);
+		panel.add(btn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(38, 89, 682, 293);
+		contentPane.add(scrollPane);
+		
+		resultList = new JList();
+		resultList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				address1.setText((String)resultList.getSelectedValue());
+			}
+		});
+
+		scrollPane.setViewportView(resultList);
+		
+		address1 = new JTextField();
+		address1.setEditable(false);
+		address1.setText("기본 주소");
+		address1.setBounds(33, 419, 557, 21);
+		contentPane.add(address1);
+		address1.setColumns(10);
+		
+		address2 = new JTextField();
+		address2.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(address2.getText().trim().equals("")) {
+					address2.setText("상세주소를 입력하세요");
+				}
+			}
+		});
+		address2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(address2.getText().trim().equals("상세주소를 입력하세요")) {
+					address2.setText("");
+				}
+			}
+		});
+		address2.setText("상세주소를 입력하세요");
+		address2.setBounds(33, 471, 557, 21);
+		contentPane.add(address2);
+		address2.setColumns(10);
+	}
 }
 ```

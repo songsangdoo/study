@@ -991,7 +991,7 @@ MariaDB [sample]> select concat(ename, '님의 직책은 ', job, '입니다') '�
 +-----------------------------------------+
 3 rows in set (0.000 sec)
 
-MariaDB [sample]> select concat(ename, '님의 연봉은 ', sal*12, '입니다') '연봉'from emp where deptno = 10;
+MariaDB [sample]> select concat(ename, '님의 연봉은 ', sal*12, '입니다') '연봉' from emp where deptno = 10;
 +------------------------------------------+
 | 연봉                                     |
 +------------------------------------------+
@@ -2474,7 +2474,7 @@ MariaDB [sample]> select * from emp13;
 
 MariaDB [sample]> create table emp_dept
     -> as select empno, ename, e.deptno, dname, loc from emp e inner join dept d
-    -> on(e.deptno = d.deptno);
+    -> on (e.deptno = d.deptno);
 Query OK, 14 rows affected (0.180 sec)
 Records: 14  Duplicates: 0  Warnings: 0
 
@@ -2612,7 +2612,7 @@ MariaDB [test1]> desc emp_alter2;
 
 MariaDB [test1]> alter table emp_alter2 modify job varchar(5);
 ERROR 1265 (01000): Data truncated for column 'job' at row 2
--- 컬럼의 자료형 타입을 수정하려고 할 때 큰 방향으로는 수정이 가능하지만 작은 방향으로는 에러가 생길 수 있다
+-- 컬럼의 자료형 타입을 수정하려고 할 때 큰 방향으로는 문제없이 수정이 가능하지만 작은 방향으로는 에러가 생길 수 있다
 -- 컬럼에 저장된 데이터를 중심으로 생각하자
 
 MariaDB [test1]> alter table emp_alter rename column job to work;
