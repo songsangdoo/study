@@ -9095,6 +9095,8 @@ public class JFrameEx4 extends JFrame {
 }
 ```
 
+
+
 ##### Layout-Manager
 
 - 직접 레이아웃을 구성하기 힘들기 대문에 eclipse에 있는 WindowBuilder를 사용한다
@@ -10764,33 +10766,34 @@ public class Ex06 extends JFrame {
 - list
 
 ```java
-// CustomComboBoxModel2.java
+// CustomAbstractModel.java
 package pack1;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.AbstractListModel;
 
-public class CustomComboBoxModel2 extends DefaultComboBoxModel<String> {
+public class CustomAbstractModel extends AbstractListModel<String> {
 	private List<String> items = new ArrayList<>();
 	
-	public CustomComboBoxModel2() {
+	public CustomAbstractModel() {
 		items.add("사과");
-		items.add("참외");
 		items.add("수박");
-		items.add("딸기");
+		items.add("참외");
+		items.add("귤");
 	}
 	
 	@Override
 	public int getSize() {
 		return items.size();
 	}
-	
+
 	@Override
 	public String getElementAt(int index) {
 		return items.get(index);
 	}
+	
 }
 
 // Ex07.java
@@ -10861,7 +10864,7 @@ public class Ex07 extends JFrame {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 //		list.setModel(new AbstractListModel() {
-//			String[] values = new String[] {"사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "수박", "딸기", "사과", "참외", "참외", "수박", "딸기"};
+//			String[] values = new String[] {"사과", "참외", "수박", "딸기"};
 //			public int getSize() {
 //				return values.length;
 //			}
@@ -10885,6 +10888,445 @@ public class Ex07 extends JFrame {
 	}
 }
 ```
+- table
+  
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		// 스크롤로 감싸줘야 컬럼명이 표시된다
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"1", "2", "3"},
+				{null, null, null},
+			},
+			new String[] {
+				"\uCEEC\uB7FC\uBA851", "\uCEEC\uB7FC\uBA852", "\uCEEC\uB7FC\uBA853"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel01.java
+package pack1;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel01 extends AbstractTableModel {
+	
+	private String[][] items = new String[][]	{
+		{"11", "12", "13"},
+		{"21", "22", "23"},
+		{"31", "32", "33"},
+		{null, "32", "33"},
+	};
+	
+	private String[] columnNames = {
+			"col1", "col2", "col3"
+	};
+	@Override
+	public String getColumnName(int column) {
+		return columnNames[column]; 
+	} // 컬럼의 이름을 지정한다
+	
+	
+	@Override
+	public int getRowCount() {
+		return items.length;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return items[0].length;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return items[rowIndex][columnIndex];
+	}
+
+}
+
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel01());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel02.java
+package pack1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel02 extends AbstractTableModel {
+	
+	private List<List<String>> items = new ArrayList<>();
+	
+	private String[] columnNames = {
+			"col1", "col2", "col3", "col4"
+	};
+	@Override
+	public String getColumnName(int column) {
+		return columnNames[column]; 
+	} 
+	
+	public CustomTableModel02() {
+		List<String> item1 = new ArrayList<>();
+		item1.add("11");
+		item1.add("12");
+		item1.add("13");
+		item1.add("14");
+		List<String> item2 = new ArrayList<>();
+		item2.add("21");
+		item2.add("22");
+		item2.add("23");
+		item2.add("24");
+		List<String> item3 = new ArrayList<>();
+		item3.add("31");
+		item3.add("32");
+		item3.add("33");
+		item3.add("34");
+		
+		items.add(item1);
+		items.add(item2);
+		items.add(item3);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return items.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return items.get(0).size();
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return items.get(rowIndex).get(columnIndex);
+	}
+
+}
+
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel02());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel03.java
+package pack1;
+
+import java.awt.desktop.AboutEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel03 extends AbstractTableModel {
+
+	private List<DataTO> items = new ArrayList<>(); 
+	
+	CustomTableModel03() {
+		DataTO to1 = new DataTO();
+		to1.setNum1("11");
+		to1.setNum2("12");
+		to1.setNum3("13");
+		to1.setNum4("14");
+		DataTO to2 = new DataTO();
+		to2.setNum1("21");
+		to2.setNum2("22");
+		to2.setNum3("23");
+		to2.setNum4("24");
+		DataTO to3 = new DataTO();
+		to3.setNum1("31");
+		to3.setNum2("32");
+		to3.setNum3("33");
+		to3.setNum4("34");
+		
+		items.add(to1);
+		items.add(to2);
+		items.add(to3);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return items.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		int count = 1;
+		
+		for(DataTO to : items) {
+			count++;
+		}
+		return count;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = null;
+		
+		DataTO to = items.get(rowIndex);
+		
+		
+		switch(columnIndex) {
+		case 0:
+			result = to.getNum1();
+			break;
+		case 1:
+			result = to.getNum2();
+			break;
+		case 2:
+			result = to.getNum3();
+			break;
+		case 3:
+			result = to.getNum4();
+			break;
+		}
+		
+		return result;
+	}
+
+}
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel03());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+	}
+}
+
+```
+
 
 ###### DAO (Data Access Object), DTO (Data Transfer Object)
 
@@ -11397,7 +11839,11 @@ public class DeptDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e.getMessage());
-		}
+		}finally{
+      if(pstmt != null) try{pstmt.close();} catch(SQLException e){}
+      if(rs != null) try{rs.close();} catch(SQLException e){}
+      if(conn != null) try{conn.close();} catch(SQLException e){}
+    }
 		return informations; 
 	}
 }
@@ -11569,16 +12015,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostSearchDAO {
-	String url = "jdbc:mariadb://localhost:3306/project";
-	String user = "root";
-	String password = "123456";
-	
 	Connection conn = null;
 	
 	public PostSearchDAO() {
+	String url = "jdbc:mariadb://localhost:3306/project";
+	String user = "root";
+	String password = "123456";
+
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException e) {
 			System.out.println("에러 : " + e.getMessage());
@@ -11794,6 +12239,811 @@ public class PostSearch extends JFrame {
 		address2.setBounds(33, 471, 557, 21);
 		contentPane.add(address2);
 		address2.setColumns(10);
+	}
+}
+```
+사원 이름 검색기
+```java
+// EmpSearchTO.java
+package Test;
+
+public class EmpSearchTO {
+	private String empno;
+	private String ename;
+	private String deptno;
+	private String sal;
+	private String hiredate;
+	private String mgrname;
+	
+	public String getEmpno() {
+		return empno;
+	}
+	public void setEmpno(String empno) {
+		this.empno = empno;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getDeptno() {
+		return deptno;
+	}
+	public void setDeptno(String deptno) {
+		this.deptno = deptno;
+	}
+	public String getSal() {
+		return sal;
+	}
+	public void setSal(String sal) {
+		this.sal = sal;
+	}
+	public String getHiredate() {
+		return hiredate;
+	}
+	public void setHiredate(String hiredate) {
+		this.hiredate = hiredate;
+	}
+	public String getMgrname() {
+		return mgrname;
+	}
+	public void setMgrname(String mgrname) {
+		this.mgrname = mgrname;
+	}
+	
+}
+
+// EmpSearchDAO.java
+package Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmpSearchDAO {
+	Connection conn = null;
+	
+	public EmpSearchDAO() {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+	
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	List<EmpSearchTO> searchEname(String ename){
+		List<EmpSearchTO> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select e.empno, e.ename, e.deptno, e.sal, e.hiredate, ifnull(m.ename, '관리자없음') mgrname from emp e left outer join emp m on (e.mgr = m.empno) where e.ename = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ename);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EmpSearchTO to = new EmpSearchTO();
+				to.setEmpno(rs.getString("empno"));
+				to.setEname(rs.getString("ename"));
+				to.setDeptno(rs.getString("deptno"));
+				to.setSal(rs.getString("sal"));
+				to.setHiredate(rs.getString("hiredate"));
+				to.setMgrname(rs.getString("mgrname"));
+				
+				list.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		return list;
+	}
+	
+}
+
+// EmpListModel.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
+public class EmpListModel extends AbstractListModel<String> {
+	private List<String> data = new ArrayList<>();
+	
+	public EmpListModel(String input) {
+		EmpSearchDAO dao = new EmpSearchDAO();
+		List<EmpSearchTO> empList = new ArrayList<>();
+		
+		empList = dao.searchEname(input);
+		
+		for(EmpSearchTO to : empList) {
+			String empno = to.getEmpno();
+			String ename = to.getEname();
+			String deptno = to.getDeptno();
+			String sal = to.getSal();
+			String hiredate = to.getHiredate();
+			String mgrname = to.getMgrname();
+			
+			data.add(String.format("[%s]  %s  %s  %s  %s  %s" + System.lineSeparator(), empno, ename, deptno, sal, hiredate, mgrname));
+		}
+	}
+	
+	
+	
+	@Override
+	public int getSize() {
+		return data.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		return data.get(index);
+	}
+	
+}
+
+// EmpSearchUI01.java
+package Test;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+
+import javax.swing.border.EtchedBorder;
+import javax.swing.ListSelectionModel;
+
+public class EmpSearchUI01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JList list;
+	private JTextField textField1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EmpSearchUI01 frame = new EmpSearchUI01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public EmpSearchUI01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 650, 509);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC0AC\uC6D0\uC774\uB984 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(6, 21, 616, 73);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lbl = new JLabel("사원이름");
+		lbl.setBounds(12, 41, 57, 15);
+		panel.add(lbl);
+		
+		textField = new JTextField();
+		textField.setBounds(67, 38, 428, 21);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btn = new JButton("검색");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				list.setModel(new EmpListModel(textField.getText()));
+			}
+		});
+		btn.setBounds(507, 37, 97, 23);
+		panel.add(btn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(10, 111, 612, 318);
+		contentPane.add(scrollPane);
+		
+		list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textField1.setText((String)list.getSelectedValue());
+			}
+		});
+		scrollPane.setViewportView(list);
+		
+		textField1 = new JTextField();
+		textField1.setEditable(false);
+		textField1.setText("사원정보");
+		textField1.setBounds(6, 439, 616, 21);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+	}
+}
+```
+```java
+// EmpTO.java
+package pack1;
+
+public class EmpTO {
+	private String empno;
+	private String ename;
+	private String job;
+	private String mgr;
+	private String hiredate;
+	private String sal;
+	private String comm;
+	private String deptno;
+	
+	public String getEmpno() {
+		return empno;
+	}
+	public void setEmpno(String empno) {
+		this.empno = empno;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getJob() {
+		return job;
+	}
+	public void setJob(String job) {
+		this.job = job;
+	}
+	public String getMgr() {
+		return mgr;
+	}
+	public void setMgr(String mgr) {
+		this.mgr = mgr;
+	}
+	public String getHiredate() {
+		return hiredate;
+	}
+	public void setHiredate(String hiredate) {
+		this.hiredate = hiredate;
+	}
+	public String getSal() {
+		return sal;
+	}
+	public void setSal(String sal) {
+		this.sal = sal;
+	}
+	public String getComm() {
+		return comm;
+	}
+	public void setComm(String comm) {
+		this.comm = comm;
+	}
+	public String getDeptno() {
+		return deptno;
+	}
+	public void setDeptno(String deptno) {
+		this.deptno = deptno;
+	}
+	
+}
+// EmpDAO.java
+package pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmpDAO {
+	Connection conn = null;
+	
+	public EmpDAO() {
+		String url = "jdbc:mariadb://localhost:3306/sample";
+		String user = "root";
+		String password = "123456";
+		
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러: " + e.getMessage());
+		}
+	}
+	
+	public List<EmpTO> empSearchTable() {
+		List<EmpTO> list = new ArrayList<>();
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select empno, ename, job, mgr, hiredate, sal, ifnull(comm, 'null') comm, deptno from emp";
+		try {
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				EmpTO to = new EmpTO();
+				
+				to.setEmpno(rs.getString("empno"));
+				to.setEname(rs.getString("ename"));
+				to.setJob(rs.getString("job"));
+				to.setMgr(rs.getString("mgr"));
+				to.setHiredate(rs.getString("hiredate"));
+				to.setSal(rs.getString("sal"));
+				to.setComm(rs.getString("comm"));
+				to.setDeptno(rs.getString("deptno"));
+				
+				list.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return list;
+	}
+	
+}
+
+// CustomTableModel.java
+package pack1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel extends AbstractTableModel {
+	
+	List<EmpTO> empList = new ArrayList<>();
+	
+	public CustomTableModel() {
+		EmpDAO dao = new EmpDAO();
+		empList = dao.empSearchTable();
+	}
+	
+	private String[] colNames = {
+			"empno", "ename", "job", "mgr", "hiredate", "sal", "comm", "deptno"
+	};
+	
+	@Override
+	public String getColumnName(int column) {
+		return colNames[column];
+	}
+	@Override
+	public int getRowCount() {
+		return empList.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		
+		return colNames.length;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = null;
+		
+		EmpTO to = empList.get(rowIndex);
+		
+		switch(columnIndex) {
+		case 0:
+			result = to.getEmpno();
+			break;
+		case 1:
+			result = to.getEname();
+			break;
+		case 2:
+			result = to.getJob();
+			break;
+		case 3: 
+			result = to.getMgr();
+			break;
+		case 4:
+			result = to.getHiredate();
+			break;
+		case 5:
+			result = to.getSal();
+			break;
+		case 6:
+			result = to.getComm();
+			break;
+		case 7:
+			result = to.getDeptno(); 
+			break;
+		}
+		return result;
+	}
+
+}
+```
+```java
+// EmpTO.java
+package Test2;
+
+public class EmpTO {
+	private String empno;
+	private String ename;
+	private String mgr;
+	private String hiredate;
+	private String sal;
+	private String comm;
+	private String dname;
+	
+	public String getEmpno() {
+		return empno;
+	}
+	public void setEmpno(String empno) {
+		this.empno = empno;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getMgr() {
+		return mgr;
+	}
+	public void setMgr(String mgr) {
+		this.mgr = mgr;
+	}
+	public String getHiredate() {
+		return hiredate;
+	}
+	public void setHiredate(String hiredate) {
+		this.hiredate = hiredate;
+	}
+	public String getSal() {
+		return sal;
+	}
+	public void setSal(String sal) {
+		this.sal = sal;
+	}
+	public String getComm() {
+		return comm;
+	}
+	public void setComm(String comm) {
+		this.comm = comm;
+	}
+	public String getDname() {
+		return dname;
+	}
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+}
+// EmpDAO.java
+package Test2;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmpDAO {
+	Connection conn = null;
+	String url = "jdbc:mariadb://localhost:3306/sample";
+	String user = "root";
+	String password = "123456";
+	public EmpDAO() {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public List<EmpTO> searchByJob(String job) {
+		List<EmpTO> to = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select empno, ename, mgr, hiredate, sal, comm, dname from emp e left outer join dept d on (e.deptno = d.deptno) where job = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, job);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EmpTO data = new EmpTO();
+				data.setComm(rs.getString("comm"));
+				data.setDname(rs.getString("dname"));
+				data.setEmpno(rs.getString("empno"));
+				data.setEname(rs.getString("ename"));
+				data.setHiredate(rs.getString("hiredate"));
+				data.setMgr(rs.getString("mgr"));
+				data.setSal(rs.getString("sal"));
+				
+				to.add(data);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally{
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return to;
+	}
+	
+	public List<String> jobList(){
+		List<String> jobNames = new ArrayList<>();
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select distinct job from emp";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				String job = rs.getString("job");
+				
+				jobNames.add(job);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally{
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return jobNames;
+	}
+	
+}
+
+// EmpComboBoxModel.java
+package Test2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class EmpComboBoxModel extends DefaultComboBoxModel<String> {
+	private List<String> list = new ArrayList<>();  
+	
+	public EmpComboBoxModel() {
+		EmpDAO dao = new EmpDAO();
+		list = dao.jobList();
+	}
+
+	@Override
+	public int getSize() {
+		return list.size();
+	}
+	@Override
+	public String getElementAt(int index) {
+		return list.get(index);
+	}
+
+}
+// EmpTableModel.java
+package Test2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class EmpTableModel extends AbstractTableModel {
+	private List<EmpTO> list = new ArrayList<>();
+	
+	private String[] colNames = {
+			"사원번호", "사원이름", "관리자번호", "입사일자", "급여", "보너스", "부서"
+	};
+	
+	@Override
+	public String getColumnName(int column) {
+		return colNames[column];
+	}
+	
+	public EmpTableModel(String job) {
+		EmpDAO dao = new EmpDAO();
+		
+		list = dao.searchByJob(job);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return list.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return colNames.length;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = null;
+		
+		EmpTO to = list.get(rowIndex);
+		
+		switch(columnIndex) {
+		case 0:
+			result = to.getEmpno();
+			break;
+		case 1:
+			result = to.getEname();
+			break;
+		case 2:
+			result = to.getMgr();
+			break;
+		case 3:
+			result = to.getHiredate();
+			break;
+		case 4:
+			result = to.getSal();
+			break;
+		case 5:
+			result = to.getComm();
+			break;
+		case 6:
+			result = to.getDname();
+			break;
+
+		}
+		return result;
+	}
+
+}
+// Test2.java
+package Test2;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+
+public class Test2 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+	private JComboBox job;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Test2 frame = new Test2();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Test2() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC9C1\uCC45\uBCC4", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(46, 23, 680, 67);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lbl = new JLabel("직 책");
+		lbl.setBounds(94, 27, 57, 15);
+		panel.add(lbl);
+		
+		job = new JComboBox();
+		job.setModel(new EmpComboBoxModel());
+		job.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				table.setModel(new EmpTableModel((String)job.getSelectedItem()));
+			}
+		});
+		job.setBounds(163, 23, 334, 23);
+		panel.add(job);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(48, 119, 674, 346);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
 	}
 }
 ```
