@@ -11326,8 +11326,1209 @@ public class Ex01 extends JFrame {
 }
 
 ```
+- tree
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTree tree;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		tree = new JTree();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("click " + tree.getSelectionPath().toString());
+				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+				// click [JTree, colors, 빨강색]
+			}
+		});
+		tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("JTree") { // "JTree"를 루트노드로 갖는 트리
+				{
+					DefaultMutableTreeNode node_1;
+					node_1 = new DefaultMutableTreeNode("colors");
+					node_1.add(new DefaultMutableTreeNode("파랑색"));
+					node_1.add(new DefaultMutableTreeNode("보라색"));
+					node_1.add(new DefaultMutableTreeNode("빨강색"));
+					node_1.add(new DefaultMutableTreeNode("노랑색"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("sports");
+					node_1.add(new DefaultMutableTreeNode("basketball"));
+					node_1.add(new DefaultMutableTreeNode("soccer"));
+					node_1.add(new DefaultMutableTreeNode("football"));
+					node_1.add(new DefaultMutableTreeNode("hockey"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("food");
+					node_1.add(new DefaultMutableTreeNode("hot dogs"));
+					node_1.add(new DefaultMutableTreeNode("pizza"));
+					node_1.add(new DefaultMutableTreeNode("ravioli"));
+					node_1.add(new DefaultMutableTreeNode("bananas"));
+					add(node_1);
+				}
+			}
+		));
+		tree.setBounds(12, 10, 229, 476);
+		contentPane.add(tree);
+	}
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTree tree;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		tree = new JTree();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("click " + tree.getSelectionPath().toString());
+				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+				// click [JTree, colors, 빨강색]
+			}
+		});
 
 
+		tree.setModel(new DefaultTreeModel(makeTree("root")));
+		
+		tree.setBounds(12, 10, 229, 476);
+		contentPane.add(tree);
+	}
+	public DefaultMutableTreeNode makeTree(String rootName) {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
+		
+		DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
+		DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("sports");
+		DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("food");
+		
+		node1.add(new DefaultMutableTreeNode("파랑색"));
+		node1.add(new DefaultMutableTreeNode("빨강색"));
+		node1.add(new DefaultMutableTreeNode("노랑색"));
+		
+		node2.add(new DefaultMutableTreeNode("축구"));
+		node2.add(new DefaultMutableTreeNode("농구"));
+		node2.add(new DefaultMutableTreeNode("야구"));
+		
+		node3.add(new DefaultMutableTreeNode("고기"));
+		node3.add(new DefaultMutableTreeNode("소고기"));
+		node3.add(new DefaultMutableTreeNode("돼지고기"));
+		
+		root.add(node1);
+		root.add(node2);
+		root.add(node3);
+		
+		return root;
+	}
+}
+```
+
+- dialog
+```java
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex02 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex02 frame = new Ex02();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex02() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// 창을 닫았을 때 프로그램이 종료된다
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					JDialogEx01 dialog = new JDialogEx01();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					// 창을 닫았을 때 프로그램은 계속 실행되고 다이얼로그 창만 종료된다
+					Dimension d = Ex02.this.getSize();
+					System.out.println(d.toString()); // java.awt.Dimension[width=800,height=600]
+					
+					Point p = Ex02.this.getLocation();
+					System.out.println(p.toString()); // java.awt.Point[x=100,y=100]
+					
+					Rectangle r = Ex02.this.getBounds();
+					System.out.println(r.toString()); // java.awt.Rectangle[x=100,y=100,width=800,height=600]
+					
+					int fx = (int)r.getX();
+					int fy = (int)r.getY();
+					int fwidth = (int)r.getWidth();
+					int fheight = (int)r.getHeight();
+					
+					int dwidth = 450;
+					int dheight = 300;
+					
+					dialog.setBounds(100 + (fwidth - dwidth) / 2, 100 + (fheight - dheight) / 2, dwidth, dheight);
+					// 다이얼로그 창이 가운데 위치에서 열린다
+
+					dialog.setModal(true);
+					// 한개의 다이얼로그 창만 열리게 한다
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btn.setBounds(12, 10, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
+```java
+// JDialogEx03.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JDialogEx03 extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private String data; 
+	private JTextField textField;
+	
+	public void setData(String data) {
+		this.data = data;
+	}
+	
+	public String getData() {
+		return data;
+	}
+	
+	public JDialogEx03(String data) {
+		this();
+		this.data = data;
+		textField.setText(data);
+		System.out.println(data);
+	}
+	
+	/**
+	 * Create the dialog.
+	 */
+	public JDialogEx03() {
+		JDialogEx03.this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			textField = new JTextField();
+			textField.setEditable(false);
+			textField.setBounds(12, 10, 259, 21);
+			contentPanel.add(textField);
+			textField.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JDialogEx03.this.dispose();
+
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JDialogEx03.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+
+}
+
+// Ex03.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex03 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField1;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex03 frame = new Ex03();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex03() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField1 = new JTextField();
+		textField1.setBounds(12, 10, 309, 21);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setBounds(12, 41, 436, 21);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JDialogEx03 dialog = new JDialogEx03(textField1.getText());
+				System.out.println("1");
+				
+				dialog.setModal(true);
+				// setModal(true)는 프로그램의 제어권을 다이얼로그창으로 넘겨서 프레임창을 이용할 수 없다
+				System.out.println("2");
+				
+				dialog.setVisible(true);
+				System.out.println("3");
+				
+				// 프레임 -> 다이얼로그 : 생성자, setter
+				// 다이얼로그 -> 프레임 : getter, 멤버필드
+				
+				String data = dialog.getData();
+				System.out.println("결과 :" + data);
+				
+				textField2.setText(dialog.getData());
+				// 다이얼로그창이 닫힐때 다이얼로그 창에서 프레임으로 제어권이 넘어오면서 실행된다
+			}
+		});
+		btn.setBounds(351, 9, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
+```java
+// GuguDialog.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialog extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+		private int startDan;
+		private int endDan;
+		private JTextArea textArea;
+	
+	public int getStartDan() {
+			return startDan;
+		}
+
+		public void setStartDan(int startDan) {
+			this.startDan = startDan;
+		}
+
+		public int getEndDan() {
+			return endDan;
+		}
+
+		public void setEndDan(int endDan) {
+			this.endDan = endDan;
+		}
+
+	/**
+	 * Create the dialog.
+	 */
+	public GuguDialog() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 410, 152);
+		contentPanel.add(scrollPane);
+		
+		textArea = new JTextArea();
+		
+		scrollPane.setViewportView(textArea);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialog.this.dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialog.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+	public void guguPrint() {
+		String result = "";
+		for(int i = startDan; i <= endDan; i++) {
+			for(int j = 1; j <= 9; j++) {
+				result += String.format("%2d X %2d = %d%n", i, j, i*j); 
+			}
+		}
+		textArea.setText(result);
+	}
+}
+
+// GugudanMain.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GugudanMain frame = new GugudanMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GugudanMain() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("시작단");
+		lblNewLabel.setBounds(12, 10, 119, 30);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("끝단");
+		lblNewLabel_1.setBounds(12, 50, 119, 30);
+		contentPane.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(91, 13, 188, 25);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		textField2.setBounds(91, 50, 188, 25);
+		contentPane.add(textField2);
+		
+		JButton btnNewButton = new JButton("구구단 출력");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GuguDialog dialog = new GuguDialog();
+				dialog.setStartDan(Integer.parseInt(textField.getText()));
+				dialog.setEndDan(Integer.parseInt(textField2.getText()));
+				dialog.guguPrint();
+				dialog.setModal(true);
+				dialog.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(316, 10, 119, 70);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GugudanMain frame = new GugudanMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GugudanMain() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("시작단");
+		lblNewLabel.setBounds(12, 10, 119, 30);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("끝단");
+		lblNewLabel_1.setBounds(12, 50, 119, 30);
+		contentPane.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(91, 13, 188, 25);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		textField2.setBounds(91, 50, 188, 25);
+		contentPane.add(textField2);
+		
+		JButton btnNewButton = new JButton("구구단 출력");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GuguDialogTable dialog = new GuguDialogTable(Integer.parseInt(textField.getText()), Integer.parseInt(textField2.getText()));
+				dialog.setModal(true);
+				dialog.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(316, 10, 119, 70);
+		contentPane.add(btnNewButton);
+	}
+}
+// CustomGuguTableModel.java
+import javax.swing.table.AbstractTableModel;
+
+public class CustomGuguTableModel extends AbstractTableModel {
+
+	private int startDan;
+	private int endDan;
+	
+	public CustomGuguTableModel(int startDan, int endDan) {
+		this.startDan = startDan;
+		this.endDan = endDan;
+	}
+	
+	private String[] colNames = {
+			"X 1", "X 2", "X 3", "X 4", "X 5", "X 6", "X 7", "X 8", "X 9"
+	};
+	
+	@Override
+	public String getColumnName(int column) {
+		return colNames[column];
+	}
+	
+	@Override
+	public int getRowCount() {
+		return endDan - startDan + 1;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return 9;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = "";
+		result = String.format("%2d X %2d = %d", rowIndex + startDan, columnIndex + 1, (rowIndex + startDan) * (columnIndex + 1));
+		return result;
+	}
+
+}
+// GuguDialogTable.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialogTable extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTable table;
+
+	/**
+	 * Create the dialog.
+	 */
+	
+	public GuguDialogTable(int startDan, int endDan) {
+		this();
+		
+		table.setModel(new CustomGuguTableModel(startDan, endDan));
+	}
+	
+	public GuguDialogTable() {
+		setBounds(100, 100, 600, 300);
+		getContentPane().setLayout(null);
+		contentPanel.setBounds(0, 0, 434, 1);
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel);
+		contentPanel.setLayout(null);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setBounds(0, 228, 434, 33);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialogTable.this.dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialogTable.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 562, 170);
+		getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+	}
+}
+```
+- colorChooser
+```java
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex04 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex04 frame = new Ex04();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex04() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Color color = JColorChooser.showDialog(Ex04.this, "파란색", Color.BLUE);
+				System.out.println("결과 : " + color);
+				// 컬러를 선택하지 않고 창을 닫을 경우 "결과 : null"을 출력한다
+				if(color != null) {
+					System.out.println("Red : " + color.getRed());
+					System.out.println("Green : " + color.getGreen());
+					System.out.println("Blue : " + color.getBlue());
+				}else {
+					System.out.println("취소 선택");
+				}
+			}
+		});
+		btnNewButton.setBounds(12, 10, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+
+}
+```
+- fileChooser
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+public class Ex05 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex05 frame = new Ex05();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex05() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("파일 열기");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser filechooser = new JFileChooser("c:\\"); 
+				// 파일 선택의 처음 위치를 인수로 줘서 지정할 수 있다
+				
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Java 소스", "java", "txt");
+				filechooser.setFileFilter(filter);
+				// 파일 선택 화면에서 특정 형식의 파일만 보이게 할 수 있다
+				
+				int result = filechooser.showOpenDialog(Ex05.this);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					System.out.println("확인");
+					
+					File file = filechooser.getSelectedFile();
+					
+					System.out.println(file.getName());
+					System.out.println(file.getAbsolutePath());
+					
+					textArea.setText("");
+					
+					BufferedReader br = null;
+					
+					try {
+						br = new BufferedReader(new FileReader(file));
+						String line = null;
+						while((line = br.readLine()) != null) {
+							textArea.append(line + System.lineSeparator());
+						}
+					} catch (FileNotFoundException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					} catch (IOException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					}finally {
+						if(br != null) try {br.close();} catch(IOException e1) {}
+					}
+				}else if(result == JFileChooser.CANCEL_OPTION) {
+					System.out.println("취소");
+				}
+			}
+		});
+		btnNewButton.setBounds(12, 10, 113, 23);
+		contentPane.add(btnNewButton);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 39, 324, 342);
+		contentPane.add(scrollPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		
+		JButton btnNewButton_1 = new JButton("내용 지우기");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea.setText("");
+			}
+		});
+		btnNewButton_1.setBounds(137, 10, 120, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btn2 = new JButton("파일 저장");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fileChooser = new JFileChooser("c:\\");
+				int result = fileChooser.showSaveDialog(Ex05.this);
+				
+				if(result == JFileChooser.APPROVE_OPTION) {
+					System.out.println("확인 " + fileChooser.getSelectedFile().getName());
+					System.out.println("확인 " + fileChooser.getSelectedFile().getAbsolutePath());
+					
+					BufferedWriter bw = null;
+				
+					try {
+						bw = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile().getAbsolutePath()));
+						
+						bw.write(textArea.getText());
+						
+						JOptionPane.showMessageDialog(Ex05.this, "내용 저장", "저장" , JOptionPane.INFORMATION_MESSAGE);
+						
+					} catch (IOException e1) {
+						System.out.println(" 에러 : " + e1.getMessage());
+					} finally {
+						if(bw != null) try {bw.close();} catch(IOException e1) {}
+					}
+				}else {
+					System.out.println("취소");
+				}
+			}
+		});
+		btn2.setBounds(269, 10, 120, 23);
+		contentPane.add(btn2);
+	}
+
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lbl;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 69, 506, 355);
+		contentPane.add(scrollPane);
+		
+		lbl = new JLabel("");
+		scrollPane.setViewportView(lbl);
+		
+		JButton btnNewButton = new JButton("이미지 보이기");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fileChooser = new JFileChooser("c:\\");
+				
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("이미지 파일", "png", "img");
+				
+				
+				fileChooser.setFileFilter(filter);
+				
+				int result = fileChooser.showOpenDialog(Ex06.this);
+				
+				lbl.setIcon(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
+				
+				
+			}
+		});
+		btnNewButton.setBounds(12, 10, 168, 23);
+		contentPane.add(btnNewButton);
+	}
+
+}
+```
+- menuBar
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ex07 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex07 frame = new Ex07();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex07() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		// menuBar <- menu <- menuItem
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("파일");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("new");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("새파일");
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("open");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("열기");
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_2);
+		
+		mnNewMenu.addSeparator(); // menuItem을 구분해주는 선을 넣는다
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("save");
+		mnNewMenu.add(mntmNewMenuItem_3);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("사과");
+		mnNewMenu.add(chckbxmntmNewCheckItem);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("참외");
+		chckbxmntmNewCheckItem_1.setSelected(true);
+		mnNewMenu.add(chckbxmntmNewCheckItem_1);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("수박");
+		mnNewMenu.add(chckbxmntmNewCheckItem_2);
+		
+		
+		JMenu mnNewMenu_1 = new JMenu("홈");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("menu 1");
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("menu 2");
+		mnNewMenu_1.add(mntmNewMenuItem_4);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+	}
+}
+```
 ###### DAO (Data Access Object), DTO (Data Transfer Object)
 
 <img src="https://opensilex.github.io/docs-community-dev/img/global_dao_dto_model.png">
@@ -13046,4 +14247,481 @@ public class Test2 extends JFrame {
 		scrollPane.setViewportView(table);
 	}
 }
+```
+```java
+// PostSearchTO.java
+package Test;
+
+public class PostSearchTO {
+	private String seq;
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
+	
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getSido() {
+		return sido;
+	}
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+	public String getGugun() {
+		return gugun;
+	}
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
+	}
+	public String getDong() {
+		return dong;
+	}
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+	public String getRi() {
+		return ri;
+	}
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+	public String getBunji() {
+		return bunji;
+	}
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
+	}
+	
+}
+
+//PostSearchDAO.java
+package Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostSearchDAO {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	private String url = "jdbc:mariadb://localhost:3306/project";
+	private String user = "root";
+	private String password = "123456";
+	
+	public PostSearchDAO() {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 " + e.getMessage());
+		}
+		
+	}
+	
+	public List<PostSearchTO> sidoList() {
+		List<PostSearchTO> sidoAll = new ArrayList<>();
+		
+		String sql = "select distinct sido from zipcode";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PostSearchTO to = new PostSearchTO();
+				
+				to.setSido(rs.getString("sido"));
+				
+				sidoAll.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+			
+		return sidoAll;
+	}
+	public List<PostSearchTO> gugunList(String sido) {
+		List<PostSearchTO> gugunAll = new ArrayList<>();
+		
+		String sql = "select distinct gugun from zipcode where sido = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sido);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PostSearchTO to = new PostSearchTO();
+				
+				to.setSido(sido);
+				to.setGugun(rs.getString("gugun"));
+				
+				gugunAll.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		return gugunAll;
+	}
+	
+	public List<PostSearchTO> dongList(String sido, String gugun) {
+		List<PostSearchTO> dongAll = new ArrayList<>();
+		
+		String sql = "select distinct dong from zipcode where sido = ? and gugun = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sido);
+			pstmt.setString(2, gugun);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PostSearchTO to = new PostSearchTO();
+				
+				to.setSido(sido);
+				to.setGugun(gugun);
+				to.setDong(rs.getString("dong"));
+				
+				dongAll.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return dongAll;
+	}
+	
+	public List<PostSearchTO> tableData(String sido, String gugun, String dong){
+		List<PostSearchTO> dataAll = new ArrayList<>();
+		
+		String sql = "select * from zipcode where sido = ? and gugun = ? and dong = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sido);
+			pstmt.setString(2, gugun);
+			pstmt.setString(3, dong);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PostSearchTO to = new PostSearchTO();
+				
+				to.setBunji(rs.getString("bunji"));
+				to.setDong(rs.getString("dong"));
+				to.setGugun(rs.getString("gugun"));
+				to.setRi(rs.getString("ri"));
+				to.setSeq(rs.getString("seq"));
+				to.setSido(rs.getString("sido"));
+				to.setZipcode(rs.getString("zipcode"));
+				
+				dataAll.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+		
+		return dataAll;
+	}
+}
+
+// SidoComboBoxModel.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class SidoComboBoxModel extends DefaultComboBoxModel<String> {
+	private List<PostSearchTO> sidoList = new ArrayList<>();
+	
+	public SidoComboBoxModel() {
+		PostSearchDAO dao = new PostSearchDAO();
+		
+		sidoList = dao.sidoList();
+	}
+
+	@Override
+	public int getSize() {
+		return sidoList.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		String result = "";
+		result = sidoList.get(index).getSido();
+		return result;
+	}
+	
+}
+
+// GugunComboBoxModel.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class GugunComboBoxModel extends DefaultComboBoxModel<String> {
+	private List<PostSearchTO> gugunList = new ArrayList<>();
+	
+	public GugunComboBoxModel(String sido) {
+		PostSearchDAO dao = new PostSearchDAO();
+		
+		gugunList = dao.gugunList(sido);
+	}
+
+	@Override
+	public int getSize() {
+		return gugunList.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		String result = "";
+		
+		result = gugunList.get(index).getGugun();
+		
+		return result;
+	}
+	
+}
+
+// DongComboBoxModel.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class DongComboBoxModel extends DefaultComboBoxModel<String> {
+	private List<PostSearchTO> dongList = new ArrayList<>();
+	
+	public DongComboBoxModel(String sido, String gugun) {
+		PostSearchDAO dao = new PostSearchDAO();
+		
+		dongList = dao.dongList(sido, gugun);
+	}
+
+	@Override
+	public int getSize() {
+		return dongList.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		String result = "";
+		
+		result = dongList.get(index).getDong();
+		
+		return result;
+	}
+	
+}
+
+// PostTableModel.java
+package Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class PostTableModel extends AbstractTableModel {
+	private List<PostSearchTO> data = new ArrayList<>();
+	
+	private String[] colNames = {
+			"번호", "우편번호", "시도", "구군", "동", "리", "번지"
+	};
+	
+	@Override
+	public String getColumnName(int column) {
+		return colNames[column];
+	}
+	
+	
+	public PostTableModel(String sido, String gugun, String dong) {
+		PostSearchDAO dao = new PostSearchDAO();
+		
+		data = dao.tableData(sido, gugun, dong);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return data.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return colNames.length;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = "";
+		
+		switch(columnIndex) {
+		case 0:
+			result = data.get(rowIndex).getSeq();
+			break;
+		case 1:
+			result = String.format("[%s]", data.get(rowIndex).getZipcode());
+			break;
+		case 2:
+			result = data.get(rowIndex).getSido();
+			break;
+		case 3:
+			result = data.get(rowIndex).getGugun();
+			break;
+		case 4:
+			result = data.get(rowIndex).getDong();
+			break;
+		case 5:
+			result = data.get(rowIndex).getRi();
+			break;
+		case 6:
+			result = data.get(rowIndex).getBunji();
+		}
+		
+		return result;
+	}
+
+}
+
+// PostSearch.java
+package Test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import javax.swing.JTable;
+
+public class PostSearch extends JFrame {
+
+	private JPanel contentPane;
+	private JComboBox gugunBox;
+	private JComboBox dongBox;
+	private JComboBox sidoBox;
+	private JTable table;
+	private JScrollPane scrollPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PostSearch frame = new PostSearch();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public PostSearch() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(59, 24, 601, 52);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		sidoBox = new JComboBox();
+		sidoBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				gugunBox.setModel(new GugunComboBoxModel((String)sidoBox.getSelectedItem()));
+			}
+		});
+		sidoBox.setModel(new SidoComboBoxModel());
+		
+		sidoBox.setBounds(6, 17, 169, 23);
+		panel.add(sidoBox);
+		
+		gugunBox = new JComboBox();
+		gugunBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				dongBox.setModel(new DongComboBoxModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem()));
+			}
+		});
+		
+		gugunBox.setBounds(218, 17, 169, 23);
+		panel.add(gugunBox);
+		
+		dongBox = new JComboBox();
+		dongBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				table.setModel(new PostTableModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem(), (String)dongBox.getSelectedItem()));
+			}
+		});
+		dongBox.setBounds(426, 17, 169, 23);
+		panel.add(dongBox);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(59, 86, 601, 413);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+	}
+
+}
+
+
 ```
