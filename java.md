@@ -9108,7 +9108,7 @@ public class JFrameEx4 extends JFrame {
 ##### 컴포넌트
 - 위젯 (widget)이라고 불리기도 한다
 
-- label 
+###### label 
 
 ```java
 import java.awt.EventQueue;
@@ -9165,6 +9165,7 @@ public class JFrameEx03 extends JFrame {
 		// html을 사용할 수 있다
 		JLabel lbl2 = new JLabel(text);
 		lbl2.setIcon(new ImageIcon("C:\\html\\apache-tomcat-9.0.71\\webapps\\ROOT\\miniproject01\\img\\heart.png"));
+    // icon으로 label에 이미지를 넣을 수 있다
 		lbl2.setFont(new Font("D2Coding", Font.BOLD, 17));
 		lbl2.setForeground(new Color(176, 90, 254));
 		lbl2.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -9182,7 +9183,7 @@ public class JFrameEx03 extends JFrame {
 
 <img src="./img/labelResult.png" width = "600">
 
-- button
+###### button
 
 ```java
 import java.awt.EventQueue;
@@ -9242,10 +9243,6 @@ public class JFrame05 extends JFrame {
 				lbl.setText("결과 : 버튼 1 클릭");
 			}
 		});
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btn1.setBounds(12, 10, 97, 23);
 		contentPane.add(btn1);
 
@@ -9281,9 +9278,7 @@ public class JFrame05 extends JFrame {
 }
 ```
 
-  <img src = "./img/event1.png" width = "600">
-
-- textfield
+###### textfield
 
 ```java
 import java.awt.EventQueue;
@@ -9461,7 +9456,7 @@ public class JuminCheck extends JFrame {
 	}
 }
 ```
-- textarea 
+###### textarea 
 
   - 엔터키를 사용해 여러 줄 입력 가능
 
@@ -9670,2862 +9665,6 @@ public class SwingEx01 extends JFrame {
 		result = new JTextArea();
 		result.setEditable(false);
 		scrollPane.setViewportView(result);
-	}
-}
-- passwordfield
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JPasswordField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class SwingEx06 extends JFrame {
-
-	private JPanel contentPane;
-	private JPasswordField passwordField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(12, 10, 249, 21);
-		contentPane.add(passwordField);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(new String(passwordField.getPassword()));
-				// JPasswordfield의 값을 출력
-			}
-		});
-		btnNewButton.setBounds(280, 9, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-}
-```
-- checkbox
-
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JPasswordField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JCheckBox;
-import javax.swing.JToggleButton;
-
-public class SwingEx06 extends JFrame {
-
-	private JPanel contentPane;
-	private JCheckBox check1;
-	private JCheckBox check2;
-	private JCheckBox check3;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btn3;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		check1 = new JCheckBox("수박");
-		check1.setBounds(8, 81, 115, 23);
-		contentPane.add(check1);
-		
-		check2 = new JCheckBox("참외");
-		check2.setBounds(8, 106, 115, 23);
-		contentPane.add(check2);
-		
-		check3 = new JCheckBox("딸기");
-		check3.setBounds(8, 131, 115, 23);
-		contentPane.add(check3);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(check1.isSelected());
-				System.out.println(check2.isSelected());
-				System.out.println(check3.isSelected());
-				// 체크되어 있으면 true, 아니면 false
-				System.out.println(check1.getText());
-				System.out.println(check2.getText());
-				System.out.println(check3.getText());
-				// 체크 여부 상관없이 무조건 텍스트 내용을 가져온다
-				
-				String result = "";
-				if(check1.isSelected()) {
-					result += check1.getText() + " ";
-				}
-				if(check2.isSelected()) {
-					result += check2.getText() + " ";
-				}
-				if(check3.isSelected()) {
-					result += check3.getText();
-				}
-				System.out.println("결과 : " + result);
-			}
-		});
-		btnNewButton.setBounds(12, 170, 97, 23);
-		contentPane.add(btnNewButton);
-		
-		btnNewButton_1 = new JButton("전체선택");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			check1.setSelected(true);
-			check2.setSelected(true);
-			check3.setSelected(true);
-			}
-		});
-		btnNewButton_1.setBounds(8, 10, 97, 23);
-		contentPane.add(btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("선택 해제");
-		btnNewButton_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				check1.setSelected(false);
-				check2.setSelected(false);
-				check3.setSelected(false);
-			}
-		});
-		btnNewButton_2.setBounds(117, 10, 97, 23);
-		contentPane.add(btnNewButton_2);
-		
-		btn3 = new JButton("전체선택");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(btn3.getText().equals("전체선택")) {
-					btn3.setText("전체해제");
-					check1.setSelected(true);
-					check2.setSelected(true);
-					check3.setSelected(true);
-				}else {
-					btn3.setText("전체선택");
-					check1.setSelected(false);
-					check2.setSelected(false);
-					check3.setSelected(false);
-				}
-			}
-		});
-		btn3.setBounds(8, 43, 97, 23);
-		contentPane.add(btn3);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
-		// 토글버튼을 누르면 눌린 상태로 있고, 다시 누르면 원래 상태로 돌아온다
-		tglbtnNewToggleButton.setBounds(117, 43, 135, 23);
-		contentPane.add(tglbtnNewToggleButton);
-	}
-}
-```
-- radio
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JPasswordField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JCheckBox;
-import javax.swing.JToggleButton;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-
-public class SwingEx06 extends JFrame {
-
-	private JPanel contentPane;
-	private JRadioButton radio1;
-	private JRadioButton radio2;
-	private JRadioButton radio3;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	// 라디오 버튼을 묶어주기 위해 ButtonGroup 객체를 사용한다
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		radio1 = new JRadioButton("수박");
-		buttonGroup.add(radio1);
-		// radio1 라디오 버튼을 buttonGroup에 추가
-		radio1.setBounds(8, 6, 121, 23);
-		contentPane.add(radio1);
-		
-		radio2 = new JRadioButton("딸기");
-		buttonGroup.add(radio2);
-		// radio2 라디오 버튼을 buttonGroup에 추가
-		radio2.setBounds(8, 31, 121, 23);
-		contentPane.add(radio2);
-		
-		radio3 = new JRadioButton("사과");
-		buttonGroup.add(radio3);
-		// radio3 라디오 버튼을 buttonGroup에 추가
-		radio3.setBounds(8, 56, 121, 23);
-		contentPane.add(radio3);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(radio1.isSelected()) {
-					System.out.println(radio1.getText())
-				}else if(radio2.isSelected()) {
-					System.out.println(radio2.getText());
-				}else {
-					System.out.println(radio3.getText());
-				}
-			}
-		});
-		btnNewButton.setBounds(8, 85, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-}
-```
-
-- 알림창
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn1 = new JButton("New Button");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.WARNING_MESSAGE);
-				// 현재 프레임 객체를 기반으로 해서 "새 타이틀" 경고창을 통해서 "메세지"를 보여준다
-				// JOptionPane.WARNING_MESSAGE는 경고창임을 알리는 이미지를 보여준다
-				// 에러, 경고를 알리기 위해 많이 사용한다
-			}
-		});
-		btn1.setBounds(12, 10, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int result = JOptionPane.showConfirmDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.OK_CANCEL_OPTION);
-				// 기본적으로는 예, 아니오, 취소가 있는 알림창을 보여준다
-				// JOptionPane.OK_CANCEL_OTION을 사용해서 확인, 취소만 보여진다
-				// int 자료형을 리턴값으로 준다 
-				
-				if(result == JOptionPane.OK_OPTION) {
-					System.out.println("OK 클릭");
-				}else if(result == JOptionPane.CANCEL_OPTION) {
-					System.out.println("CANCEL 클릭");
-				}else {
-					System.out.println("기타");
-				}
-			}
-		});
-		btn2.setBounds(12, 43, 97, 23);
-		contentPane.add(btn2);
-		
-		JButton btn3 = new JButton("New button");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String result = JOptionPane.showInputDialog("메세지", "초기값");
-				// 내용을 입력받을 수 있는 창이 생긴다
-				// String을 리턴값으로 준다
-			  // 창을 닫거나, 취소를 누르면 null을 리턴한다
-				if(result != null) { 
-					System.out.println("결과 : " + result);
-				}else {
-					System.out.println("입력 취소");
-				}
-			}
-		});
-		btn3.setBounds(12, 76, 97, 23);
-		contentPane.add(btn3);
-	}
-}
-```
-- progressbar
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JProgressBar;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex02 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex02 frame = new Ex02();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex02() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JProgressBar progressBar = new JProgressBar();
-		progressBar.setStringPainted(true);
-		// 비율 표시
-		progressBar.setMaximum(200);
-		// 최대값 설정
-		progressBar.setValue(51);
-		// 현재값 설정
-		progressBar.setBounds(12, 10, 408, 118);
-		contentPane.add(progressBar);
-		
-		JButton btn1 = new JButton("증가 (+ 10)");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(progressBar.getValue() == progressBar.getMaximum()) {
-					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 증가시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
-				}else {
-					System.out.println(progressBar.getValue());
-					progressBar.setValue(progressBar.getValue() + 10);
-				}
-			}
-		});
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn1.setBounds(12, 140, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("감소 (- 10)");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(progressBar.getValue() == progressBar.getMinimum()) {
-					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 감소시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
-				}else {
-					System.out.println(progressBar.getValue());
-					progressBar.setValue(progressBar.getValue() - 10);
-				}
-			}
-		});
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn2.setBounds(121, 140, 97, 23);
-		contentPane.add(btn2);
-	}
-}
-```
-- slider
-
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSlider;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-
-public class Ex03 extends JFrame {
-
-	private JPanel contentPane;
-	private JTextArea textArea;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex03 frame = new Ex03();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex03() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		
-		JSlider slider = new JSlider();
-		slider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				System.out.println(slider.getValue());
-				// 슬라이더의 값을 변경시킬 때마다 변경된 값을 출력한다
-				// 시작했을 때는 기본값이 출력된다
-				if(textArea != null) {
-					textArea.append(slider.getValue() + System.lineSeparator());
-					// 객체가 생성돼야 그 객체를 사용할 수 있기 때문에
-					// textArea 객체가 먼저 생성되어야 에러가 생기지 않는다
-				}
-			}
-		});
-		slider.setMinorTickSpacing(5);
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(10);
-		slider.setPaintLabels(true);
-		// 슬라이더의 간격을 표시한다
-		slider.setMaximum(200);
-		slider.setBounds(12, 10, 501, 66);
-		contentPane.add(slider);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(slider.getValue());
-			}
-		});
-		btn.setBounds(12, 96, 97, 23);
-		contentPane.add(btn);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 131, 501, 278);
-		contentPane.add(scrollPane);
-		
-		scrollPane.setViewportView(textArea);
-
-	}
-}
-```
-Color picker 
-```java
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.Font;
-
-public class Test1 extends JFrame {
-
-	private JPanel contentPane;
-	private JSlider redSlider;
-	private JSlider greenSlider;
-	private JSlider blueSlider;
-	private JPanel panel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Test1 frame = new Test1();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Test1() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel green = new JLabel("GREEN");
-		green.setFont(new Font("굴림", Font.BOLD, 13));
-		green.setBounds(56, 168, 96, 23);
-		contentPane.add(green);
-		
-		JLabel red = new JLabel("RED");
-		red.setFont(new Font("굴림", Font.BOLD, 13));
-		red.setBounds(56, 88, 96, 23);
-		contentPane.add(red);
-		
-		JLabel blue = new JLabel("BLUE");
-		blue.setFont(new Font("굴림", Font.BOLD, 13));
-		blue.setBounds(56, 254, 96, 23);
-		contentPane.add(blue);
-				
-		panel = new JPanel();
-		panel.setForeground(new Color(255, 255, 255));
-		panel.setBorder(null);
-		panel.setBounds(56, 311, 597, 206);
-		contentPane.add(panel);
-		
-		redSlider = new JSlider();
-		redSlider.setPaintLabels(true);
-		redSlider.setPaintTicks(true);
-		redSlider.setMinorTickSpacing(10);
-		greenSlider = new JSlider();
-		greenSlider.setPaintLabels(true);
-		greenSlider.setMinorTickSpacing(10);
-		blueSlider = new JSlider();
-		blueSlider.setPaintLabels(true);
-		blueSlider.setMinorTickSpacing(10);
-		
-		redSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		greenSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		blueSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		
-		
-		redSlider.setMajorTickSpacing(100);
-		redSlider.setMaximum(255);
-		redSlider.setBounds(153, 85, 488, 39);
-		contentPane.add(redSlider);
-		
-		greenSlider.setPaintTicks(true);
-		greenSlider.setMajorTickSpacing(100);
-		greenSlider.setMaximum(255);
-		greenSlider.setBounds(153, 165, 488, 39);
-		contentPane.add(greenSlider);
-		
-		blueSlider.setPaintTicks(true);
-		blueSlider.setMajorTickSpacing(100);
-		blueSlider.setMaximum(255);
-		blueSlider.setBounds(153, 251, 488, 39);
-		contentPane.add(blueSlider);
-		
-		
-	}
-}
-
-- spinner
-```java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SpinnerListModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.Calendar;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Ex04 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex04 frame = new Ex04();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex04() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JSpinner spinner1 = new JSpinner();
-		spinner1.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				System.out.println((Integer)spinner1.getValue());
-			}
-		});
-		spinner1.setModel(new SpinnerNumberModel(50, 20, 100, 5));
-		spinner1.setBounds(12, 10, 142, 27);
-		contentPane.add(spinner1);
-		
-		JSpinner spinner2 = new JSpinner();
-		spinner2.setModel(new SpinnerListModel(new String[] {"\uC0AC\uACFC", "\uB538\uAE30", "\uC218\uBC15", "\uCC38\uC678", "\uADE4"}));
-    // 다국어가 유니코드로 처리된다
-
-    // String items = {"사과", "딸기", "수박", "참외", "귤"};
-    // SpinnerListModel spinnerListModel = new SpinnerListModel(items);
-    // spinner2.setModel(spinnerListModel);
-
-		spinner2.setBounds(12, 47, 142, 27);
-		contentPane.add(spinner2);
-		
-		JSpinner spinner3 = new JSpinner();
-		spinner3.setModel(new SpinnerDateModel(new Date(1675695600000L), new Date(-62109277200000L), new Date(4079170800000L), Calendar.MONTH));
-		spinner3.setBounds(12, 84, 142, 27);
-		contentPane.add(spinner3);
-		
-		JButton btn1 = new JButton("New button");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)spinner1.getValue());
-			}
-		});
-		btn1.setBounds(166, 12, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((String)spinner2.getValue());
-			}
-		});
-		btn2.setBounds(166, 49, 97, 23);
-		contentPane.add(btn2);
-		
-		JButton btn3 = new JButton("New button");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Date)spinner3.getValue());
-			}
-		});
-		btn3.setBounds(166, 86, 97, 23);
-		contentPane.add(btn3);
-	}
-}
-```
-
-```java
-// CustomSpinnerListModel.java
-package pack1;
-
-import javax.swing.SpinnerListModel;
-
-public class CustomSpinnerListModel extends SpinnerListModel {
-	public CustomSpinnerListModel() {
-		super(new String[] {
-				"사과", "딸기", "수박", "참외", "귤"
-		});
-	}
-}
-
-// Ex05.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex05 extends JFrame {
-
-	private JPanel contentPane;
-	private JButton btn;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex05 frame = new Ex05();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex05() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerListModel(new String[] {""}));
-		spinner.setBounds(12, 10, 219, 34);
-		contentPane.add(spinner);
-		
-		btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				spinner.setModel(new CustomSpinnerListModel());
-			}
-		});
-		btn.setBounds(266, 15, 97, 23);
-		contentPane.add(btn);
-	}
-
-}
-```
-- comboBoxModel
-
-```java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex06 extends JFrame {
-
-	private JPanel contentPane;
-	private JComboBox comboBox;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
-		comboBox.setBounds(12, 10, 188, 28);
-		contentPane.add(comboBox);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)comboBox.getSelectedIndex());
-				System.out.println((String)comboBox.getSelectedItem());
-				// ComboBoxModel model = comboBox.getModel();
-				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
-			}
-		});
-		btnNewButton.setBounds(212, 13, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-}
-```
-
-```java
-// CustemComboBoxModel.java
-package pack1;
-
-import javax.swing.DefaultComboBoxModel;
-
-public class CustomComboBoxModel extends DefaultComboBoxModel<String> {
-	private String[] items = new String[] { "사과", "참외", "딸기", "귤"};
-	
-	@Override
-	public int getSize() {
-		System.out.println("getSize() 호출");
-		return items.length;
-	}
-	@Override
-	public String getElementAt(int index) {
-		System.out.println("getElementAt() 호출");
-		return items[index];
-	}
-	
-}
-
-// Ex06.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-
-public class Ex06 extends JFrame {
-
-	private JPanel contentPane;
-	private JComboBox comboBox;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		comboBox = new JComboBox();
-		comboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					System.out.println((String)comboBox.getSelectedItem());
-				}
-				// itemStateChanged()는 selected, deselected를 모두 감지해서 값을 내기 때문에
-				// itemEvent.SELECTED를 이용해 selected만 감지해서 작동하게 해야한다
-			}
-		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
-		comboBox.setBounds(12, 10, 188, 28);
-		contentPane.add(comboBox);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)comboBox.getSelectedIndex());
-				// System.out.println((String)comboBox.getSelectedItem());
-				
-				// ComboBoxModel model = comboBox.getModel();
-				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
-				
-				CustomComboBoxModel2 cb = new CustomComboBoxModel2();
-				System.out.println(cb.getElementAt(comboBox.getSelectedIndex()));
-			}
-		});
-		btnNewButton.setBounds(212, 13, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-}
-
-```
-- list
-
-```java
-// CustomAbstractModel.java
-package pack1;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractListModel;
-
-public class CustomAbstractModel extends AbstractListModel<String> {
-	private List<String> items = new ArrayList<>();
-	
-	public CustomAbstractModel() {
-		items.add("사과");
-		items.add("수박");
-		items.add("참외");
-		items.add("귤");
-	}
-	
-	@Override
-	public int getSize() {
-		return items.size();
-	}
-
-	@Override
-	public String getElementAt(int index) {
-		return items.get(index);
-	}
-	
-}
-
-// Ex07.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-
-public class Ex07 extends JFrame {
-
-	private JPanel contentPane;
-	private JButton btn;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex07 frame = new Ex07();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex07() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 29, 258, 196);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				if(e.getValueIsAdjusting()) {
-					return;
-				} // selected만 감지하도록 한다
-				System.out.println((String)list.getSelectedValue());
-			}
-		});
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(list);
-//		list.setModel(new AbstractListModel() {
-//			String[] values = new String[] {"사과", "참외", "수박", "딸기"};
-//			public int getSize() {
-//				return values.length;
-//			}
-//			public Object getElementAt(int index) {
-//				return values[index];
-//			}
-//		});
-		list.setModel(new CustomAbstractModel());
-		list.setSelectedIndex(2);
-		
-		btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(list.getSelectedIndex());
-				System.out.println((String)list.getSelectedValue());
-			}
-		});
-		btn.setBounds(12, 254, 97, 23);
-		contentPane.add(btn);
-	}
-}
-```
-- table
-  
-```java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		// 스크롤로 감싸줘야 컬럼명이 표시된다
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "2", "3"},
-				{null, null, null},
-			},
-			new String[] {
-				"\uCEEC\uB7FC\uBA851", "\uCEEC\uB7FC\uBA852", "\uCEEC\uB7FC\uBA853"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-	}
-}
-```
-```java
-// CustomTableModel01.java
-package pack1;
-
-import javax.swing.table.AbstractTableModel;
-
-public class CustomTableModel01 extends AbstractTableModel {
-	
-	private String[][] items = new String[][]	{
-		{"11", "12", "13"},
-		{"21", "22", "23"},
-		{"31", "32", "33"},
-		{null, "32", "33"},
-	};
-	
-	private String[] columnNames = {
-			"col1", "col2", "col3"
-	};
-	@Override
-	public String getColumnName(int column) {
-		return columnNames[column]; 
-	} // 컬럼의 이름을 지정한다
-	
-	
-	@Override
-	public int getRowCount() {
-		return items.length;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return items[0].length;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		return items[rowIndex][columnIndex];
-	}
-
-}
-
-// Ex01.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel01());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-	}
-}
-```
-```java
-// CustomTableModel02.java
-package pack1;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
-public class CustomTableModel02 extends AbstractTableModel {
-	
-	private List<List<String>> items = new ArrayList<>();
-	
-	private String[] columnNames = {
-			"col1", "col2", "col3", "col4"
-	};
-	@Override
-	public String getColumnName(int column) {
-		return columnNames[column]; 
-	} 
-	
-	public CustomTableModel02() {
-		List<String> item1 = new ArrayList<>();
-		item1.add("11");
-		item1.add("12");
-		item1.add("13");
-		item1.add("14");
-		List<String> item2 = new ArrayList<>();
-		item2.add("21");
-		item2.add("22");
-		item2.add("23");
-		item2.add("24");
-		List<String> item3 = new ArrayList<>();
-		item3.add("31");
-		item3.add("32");
-		item3.add("33");
-		item3.add("34");
-		
-		items.add(item1);
-		items.add(item2);
-		items.add(item3);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return items.size();
-	}
-
-	@Override
-	public int getColumnCount() {
-		return items.get(0).size();
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		return items.get(rowIndex).get(columnIndex);
-	}
-
-}
-
-// Ex01.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel02());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-	}
-}
-```
-```java
-// CustomTableModel03.java
-package pack1;
-
-import java.awt.desktop.AboutEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
-public class CustomTableModel03 extends AbstractTableModel {
-
-	private List<DataTO> items = new ArrayList<>(); 
-	
-	CustomTableModel03() {
-		DataTO to1 = new DataTO();
-		to1.setNum1("11");
-		to1.setNum2("12");
-		to1.setNum3("13");
-		to1.setNum4("14");
-		DataTO to2 = new DataTO();
-		to2.setNum1("21");
-		to2.setNum2("22");
-		to2.setNum3("23");
-		to2.setNum4("24");
-		DataTO to3 = new DataTO();
-		to3.setNum1("31");
-		to3.setNum2("32");
-		to3.setNum3("33");
-		to3.setNum4("34");
-		
-		items.add(to1);
-		items.add(to2);
-		items.add(to3);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return items.size();
-	}
-
-	@Override
-	public int getColumnCount() {
-		int count = 1;
-		
-		for(DataTO to : items) {
-			count++;
-		}
-		return count;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = null;
-		
-		DataTO to = items.get(rowIndex);
-		
-		
-		switch(columnIndex) {
-		case 0:
-			result = to.getNum1();
-			break;
-		case 1:
-			result = to.getNum2();
-			break;
-		case 2:
-			result = to.getNum3();
-			break;
-		case 3:
-			result = to.getNum4();
-			break;
-		}
-		
-		return result;
-	}
-
-}
-// Ex01.java
-package pack1;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel03());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-	}
-}
-
-```
-- tree
-
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTree tree;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		tree = new JTree();
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click " + tree.getSelectionPath().toString());
-				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
-				// click [JTree, colors, 빨강색]
-			}
-		});
-		tree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("JTree") { // "JTree"를 루트노드로 갖는 트리
-				{
-					DefaultMutableTreeNode node_1;
-					node_1 = new DefaultMutableTreeNode("colors");
-					node_1.add(new DefaultMutableTreeNode("파랑색"));
-					node_1.add(new DefaultMutableTreeNode("보라색"));
-					node_1.add(new DefaultMutableTreeNode("빨강색"));
-					node_1.add(new DefaultMutableTreeNode("노랑색"));
-					add(node_1);
-					node_1 = new DefaultMutableTreeNode("sports");
-					node_1.add(new DefaultMutableTreeNode("basketball"));
-					node_1.add(new DefaultMutableTreeNode("soccer"));
-					node_1.add(new DefaultMutableTreeNode("football"));
-					node_1.add(new DefaultMutableTreeNode("hockey"));
-					add(node_1);
-					node_1 = new DefaultMutableTreeNode("food");
-					node_1.add(new DefaultMutableTreeNode("hot dogs"));
-					node_1.add(new DefaultMutableTreeNode("pizza"));
-					node_1.add(new DefaultMutableTreeNode("ravioli"));
-					node_1.add(new DefaultMutableTreeNode("bananas"));
-					add(node_1);
-				}
-			}
-		));
-		tree.setBounds(12, 10, 229, 476);
-		contentPane.add(tree);
-	}
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTree tree;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		tree = new JTree();
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click " + tree.getSelectionPath().toString());
-				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
-				// click [JTree, colors, 빨강색]
-			}
-		});
-
-
-		tree.setModel(new DefaultTreeModel(makeTree("root")));
-		
-		tree.setBounds(12, 10, 229, 476);
-		contentPane.add(tree);
-	}
-	public DefaultMutableTreeNode makeTree(String rootName) {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
-		
-		DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
-		DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("sports");
-		DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("food");
-		
-		node1.add(new DefaultMutableTreeNode("파랑색"));
-		node1.add(new DefaultMutableTreeNode("빨강색"));
-		node1.add(new DefaultMutableTreeNode("노랑색"));
-		
-		node2.add(new DefaultMutableTreeNode("축구"));
-		node2.add(new DefaultMutableTreeNode("농구"));
-		node2.add(new DefaultMutableTreeNode("야구"));
-		
-		node3.add(new DefaultMutableTreeNode("고기"));
-		node3.add(new DefaultMutableTreeNode("소고기"));
-		node3.add(new DefaultMutableTreeNode("돼지고기"));
-		
-		root.add(node1);
-		root.add(node2);
-		root.add(node3);
-		
-		return root;
-	}
-}
-```
-
-- dialog
-```java
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex02 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex02 frame = new Ex02();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex02() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// 창을 닫았을 때 프로그램이 종료된다
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					JDialogEx01 dialog = new JDialogEx01();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					// 창을 닫았을 때 프로그램은 계속 실행되고 다이얼로그 창만 종료된다
-					Dimension d = Ex02.this.getSize();
-					System.out.println(d.toString()); // java.awt.Dimension[width=800,height=600]
-					
-					Point p = Ex02.this.getLocation();
-					System.out.println(p.toString()); // java.awt.Point[x=100,y=100]
-					
-					Rectangle r = Ex02.this.getBounds();
-					System.out.println(r.toString()); // java.awt.Rectangle[x=100,y=100,width=800,height=600]
-					
-					int fx = (int)r.getX();
-					int fy = (int)r.getY();
-					int fwidth = (int)r.getWidth();
-					int fheight = (int)r.getHeight();
-					
-					int dwidth = 450;
-					int dheight = 300;
-					
-					dialog.setBounds(100 + (fwidth - dwidth) / 2, 100 + (fheight - dheight) / 2, dwidth, dheight);
-					// 다이얼로그 창이 가운데 위치에서 열린다
-
-					dialog.setModal(true);
-					// 한개의 다이얼로그 창만 열리게 한다
-					dialog.setVisible(true);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btn.setBounds(12, 10, 97, 23);
-		contentPane.add(btn);
-	}
-}
-```
-```java
-// JDialogEx03.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class JDialogEx03 extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-	private String data; 
-	private JTextField textField;
-	
-	public void setData(String data) {
-		this.data = data;
-	}
-	
-	public String getData() {
-		return data;
-	}
-	
-	public JDialogEx03(String data) {
-		this();
-		this.data = data;
-		textField.setText(data);
-		System.out.println(data);
-	}
-	
-	/**
-	 * Create the dialog.
-	 */
-	public JDialogEx03() {
-		JDialogEx03.this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		{
-			textField = new JTextField();
-			textField.setEditable(false);
-			textField.setBounds(12, 10, 259, 21);
-			contentPanel.add(textField);
-			textField.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JDialogEx03.this.dispose();
-
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JDialogEx03.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-	}
-
-}
-
-// Ex03.java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex03 extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField1;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex03 frame = new Ex03();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex03() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textField1 = new JTextField();
-		textField1.setBounds(12, 10, 309, 21);
-		contentPane.add(textField1);
-		textField1.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setBounds(12, 41, 436, 21);
-		contentPane.add(textField2);
-		textField2.setColumns(10);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JDialogEx03 dialog = new JDialogEx03(textField1.getText());
-				System.out.println("1");
-				
-				dialog.setModal(true);
-				// setModal(true)는 프로그램의 제어권을 다이얼로그창으로 넘겨서 프레임창을 이용할 수 없다
-				System.out.println("2");
-				
-				dialog.setVisible(true);
-				System.out.println("3");
-				
-				// 프레임 -> 다이얼로그 : 생성자, setter
-				// 다이얼로그 -> 프레임 : getter, 멤버필드
-				
-				String data = dialog.getData();
-				System.out.println("결과 :" + data);
-				
-				textField2.setText(dialog.getData());
-				// 다이얼로그창이 닫힐때 다이얼로그 창에서 프레임으로 제어권이 넘어오면서 실행된다
-			}
-		});
-		btn.setBounds(351, 9, 97, 23);
-		contentPane.add(btn);
-	}
-}
-```
-```java
-// GuguDialog.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class GuguDialog extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-		private int startDan;
-		private int endDan;
-		private JTextArea textArea;
-	
-	public int getStartDan() {
-			return startDan;
-		}
-
-		public void setStartDan(int startDan) {
-			this.startDan = startDan;
-		}
-
-		public int getEndDan() {
-			return endDan;
-		}
-
-		public void setEndDan(int endDan) {
-			this.endDan = endDan;
-		}
-
-	/**
-	 * Create the dialog.
-	 */
-	public GuguDialog() {
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 410, 152);
-		contentPanel.add(scrollPane);
-		
-		textArea = new JTextArea();
-		
-		scrollPane.setViewportView(textArea);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialog.this.dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialog.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-	}
-	public void guguPrint() {
-		String result = "";
-		for(int i = startDan; i <= endDan; i++) {
-			for(int j = 1; j <= 9; j++) {
-				result += String.format("%2d X %2d = %d%n", i, j, i*j); 
-			}
-		}
-		textArea.setText(result);
-	}
-}
-
-// GugudanMain.java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class GugudanMain extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GugudanMain frame = new GugudanMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public GugudanMain() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("시작단");
-		lblNewLabel.setBounds(12, 10, 119, 30);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("끝단");
-		lblNewLabel_1.setBounds(12, 50, 119, 30);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(91, 13, 188, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setColumns(10);
-		textField2.setBounds(91, 50, 188, 25);
-		contentPane.add(textField2);
-		
-		JButton btnNewButton = new JButton("구구단 출력");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GuguDialog dialog = new GuguDialog();
-				dialog.setStartDan(Integer.parseInt(textField.getText()));
-				dialog.setEndDan(Integer.parseInt(textField2.getText()));
-				dialog.guguPrint();
-				dialog.setModal(true);
-				dialog.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(316, 10, 119, 70);
-		contentPane.add(btnNewButton);
-	}
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class GugudanMain extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GugudanMain frame = new GugudanMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public GugudanMain() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("시작단");
-		lblNewLabel.setBounds(12, 10, 119, 30);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("끝단");
-		lblNewLabel_1.setBounds(12, 50, 119, 30);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(91, 13, 188, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setColumns(10);
-		textField2.setBounds(91, 50, 188, 25);
-		contentPane.add(textField2);
-		
-		JButton btnNewButton = new JButton("구구단 출력");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GuguDialogTable dialog = new GuguDialogTable(Integer.parseInt(textField.getText()), Integer.parseInt(textField2.getText()));
-				dialog.setModal(true);
-				dialog.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(316, 10, 119, 70);
-		contentPane.add(btnNewButton);
-	}
-}
-// CustomGuguTableModel.java
-import javax.swing.table.AbstractTableModel;
-
-public class CustomGuguTableModel extends AbstractTableModel {
-
-	private int startDan;
-	private int endDan;
-	
-	public CustomGuguTableModel(int startDan, int endDan) {
-		this.startDan = startDan;
-		this.endDan = endDan;
-	}
-	
-	private String[] colNames = {
-			"X 1", "X 2", "X 3", "X 4", "X 5", "X 6", "X 7", "X 8", "X 9"
-	};
-	
-	@Override
-	public String getColumnName(int column) {
-		return colNames[column];
-	}
-	
-	@Override
-	public int getRowCount() {
-		return endDan - startDan + 1;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return 9;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = "";
-		result = String.format("%2d X %2d = %d", rowIndex + startDan, columnIndex + 1, (rowIndex + startDan) * (columnIndex + 1));
-		return result;
-	}
-
-}
-// GuguDialogTable.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class GuguDialogTable extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-
-	/**
-	 * Create the dialog.
-	 */
-	
-	public GuguDialogTable(int startDan, int endDan) {
-		this();
-		
-		table.setModel(new CustomGuguTableModel(startDan, endDan));
-	}
-	
-	public GuguDialogTable() {
-		setBounds(100, 100, 600, 300);
-		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 434, 1);
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel);
-		contentPanel.setLayout(null);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(0, 228, 434, 33);
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialogTable.this.dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialogTable.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 562, 170);
-		getContentPane().add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-	}
-}
-```
-- colorChooser
-```java
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex04 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex04 frame = new Ex04();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex04() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Color color = JColorChooser.showDialog(Ex04.this, "파란색", Color.BLUE);
-				System.out.println("결과 : " + color);
-				// 컬러를 선택하지 않고 창을 닫을 경우 "결과 : null"을 출력한다
-				if(color != null) {
-					System.out.println("Red : " + color.getRed());
-					System.out.println("Green : " + color.getGreen());
-					System.out.println("Blue : " + color.getBlue());
-				}else {
-					System.out.println("취소 선택");
-				}
-			}
-		});
-		btnNewButton.setBounds(12, 10, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-
-}
-```
-- fileChooser
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-
-public class Ex05 extends JFrame {
-
-	private JPanel contentPane;
-	private JTextArea textArea;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex05 frame = new Ex05();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex05() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("파일 열기");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser filechooser = new JFileChooser("c:\\"); 
-				// 파일 선택의 처음 위치를 인수로 줘서 지정할 수 있다
-				
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Java 소스", "java", "txt");
-				filechooser.setFileFilter(filter);
-				// 파일 선택 화면에서 특정 형식의 파일만 보이게 할 수 있다
-				
-				int result = filechooser.showOpenDialog(Ex05.this);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					System.out.println("확인");
-					
-					File file = filechooser.getSelectedFile();
-					
-					System.out.println(file.getName());
-					System.out.println(file.getAbsolutePath());
-					
-					textArea.setText("");
-					
-					BufferedReader br = null;
-					
-					try {
-						br = new BufferedReader(new FileReader(file));
-						String line = null;
-						while((line = br.readLine()) != null) {
-							textArea.append(line + System.lineSeparator());
-						}
-					} catch (FileNotFoundException e1) {
-						System.out.println("에러 : " + e1.getMessage());
-					} catch (IOException e1) {
-						System.out.println("에러 : " + e1.getMessage());
-					}finally {
-						if(br != null) try {br.close();} catch(IOException e1) {}
-					}
-				}else if(result == JFileChooser.CANCEL_OPTION) {
-					System.out.println("취소");
-				}
-			}
-		});
-		btnNewButton.setBounds(12, 10, 113, 23);
-		contentPane.add(btnNewButton);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 39, 324, 342);
-		contentPane.add(scrollPane);
-		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
-		
-		JButton btnNewButton_1 = new JButton("내용 지우기");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textArea.setText("");
-			}
-		});
-		btnNewButton_1.setBounds(137, 10, 120, 23);
-		contentPane.add(btnNewButton_1);
-		
-		JButton btn2 = new JButton("파일 저장");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser("c:\\");
-				int result = fileChooser.showSaveDialog(Ex05.this);
-				
-				if(result == JFileChooser.APPROVE_OPTION) {
-					System.out.println("확인 " + fileChooser.getSelectedFile().getName());
-					System.out.println("확인 " + fileChooser.getSelectedFile().getAbsolutePath());
-					
-					BufferedWriter bw = null;
-				
-					try {
-						bw = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile().getAbsolutePath()));
-						
-						bw.write(textArea.getText());
-						
-						JOptionPane.showMessageDialog(Ex05.this, "내용 저장", "저장" , JOptionPane.INFORMATION_MESSAGE);
-						
-					} catch (IOException e1) {
-						System.out.println(" 에러 : " + e1.getMessage());
-					} finally {
-						if(bw != null) try {bw.close();} catch(IOException e1) {}
-					}
-				}else {
-					System.out.println("취소");
-				}
-			}
-		});
-		btn2.setBounds(269, 10, 120, 23);
-		contentPane.add(btn2);
-	}
-
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-
-public class Ex06 extends JFrame {
-
-	private JPanel contentPane;
-	private JLabel lbl;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 69, 506, 355);
-		contentPane.add(scrollPane);
-		
-		lbl = new JLabel("");
-		scrollPane.setViewportView(lbl);
-		
-		JButton btnNewButton = new JButton("이미지 보이기");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser("c:\\");
-				
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("이미지 파일", "png", "img");
-				
-				
-				fileChooser.setFileFilter(filter);
-				
-				int result = fileChooser.showOpenDialog(Ex06.this);
-				
-				lbl.setIcon(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
-				
-				
-			}
-		});
-		btnNewButton.setBounds(12, 10, 168, 23);
-		contentPane.add(btnNewButton);
-	}
-
-}
-```
-- menuBar
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Ex07 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex07 frame = new Ex07();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex07() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		// menuBar <- menu <- menuItem
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("파일");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("new");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("새파일");
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("open");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("열기");
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_2);
-		
-		mnNewMenu.addSeparator(); // menuItem을 구분해주는 선을 넣는다
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("save");
-		mnNewMenu.add(mntmNewMenuItem_3);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("사과");
-		mnNewMenu.add(chckbxmntmNewCheckItem);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("참외");
-		chckbxmntmNewCheckItem_1.setSelected(true);
-		mnNewMenu.add(chckbxmntmNewCheckItem_1);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("수박");
-		mnNewMenu.add(chckbxmntmNewCheckItem_2);
-		
-		
-		JMenu mnNewMenu_1 = new JMenu("홈");
-		menuBar.add(mnNewMenu_1);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("menu 1");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
-		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("menu 2");
-		mnNewMenu_1.add(mntmNewMenuItem_4);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 	}
 }
 ```
@@ -13154,6 +10293,1223 @@ public class DeptSearch extends JFrame {
 
 }
 ```
+###### passwordfield
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class SwingEx06 extends JFrame {
+
+	private JPanel contentPane;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SwingEx06 frame = new SwingEx06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public SwingEx06() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(12, 10, 249, 21);
+		contentPane.add(passwordField);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(new String(passwordField.getPassword()));
+				// JPasswordfield의 값을 출력
+			}
+		});
+		btnNewButton.setBounds(280, 9, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+###### checkbox
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JCheckBox;
+import javax.swing.JToggleButton;
+
+public class SwingEx06 extends JFrame {
+
+	private JPanel contentPane;
+	private JCheckBox check1;
+	private JCheckBox check2;
+	private JCheckBox check3;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
+	private JButton btn3;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SwingEx06 frame = new SwingEx06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public SwingEx06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		check1 = new JCheckBox("수박");
+		check1.setBounds(8, 81, 115, 23);
+		contentPane.add(check1);
+		
+		check2 = new JCheckBox("참외");
+		check2.setBounds(8, 106, 115, 23);
+		contentPane.add(check2);
+		
+		check3 = new JCheckBox("딸기");
+		check3.setBounds(8, 131, 115, 23);
+		contentPane.add(check3);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(check1.isSelected());
+				System.out.println(check2.isSelected());
+				System.out.println(check3.isSelected());
+				// 체크되어 있으면 true, 아니면 false
+				System.out.println(check1.getText());
+				System.out.println(check2.getText());
+				System.out.println(check3.getText());
+				// 체크 여부 상관없이 무조건 텍스트 내용을 가져온다
+				
+				String result = "";
+				if(check1.isSelected()) {
+					result += check1.getText() + " ";
+				}
+				if(check2.isSelected()) {
+					result += check2.getText() + " ";
+				}
+				if(check3.isSelected()) {
+					result += check3.getText();
+				}
+				System.out.println("결과 : " + result);
+			}
+		});
+		btnNewButton.setBounds(12, 170, 97, 23);
+		contentPane.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("전체선택");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			check1.setSelected(true);
+			check2.setSelected(true);
+			check3.setSelected(true);
+			}
+		});
+		btnNewButton_1.setBounds(8, 10, 97, 23);
+		contentPane.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("선택 해제");
+		btnNewButton_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				check1.setSelected(false);
+				check2.setSelected(false);
+				check3.setSelected(false);
+			}
+		});
+		btnNewButton_2.setBounds(117, 10, 97, 23);
+		contentPane.add(btnNewButton_2);
+		
+		btn3 = new JButton("전체선택");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(btn3.getText().equals("전체선택")) {
+					btn3.setText("전체해제");
+					check1.setSelected(true);
+					check2.setSelected(true);
+					check3.setSelected(true);
+				}else {
+					btn3.setText("전체선택");
+					check1.setSelected(false);
+					check2.setSelected(false);
+					check3.setSelected(false);
+				}
+			}
+		});
+		btn3.setBounds(8, 43, 97, 23);
+		contentPane.add(btn3);
+		
+		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+		// 토글버튼을 누르면 눌린 상태로 있고, 다시 누르면 원래 상태로 돌아온다
+		tglbtnNewToggleButton.setBounds(117, 43, 135, 23);
+		contentPane.add(tglbtnNewToggleButton);
+	}
+}
+```
+###### radio
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JCheckBox;
+import javax.swing.JToggleButton;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+
+public class SwingEx06 extends JFrame {
+
+	private JPanel contentPane;
+	private JRadioButton radio1;
+	private JRadioButton radio2;
+	private JRadioButton radio3;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	// 라디오 버튼을 묶어주기 위해 ButtonGroup 객체를 사용한다
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SwingEx06 frame = new SwingEx06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public SwingEx06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		radio1 = new JRadioButton("수박");
+		buttonGroup.add(radio1);
+		// radio1 라디오 버튼을 buttonGroup에 추가
+		radio1.setBounds(8, 6, 121, 23);
+		contentPane.add(radio1);
+		
+		radio2 = new JRadioButton("딸기");
+		buttonGroup.add(radio2);
+		// radio2 라디오 버튼을 buttonGroup에 추가
+		radio2.setBounds(8, 31, 121, 23);
+		contentPane.add(radio2);
+		
+		radio3 = new JRadioButton("사과");
+		buttonGroup.add(radio3);
+		// radio3 라디오 버튼을 buttonGroup에 추가
+		radio3.setBounds(8, 56, 121, 23);
+		contentPane.add(radio3);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(radio1.isSelected()) {
+					System.out.println(radio1.getText())
+				}else if(radio2.isSelected()) {
+					System.out.println(radio2.getText());
+				}else {
+					System.out.println(radio3.getText());
+				}
+			}
+		});
+		btnNewButton.setBounds(8, 85, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+
+###### 알림창
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn1 = new JButton("New Button");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.WARNING_MESSAGE);
+				// 현재 프레임 객체를 기반으로 해서 "새 타이틀" 경고창을 통해서 "메세지"를 보여준다
+				// JOptionPane.WARNING_MESSAGE는 경고창임을 알리는 이미지를 보여준다
+				// 에러, 경고를 알리기 위해 많이 사용한다
+			}
+		});
+		btn1.setBounds(12, 10, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int result = JOptionPane.showConfirmDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.OK_CANCEL_OPTION);
+				// 기본적으로는 예, 아니오, 취소가 있는 알림창을 보여준다
+				// JOptionPane.OK_CANCEL_OTION을 사용해서 확인, 취소만 보여진다
+				// int 자료형을 리턴값으로 준다 
+				
+				if(result == JOptionPane.OK_OPTION) {
+					System.out.println("OK 클릭");
+				}else if(result == JOptionPane.CANCEL_OPTION) {
+					System.out.println("CANCEL 클릭");
+				}else {
+					System.out.println("기타");
+				}
+			}
+		});
+		btn2.setBounds(12, 43, 97, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("New button");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String result = JOptionPane.showInputDialog("메세지", "초기값");
+				// 내용을 입력받을 수 있는 창이 생긴다
+				// String을 리턴값으로 준다
+			  // 창을 닫거나, 취소를 누르면 null을 리턴한다
+				if(result != null) { 
+					System.out.println("결과 : " + result);
+				}else {
+					System.out.println("입력 취소");
+				}
+			}
+		});
+		btn3.setBounds(12, 76, 97, 23);
+		contentPane.add(btn3);
+	}
+}
+```
+###### progressbar
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JProgressBar;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex02 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex02 frame = new Ex02();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex02() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		// 비율 표시
+		progressBar.setMaximum(200);
+		// 최대값 설정
+		progressBar.setValue(51);
+		// 현재값 설정
+		progressBar.setBounds(12, 10, 408, 118);
+		contentPane.add(progressBar);
+		
+		JButton btn1 = new JButton("증가 (+ 10)");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(progressBar.getValue() == progressBar.getMaximum()) {
+					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 증가시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+				}else {
+					System.out.println(progressBar.getValue());
+					progressBar.setValue(progressBar.getValue() + 10);
+				}
+			}
+		});
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn1.setBounds(12, 140, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("감소 (- 10)");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(progressBar.getValue() == progressBar.getMinimum()) {
+					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 감소시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+				}else {
+					System.out.println(progressBar.getValue());
+					progressBar.setValue(progressBar.getValue() - 10);
+				}
+			}
+		});
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn2.setBounds(121, 140, 97, 23);
+		contentPane.add(btn2);
+	}
+}
+```
+###### slider
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSlider;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+public class Ex03 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex03 frame = new Ex03();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex03() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		
+		JSlider slider = new JSlider();
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println(slider.getValue());
+				// 슬라이더의 값을 변경시킬 때마다 변경된 값을 출력한다
+				// 시작했을 때는 기본값이 출력된다
+				if(textArea != null) {
+					textArea.append(slider.getValue() + System.lineSeparator());
+					// 객체가 생성돼야 그 객체를 사용할 수 있기 때문에
+					// textArea 객체가 먼저 생성되어야 에러가 생기지 않는다
+				}
+			}
+		});
+		slider.setMinorTickSpacing(5);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(10);
+		slider.setPaintLabels(true);
+		// 슬라이더의 간격을 표시한다
+		slider.setMaximum(200);
+		slider.setBounds(12, 10, 501, 66);
+		contentPane.add(slider);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(slider.getValue());
+			}
+		});
+		btn.setBounds(12, 96, 97, 23);
+		contentPane.add(btn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 131, 501, 278);
+		contentPane.add(scrollPane);
+		
+		scrollPane.setViewportView(textArea);
+
+	}
+}
+```
+Color picker 만들기
+```java
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.Font;
+
+public class Test1 extends JFrame {
+
+	private JPanel contentPane;
+	private JSlider redSlider;
+	private JSlider greenSlider;
+	private JSlider blueSlider;
+	private JPanel panel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Test1 frame = new Test1();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Test1() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel green = new JLabel("GREEN");
+		green.setFont(new Font("굴림", Font.BOLD, 13));
+		green.setBounds(56, 168, 96, 23);
+		contentPane.add(green);
+		
+		JLabel red = new JLabel("RED");
+		red.setFont(new Font("굴림", Font.BOLD, 13));
+		red.setBounds(56, 88, 96, 23);
+		contentPane.add(red);
+		
+		JLabel blue = new JLabel("BLUE");
+		blue.setFont(new Font("굴림", Font.BOLD, 13));
+		blue.setBounds(56, 254, 96, 23);
+		contentPane.add(blue);
+				
+		panel = new JPanel();
+		panel.setForeground(new Color(255, 255, 255));
+		panel.setBorder(null);
+		panel.setBounds(56, 311, 597, 206);
+		contentPane.add(panel);
+		
+		redSlider = new JSlider();
+		redSlider.setPaintLabels(true);
+		redSlider.setPaintTicks(true);
+		redSlider.setMinorTickSpacing(10);
+		greenSlider = new JSlider();
+		greenSlider.setPaintLabels(true);
+		greenSlider.setMinorTickSpacing(10);
+		blueSlider = new JSlider();
+		blueSlider.setPaintLabels(true);
+		blueSlider.setMinorTickSpacing(10);
+		
+		redSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		greenSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		blueSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+				panel.setBackground(color);
+			}
+		});
+		
+		
+		redSlider.setMajorTickSpacing(100);
+		redSlider.setMaximum(255);
+		redSlider.setBounds(153, 85, 488, 39);
+		contentPane.add(redSlider);
+		
+		greenSlider.setPaintTicks(true);
+		greenSlider.setMajorTickSpacing(100);
+		greenSlider.setMaximum(255);
+		greenSlider.setBounds(153, 165, 488, 39);
+		contentPane.add(greenSlider);
+		
+		blueSlider.setPaintTicks(true);
+		blueSlider.setMajorTickSpacing(100);
+		blueSlider.setMaximum(255);
+		blueSlider.setBounds(153, 251, 488, 39);
+		contentPane.add(blueSlider);
+		
+		
+	}
+}
+```
+###### spinner
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SpinnerListModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.SpinnerDateModel;
+import java.util.Date;
+import java.util.Calendar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ex04 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex04 frame = new Ex04();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex04() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JSpinner spinner1 = new JSpinner();
+		spinner1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println((Integer)spinner1.getValue());
+			}
+		});
+		spinner1.setModel(new SpinnerNumberModel(50, 20, 100, 5));
+		spinner1.setBounds(12, 10, 142, 27);
+		contentPane.add(spinner1);
+		
+		JSpinner spinner2 = new JSpinner();
+		spinner2.setModel(new SpinnerListModel(new String[] {"\uC0AC\uACFC", "\uB538\uAE30", "\uC218\uBC15", "\uCC38\uC678", "\uADE4"}));
+    // 다국어가 유니코드로 처리된다
+
+    // String items = {"사과", "딸기", "수박", "참외", "귤"};
+    // SpinnerListModel spinnerListModel = new SpinnerListModel(items);
+    // spinner2.setModel(spinnerListModel);
+
+		spinner2.setBounds(12, 47, 142, 27);
+		contentPane.add(spinner2);
+		
+		JSpinner spinner3 = new JSpinner();
+		spinner3.setModel(new SpinnerDateModel(new Date(1675695600000L), new Date(-62109277200000L), new Date(4079170800000L), Calendar.MONTH));
+		spinner3.setBounds(12, 84, 142, 27);
+		contentPane.add(spinner3);
+		
+		JButton btn1 = new JButton("New button");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)spinner1.getValue());
+			}
+		});
+		btn1.setBounds(166, 12, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((String)spinner2.getValue());
+			}
+		});
+		btn2.setBounds(166, 49, 97, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("New button");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Date)spinner3.getValue());
+			}
+		});
+		btn3.setBounds(166, 86, 97, 23);
+		contentPane.add(btn3);
+	}
+}
+```
+
+```java
+// CustomSpinnerListModel.java
+package pack1;
+
+import javax.swing.SpinnerListModel;
+
+public class CustomSpinnerListModel extends SpinnerListModel {
+	public CustomSpinnerListModel() {
+		super(new String[] {
+				"사과", "딸기", "수박", "참외", "귤"
+		});
+	}
+}
+
+// Ex05.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex05 extends JFrame {
+
+	private JPanel contentPane;
+	private JButton btn;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex05 frame = new Ex05();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex05() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerListModel(new String[] {""}));
+		spinner.setBounds(12, 10, 219, 34);
+		contentPane.add(spinner);
+		
+		btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				spinner.setModel(new CustomSpinnerListModel());
+			}
+		});
+		btn.setBounds(266, 15, 97, 23);
+		contentPane.add(btn);
+	}
+
+}
+```
+###### comboBoxModel
+
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JComboBox comboBox;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+		comboBox.setBounds(12, 10, 188, 28);
+		contentPane.add(comboBox);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)comboBox.getSelectedIndex());
+				System.out.println((String)comboBox.getSelectedItem());
+				// ComboBoxModel model = comboBox.getModel();
+				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+			}
+		});
+		btnNewButton.setBounds(212, 13, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+
+```java
+// CustemComboBoxModel.java
+package pack1;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class CustomComboBoxModel extends DefaultComboBoxModel<String> {
+	private String[] items = new String[] { "사과", "참외", "딸기", "귤"};
+	
+	@Override
+	public int getSize() {
+		System.out.println("getSize() 호출");
+		return items.length;
+	}
+	@Override
+	public String getElementAt(int index) {
+		System.out.println("getElementAt() 호출");
+		return items[index];
+	}
+	
+}
+
+// Ex06.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JComboBox comboBox;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		comboBox = new JComboBox();
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					System.out.println((String)comboBox.getSelectedItem());
+				}
+				// itemStateChanged()는 selected, deselected를 모두 감지해서 값을 내기 때문에
+				// itemEvent.SELECTED를 이용해 selected만 감지해서 작동하게 해야한다
+			}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+		comboBox.setBounds(12, 10, 188, 28);
+		contentPane.add(comboBox);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println((Integer)comboBox.getSelectedIndex());
+				// System.out.println((String)comboBox.getSelectedItem());
+				
+				// ComboBoxModel model = comboBox.getModel();
+				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+				
+				CustomComboBoxModel2 cb = new CustomComboBoxModel2();
+				System.out.println(cb.getElementAt(comboBox.getSelectedIndex()));
+			}
+		});
+		btnNewButton.setBounds(212, 13, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+
+```
+###### list
+
+```java
+// CustomAbstractModel.java
+package pack1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
+public class CustomAbstractModel extends AbstractListModel<String> {
+	private List<String> items = new ArrayList<>();
+	
+	public CustomAbstractModel() {
+		items.add("사과");
+		items.add("수박");
+		items.add("참외");
+		items.add("귤");
+	}
+	
+	@Override
+	public int getSize() {
+		return items.size();
+	}
+
+	@Override
+	public String getElementAt(int index) {
+		return items.get(index);
+	}
+	
+}
+
+// Ex07.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
+public class Ex07 extends JFrame {
+
+	private JPanel contentPane;
+	private JButton btn;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex07 frame = new Ex07();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex07() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 29, 258, 196);
+		contentPane.add(scrollPane);
+		
+		JList list = new JList();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(e.getValueIsAdjusting()) {
+					return;
+				} // selected만 감지하도록 한다
+				System.out.println((String)list.getSelectedValue());
+			}
+		});
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+//		list.setModel(new AbstractListModel() {
+//			String[] values = new String[] {"사과", "참외", "수박", "딸기"};
+//			public int getSize() {
+//				return values.length;
+//			}
+//			public Object getElementAt(int index) {
+//				return values[index];
+//			}
+//		});
+		list.setModel(new CustomAbstractModel());
+		list.setSelectedIndex(2);
+		
+		btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(list.getSelectedIndex());
+				System.out.println((String)list.getSelectedValue());
+			}
+		});
+		btn.setBounds(12, 254, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
 ```java
 // PostSearchTO.java
 package Test;
@@ -13443,6 +11799,7 @@ public class PostSearch extends JFrame {
 	}
 }
 ```
+
 사원 이름 검색기
 ```java
 // EmpSearchTO.java
@@ -13710,6 +12067,445 @@ public class EmpSearchUI01 extends JFrame {
 	}
 }
 ```
+
+###### table
+  
+```java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		// 스크롤로 감싸줘야 컬럼명이 표시된다
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"1", "2", "3"},
+				{null, null, null},
+			},
+			new String[] {
+				"\uCEEC\uB7FC\uBA851", "\uCEEC\uB7FC\uBA852", "\uCEEC\uB7FC\uBA853"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel01.java
+package pack1;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel01 extends AbstractTableModel {
+	
+	private String[][] items = new String[][]	{
+		{"11", "12", "13"},
+		{"21", "22", "23"},
+		{"31", "32", "33"},
+		{null, "32", "33"},
+	};
+	
+	private String[] columnNames = {
+			"col1", "col2", "col3"
+	};
+	@Override
+	public String getColumnName(int column) {
+		return columnNames[column]; 
+	} // 컬럼의 이름을 지정한다
+	
+	
+	@Override
+	public int getRowCount() {
+		return items.length;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return items[0].length;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return items[rowIndex][columnIndex];
+	}
+
+}
+
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel01());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel02.java
+package pack1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel02 extends AbstractTableModel {
+	
+	private List<List<String>> items = new ArrayList<>();
+	
+	private String[] columnNames = {
+			"col1", "col2", "col3", "col4"
+	};
+	@Override
+	public String getColumnName(int column) {
+		return columnNames[column]; 
+	} 
+	
+	public CustomTableModel02() {
+		List<String> item1 = new ArrayList<>();
+		item1.add("11");
+		item1.add("12");
+		item1.add("13");
+		item1.add("14");
+		List<String> item2 = new ArrayList<>();
+		item2.add("21");
+		item2.add("22");
+		item2.add("23");
+		item2.add("24");
+		List<String> item3 = new ArrayList<>();
+		item3.add("31");
+		item3.add("32");
+		item3.add("33");
+		item3.add("34");
+		
+		items.add(item1);
+		items.add(item2);
+		items.add(item3);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return items.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return items.get(0).size();
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return items.get(rowIndex).get(columnIndex);
+	}
+
+}
+
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel02());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+	}
+}
+```
+```java
+// CustomTableModel03.java
+package pack1;
+
+import java.awt.desktop.AboutEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class CustomTableModel03 extends AbstractTableModel {
+
+	private List<DataTO> items = new ArrayList<>(); 
+	
+	CustomTableModel03() {
+		DataTO to1 = new DataTO();
+		to1.setNum1("11");
+		to1.setNum2("12");
+		to1.setNum3("13");
+		to1.setNum4("14");
+		DataTO to2 = new DataTO();
+		to2.setNum1("21");
+		to2.setNum2("22");
+		to2.setNum3("23");
+		to2.setNum4("24");
+		DataTO to3 = new DataTO();
+		to3.setNum1("31");
+		to3.setNum2("32");
+		to3.setNum3("33");
+		to3.setNum4("34");
+		
+		items.add(to1);
+		items.add(to2);
+		items.add(to3);
+	}
+	
+	@Override
+	public int getRowCount() {
+		return items.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		int count = 1;
+		
+		for(DataTO to : items) {
+			count++;
+		}
+		return count;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = null;
+		
+		DataTO to = items.get(rowIndex);
+		
+		
+		switch(columnIndex) {
+		case 0:
+			result = to.getNum1();
+			break;
+		case 1:
+			result = to.getNum2();
+			break;
+		case 2:
+			result = to.getNum3();
+			break;
+		case 3:
+			result = to.getNum4();
+			break;
+		}
+		
+		return result;
+	}
+
+}
+// Ex01.java
+package pack1;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 372, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		table.setModel(new CustomTableModel03());
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+	}
+}
+
+```
 ```java
 // EmpTO.java
 package pack1;
@@ -13920,6 +12716,1213 @@ public class CustomTableModel extends AbstractTableModel {
 
 }
 ```
+###### tree
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTree tree;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		tree = new JTree();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("click " + tree.getSelectionPath().toString());
+				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+				// click [JTree, colors, 빨강색]
+			}
+		});
+		tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("JTree") { // "JTree"를 루트노드로 갖는 트리
+				{
+					DefaultMutableTreeNode node_1;
+					node_1 = new DefaultMutableTreeNode("colors");
+					node_1.add(new DefaultMutableTreeNode("파랑색"));
+					node_1.add(new DefaultMutableTreeNode("보라색"));
+					node_1.add(new DefaultMutableTreeNode("빨강색"));
+					node_1.add(new DefaultMutableTreeNode("노랑색"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("sports");
+					node_1.add(new DefaultMutableTreeNode("basketball"));
+					node_1.add(new DefaultMutableTreeNode("soccer"));
+					node_1.add(new DefaultMutableTreeNode("football"));
+					node_1.add(new DefaultMutableTreeNode("hockey"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("food");
+					node_1.add(new DefaultMutableTreeNode("hot dogs"));
+					node_1.add(new DefaultMutableTreeNode("pizza"));
+					node_1.add(new DefaultMutableTreeNode("ravioli"));
+					node_1.add(new DefaultMutableTreeNode("bananas"));
+					add(node_1);
+				}
+			}
+		));
+		tree.setBounds(12, 10, 229, 476);
+		contentPane.add(tree);
+	}
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTree tree;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex01 frame = new Ex01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		tree = new JTree();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("click " + tree.getSelectionPath().toString());
+				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+				// click [JTree, colors, 빨강색]
+			}
+		});
+
+
+		tree.setModel(new DefaultTreeModel(makeTree("root")));
+		
+		tree.setBounds(12, 10, 229, 476);
+		contentPane.add(tree);
+	}
+	public DefaultMutableTreeNode makeTree(String rootName) {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
+		
+		DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
+		DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("sports");
+		DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("food");
+		
+		node1.add(new DefaultMutableTreeNode("파랑색"));
+		node1.add(new DefaultMutableTreeNode("빨강색"));
+		node1.add(new DefaultMutableTreeNode("노랑색"));
+		
+		node2.add(new DefaultMutableTreeNode("축구"));
+		node2.add(new DefaultMutableTreeNode("농구"));
+		node2.add(new DefaultMutableTreeNode("야구"));
+		
+		node3.add(new DefaultMutableTreeNode("고기"));
+		node3.add(new DefaultMutableTreeNode("소고기"));
+		node3.add(new DefaultMutableTreeNode("돼지고기"));
+		
+		root.add(node1);
+		root.add(node2);
+		root.add(node3);
+		
+		return root;
+	}
+}
+```
+
+###### dialog
+```java
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex02 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex02 frame = new Ex02();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex02() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// 창을 닫았을 때 프로그램이 종료된다
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					JDialogEx01 dialog = new JDialogEx01();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					// 창을 닫았을 때 프로그램은 계속 실행되고 다이얼로그 창만 종료된다
+					Dimension d = Ex02.this.getSize();
+					System.out.println(d.toString()); // java.awt.Dimension[width=800,height=600]
+					
+					Point p = Ex02.this.getLocation();
+					System.out.println(p.toString()); // java.awt.Point[x=100,y=100]
+					
+					Rectangle r = Ex02.this.getBounds();
+					System.out.println(r.toString()); // java.awt.Rectangle[x=100,y=100,width=800,height=600]
+					
+					int fx = (int)r.getX();
+					int fy = (int)r.getY();
+					int fwidth = (int)r.getWidth();
+					int fheight = (int)r.getHeight();
+					
+					int dwidth = 450;
+					int dheight = 300;
+					
+					dialog.setBounds(100 + (fwidth - dwidth) / 2, 100 + (fheight - dheight) / 2, dwidth, dheight);
+					// 다이얼로그 창이 가운데 위치에서 열린다
+
+					dialog.setModal(true);
+					// 한개의 다이얼로그 창만 열리게 한다
+					dialog.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btn.setBounds(12, 10, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
+```java
+// JDialogEx03.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JDialogEx03 extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private String data; 
+	private JTextField textField;
+	
+	public void setData(String data) {
+		this.data = data;
+	}
+	
+	public String getData() {
+		return data;
+	}
+	
+	public JDialogEx03(String data) {
+		this();
+		this.data = data;
+		textField.setText(data);
+		System.out.println(data);
+	}
+	
+	/**
+	 * Create the dialog.
+	 */
+	public JDialogEx03() {
+		JDialogEx03.this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			textField = new JTextField();
+			textField.setEditable(false);
+			textField.setBounds(12, 10, 259, 21);
+			contentPanel.add(textField);
+			textField.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JDialogEx03.this.dispose();
+
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JDialogEx03.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+
+}
+
+// Ex03.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex03 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField1;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex03 frame = new Ex03();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex03() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField1 = new JTextField();
+		textField1.setBounds(12, 10, 309, 21);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setBounds(12, 41, 436, 21);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
+		
+		JButton btn = new JButton("New button");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JDialogEx03 dialog = new JDialogEx03(textField1.getText());
+				System.out.println("1");
+				
+				dialog.setModal(true);
+				// setModal(true)는 프로그램의 제어권을 다이얼로그창으로 넘겨서 프레임창을 이용할 수 없다
+				System.out.println("2");
+				
+				dialog.setVisible(true);
+				System.out.println("3");
+				
+				// 프레임 -> 다이얼로그 : 생성자, setter
+				// 다이얼로그 -> 프레임 : getter, 멤버필드
+				
+				String data = dialog.getData();
+				System.out.println("결과 :" + data);
+				
+				textField2.setText(dialog.getData());
+				// 다이얼로그창이 닫힐때 다이얼로그 창에서 프레임으로 제어권이 넘어오면서 실행된다
+			}
+		});
+		btn.setBounds(351, 9, 97, 23);
+		contentPane.add(btn);
+	}
+}
+```
+```java
+// GuguDialog.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialog extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+		private int startDan;
+		private int endDan;
+		private JTextArea textArea;
+	
+	public int getStartDan() {
+			return startDan;
+		}
+
+		public void setStartDan(int startDan) {
+			this.startDan = startDan;
+		}
+
+		public int getEndDan() {
+			return endDan;
+		}
+
+		public void setEndDan(int endDan) {
+			this.endDan = endDan;
+		}
+
+	/**
+	 * Create the dialog.
+	 */
+	public GuguDialog() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 10, 410, 152);
+		contentPanel.add(scrollPane);
+		
+		textArea = new JTextArea();
+		
+		scrollPane.setViewportView(textArea);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialog.this.dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialog.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+	public void guguPrint() {
+		String result = "";
+		for(int i = startDan; i <= endDan; i++) {
+			for(int j = 1; j <= 9; j++) {
+				result += String.format("%2d X %2d = %d%n", i, j, i*j); 
+			}
+		}
+		textArea.setText(result);
+	}
+}
+
+// GugudanMain.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GugudanMain frame = new GugudanMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GugudanMain() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("시작단");
+		lblNewLabel.setBounds(12, 10, 119, 30);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("끝단");
+		lblNewLabel_1.setBounds(12, 50, 119, 30);
+		contentPane.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(91, 13, 188, 25);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		textField2.setBounds(91, 50, 188, 25);
+		contentPane.add(textField2);
+		
+		JButton btnNewButton = new JButton("구구단 출력");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GuguDialog dialog = new GuguDialog();
+				dialog.setStartDan(Integer.parseInt(textField.getText()));
+				dialog.setEndDan(Integer.parseInt(textField2.getText()));
+				dialog.guguPrint();
+				dialog.setModal(true);
+				dialog.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(316, 10, 119, 70);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GugudanMain frame = new GugudanMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GugudanMain() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("시작단");
+		lblNewLabel.setBounds(12, 10, 119, 30);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("끝단");
+		lblNewLabel_1.setBounds(12, 50, 119, 30);
+		contentPane.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(91, 13, 188, 25);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		textField2.setBounds(91, 50, 188, 25);
+		contentPane.add(textField2);
+		
+		JButton btnNewButton = new JButton("구구단 출력");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				GuguDialogTable dialog = new GuguDialogTable(Integer.parseInt(textField.getText()), Integer.parseInt(textField2.getText()));
+				dialog.setModal(true);
+				dialog.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(316, 10, 119, 70);
+		contentPane.add(btnNewButton);
+	}
+}
+// CustomGuguTableModel.java
+import javax.swing.table.AbstractTableModel;
+
+public class CustomGuguTableModel extends AbstractTableModel {
+
+	private int startDan;
+	private int endDan;
+	
+	public CustomGuguTableModel(int startDan, int endDan) {
+		this.startDan = startDan;
+		this.endDan = endDan;
+	}
+	
+	private String[] colNames = {
+			"X 1", "X 2", "X 3", "X 4", "X 5", "X 6", "X 7", "X 8", "X 9"
+	};
+	
+	@Override
+	public String getColumnName(int column) {
+		return colNames[column];
+	}
+	
+	@Override
+	public int getRowCount() {
+		return endDan - startDan + 1;
+	}
+
+	@Override
+	public int getColumnCount() {
+		return 9;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		String result = "";
+		result = String.format("%2d X %2d = %d", rowIndex + startDan, columnIndex + 1, (rowIndex + startDan) * (columnIndex + 1));
+		return result;
+	}
+
+}
+// GuguDialogTable.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialogTable extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTable table;
+
+	/**
+	 * Create the dialog.
+	 */
+	
+	public GuguDialogTable(int startDan, int endDan) {
+		this();
+		
+		table.setModel(new CustomGuguTableModel(startDan, endDan));
+	}
+	
+	public GuguDialogTable() {
+		setBounds(100, 100, 600, 300);
+		getContentPane().setLayout(null);
+		contentPanel.setBounds(0, 0, 434, 1);
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel);
+		contentPanel.setLayout(null);
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setBounds(0, 228, 434, 33);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialogTable.this.dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						GuguDialogTable.this.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 562, 170);
+		getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+	}
+}
+```
+###### colorChooser
+```java
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex04 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex04 frame = new Ex04();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex04() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Color color = JColorChooser.showDialog(Ex04.this, "파란색", Color.BLUE);
+				System.out.println("결과 : " + color);
+				// 컬러를 선택하지 않고 창을 닫을 경우 "결과 : null"을 출력한다
+				if(color != null) {
+					System.out.println("Red : " + color.getRed());
+					System.out.println("Green : " + color.getGreen());
+					System.out.println("Blue : " + color.getBlue());
+				}else {
+					System.out.println("취소 선택");
+				}
+			}
+		});
+		btnNewButton.setBounds(12, 10, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+
+}
+```
+###### fileChooser
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+public class Ex05 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex05 frame = new Ex05();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex05() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("파일 열기");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser filechooser = new JFileChooser("c:\\"); 
+				// 파일 선택의 처음 위치를 인수로 줘서 지정할 수 있다
+				
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Java 소스", "java", "txt");
+				filechooser.setFileFilter(filter);
+				// 파일 선택 화면에서 특정 형식의 파일만 보이게 할 수 있다
+				
+				int result = filechooser.showOpenDialog(Ex05.this);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					System.out.println("확인");
+					
+					File file = filechooser.getSelectedFile();
+					
+					System.out.println(file.getName());
+					System.out.println(file.getAbsolutePath());
+					
+					textArea.setText("");
+					
+					BufferedReader br = null;
+					
+					try {
+						br = new BufferedReader(new FileReader(file));
+						String line = null;
+						while((line = br.readLine()) != null) {
+							textArea.append(line + System.lineSeparator());
+						}
+					} catch (FileNotFoundException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					} catch (IOException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					}finally {
+						if(br != null) try {br.close();} catch(IOException e1) {}
+					}
+				}else if(result == JFileChooser.CANCEL_OPTION) {
+					System.out.println("취소");
+				}
+			}
+		});
+		btnNewButton.setBounds(12, 10, 113, 23);
+		contentPane.add(btnNewButton);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 39, 324, 342);
+		contentPane.add(scrollPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		
+		JButton btnNewButton_1 = new JButton("내용 지우기");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea.setText("");
+			}
+		});
+		btnNewButton_1.setBounds(137, 10, 120, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btn2 = new JButton("파일 저장");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fileChooser = new JFileChooser("c:\\");
+				int result = fileChooser.showSaveDialog(Ex05.this);
+				
+				if(result == JFileChooser.APPROVE_OPTION) {
+					System.out.println("확인 " + fileChooser.getSelectedFile().getName());
+					System.out.println("확인 " + fileChooser.getSelectedFile().getAbsolutePath());
+					
+					BufferedWriter bw = null;
+				
+					try {
+						bw = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile().getAbsolutePath()));
+						
+						bw.write(textArea.getText());
+						
+						JOptionPane.showMessageDialog(Ex05.this, "내용 저장", "저장" , JOptionPane.INFORMATION_MESSAGE);
+						
+					} catch (IOException e1) {
+						System.out.println(" 에러 : " + e1.getMessage());
+					} finally {
+						if(bw != null) try {bw.close();} catch(IOException e1) {}
+					}
+				}else {
+					System.out.println("취소");
+				}
+			}
+		});
+		btn2.setBounds(269, 10, 120, 23);
+		contentPane.add(btn2);
+	}
+
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+
+public class Ex06 extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lbl;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex06 frame = new Ex06();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex06() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 69, 506, 355);
+		contentPane.add(scrollPane);
+		
+		lbl = new JLabel("");
+		scrollPane.setViewportView(lbl);
+		
+		JButton btnNewButton = new JButton("이미지 보이기");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser fileChooser = new JFileChooser("c:\\");
+				
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("이미지 파일", "png", "img");
+				
+				
+				fileChooser.setFileFilter(filter);
+				
+				int result = fileChooser.showOpenDialog(Ex06.this);
+				
+				lbl.setIcon(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
+				
+				
+			}
+		});
+		btnNewButton.setBounds(12, 10, 168, 23);
+		contentPane.add(btnNewButton);
+	}
+
+}
+```
+###### menuBar
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ex07 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex07 frame = new Ex07();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex07() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		// menuBar <- menu <- menuItem
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("파일");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("new");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("새파일");
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("open");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("열기");
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_2);
+		
+		mnNewMenu.addSeparator(); // menuItem을 구분해주는 선을 넣는다
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("save");
+		mnNewMenu.add(mntmNewMenuItem_3);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("사과");
+		mnNewMenu.add(chckbxmntmNewCheckItem);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("참외");
+		chckbxmntmNewCheckItem_1.setSelected(true);
+		mnNewMenu.add(chckbxmntmNewCheckItem_1);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("수박");
+		mnNewMenu.add(chckbxmntmNewCheckItem_2);
+		
+		
+		JMenu mnNewMenu_1 = new JMenu("홈");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("menu 1");
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("menu 2");
+		mnNewMenu_1.add(mntmNewMenuItem_4);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+	}
+}
+```
+
+
+
+
 ```java
 // EmpTO.java
 package Test2;
@@ -14465,10 +14468,13 @@ import javax.swing.DefaultComboBoxModel;
 public class SidoComboBoxModel extends DefaultComboBoxModel<String> {
 	private List<PostSearchTO> sidoList = new ArrayList<>();
 	
+	
 	public SidoComboBoxModel() {
 		PostSearchDAO dao = new PostSearchDAO();
-		
-		sidoList = dao.sidoList();
+		PostSearchTO to = new PostSearchTO();
+		to.setSido("시도");
+		sidoList.add(to);
+		sidoList.addAll(dao.sidoList());
 	}
 
 	@Override
@@ -14496,10 +14502,18 @@ import javax.swing.DefaultComboBoxModel;
 public class GugunComboBoxModel extends DefaultComboBoxModel<String> {
 	private List<PostSearchTO> gugunList = new ArrayList<>();
 	
-	public GugunComboBoxModel(String sido) {
+	
+	public GugunComboBoxModel() {
 		PostSearchDAO dao = new PostSearchDAO();
+		PostSearchTO to = new PostSearchTO();
 		
-		gugunList = dao.gugunList(sido);
+		to.setGugun("구군");
+		gugunList.add(to);
+	}
+	public GugunComboBoxModel(String sido) {
+		this();
+		PostSearchDAO dao = new PostSearchDAO();
+		gugunList.addAll(dao.gugunList(sido));
 	}
 
 	@Override
@@ -14518,6 +14532,7 @@ public class GugunComboBoxModel extends DefaultComboBoxModel<String> {
 	
 }
 
+
 // DongComboBoxModel.java
 package Test;
 
@@ -14529,10 +14544,20 @@ import javax.swing.DefaultComboBoxModel;
 public class DongComboBoxModel extends DefaultComboBoxModel<String> {
 	private List<PostSearchTO> dongList = new ArrayList<>();
 	
+	
+	public DongComboBoxModel() {
+		PostSearchDAO dao = new PostSearchDAO();
+		PostSearchTO to = new PostSearchTO();
+		
+		to.setDong("동");
+		dongList.add(to);
+	}
+	
 	public DongComboBoxModel(String sido, String gugun) {
+		this();
 		PostSearchDAO dao = new PostSearchDAO();
 		
-		dongList = dao.dongList(sido, gugun);
+		dongList.addAll(dao.dongList(sido, gugun));
 	}
 
 	@Override
@@ -14684,20 +14709,32 @@ public class PostSearch extends JFrame {
 		panel.setLayout(null);
 		
 		sidoBox = new JComboBox();
+		sidoBox.setModel(new SidoComboBoxModel());
+		sidoBox.setSelectedIndex(0);
 		sidoBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				gugunBox.setModel(new GugunComboBoxModel((String)sidoBox.getSelectedItem()));
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					gugunBox.setModel(new GugunComboBoxModel((String)sidoBox.getSelectedItem()));
+					gugunBox.setSelectedIndex(0);
+					dongBox.setModel(new DongComboBoxModel());
+					dongBox.setSelectedIndex(0);
+				}
 			}
 		});
-		sidoBox.setModel(new SidoComboBoxModel());
 		
 		sidoBox.setBounds(6, 17, 169, 23);
 		panel.add(sidoBox);
 		
 		gugunBox = new JComboBox();
+		gugunBox.setModel(new GugunComboBoxModel());
+		gugunBox.setSelectedIndex(0);
 		gugunBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				dongBox.setModel(new DongComboBoxModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem()));
+				
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					dongBox.setModel(new DongComboBoxModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem()));
+					dongBox.setSelectedIndex(0);
+				}
 			}
 		});
 		
@@ -14705,9 +14742,13 @@ public class PostSearch extends JFrame {
 		panel.add(gugunBox);
 		
 		dongBox = new JComboBox();
+		dongBox.setModel(new DongComboBoxModel());
+		dongBox.setSelectedIndex(0);
 		dongBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				table.setModel(new PostTableModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem(), (String)dongBox.getSelectedItem()));
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					table.setModel(new PostTableModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem(), (String)dongBox.getSelectedItem()));
+				}
 			}
 		});
 		dongBox.setBounds(426, 17, 169, 23);
@@ -14722,6 +14763,935 @@ public class PostSearch extends JFrame {
 	}
 
 }
+```
+##### Layout 
+- 컨테이너, 컴포넌트를 배치한다
+- 종류(클래스)
+  - NullLayout(Absolute Layout) : 좌표를 이용한 화면 배치
 
+  - BorderLayout : 한 화면을 동, 서, 남, 북, 중앙으로 분할해서 배치 
+  - FlowLayout : 행과 열을 이용해서 배치
+  - gridLayout : 모눈에 배치
+  - CardLayout : 화면을 덮어쓰면서 배치
 
+- 관련 메서드
+  - setLayout() : 레이아웃을 설정한다
+
+  - getLayout() : 레이아웃을 가져온다
+
+- 컨테이너의 기본 레이아웃
+  - JFrame : Border Layout
+
+  - JPanel : Flow Layout
+
+###### NullLayout
+```java
+package layout;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class Ex extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex frame = new Ex();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+    // AbosoluteLayout 설정
+	}
+
+}
+```
+###### BorderLayout
+```java
+package layout;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+
+public class Ex extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex frame = new Ex();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+    // BorderLayout 설정
+	}
+
+}
+```
+###### FlowLayout 
+```java
+package layout;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+public class Ex extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex frame = new Ex();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    // FlowLayout 설정
+	}
+
+}
+```
+###### GridLayout
+
+```java
+package layout;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
+public class Ex extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex frame = new Ex();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(5, 6, 0, 0));
+    // 5행 6열의 GridLayout 설정
+	}
+
+}
+```
+###### CardLayout
+```java
+package layout;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex extends JFrame {
+
+	private JPanel contentPane;
+	private JPanel panel2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex frame = new Ex();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		contentPane.add(panel1, BorderLayout.NORTH);
+		
+		JButton btn1 = new JButton("pannel1");
+		btn1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// name_1136464503695200
+				((CardLayout)panel2.getLayout()).show(panel2, "name_1136464503695200");
+			}
+		});
+		panel1.add(btn1);
+		
+		JButton btn2 = new JButton("pannel2");
+		btn2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// name_1136521683011000
+				((CardLayout)panel2.getLayout()).show(panel2, "name_1136521683011000");
+
+			}
+		});
+		panel1.add(btn2);
+		
+		JButton btn3 = new JButton("pannel3");
+		btn3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// name_1136524431820700
+				((CardLayout)panel2.getLayout()).show(panel2, "name_1136524431820700");
+			}
+		});
+		panel1.add(btn3);
+		
+		panel2 = new JPanel();
+		contentPane.add(panel2, BorderLayout.CENTER);
+		panel2.setLayout(new CardLayout(0, 0));
+		
+		JPanel panel21 = new JPanel();
+		panel21.setBackground(Color.RED);
+		panel21.setForeground(Color.BLACK);
+		panel2.add(panel21, "name_1136464503695200");
+		panel21.setLayout(null);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(12, 10, 97, 23);
+		panel21.add(btnNewButton);
+		
+		JPanel panel22 = new JPanel();
+		panel22.setBackground(Color.GREEN);
+		panel22.setForeground(Color.BLACK);
+		panel2.add(panel22, "name_1136521683011000");
+		panel22.setLayout(null);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(91, 380, 97, 23);
+		panel22.add(btnNewButton_1);
+		
+		JPanel panel23 = new JPanel();
+		panel23.setBackground(Color.BLUE);
+		panel23.setForeground(Color.BLACK);
+		panel2.add(panel23, "name_1136524431820700");
+		panel23.setLayout(null);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBounds(287, 218, 97, 23);
+		panel23.add(btnNewButton_2);
+	}
+}
+```
+
+##### Event
+
+- 이벤트 상속도
+
+<img src = "https://t1.daumcdn.net/cfile/tistory/257205385927CE8017?original" width = 500>
+
+- 이벤트 연결
+```java
+		btn2.addMouseListener(new MouseAdapter() {
+      // addMousListner()가 이벤트 연결 메서드
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("mouseClicked");
+			}
+		});
+```
+
+- 이벤트 클래스
+
+  - interface 구현 : 필요한 것 이외의 것까지 구현해야 된다는 단점이 있다
+
+  - adapter class 상속 : 필요한 것만 오버라이딩해서 사용할 수 있다
+
+```java
+		btn1.addMouseListener(new MouseListener() {
+			// MouseListener()는 interface로 모두 구현해줘야 한다 
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("mouseReleased");
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("mousePressed");
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("mouseExited");
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("mouseEntered");
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("mouseClicked");
+			}
+		});
+```
+```java
+		btn2.addMouseListener(new MouseAdapter() {
+      // MouseAdapter()는 adapter class로 필요한 것만 구현하면 된다
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("mouseClicked");
+			}
+		});
+```
+- 이벤트 핸들러
+```java
+			@Override
+			public void mouseReleased(MouseEvent e) {
+        // mouseReleased() 메서드가 이벤트 핸들러
+				System.out.println("mouseReleased");
+			}
+```
+
+<img src="./img/event.png">
+
+```java
+package event;
+
+import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class EventEx01 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EventEx01 frame = new EventEx01();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public EventEx01() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn1 = new JButton("New button");
+		
+		btn1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("mouseReleased");
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("mousePressed");
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("mouseExited");
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("mouseEntered");
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("mouseClicked");
+			}
+		});
+		
+		
+		
+		btn1.setBounds(12, 10, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("mouseClicked");
+			}
+		});
+		btn2.setBounds(121, 10, 97, 23);
+		contentPane.add(btn2);
+		
+		textField = new JTextField();
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(textField.getText());
+				// 엔터키를 누르면 동작한다
+			}
+		});
+		textField.setBounds(12, 153, 250, 21);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(textField.getText());
+			}
+		});
+		btnNewButton.setBounds(288, 152, 97, 23);
+		contentPane.add(btnNewButton);
+	}
+}
+```
+
+!! 이벤트 클래스를 직접 선언하고 구현해서 사용할 수 있다
+
+```java
+package event;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class EventEx02 extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EventEx02 frame = new EventEx02();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public EventEx02() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btn1 = new JButton("New button");
+		btn1.addMouseListener(new UserMousEvent1());
+		btn1.setBounds(12, 10, 97, 23);
+		contentPane.add(btn1);
+		
+		JButton btn2 = new JButton("New button");
+		btn2.addMouseListener(new UserMousEvent2());
+		btn2.setBounds(12, 47, 97, 23);
+		contentPane.add(btn2);
+		
+		JButton btn3 = new JButton("New button");
+		btn3.addMouseListener(new UserMousEvent2());
+		btn3.setBounds(12, 86, 97, 23);
+		contentPane.add(btn3);
+	}
+
+	class UserMousEvent1 implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println("mouseClicked");
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			System.out.println("mousePressed");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			System.out.println("mouseReleased");
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			System.out.println("mouseEntered");
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			System.out.println("mouseExited");
+		}
+		
+	}
+	
+	class UserMouseEvent2 extends MouseAdapter{
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println("mouseClicked");
+		}
+	}
+
+}
+```
+!! 주민등록번호 검사기
+```java
+package Test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Dimension;
+
+public class JuminCheckMain extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lblResult;
+	private JTextField textField1;
+	private JTextField textField2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JuminCheckMain frame = new JuminCheckMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JuminCheckMain() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 500, 800);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel.getLayout();
+		flowLayout_1.setVgap(30);
+		flowLayout_1.setHgap(10);
+		contentPane.add(panel, BorderLayout.NORTH);
+		
+		textField1 = new JTextField();
+		textField1.setEditable(false);
+		panel.add(textField1);
+		textField1.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("-");
+		panel.add(lblNewLabel_1);
+		
+		textField2 = new JTextField();
+		textField2.setEditable(false);
+		panel.add(textField2);
+		textField2.setColumns(10);
+		
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new GridLayout(4, 3, 0, 0));
+		
+		JButton btn7 = new JButton("7");
+		btn7.setName("btn7");
+		btn7.addMouseListener(new NumberClick());
+		panel_1.add(btn7);
+		
+		JButton btn8 = new JButton("8");
+		btn8.setName("btn8");
+		btn8.addMouseListener(new NumberClick());
+		panel_1.add(btn8);
+		
+		JButton btn9 = new JButton("9");
+		btn9.setName("btn9");
+		btn9.addMouseListener(new NumberClick());
+		panel_1.add(btn9);
+		
+		JButton btn4 = new JButton("4");
+		btn4.setName("btn4");
+		btn4.addMouseListener(new NumberClick());
+		panel_1.add(btn4);
+		
+		JButton btn5 = new JButton("5");
+		btn5.setName("btn5");
+		btn5.addMouseListener(new NumberClick());
+		panel_1.add(btn5);
+		
+		JButton btn6 = new JButton("6");
+		btn6.setName("btn6");
+		btn6.addMouseListener(new NumberClick());
+		panel_1.add(btn6);
+		
+		JButton btn1 = new JButton("1");
+		btn1.setName("btn1");
+		btn1.addMouseListener(new NumberClick());
+		panel_1.add(btn1);
+		
+		JButton btn2 = new JButton("2");
+		btn2.setName("btn2");
+		btn2.addMouseListener(new NumberClick());
+		panel_1.add(btn2);
+		
+		JButton btn3 = new JButton("3");
+		btn3.setName("btn3");
+		btn3.addMouseListener(new NumberClick());
+		panel_1.add(btn3);
+		
+		JButton btn0 = new JButton("0");
+		btn0.setName("btn0");
+		btn0.addMouseListener(new NumberClick());
+		panel_1.add(btn0);
+		
+		JButton delBtn = new JButton("DEL");
+		delBtn.setName("delBtn");
+		delBtn.addMouseListener(new NumberClick());
+		panel_1.add(delBtn);
+		
+		JButton checkBtn = new JButton("검사");
+		checkBtn.setName("checkBtn");
+		checkBtn.addMouseListener(new NumberClick());
+		panel_1.add(checkBtn);
+		
+		JPanel panel_2 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		contentPane.add(panel_2, BorderLayout.SOUTH);
+		
+		lblResult = new JLabel("결과 :");
+		panel_2.add(lblResult);
+	}
+	
+	class NumberClick extends MouseAdapter {
+		
+		boolean checkJumin(String jumin){
+			boolean result = false;
+			
+			int mulNum = 2;
+			int checkNum = Integer.parseInt(jumin.substring(12, 13));
+			int sum = 0;
+			for(int i = 0; i < jumin.length() - 1; i++) {
+				if(mulNum == 10) {
+					mulNum = 2;
+				}
+				sum += Integer.parseInt(jumin.substring(i, i + 1)) * mulNum;
+				mulNum++;
+			}
+			if(11 - (sum % 11) == checkNum) {
+				result = true;
+			}
+			return result;
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			String btn = ((JButton)e.getSource()).getName();
+			
+			String result = "";
+			switch(btn) {
+			case "btn1":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "1";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "1";
+					textField2.setText(result);
+				}
+				break;
+			case "btn2":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "2";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "2";
+					textField2.setText(result);
+				}
+				break;
+			case "btn3":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "3";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "3";
+					textField2.setText(result);
+				}
+				break;
+			case "btn4":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "4";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "4";
+					textField2.setText(result);
+				}
+				break;
+			case "btn5":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "5";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "5";
+					textField2.setText(result);
+				}
+				break;
+			case "btn6":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "6";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "6";
+					textField2.setText(result);
+				}
+				break;
+			case "btn7":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "7";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "7";
+					textField2.setText(result);
+				}
+				break;
+			case "btn8":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "8";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "8";
+					textField2.setText(result);
+				}
+				break;
+			case "btn9":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "9";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "9";
+					textField2.setText(result);
+				}
+				break;
+			case "btn0":
+				if(textField1.getText().length() < 6) {
+					result = textField1.getText() + "0";
+					textField1.setText(result);
+				}else if(textField2.getText().length() < 7){
+					result = textField2.getText() + "0";
+					textField2.setText(result);
+				}
+				break;
+			case "delBtn":
+				if(textField1.getText().length() <= 6 && textField1.getText().length() != 0 && textField2.getText().length() == 0) {
+					result = textField1.getText().substring(0,textField1.getText().length() - 1);
+					textField1.setText(result);
+				} else if(textField2.getText().length() != 0) {
+					result = textField2.getText().substring(0,textField2.getText().length() - 1);
+					textField2.setText(result);
+				}
+				break;
+			case "checkBtn":
+				String jumin = textField1.getText() + textField2.getText();
+				
+				if(jumin.length() != 13) {
+					JOptionPane.showMessageDialog(JuminCheckMain.this, "주민등록번호를 끝까지 입력해주세요", "경고", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					if(checkJumin(jumin)) {
+						result = "형식이 맞습니다";
+					}else {
+						result = "형식이 맞지 않습니다";
+					}
+					lblResult.setText(String.format("결과 : %s", result));
+				}
+				break;
+			}
+		
+		}
+
+	}
+
+}
 ```
