@@ -7068,6 +7068,11 @@ public class JDBCEx3 {
 
 #### Statement, PreparedStatement
 
+- Staement
+
+- PreparedStatment : sql 구문 나중에 인덱스에 따라 값을 줘서 설정한다
+  
+
 ##### executeUpdate()
 
 - select 이외의 모든 sql에 사용된다(반환 타입은 int로 처리 후 변화된 결과의 개수를 알려준다)
@@ -7637,7 +7642,7 @@ public class JDBCEx3 {
 
 }
 ```
-
+<small>https://ayoteralab.tistory.com/entry/Spring-Boot-27-PreparedStatement-Table-Name-%EC%A0%81%EC%9A%A9 참조</small>
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7660,6 +7665,7 @@ public class Emp {
 			conn = DriverManager.getConnection(url, user, password);
 			String sql = "insert into dept2 values (?, ?, ?)";
       // 물음표(?)는 값에만 해당된다
+      // setString()은 값에 작은따옴표('')를 붙여서 설정하기 때문에 테이블명 지정은 할 수 없다
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "10");
 			pstmt.setString(2, "개발");
@@ -15693,5 +15699,1161 @@ public class JuminCheckMain extends JFrame {
 
 	}
 
+}
+```
+## 네트워크
+
+- 종류
+  - 인트라넷 : 사내망, 라우터(통신사 공유기) 내부에 있는 망
+
+    <small> ex) 192.168.XXX.XXX</small>
+
+  - 인터넷 : 외부망, 라우터(통신사 공유기) 외부에 있는 망
+    
+    <small> IP(Internet Protocol) : 전세계의 컴퓨터의 네트워크 카드에 IP를 부여한다 
+
+    ```java
+    PS C:\java\study> ipconfig /all
+
+    Windows IP 구성
+
+      호스트 이름 . . . . . . . . : DESKTOP-69DV163
+      주 DNS 접미사 . . . . . . . :
+      노드 유형 . . . . . . . . . : 혼성
+      IP 라우팅 사용. . . . . . . : 아니요
+      WINS 프록시 사용. . . . . . : 아니요
+
+    이더넷 어댑터 이더넷:
+
+      연결별 DNS 접미사. . . . :
+      설명. . . . . . . . . . . . : Realtek PCIe GbE Family Controller
+      물리적 주소 . . . . . . . . : 98-83-89-88-9A-26 // 네트워크 카드마다 가지고 있는 고유주소
+      DHCP 사용 . . . . . . . . . : 예
+      자동 구성 사용. . . . . . . : 예
+      링크-로컬 IPv6 주소 . . . . : fe80::89cc:dab:6f2f:cfd1%4(기본 설정)
+      IPv4 주소 . . . . . . . . . : 192.168.0.87(기본 설정)
+      서브넷 마스크 . . . . . . . : 255.255.255.0
+      임대 시작 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 8:33:56
+      임대 만료 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 11:33:56
+      기본 게이트웨이 . . . . . . : 192.168.0.1
+      DHCP 서버 . . . . . . . . . : 192.168.0.1
+      DHCPv6 IAID . . . . . . . . : 77104009
+      DHCPv6 클라이언트 DUID. . . : 00-01-00-01-2B-80-9C-E8-98-83-89-88-9A-26
+      DNS 서버. . . . . . . . . . : 168.126.63.1
+                                    168.126.63.2
+      Tcpip를 통한 NetBIOS. . . . : 사용
+    ```
+</small>
+
+- 외부에서 프로그램에 접근하기 위한 3요소
+  - 프로토콜(전송규약) 
+  
+    <sup> ex) http</sup>
+
+  - ip
+
+  - port : 포트의 번호는 대부분 기본값을 가지고 있고, 기본값은 생략이 가능하다
+
+  ||포트번호|
+  |:--:|:--:|
+  |http | 8080|
+  |https| 443|
+  |mail | 25|
+  |mariadb | 3306|
+
+- ip 확인 cmd 명령어
+```java
+PS C:\java\study> ipconfig
+
+
+
+이더넷 어댑터 이더넷:
+
+   연결별 DNS 접미사. . . . :
+   링크-로컬 IPv6 주소 . . . . : fe80::89cc:dab:6f2f:cfd1%4
+   IPv4 주소 . . . . . . . . . : 192.168.0.87
+   서브넷 마스크 . . . . . . . : 255.255.255.0
+   기본 게이트웨이 . . . . . . : 192.168.0.1
+PS C:\java\study> ipconfig /all
+
+Windows IP 구성
+
+   호스트 이름 . . . . . . . . : DESKTOP-69DV163
+   주 DNS 접미사 . . . . . . . :
+   노드 유형 . . . . . . . . . : 혼성
+   IP 라우팅 사용. . . . . . . : 아니요
+   WINS 프록시 사용. . . . . . : 아니요
+
+이더넷 어댑터 이더넷:
+
+   연결별 DNS 접미사. . . . :
+   설명. . . . . . . . . . . . : Realtek PCIe GbE Family Controller
+   물리적 주소 . . . . . . . . : 98-83-89-88-9A-26
+   DHCP 사용 . . . . . . . . . : 예
+   자동 구성 사용. . . . . . . : 예
+   링크-로컬 IPv6 주소 . . . . : fe80::89cc:dab:6f2f:cfd1%4(기본 설정) 
+   IPv4 주소 . . . . . . . . . : 192.168.0.87(기본 설정)
+   임대 시작 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 8:33:56
+   임대 만료 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 11:33:55
+   기본 게이트웨이 . . . . . . : 192.168.0.1
+   DHCP 서버 . . . . . . . . . : 192.168.0.1
+   DHCPv6 IAID . . . . . . . . : 77104009
+   DHCPv6 클라이언트 DUID. . . : 00-01-00-01-2B-80-9C-E8-98-83-89-88-9A-26
+   DNS 서버. . . . . . . . . . : 168.126.63.1
+                                 168.126.63.2
+   Tcpip를 통한 NetBIOS. . . . : 사용
+PS C:\java\study> ping 192.168.0.87
+
+Ping 192.168.0.87 32바이트 데이터 사용:
+192.168.0.87의 응답: 바이트=32 시간<1ms TTL=128
+192.168.0.87의 응답: 바이트=32 시간<1ms TTL=128
+192.168.0.87의 응답: 바이트=32 시간<1ms TTL=128
+192.168.0.87의 응답: 바이트=32 시간<1ms TTL=128
+
+192.168.0.87에 대한 Ping 통계:
+// ip에 해당하는 컴퓨터가 현재 접근이 가능한 상태면 받음의 결과 값이 0으로 나오지 않는다
+    패킷: 보냄 = 4, 받음 = 4, 손실 = 0 (0% 손실),
+왕복 시간(밀리초):
+    최소 = 0ms, 최대 = 0ms, 평균 = 0ms
+PS C:\java\study> tracert www.naver.com
+// www.naver.com으로 접근하는 ip경로를 보여준다
+최대 30홉 이상의
+www.naver.com.nheos.com [223.130.195.200](으)로 가는 경로 추적:
+
+  1     2 ms     1 ms     1 ms  192.168.0.1 
+  2     *        *        *     요청 시간이 만료되었습니다.
+  3     3 ms     2 ms     1 ms  61.78.42.163 
+  4     5 ms     1 ms     1 ms  112.189.13.133 
+  5     *        *        *     요청 시간이 만료되었습니다.
+  6     2 ms     2 ms     3 ms  112.174.75.134 
+  7     *        *        *     요청 시간이 만료되었습니다.
+  8     *        *        *     요청 시간이 만료되었습니다.
+  9     *        *        *     요청 시간이 만료되었습니다.
+ 10     *        *        *     요청 시간이 만료되었습니다.
+ 11     *        *        *     요청 시간이 만료되었습니다.
+ 12     *        *        *     요청 시간이 만료되었습니다.
+ 13     *        *        *     요청 시간이 만료되었습니다.
+ 14     *        *        *     요청 시간이 만료되었습니다.
+ 15     *        *        *     요청 시간이 만료되었습니다.
+ 16     *        *        *     요청 시간이 만료되었습니다.
+ 17     *        *        *     요청 시간이 만료되었습니다.
+ 19     *        *        *     요청 시간이 만료되었습니다.
+ 20     *        *        *     요청 시간이 만료되었습니다.
+ 21     *        *        *     요청 시간이 만료되었습니다.
+ 22     *        *        *     요청 시간이 만료되었습니다.
+ 23     *        *        *     요청 시간이 만료되었습니다.
+ 24     *        *        *     요청 시간이 만료되었습니다.
+ 25     *        *        *     요청 시간이 만료되었습니다.
+ 26     *        *        *     요청 시간이 만료되었습니다.
+ 27
+PS C:\java\study> netstat -an 
+// 포트의 개방 상황을 파악할 수 있다
+활성 연결
+
+  프로토콜  로컬 주소           외부 주소              상태
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:3306           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:5040           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:7680           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49667          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49668          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49673          0.0.0.0:0              LISTENING
+  TCP    127.0.0.1:1596         0.0.0.0:0              LISTENING
+  TCP    127.0.0.1:61407        127.0.0.1:61408        ESTABLISHED
+  TCP    127.0.0.1:61408        127.0.0.1:61407        ESTABLISHED
+  TCP    192.168.0.87:139       0.0.0.0:0              LISTENING
+  TCP    192.168.0.87:59214     34.124.209.251:443     ESTABLISHED
+  TCP    192.168.0.87:59218     34.111.151.213:443     ESTABLISHED
+  TCP    192.168.0.87:59219     54.172.237.109:443     CLOSE_WAIT
+  TCP    192.168.0.87:59220     52.204.250.37:443      CLOSE_WAIT
+  TCP    192.168.0.87:59221     183.79.249.124:443     CLOSE_WAIT
+  TCP    192.168.0.87:59224     18.143.106.89:443      CLOSE_WAIT
+  TCP    192.168.0.87:59225     18.136.125.113:443     CLOSE_WAIT
+  TCP    192.168.0.87:59226     69.173.158.64:443      ESTABLISHED
+  TCP    192.168.0.87:59227     64.74.236.255:443      CLOSE_WAIT
+  TCP    192.168.0.87:59228     64.74.236.255:443      CLOSE_WAIT
+  TCP    192.168.0.87:59231     104.18.23.234:443      ESTABLISHED
+  TCP    192.168.0.87:59233     146.75.50.49:443       ESTABLISHED
+  TCP    192.168.0.87:59235     64.74.236.255:443      CLOSE_WAIT
+  TCP    192.168.0.87:59239     104.18.23.234:443      ESTABLISHED
+  TCP    192.168.0.87:59241     146.75.50.49:443       ESTABLISHED
+  TCP    192.168.0.87:59243     13.228.223.46:443      CLOSE_WAIT
+  TCP    192.168.0.87:59244     104.19.135.78:443      ESTABLISHED
+  TCP    192.168.0.87:59245     104.21.41.253:443      ESTABLISHED
+  TCP    192.168.0.87:59246     104.19.135.78:443      ESTABLISHED
+  TCP    192.168.0.87:59248     18.136.109.92:443      CLOSE_WAIT
+  TCP    192.168.0.87:59249     18.136.109.92:443      CLOSE_WAIT
+  TCP    192.168.0.87:59252     142.250.206.227:443    ESTABLISHED
+  TCP    192.168.0.87:59256     142.250.207.110:443    ESTABLISHED
+  TCP    192.168.0.87:59263     35.190.60.146:443      ESTABLISHED
+  TCP    192.168.0.87:59265     67.199.150.86:443      ESTABLISHED
+  TCP    192.168.0.87:59267     67.199.150.86:443      ESTABLISHED
+  TCP    192.168.0.87:59271     107.178.254.65:443     ESTABLISHED
+  TCP    192.168.0.87:59278     20.54.24.148:443       ESTABLISHED
+  TCP    192.168.0.87:61216     198.41.30.198:443      CLOSE_WAIT
+  TCP    192.168.0.87:61630     35.189.7.65:443        ESTABLISHED
+  TCP    192.168.0.87:61720     20.198.119.143:443     ESTABLISHED
+  TCP    192.168.0.87:61933     104.26.14.15:443       ESTABLISHED
+  TCP    192.168.0.87:61934     104.26.14.15:443       ESTABLISHED
+  TCP    192.168.0.87:61936     172.64.166.2:443       ESTABLISHED
+  TCP    192.168.0.87:61937     172.217.161.194:443    ESTABLISHED
+  TCP    192.168.0.87:61938     172.64.166.2:443       ESTABLISHED
+  TCP    192.168.0.87:61939     172.217.161.194:443    ESTABLISHED
+  TCP    192.168.0.87:61940     172.64.167.2:443       ESTABLISHED
+  TCP    192.168.0.87:61941     142.250.76.129:443     ESTABLISHED
+  TCP    192.168.0.87:61942     172.64.167.2:443       ESTABLISHED
+  TCP    192.168.0.87:61943     142.250.76.129:443     ESTABLISHED
+  TCP    192.168.0.87:61945     104.26.9.169:443       ESTABLISHED
+  TCP    192.168.0.87:61950     104.18.24.185:443      ESTABLISHED
+  TCP    192.168.0.87:61953     69.173.158.65:443      ESTABLISHED
+  TCP    192.168.0.87:61954     104.26.9.169:443       ESTABLISHED
+  TCP    192.168.0.87:61955     13.225.114.115:443     ESTABLISHED
+  TCP    192.168.0.87:61956     172.67.38.106:443      ESTABLISHED
+  TCP    192.168.0.87:61957     34.96.70.87:443        ESTABLISHED
+  TCP    192.168.0.87:61958     54.230.61.36:443       ESTABLISHED
+  TCP    192.168.0.87:61959     18.64.10.228:443       ESTABLISHED
+  TCP    192.168.0.87:61961     34.102.146.192:443     ESTABLISHED
+  TCP    192.168.0.87:61966     35.190.39.111:443      ESTABLISHED
+  TCP    192.168.0.87:61969     18.141.82.33:443       CLOSE_WAIT
+  TCP    192.168.0.87:61976     104.22.4.69:443        ESTABLISHED
+  TCP    192.168.0.87:61977     146.75.49.108:443      ESTABLISHED
+  TCP    192.168.0.87:61978     23.77.57.187:443       ESTABLISHED
+  TCP    192.168.0.87:61979     104.18.11.47:443       ESTABLISHED
+  TCP    192.168.0.87:61980     104.22.4.69:443        ESTABLISHED
+  TCP    192.168.0.87:61981     146.75.49.108:443      ESTABLISHED
+  TCP    192.168.0.87:61983     104.18.11.47:443       ESTABLISHED
+  TCP    192.168.0.87:61995     64.38.119.27:443       TIME_WAIT
+  TCP    192.168.0.87:61999     64.38.119.27:443       ESTABLISHED
+  TCP    192.168.0.87:62003     35.79.41.168:443       CLOSE_WAIT
+  TCP    192.168.0.87:62004     104.18.10.47:443       ESTABLISHED
+  TCP    192.168.0.87:62005     52.46.130.91:443       ESTABLISHED
+  TCP    192.168.0.87:62006     35.79.41.168:443       CLOSE_WAIT
+  TCP    192.168.0.87:62007     104.18.10.47:443       ESTABLISHED
+  TCP    192.168.0.87:62010     69.173.158.64:443      ESTABLISHED
+  TCP    192.168.0.87:62014     35.71.178.8:443        ESTABLISHED
+  TCP    192.168.0.87:62015     34.96.70.1:443         ESTABLISHED
+  TCP    192.168.0.87:62018     35.71.178.8:443        ESTABLISHED
+  TCP    192.168.0.87:62020     34.111.79.67:443       ESTABLISHED
+  TCP    192.168.0.87:62021     34.96.70.1:443         ESTABLISHED
+  TCP    192.168.0.87:62022     104.26.15.15:443       ESTABLISHED
+  TCP    192.168.0.87:62023     104.26.15.15:443       ESTABLISHED
+  TCP    192.168.0.87:62026     52.204.250.37:443      CLOSE_WAIT
+  TCP    [::]:135               [::]:0                 LISTENING
+  TCP    [::]:445               [::]:0                 LISTENING
+  TCP    [::]:3306              [::]:0                 LISTENING
+  TCP    [::]:7680              [::]:0                 LISTENING
+  TCP    [::]:49664             [::]:0                 LISTENING
+  TCP    [::]:49665             [::]:0                 LISTENING
+  TCP    [::]:49666             [::]:0                 LISTENING
+  TCP    [::]:49667             [::]:0                 LISTENING
+  TCP    [::]:49668             [::]:0                 LISTENING
+  TCP    [::]:49673             [::]:0                 LISTENING
+  TCP    [::1]:3306             [::1]:61395            ESTABLISHED
+  TCP    [::1]:49669            [::]:0                 LISTENING
+  TCP    [::1]:61395            [::1]:3306             ESTABLISHED
+  UDP    0.0.0.0:5050           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5353           *:*
+  UDP    0.0.0.0:5355           *:*
+  UDP    0.0.0.0:50655          *:*
+  UDP    127.0.0.1:1900         *:*
+  UDP    127.0.0.1:50445        *:*
+  UDP    127.0.0.1:55058        *:*
+  UDP    192.168.0.87:137       *:*
+  UDP    192.168.0.87:138       *:*
+  UDP    192.168.0.87:1900      *:*
+  UDP    192.168.0.87:50444     *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5353              *:*
+  UDP    [::]:5355              *:*
+  UDP    [::1]:1900             *:*
+  UDP    [::1]:50443            *:*
+  UDP    [fe80::89cc:dab:6f2f:cfd1%4]:1900  *:*
+  UDP    [fe80::89cc:dab:6f2f:cfd1%4]:50442  *:*
+```
+- 프로그램 간의 역할
+
+  - C / S : 클라이언트(요청) 프로그램과 서버(응답)프로그램이 네트워크를 통해 상호작용한다
+  
+    <sup>ex) 브라우저 ~ 웹서버, mysql ~ mariadb</sup>
+
+  - P2P(Peer to Peer) : 프로그램이 클라이언트와 서버의 역할을 동시에 한다
+
+    <sup> ex) 블록체인</sup>
+
+### 데이터크롤링(스크래핑)
+
+- 데이터 형식
+  - text(csv)
+
+  - xml
+  - json
+
+
+- 공식 
+  - 구글 
+
+    <small>https://developers.google.com/?hl=ko 참조</small>
+  - 네이버 / 다음
+
+    <small>https://developers.naver.com/main/ 참조</samll>
+  - 공공기관 
+
+    <small>https://www.data.go.kr/ 참조</small>
+
+- 비공식
+
+### 네트워크 관련 클래스
+
+- java.net 패키지의 클래스
+
+#### InetAddress
+
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		
+		try {
+			InetAddress inetAddress1 = InetAddress.getByName("www.daum.net");
+			System.out.println(inetAddress1.getHostAddress()); // 211.249.220.24
+			System.out.println(inetAddress1.getHostName()); // www.daum.net
+			
+			InetAddress[] inetAddresses1 = InetAddress.getAllByName("www.daum.net");
+			for(InetAddress iAddress : inetAddresses1) {
+				System.out.println(iAddress.getHostAddress());
+			} // 한개의 출력 결과가 나온다
+			
+			InetAddress[] inetAddresses2 = InetAddress.getAllByName("www.naver.net");
+			for(InetAddress iAddress : inetAddresses2) {
+				System.out.println(iAddress.getHostAddress());
+			} // 두 개의 출력 결과가 나온다
+			// 네이버는 두개의 ip를 사용한다는 것을 알 수 있다
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+```
+
+#### URL
+
+```java
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex02 {
+
+	public static void main(String[] args) {
+		// https:// : 프로토콜
+		// search.naver.com:443 : 도메인(ip)/포트
+		// /search.naver : 경로 /파일명
+		// ?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C : 키와 값으로 이루어진 쿼리
+		
+		try {
+			URL url = new URL("https://search.naver.com:443/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C");
+			System.out.println(url.getProtocol()); // https
+			System.out.println(url.getHost()); // search.naver.com
+			System.out.println(url.getPort()); // 443
+      // 포트번호를 따로 지정하지 않은 경우 -1을 출력한다
+			System.out.println(url.getPath()); // /search.naver
+			System.out.println(url.getQuery()); // where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+		
+	}
+
+}
+```
+
+```java
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex03 {
+	
+	public static void main(String[] args) {
+		InputStream is = null;
+		
+		try {
+			URL url = new URL("https://m.daum.net");
+			is = url.openStream();
+			
+			int data = 0;
+			while((data = is.read()) != -1) {
+				System.out.print((char)data);
+        // InputStream을 사용했기 때문에 다국어는 깨져 보인다
+			}
+			System.out.println();
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(is != null) try {is.close();} catch(IOException e) {}
+		}
+	}
+
+}
+```
+
+```java
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex04 {
+
+	public static void main(String[] args) {
+		InputStream is = null;
+		InputStreamReader isr = null;
+
+		try {
+			URL url = new URL("https://m.daum.net");
+			is = url.openStream();
+			isr = new InputStreamReader(is);
+      // 다국어가 깨지지 않게 하기 위해 InputStreamReader를 사용한다
+			int data = 0;
+			while((data = isr.read()) != -1) {
+				System.out.print((char)data);
+			}
+			System.out.println();
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(is != null) try {is.close();} catch(IOException e) {}
+			if(isr != null) try {isr.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
+```
+
+기사 제목 가져오기 
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex05 {
+
+	public static void main(String[] args) {
+		InputStream is = null;
+		BufferedReader br = null;
+		
+		try {
+			URL url = new URL("https://news.daum.net/");
+			is = url.openStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			
+			String data = null;
+			boolean flag = false;
+			while((data = br.readLine()) != null) {
+				if(data.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
+					flag = true;
+				}
+				if(data.contains("</a>")) {
+					flag = false;
+				}
+				if(flag) {
+					System.out.println(br.readLine().trim());
+				}
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(is != null) try {is.close();} catch(IOException e) {}
+			if(br != null) try {is.close();} catch(IOException e) {}
+		}
+	}
+
+}
+```
+
+#### URLConnection 
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Ex06 {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		
+		try {
+			URLConnection conn = new URL("https://news.daum.net/").openConnection();
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line = null;
+			while((line = br.readLine()) != null) {
+				System.out.println(line);
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException E) {}
+		}
+	}
+
+}
+```
+#### HttpURLConnection
+
+ 
+- URLConnection과 비슷하다
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex06 {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		
+		try {
+			HttpURLConnection conn = (HttpURLConnection)new URL("https://news.daum.net/").openConnection();
+			int responseCode = conn.getResponseCode();
+      // url이 잘못된 경우 에러코드를 반환한다
+			System.out.println(responseCode);
+			
+			if(responseCode == HttpURLConnection.HTTP_OK) {
+				System.out.println(conn.getRequestMethod()); // get
+				System.out.println(conn.getResponseMessage()); // 200
+				
+				br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				
+				String line = null;
+				while((line = br.readLine()) != null) {
+					System.out.println(line);
+				}
+			} else {
+				System.out.println("접속 에러");
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException E) {}
+		}
+	}
+
+}
+```
+
+```java
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex07 {
+
+	public static void main(String[] args) {
+		BufferedInputStream bis = null;
+		// 이미지를 읽어오기 위해서는 reader가 아닌 InputStream을 써야한다
+		BufferedOutputStream bos = null;
+		// 이미지를 쓰기 위해서는 writer가 아닌 OutputStream을 써야한다
+
+		
+		try {
+			HttpURLConnection conn = (HttpURLConnection)new URL("https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png").openConnection();
+			bis = new BufferedInputStream(conn.getInputStream());
+			bos = new BufferedOutputStream(new FileOutputStream("./daum.png"));
+			
+			int data = 0;
+			while((data = bis.read()) != -1) {
+				bos.write(data);
+			}
+				
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bis != null) try {bis.close();} catch(IOException E) {}
+			if(bos != null) try {bos.close();} catch(IOException E) {}
+		}
+	}
+
+}
+```
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class Ex08 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField1;
+	private JTextField textField2;
+	private JLabel lbl;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ex08 frame = new Ex08();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ex08() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textField1 = new JTextField();
+		textField1.setText("https://");
+		textField1.setBounds(12, 10, 508, 21);
+		contentPane.add(textField1);
+		textField1.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setText(new File("").getAbsolutePath().replaceAll("\\\\", "/") + "/");
+		textField2.setBounds(12, 59, 508, 21);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
+		
+
+		JButton btnNewButton = new JButton("저장");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String url = textField1.getText();
+				String filePath = textField2.getText();
+				
+				doFunc(url, filePath);
+				lbl.setText("");
+				lbl.setIcon(new ImageIcon(filePath));
+				lbl.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(552, 9, 97, 71);
+		contentPane.add(btnNewButton);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 100, 637, 397);
+		contentPane.add(scrollPane);
+		
+		lbl = new JLabel("이미지가 여기에 보여요");
+		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		scrollPane.setViewportView(lbl);
+	}
+	
+	public void doFunc(String url, String filePath) {
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		
+		try {
+			HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
+			
+			bis = new BufferedInputStream(conn.getInputStream());
+			bos = new BufferedOutputStream(new FileOutputStream(filePath));
+			
+			int data = 0;
+			
+			while((data = bis.read()) != -1) {
+				bos.write(data);
+			}
+			
+			System.out.println("완료");
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (FileNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bis != null) try {bis.close();} catch(IOException e) {}
+			if(bos != null) try {bos.close();} catch(IOException e) {}
+		}
+	}
+	
+}
+```
+
+#### Jsoup
+
+<sup> https://jsoup.org/ 참조</sup>
+
+```java
+package Jsoup;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		String html = "<html>"
+				+ "<head>"
+				+ "<title>First parse</title>"
+				+ "</head>"
+			  + "<body>"
+			  + "<p>Parsed HTML into a doc1.</p>"
+			  + "<p>Parsed HTML into a doc2.</p>"
+			  + "</body>"
+			  + "</html>";
+		
+		Document doc = Jsoup.parse(html);
+		System.out.println(doc); // doc에 저장된 html 문서를 정렬된 트리 형태로 출력해준다
+		System.out.println(doc.title()); // First parse
+		
+		Elements titles = doc.getElementsByTag("title"); // Elements로 특정 요소의 원소들을 모두 가져온다
+		System.out.println(titles); // <title>First parse</title>
+		System.out.println(titles.text()); // First parse
+		
+		Elements pTags = doc.getElementsByTag("p");
+		System.out.println(pTags);
+		for(Element pTag : pTags) {
+			System.out.println(pTag.tagName());
+			System.out.println(pTag.text());
+		}
+	}
+
+}
+```
+```java
+package Jsoup;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Ex02 {
+
+	public static void main(String[] args) {
+		String html = "<html>"
+				+ "<head>"
+				+ "<title>First parse</title>"
+				+ "</head>"
+			  + "<body>"
+			  + "<p id='i1' class='c1'>Parsed HTML into a doc1.</p>"
+			  + "<p id='i2' class='c2'>Parsed HTML into a doc2.</p>"
+			  + "<p id='i3' class='c1'>Parsed HTML into a doc3.</p>"
+			  + "<p id='i4' class='c2'>Parsed HTML into a doc4.</p>"
+			  + "</body>"
+			  + "</html>";
+		
+		Document doc = Jsoup.parse(html);
+		Element pTag = doc.getElementById("i1");
+		System.out.println(pTag.text());
+		
+		Elements pTags = doc.getElementsByClass("c1");
+		for(Element e : pTags) {
+			System.out.println(e.text());
+		}
+				
+	}
+
+}
+```
+```java
+package test;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class NewsMain extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField1;
+	private JTextField textField2;
+	private JTextField textField3;
+	private JTextField textField4;
+	private JTextField textField5;
+	private JTextField textField6;
+	private JTextField textField7;
+	private JTextField textField8;
+	private JTextField textField9;
+	private JTextField textField10;
+	private JButton btnView;
+	private JButton btn1;
+	private JButton btn2;
+	private JButton btn3;
+	private JButton btn4;
+	private JButton btn5;
+	private JButton btn6;
+	private JButton btn7;
+	private JButton btn8;
+	private JButton btn9;
+	private JButton btn10;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NewsMain frame = new NewsMain();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public NewsMain() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		btnView = new JButton("실시간 뉴스보기");
+		btnView.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				getNewsTitle();
+				getNewsUrl();
+			}
+		});
+		contentPane.add(btnView, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uB274\uC2A4 \uBCF4\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(6, 4, 751, 448);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		textField1 = new JTextField("뉴스 제목");
+		textField1.setEditable(false);
+		textField1.setBounds(6, 28, 573, 21);
+		panel_1.add(textField1);
+		textField1.setColumns(10);
+		
+		textField2 = new JTextField("뉴스 제목");
+		textField2.setEditable(false);
+		textField2.setBounds(6, 59, 573, 21);
+		panel_1.add(textField2);
+		textField2.setColumns(10);
+		
+		textField3 = new JTextField("뉴스 제목");
+		textField3.setEditable(false);
+		textField3.setBounds(6, 90, 573, 21);
+		panel_1.add(textField3);
+		textField3.setColumns(10);
+		
+		textField4 = new JTextField("뉴스 제목");
+		textField4.setEditable(false);
+		textField4.setBounds(6, 121, 573, 21);
+		panel_1.add(textField4);
+		textField4.setColumns(10);
+		
+		textField5 = new JTextField("뉴스 제목");
+		textField5.setEditable(false);
+		textField5.setBounds(6, 152, 573, 21);
+		panel_1.add(textField5);
+		textField5.setColumns(10);
+		
+		textField6 = new JTextField("뉴스 제목");
+		textField6.setEditable(false);
+		textField6.setBounds(6, 183, 573, 21);
+		panel_1.add(textField6);
+		textField6.setColumns(10);
+		
+		textField7 = new JTextField("뉴스 제목");
+		textField7.setEditable(false);
+		textField7.setBounds(6, 214, 573, 21);
+		panel_1.add(textField7);
+		textField7.setColumns(10);
+		
+		textField8 = new JTextField("뉴스 제목");
+		textField8.setEditable(false);
+		textField8.setBounds(6, 245, 573, 21);
+		panel_1.add(textField8);
+		textField8.setColumns(10);
+		
+		textField9 = new JTextField("뉴스 제목");
+		textField9.setEditable(false);
+		textField9.setBounds(6, 276, 573, 21);
+		panel_1.add(textField9);
+		textField9.setColumns(10);
+		
+		textField10 = new JTextField("뉴스 제목");
+		textField10.setEditable(false);
+		textField10.setBounds(6, 307, 573, 21);
+		panel_1.add(textField10);
+		textField10.setColumns(10);
+		
+		btn1 = new JButton("바로가기");
+		btn1.setBounds(591, 27, 154, 23);
+		panel_1.add(btn1);
+		
+		btn2 = new JButton("바로가기");
+		btn2.setBounds(591, 58, 154, 23);
+		panel_1.add(btn2);
+		
+		btn3 = new JButton("바로가기");
+		btn3.setBounds(591, 89, 154, 23);
+		panel_1.add(btn3);
+		
+		btn4 = new JButton("바로가기");
+		btn4.setBounds(591, 120, 154, 23);
+		panel_1.add(btn4);
+		
+		btn5 = new JButton("바로가기");
+		btn5.setBounds(591, 151, 154, 23);
+		panel_1.add(btn5);
+		
+		btn6 = new JButton("바로가기");
+		btn6.setBounds(591, 182, 154, 23);
+		panel_1.add(btn6);
+		
+		btn7 = new JButton("바로가기");
+		btn7.setBounds(591, 213, 154, 23);
+		panel_1.add(btn7);
+		
+		btn8 = new JButton("바로가기");
+		btn8.setBounds(591, 244, 154, 23);
+		panel_1.add(btn8);
+		
+		btn9 = new JButton("바로가기");
+		btn9.setBounds(591, 275, 154, 23);
+		panel_1.add(btn9);
+		
+		btn10 = new JButton("바로가기");
+		btn10.setBounds(591, 306, 154, 23);
+		panel_1.add(btn10);
+	}
+	
+	public void getNewsTitle() {
+		BufferedReader br = null;
+		
+		Date date = null;
+		List<String> titleList = new ArrayList<>();
+		
+		try {
+			HttpURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();
+			
+			date = new Date(conn.getDate());
+			btnView.setText(String.format("실시간 뉴스보기 (%s)", date.toString()));
+			
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			boolean flag = false;
+			String line = "";
+			while((line = br.readLine()) != null) {
+				if(line.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
+					flag = true;
+				}
+				if(line.contains("</a>")) {
+					flag = false;
+				}
+				
+				if(flag) {
+					titleList.add(br.readLine());
+				}
+			}
+			
+			List<JTextField> textFields = new ArrayList<>();
+			
+			textFields.add(textField1);
+			textFields.add(textField2);
+			textFields.add(textField3);
+			textFields.add(textField4);
+			textFields.add(textField5);
+			textFields.add(textField6);
+			textFields.add(textField7);
+			textFields.add(textField8);
+			textFields.add(textField9);
+			textFields.add(textField10);
+			
+			for(int i = 0; i < textFields.size(); i++) {
+				textFields.get(i).setText(titleList.get(i));
+			}
+			
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+		}
+		
+	}
+	
+	public void getNewsUrl() {
+		BufferedReader br = null;
+		
+		try {
+			HttpsURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();
+			
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line = null;
+			String html = null;
+			while((line = br.readLine()) != null) {
+				html += line;
+			}
+			
+			Document doc = Jsoup.parse(html);
+			List<String> strLink = new ArrayList<>();
+			
+			Elements link_txt_Elements = doc.getElementsByClass("link_txt");
+			
+			for(Element e : link_txt_Elements) {
+				strLink.add(e.attr("href"));
+			}
+			List<JButton> buttons = new ArrayList<>();
+			
+			buttons.add(btn1);
+			buttons.add(btn2);
+			buttons.add(btn3);
+			buttons.add(btn4);
+			buttons.add(btn5);
+			buttons.add(btn6);
+			buttons.add(btn7);
+			buttons.add(btn8);
+			buttons.add(btn9);
+			buttons.add(btn10);
+			
+			for(int i = 0; i < buttons.size(); i++) {
+				
+				String str = strLink.get(i);
+				
+				buttons.get(i).addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						ProcessBuilder pr = new ProcessBuilder("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" , str);
+						try {
+							pr.start();
+						} catch (IOException e1) {
+							System.out.println("에러 : " + e1.getMessage());
+						}
+					}
+			});
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+		}
+
+	}
 }
 ```
