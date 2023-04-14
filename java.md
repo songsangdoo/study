@@ -17070,3 +17070,458 @@ public class Ex04 {
 
 }
 ```
+### Socket
+	
+- 종류
+	- ServerSocket : 제공자용 소켓으로 여러 개의 소켓과 연결되어 데이터를 제공한다
+		
+		- 전송규약 
+			- TCP (Transmission Control Protocol) : 전화처럼 상호적으로 작동(확인 / 응답)하기 때문에 속도가 느리다
+				
+				<sup> ex) http</sup>
+				
+				<small> https://www.cloudflare.com/ko-kr/learning/ddos/glossary/tcp-ip/ 참조</small>
+					
+				<img src="https://www.cloudflare.com/img/learning/cdn/tls-ssl/tcp-handshake-diagram.png">
+					
+			- UDP (User Diagram Protocol) : 방송처럼 상대방의 응답을 확인하지 않는다
+		
+		- 포트
+		
+	- Socket : 서버소켓에 연결되어 데이터를 제공받는다
+		
+```java
+// TCPServerEx.java
+package pack1;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServerEx {
+
+	public static void main(String[] args) {
+		ServerSocket serverSocket = null;
+		Socket socket = null;
+		
+		try {
+			serverSocket = new ServerSocket(7777);
+			// 한개의 포트는 한개의 프로그램만 사용할 수 있다
+			// 7777 포트를 사용하는 서버소켓을 만든다
+			
+			System.out.println("서버가 준비되었습니다.");
+			socket = serverSocket.accept();
+			
+			System.out.println("클라이언트가 연결되었습니다.");
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// TCPClientEx01.java
+package pack1;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TCPClientEx01 {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		System.out.println("서버와 연결을 시작합니다");
+		
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결되었습니다");
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+	
+// cmd
+> C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack1.TCPServerEx
+서버가 준비되었습니다.
+// 이클립스에서 TCPClientEx01 실행
+> C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack1.TCPServerEx
+서버가 준비되었습니다.
+클라이언트가 연결되었습니다.
+```
+	
+	
+```java
+// TCPServerEx.java
+package pack1;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServerEx {
+
+	public static void main(String[] args) {
+		ServerSocket serverSocket = null;
+		Socket socket = null;
+		
+		BufferedWriter bw = null;
+		
+		try {
+			serverSocket = new ServerSocket(7777);
+			
+			System.out.println("서버가 준비되었습니다.");
+			socket = serverSocket.accept();
+			
+			System.out.println("클라이언트가 연결되었습니다.");
+			
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			bw.write("Hello Client" + System.lineSeparator());
+			
+			System.out.println("전송이 완료되었습니다");
+			
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+
+// TCPClientEx01.java
+package pack1;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TCPClientEx01 {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		System.out.println("서버와 연결을 시작합니다");
+		
+		BufferedReader br = null;
+		
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결되었습니다");
+			
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			System.out.println("메시지 : " + br.readLine());
+			
+			
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			// 스트림 닫는 순서에 따라 값을 못 받아올 수도 있으니 주의하자!!
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// cmd
+C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack1.TCPServerEx
+서버가 준비되었습니다.
+// 이클립스에서 TCPClientEx01 
+C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack1.TCPServerEx
+서버가 준비되었습니다.
+클라이언트가 연결되었습니다. // 이클립스의 실행창에서는 "메시지 : Hello Client"가 출력된다
+전송이 완료되었습니다
+```
+	
+```java
+// TCPServerEx.java
+package pack3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServerEx {
+
+	public static void main(String[] args) {
+		ServerSocket serverSocket = null;
+		Socket socket = null;
+		
+		BufferedReader br = null;
+		
+		try {
+			serverSocket = new ServerSocket(7777);
+			System.out.println("서버가 준비되었습니다.");
+			socket = serverSocket.accept();
+			
+			System.out.println("클라이언트가 연결되었습니다.");
+			
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+			// 다국어 사용을 위해서 "utf-8" 속성값을 준다
+			System.out.println("메시지 : " + br.readLine());
+			System.out.println("전송이 완료되었습니다");
+			
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// TCPClientEx01.java
+package pack3;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TCPClientEx01 {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		System.out.println("서버와 연결을 시작합니다");
+		
+		BufferedWriter bw = null;
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결되었습니다");
+			
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+			// 다국어 사용을 위해서 "utf-8" 속성값을 준다
+			bw.write("안녕");
+
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// cmd
+> C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack3.TCPServerEx
+서버가 준비되었습니다.
+// 이클립스에서 TCPClientEx01 실행후
+C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack3.TCPServerEx
+서버가 준비되었습니다.
+클라이언트가 연결되었습니다.
+메시지 : 안녕
+전송이 완료되었습니다
+```
+```java
+// TCPServerEx.java
+package pack3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServerEx {
+
+	public static void main(String[] args) {
+		ServerSocket serverSocket = null;
+		Socket socket = null;
+		
+		BufferedReader br = null;
+		
+		try {
+			serverSocket = new ServerSocket(7777);
+			System.out.println("서버가 준비되었습니다.");
+			socket = serverSocket.accept();
+			
+			System.out.println("클라이언트가 연결되었습니다.");
+			
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+			String str = br.readLine().replaceAll(":", "\n");
+			// 미리 약속한대로 ":"를 "\n"으로 대체한다
+			System.out.println(str);
+			System.out.println("전송이 완료되었습니다");
+			
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// TCPClientEx01
+package pack3;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TCPClientEx01 {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		System.out.println("서버와 연결을 시작합니다");
+		
+		BufferedWriter bw = null;
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결되었습니다");
+			
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+//			bw.write("안녕1" + System.lineSeparator());
+//			bw.write("안녕2" + System.lineSeparator());
+//			bw.write("안녕3" + System.lineSeparator());
+			
+			bw.write("안녕1:안녕2:안녕3");
+			// System.lineSeparator() 대신 ":"을 사용한다고 미리 약속한다
+			// 전송프로토콜
+
+
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+```
+```java
+// TCPServerEx.java
+package pack4;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServerEx {
+
+	public static void main(String[] args) {
+		ServerSocket serverSocket = null;
+		Socket socket = null;
+		
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		try {
+			serverSocket = new ServerSocket(7777);
+			
+			System.out.println("서버가 준비되었습니다.");
+			socket = serverSocket.accept();
+			
+			System.out.println("클라이언트가 연결되었습니다.");
+			
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
+			
+			String msg = br.readLine();
+			System.out.println("메시지 : " + msg);
+			System.out.println("전송이 완료되었습니다");
+			
+			bw.write(msg + System.lineSeparator());
+			
+			bw.flush();
+			// flush()는 버퍼에 남아있는 데이터를 다 출력하는 메서드로 전송 완료를 의미한다
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+		}
+	}
+
+}	
+// TCPClientEx01.java
+package pack4;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TCPClientEx01 {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		System.out.println("서버와 연결을 시작합니다");
+		
+		BufferedWriter bw = null;
+		BufferedReader br = null;
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결되었습니다");
+			
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+			
+			bw.write("안녕 에코 서버" + System.lineSeparator());
+			bw.flush();
+			
+			System.out.println("전송이 완료되었습니다");
+			
+			String msg = br.readLine();
+			System.out.println("에코 메시지 : " + msg);
+
+
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+// cmd
+> C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack4.TCPServerEx
+서버가 준비되었습니다.
+// 이클립스에서 TCPClientEx01 실행 후
+> C:\Program Files\Java\jdk-11.0.17\java_workspace\23_04_14\bin>java pack4.TCPServerEx
+서버가 준비되었습니다.
+클라이언트가 연결되었습니다.
+메시지 : 안녕 에코 서버
+전송이 완료되었습니다
+```
+
+	
