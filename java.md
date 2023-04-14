@@ -15754,12 +15754,12 @@ public class JuminCheckMain extends JFrame {
 
   - port : 포트의 번호는 대부분 기본값을 가지고 있고, 기본값은 생략이 가능하다
 
-  ||포트번호|
-  |:--:|:--:|
-  |http | 8080|
-  |https| 443|
-  |mail | 25|
-  |mariadb | 3306|
+    ||포트번호|
+    |:--:|:--:|
+    |http | 8080|
+    |https| 443|
+    |mail | 25|
+    |mariadb | 3306|
 
 - ip 확인 cmd 명령어
 ```java
@@ -16448,9 +16448,10 @@ public class Ex08 extends JFrame {
 }
 ```
 
-#### Jsoup
+#### Jsoup 
+- 외부 API
 
-<sup> https://jsoup.org/ 참조</sup>
+  <sup> https://jsoup.org/ 참조</sup>
 
 ```java
 package Jsoup;
@@ -16855,5 +16856,217 @@ public class NewsMain extends JFrame {
 		}
 
 	}
+}
+```
+
+#### OpenAPI
+
+- text 또는 Library(API) 형식으로 데이터를 제공한다
+
+  - text
+    - CSV
+    - XML (Extensible Markup Language) 
+
+      <sup>https://aws.amazon.com/ko/what-is/xml/ 참조</sup>
+
+    - JSON(Javascript Objetct Notation) : javascript에서의 객체 표기법
+
+      <sup> https://jsonlint.com/ - JSON을 보기 쉽게 문서 구조를 바꿔준다</sup>
+
+  - Library(API)
+
+##### XML 데이터 가져오기
+```java
+package parsing;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		BufferedReader br = null;
+		try {
+			URLConnection conn = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20230409").openConnection();
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line = br.readLine();
+			
+			line = line.replaceAll("><", ">\n<");
+			// 한 줄로 나온 문서에 태그마다 띄어쓰기를 넣어준다
+			
+			String[] xml = line.split("\n");
+			
+			for(String s : xml) {
+				if(s.contains("<rank>")) {
+					System.out.print(s.substring(s.indexOf(">") + 1, s.indexOf("</")) + '\t');
+				}
+				if(s.contains("<movieNm>")) {
+					System.out.println(s.substring(s.indexOf(">") + 1, s.indexOf("</")));
+				}
+			}
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+		}
+	}
+
+}
+
+```
+```java
+package parsing;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Ex03 {
+
+	public static void main(String[] args) {
+		
+		// movieCd, movieNm, actors
+		
+		BufferedReader br = null;
+		
+		try {
+			URLConnection conn = new URL("https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=f5eef3421c602c6cb7ea224104795888&movieCd=20112621").openConnection();
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line = br.readLine();
+			Document doc = Jsoup.parse(line);
+			
+			Elements movieCd = doc.getElementsByTag("movieCd");
+			Elements movieNm = doc.getElementsByTag("movieNm");
+			Elements actors = doc.getElementsByTag("actor");
+			Elements actorsNm = actors.tagName("peopleNm");
+			
+			System.out.println(movieCd.text());
+			System.out.println(movieNm.text());
+			for(Element e : actorsNm) {
+				System.out.println(e.text());
+			}
+			
+		} catch (MalformedURLException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
+```
+##### JSON 데이터 가져오기
+```java
+package parsing;
+
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class Ex04 {
+
+	public static void main(String[] args) {
+		String strJson = "{\"data1\" : \"value1\", \"data2\" : \"values2\"}";
+		JSONParser parser = new JSONParser();
+		
+		try {
+			JSONObject obj = (JSONObject)parser.parse(strJson);
+			String data1 = (String)obj.get("data1");
+			System.out.println(data1);
+			
+			String data2 = (String)obj.get("data2");
+			System.out.println(data2);
+		} catch (ParseException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+```
+```java
+package parsing;
+
+
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class Ex05 {
+
+	public static void main(String[] args) {
+		String strJson = "[8, 9, 6, 2, 9]";
+		JSONParser parser = new JSONParser();
+		
+		try {
+			JSONArray arr = (JSONArray)parser.parse(strJson);
+			System.out.println(arr);
+			System.out.println(arr.size());
+			for(int i = 0; i < arr.size(); i++) {
+				long data = (Long)arr.get(i);
+				// 데이터를 받아올 때는 long이 정수형의 기본이다
+				System.out.println(data);
+			}
+			
+		} catch (ParseException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+```
+
+```java
+package parsing;
+
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class Ex04 {
+
+	public static void main(String[] args) {
+		String strJson = "{\"data1\" : [1, 2, 3, 4], \"data2\" : [\"10\", \"20\", \"300\"]}";
+		JSONParser parser = new JSONParser();
+		
+		try {
+			JSONObject obj = (JSONObject)parser.parse(strJson);
+			JSONArray arr1 = (JSONArray)obj.get("data1");
+			System.out.println(arr1);
+			for(int i = 0; i < arr1.size(); i++) {
+				System.out.println(arr1.get(i));
+			}
+			JSONArray arr2 = (JSONArray)obj.get("data2");
+			System.out.println(arr2);
+			for(int i = 0; i < arr2.size(); i++) {
+				System.out.println(arr2.get(i));
+			}
+		} catch (ParseException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
 }
 ```

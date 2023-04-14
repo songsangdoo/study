@@ -3724,7 +3724,7 @@ console.log(stu1.kor);
 console.log(stu1.mat);
 ```
 
-- JSON(Javascript Objetct Notation) : javascript에서의 객체 표기법
+### JSON(Javascript Objetct Notation) : javascript에서의 객체 표기법
 
 ```js
 objectName = {
