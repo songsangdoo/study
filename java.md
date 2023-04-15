@@ -7017,14 +7017,12 @@ public class LottoExcelToTxt {
   - Connection : 접속관리
 
   - Statement : SQL 실행
-  - PreparedStatement
+  - PreparedStatement : SQL을 실행하는데 사용되고 특정 조건을 쉽게 줄 수 있다
   - ResultSet : select문의 반환값 관리
 
 #### Connection
 
 - 준비
-
-  - JDBC : "org.mariadb.jdbc.Driver"
 
   - url : "jdbc:mariadb://ip번호:포트번호/데이터베이스명"
 
@@ -7032,6 +7030,7 @@ public class LottoExcelToTxt {
 
   - 데이터베이스 아이디
   - 데이터베이스 패스워드
+  - JDBC : "org.mariadb.jdbc.Driver"
 
 ```java
 import java.sql.Connection;
@@ -7075,7 +7074,7 @@ public class JDBCEx3 {
 
 ##### executeUpdate()
 
-- select 이외의 모든 sql에 사용된다(반환 타입은 int로 처리 후 변화된 결과의 개수를 알려준다)
+- select 이외의 모든 sql을 실행한다(반환 타입은 int로 처리 후 변화된 결과의 개수를 알려준다)
 
 ```sql
 MariaDB [sample]> create table dept2 as select * from dept where 1 !=1;
@@ -7092,40 +7091,35 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class JDBCEx3 {
+public class JDBCEx3 {  
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+    Connection conn = null  
+    Statement stmt = null 
+      try {
+        Class.forName("org.mariadb.jdbc Driver");
+        System.out.println("드라이버  딩 완료");
+        conn = DriverManager.getConnect on(url, user, password);
+        System.out.println("연결 성공")   
 
-	public static void main(String[] args) {
-	  String url = "jdbc:mariadb://localhost:3306/sample";
-	  String user = "root";
-	  String password = "123456";
-
-	  Connection conn = null;
-	  Statement stmt = null;
-
-	    try {
-	      Class.forName("org.mariadb.jdbc.Driver");
-	      System.out.println("드라이버 로딩 완료");
-	      conn = DriverManager.getConnection(url, user, password);
-	      System.out.println("연결 성공");
-
-	      stmt = conn.createStatement();
+        stmt = conn.createStatement();
         String sql = "insert into dept2 values (10 , '연구', '서울')";
-	      int result = stmt.executeUpdate(sql);
-	      System.out.println("실행 결과 : " + result);
-	    } catch (ClassNotFoundException e) {
-	      System.out.println("에러 : " + e.getMessage());
-	    } catch (SQLException e) {
-	      System.out.println("에러 : " + e.getMessage());
-	    } finally {
-	      if(conn != null) try {conn.close();} catch(SQLException e) {}
-	      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-	    }
-
-	}
-
+        int result = stmt.executeUpdate(sql);
+        System.out.println("실행 결과 : " + result);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } finally {
+        if(conn != null) try {conn.close();} catch(SQLException e) {}
+        if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      } 
+  }
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
@@ -7135,7 +7129,7 @@ MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
 1 row in set (0.000 sec)
 ```
-
+****
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7147,15 +7141,14 @@ public class JDBCEx3 {
   public static void main(String[] args) {
     String url = "jdbc:mariadb://localhost:3306/sample";
     String user = "root";
-    String password = "123456";
-
+    String password = "123456"; 
     Connection conn = null;
     Statement stmt = null;
       try {
         Class.forName("org.mariadb.jdbc.Driver");
         System.out.println("드라이버 로딩 완료");
         conn = DriverManager.getConnection(url, user, password);
-        System.out.println("연결 성공");
+        System.out.println("연결 성공");  
 
         stmt = conn.createStatement();
         String deptno = "20";
@@ -7171,13 +7164,12 @@ public class JDBCEx3 {
       } finally {
         if(conn != null) try {conn.close();} catch(SQLException e) {}
         if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-      }
-
-	}
+      } 
+  }
 
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
@@ -7188,7 +7180,7 @@ MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
 2 rows in set (0.000 sec)
 ```
-
+***
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7200,7 +7192,7 @@ public class JDBCEx3 {
   public static void main(String[] args) {
     String url = "jdbc:mariadb://localhost:3306/sample";
     String user = "root";
-    String password = "123456";
+    String password = "123456"; 
 
     Connection conn = null;
     Statement stmt = null;
@@ -7208,7 +7200,7 @@ public class JDBCEx3 {
         Class.forName("org.mariadb.jdbc.Driver");
         System.out.println("드라이버 로딩 완료");
         conn = DriverManager.getConnection(url, user, password);
-        System.out.println("연결 성공");
+        System.out.println("연결 성공");  
 
         stmt = conn.createStatement();
         String deptno = "30";
@@ -7224,13 +7216,12 @@ public class JDBCEx3 {
       } finally {
         if(conn != null) try {conn.close();} catch(SQLException e) {}
         if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-      }
-
-	}
+      } 
+  }
 
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
@@ -7242,7 +7233,7 @@ MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
 3 rows in set (0.000 sec)
 ```
-
+***
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7254,7 +7245,7 @@ public class JDBCEx3 {
   public static void main(String[] args) {
     String url = "jdbc:mariadb://localhost:3306/sample";
     String user = "root";
-    String password = "123456";
+    String password = "123456"; 
 
     Connection conn = null;
     Statement stmt = null;
@@ -7262,7 +7253,7 @@ public class JDBCEx3 {
         Class.forName("org.mariadb.jdbc.Driver");
         System.out.println("드라이버 로딩 완료");
         conn = DriverManager.getConnection(url, user, password);
-        System.out.println("연결 성공");
+        System.out.println("연결 성공");  
 
         stmt = conn.createStatement();
         String deptno = "10";
@@ -7277,13 +7268,12 @@ public class JDBCEx3 {
       } finally {
         if(conn != null) try {conn.close();} catch(SQLException e) {}
         if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-      }
-
-	}
+      } 
+  }
 
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
@@ -7295,7 +7285,7 @@ MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
 3 rows in set (0.000 sec)
 ```
-
+*****
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7331,7 +7321,7 @@ public class JDBCEx3 {
 
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
@@ -7342,7 +7332,7 @@ MariaDB [sample]> select * from dept2;
 +--------+--------+--------+
 2 rows in set (0.000 sec)
 ```
-
+****
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7379,7 +7369,7 @@ public class JDBCEx3 {
 
 }
 ```
-
+실행 결과
 ```sql
 MariaDB [sample]> show tables;
 +------------------+
@@ -7401,7 +7391,7 @@ MariaDB [sample]> show tables;
 +------------------+
 13 rows in set (0.001 sec)
 ```
-
+******
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7414,6 +7404,7 @@ public class JDBCEx3 {
     String url = "jdbc:mariadb://localhost:3306/sample";
     String user = "root";
     String password = "123456";
+
     Connection conn = null;
     Statement stmt = null;
       try {
@@ -7448,55 +7439,9 @@ public class JDBCEx3 {
 }
 ```
 
-##### ResultSet executeQuery()
+##### executeQuery()
 
-- select, desc 문을 처리한다
-
-```java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class JDBCEx3 {
-
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				System.out.println("드라이버 로딩 완료");
-
-				conn = DriverManager.getConnection(url, user, password);
-				System.out.println("연결 성공");
-
-				stmt = conn.createStatement();
-				String sql = "select * from dept2";
-				rs = stmt.executeQuery(sql);
-				System.out.println(rs.getString("deptno"));
-				System.out.println(rs.getString("dname"));
-				System.out.println(rs.getString("loc"));
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-			}
-
-	}
-
-}
-// 첫행 이전을 가리키고 있기 때문에 값을 못 읽는다는 에러가 생긴다
-```
+- select, desc 문을 처리해 데이터베이스의 정보를 가져오는 메서드로 ResultSet 클래스의 객체를 반환한다
 
 ```java
 import java.sql.Connection;
@@ -7507,39 +7452,37 @@ import java.sql.Statement;
 
 public class JDBCEx3 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				System.out.println("드라이버 로딩 완료");
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      System.out.println("드라이버 로딩 완료"); 
+      conn = DriverManager.getConnection(url, user, password);
+      System.out.println("연결 성공");  
 
-				conn = DriverManager.getConnection(url, user, password);
-				System.out.println("연결 성공");
-
-				stmt = conn.createStatement();
-				String sql = "select * from dept2";
-				rs = stmt.executeQuery(sql);
-				rs.next(); // 다음 행으로 읽어줘야 첫행의 값을 읽어 올 수 있다
-				System.out.println(rs.getString("deptno")); // 20
-				System.out.println(rs.getString("dname")); // 개발
-				System.out.println(rs.getString("loc")); // 제주
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-			}
-
-	}
+      stmt = conn.createStatement();
+      String sql = "select * from dept2";
+      rs = stmt.executeQuery(sql);
+      System.out.println(rs.getString("deptno"));
+      System.out.println(rs.getString("dname"));
+      System.out.println(rs.getString("loc"));
+      // 커서가 첫행 이전을 가리키고 있기 때문에 값을 못 읽는다는 에러가 생긴다
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+    } 
+  }
 
 }
 ```
@@ -7553,40 +7496,35 @@ import java.sql.Statement;
 
 public class JDBCEx3 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				System.out.println("드라이버 로딩 완료");
-
-				conn = DriverManager.getConnection(url, user, password);
-				System.out.println("연결 성공");
-
-				stmt = conn.createStatement();
-				String sql = "select * from dept2";
-				rs = stmt.executeQuery(sql);
-				while(rs.next()) {
-					System.out.println(rs.getString("deptno"));
-					System.out.println(rs.getString("dname"));
-					System.out.println(rs.getString("loc"));
-				} // dept2 테이블의 모든 값을 읽어서 출력한다
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-			}
-
-	}
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      System.out.println("드라이버 로딩 완료"); 
+      conn = DriverManager.getConnection(url, user, password);
+      System.out.println("연결 성공");  
+      stmt = conn.createStatement();
+      String sql = "select * from dept2";
+      rs = stmt.executeQuery(sql);
+      rs.next(); // 다음 행으로 커서를 옮겨줘야 첫행의 값을 읽어 올 수 있다
+      System.out.println(rs.getString("deptno")); // 20
+      System.out.println(rs.getString("dname")); // 개발
+      System.out.println(rs.getString("loc")); // 제주
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+    } 
+  }
 
 }
 ```
@@ -7600,49 +7538,94 @@ import java.sql.Statement;
 
 public class JDBCEx3 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				System.out.println("드라이버 로딩 완료");
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      System.out.println("드라이버 로딩 완료"); 
+      conn = DriverManager.getConnection(url, user, password);
+      System.out.println("연결 성공");  
 
-				conn = DriverManager.getConnection(url, user, password);
-				System.out.println("연결 성공");
+      stmt = conn.createStatement();
+      String sql = "select * from dept2";
+      rs = stmt.executeQuery(sql);
+      while(rs.next()) {
+        System.out.println(rs.getString("deptno"));
+        System.out.println(rs.getString("dname"));
+        System.out.println(rs.getString("loc"));
+      } // dept2 테이블의 모든 값을 읽어서 출력한다
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+    } 
+  }
 
-				stmt = conn.createStatement();
-				String sql = "select empno, ename, sal, sal * 12 + ifnull(comm, 0) '연봉' from emp where deptno = 10";
-				rs = stmt.executeQuery(sql);
-				while(rs.next()) {
-					System.out.println(rs.getString("empno"));
-					System.out.println(rs.getString("ename"));
-					System.out.println(rs.getString("sal"));
-					System.out.println(rs.getString("연봉"));
-					// System.out.println(rs.getString(1));
-					// System.out.println(rs.getString(2));
-					// System.out.println(rs.getString(3));
-					// System.out.println(rs.getString(4));
-				}
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-				if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-			}
+}
+```
 
-	}
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCEx3 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      System.out.println("드라이버 로딩 완료"); 
+      conn = DriverManager.getConnection(url, user, password);
+      System.out.println("연결 성공");  
+
+      stmt = conn.createStatement();
+      String sql = "select empno, ename, sal, sal * 12 + ifnull(comm, 0) '연봉' from emp where deptno = 10";
+      rs = stmt.executeQuery(sql);
+      while(rs.next()) {
+        System.out.println(rs.getString("empno"));
+        System.out.println(rs.getString("ename"));
+        System.out.println(rs.getString("sal"));
+        System.out.println(rs.getString("연봉"));
+        // System.out.println(rs.getString(1));
+        // System.out.println(rs.getString(2));
+        // System.out.println(rs.getString(3));
+        // System.out.println(rs.getString(4));
+        // 컬럼명이 아닌 인덱스로 값을 가져올 수도 있지만, 잘 사용하지는 않는다
+      }
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+    } 
+  }
 
 }
 ```
 <small>https://ayoteralab.tistory.com/entry/Spring-Boot-27-PreparedStatement-Table-Name-%EC%A0%81%EC%9A%A9 참조</small>
+
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7651,37 +7634,33 @@ import java.sql.SQLException;
 
 public class Emp {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-			String sql = "insert into dept2 values (?, ?, ?)";
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+    Connection conn = null;
+    PreparedStatement pstmt = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+      String sql = "insert into dept2 values (?, ?, ?)";
       // 물음표(?)는 값에만 해당된다
-      // setString()은 값에 작은따옴표('')를 붙여서 설정하기 때문에 테이블명 지정은 할 수 없다
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "10");
-			pstmt.setString(2, "개발");
-			pstmt.setString(3, "서울");
-
-			int result = pstmt.executeUpdate();
-			System.out.println("실행완료 : " + result);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
+      // 문자열 값은 sql로 설정할 때 작은따옴표('')를 붙여서 설정하기 때문에 테이블, 컬럼을 물음표(?)로 지정할 수는 없다
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, "10");
+      pstmt.setString(2, "개발");
+      pstmt.setString(3, "서울");     
+      int result = pstmt.executeUpdate();
+      System.out.println("실행완료 : " + result);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 }
 ```
 
@@ -7693,32 +7672,32 @@ import java.sql.SQLException;
 
 public class Emp2 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-			String sql = "update dept2 set loc = ? where deptno = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "부산");
-			pstmt.setString(2, "10");
-			int result = pstmt.executeUpdate();
-			System.out.println("실행완료 : " + result);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
+      String sql = "update dept2 set loc = ? where deptno = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, "부산");
+      pstmt.setString(2, "10");
+      int result = pstmt.executeUpdate();
+      System.out.println("실행완료 : " + result);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 }
 ```
 
@@ -7730,75 +7709,30 @@ import java.sql.SQLException;
 
 public class Emp3 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-
-			String sql = "delete from dept2 where deptno = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "10");
-
-			int result = pstmt.executeUpdate();
-			System.out.println("실행완료 : " + result);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
-}
-```
-
-```java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class Emp4 {
-
   public static void main(String[] args) {
-  	String url = "jdbc:mysql://localhost:3306/sample";
-  	String user = "root";
-  	String password = "123456";
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-  	Connection conn = null;
-  	PreparedStatement pstmt = null;
-  	ResultSet rs = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);  
 
-  	try {
-  	  Class.forName("org.mariadb.jdbc.Driver");
-  	  conn = DriverManager.getConnection(url, user, password);
-
-  	  String sql = "select empno, ename, sal, job from emp where deptno = ?";
-  	  pstmt = conn.prepareStatement(sql);
-  	  pstmt.setString(1, "20");
-
-  	  rs = pstmt.executeQuery();
-  	  while(rs.next()) {
-  	    System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
-  	  }
-  	} catch (ClassNotFoundException e) {
-  	  System.out.println("에러 : " + e.getMessage());
-  	} catch (SQLException e) {
-  	  System.out.println("에러 : " + e.getMessage());
-  	} finally {
-  	  if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-  	  if(rs != null) try {rs.close();} catch(SQLException e) {}
-  	  if(conn != null) try {conn.close();} catch(SQLException e) {}
-  	}
+      String sql = "delete from dept2 where deptno = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, "10"); 
+      int result = pstmt.executeUpdate();
+      System.out.println("실행완료 : " + result);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
   }
 }
 ```
@@ -7812,38 +7746,77 @@ import java.sql.SQLException;
 
 public class Emp4 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;  
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);  
 
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				conn = DriverManager.getConnection(url, user, password);
+      String sql = "select empno, ename, sal, job from emp where deptno = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, "20"); 
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
+      }
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
+}
+```
 
-				String sql = "select empno, ename, sal, job from emp where ename like ?";
-				// ?%를 직접 넣을 수는 없다
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, "s%");
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
-				}
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-			}
-	}
+public class Emp4 {
+
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;  
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+
+      String sql = "select empno, ename, sal, job from emp where ename like ?";
+      // ?%를 직접 넣을 수는 없다
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, "s%"); 
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        System.out.printf("%s %s %s %s%n", rs.getString("empno"),rs.getString("ename"),rs.getString("sal"),rs.getString("job"));
+      }
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 }
 ```
 
@@ -7864,49 +7837,47 @@ import org.mariadb.jdbc.Driver;
 
 public class Test {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/project";
-		String user = "project";
-		String password = "1234";
-		String tableName = "zipcode";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "project";
+    String password = "1234";
+    String tableName = "zipcode"; 
 
-		BufferedReader br = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+    BufferedReader br = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-			String sqlInsert = "insert into " + tableName +" values(?, ?, ?, ?, ?, ?, ?)" + System.lineSeparator();
-			pstmt = conn.prepareStatement(sqlInsert);
-
-			br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
-			String[] dataArr = new String[7];
-			String data = "";
+      String sqlInsert = "insert into " + tableName +" values(?, ?, ?, ?, ?, ?, ?)" + System.lineSeparator();
+      pstmt = conn.prepareStatement(sqlInsert);    
+      br = new BufferedReader(new FileReader("./zipcode_seoul_utf8_type2.csv"));
+      String[] dataArr = new String[7];
+      String data = "";
       int count = 0;
-			while((data = br.readLine()) != null) {
-				dataArr = data.split(",");
-				for(int i = 0, index = 1; i < dataArr.length; i++, index++) {
-						pstmt.setString(index, dataArr[i]);
-				}
-				count += pstmt.executeUpdate();
-			}
+      while((data = br.readLine()) != null) {
+        dataArr = data.split(",");
+        for(int i = 0, index = 1; i < dataArr.length; i++, index++) {
+          pstmt.setString(index, dataArr[i]);
+        }
+        count += pstmt.executeUpdate();
+      }
       System.out.println("실행결과 : " + count);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (FileNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-			if(br != null) try {br.close();} catch(IOException e) {}
-		}
-
-	}
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(br != null) try {br.close();} catch(IOException e) {}
+    } 
+  }
 
 }
 
@@ -7928,85 +7899,81 @@ import java.util.List;
 
 public class MysqlTest {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-		String tableName = args[0];
-		String resultName = tableName;
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    String tableName = args[0];
+    String resultName = tableName;
+    List<String> colNames = new ArrayList<>();
+    List<String> typeNames = new ArrayList<>(); 
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		BufferedWriter bw = null;
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    BufferedWriter bw = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-			stmt = conn.createStatement();
+      stmt = conn.createStatement();  
+      String sqlDesc = "desc " + tableName;
+      rs = stmt.executeQuery(sqlDesc);
+      while(rs.next()) {
+        colNames.add(rs.getString("Field"));
+        typeNames.add(rs.getString("Type"));
+      } 
 
-			List<String> colNames = new ArrayList<>();
-			List<String> typeNames = new ArrayList<>();
+      bw = new BufferedWriter(new FileWriter("./" + resultName + ".sql"));  
+      bw.write(String.format("create table %s values (", tableName));
+      for(int i = 0; i < colNames.size(); i++) {
+        bw.write(colNames.get(i));
+        bw.write(" ");
+        bw.write(typeNames.get(i));
+        if(i != colNames.size()-1) {
+          bw.write("," + System.lineSeparator());
+        } else {
+          bw.write(")" + System.lineSeparator());
+        }
+      }
+      System.out.println("create 성공");  
 
-			String sqlDesc = "desc " + tableName;
-			rs = stmt.executeQuery(sqlDesc);
-			while(rs.next()) {
-				colNames.add(rs.getString("Field"));
-				typeNames.add(rs.getString("Type"));
-			}
-
-			bw = new BufferedWriter(new FileWriter("./" + resultName + ".sql"));
-
-			bw.write(String.format("create table %s values (", tableName));
-			for(int i = 0; i < colNames.size(); i++) {
-				bw.write(colNames.get(i));
-				bw.write(" ");
-				bw.write(typeNames.get(i));
-				if(i != colNames.size()-1) {
-					bw.write("," + System.lineSeparator());
-				} else {
-					bw.write(")" + System.lineSeparator());
-				}
-			}
-			System.out.println("create 성공");
-
-			String data = "select * from " + tableName;
-			rs = stmt.executeQuery(data);
-			while(rs.next()) {
-				bw.write(String.format("insert into %s values(", tableName));
-				for(int i = 0; i < colNames.size(); i++) {
-					String strData = "";
-					if(rs.getString(colNames.get(i)) == null) {
-						strData = "null";
-					} else {
-						if(typeNames.get(i).contains("varchar") || typeNames.get(i).contains("date")) {
-							strData = "'" + rs.getString(colNames.get(i)) + "'";
-						} else {
-							strData = rs.getString(colNames.get(i));
-						}
-					}
-					bw.write(strData);
-					if(i != colNames.size() - 1) {
-						bw.write(",");
-					}else {
-						bw.write(")" + System.lineSeparator());
-					}
-				}
-			}
-
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-		}
-	}
+      String data = "select * from " + tableName;
+      rs = stmt.executeQuery(data);
+      while(rs.next()) {
+        bw.write(String.format("insert into %s values(", tableName));
+        for(int i = 0; i < colNames.size(); i++) {
+          String strData = "";
+          if(rs.getString(colNames.get(i)) == null) {
+            strData = "null";
+          } else {
+            if(typeNames.get(i).contains("varchar") || typeNames.get(i).contains("date")) {
+            	strData = "'" + rs.getString(colNames.get(i)) + "'";
+            } else {
+            	strData = rs.getString(colNames.get(i));
+            }
+          }
+          bw.write(strData);
+          if(i != colNames.size() - 1) {
+            bw.write(",");
+          }else {
+            bw.write(")" + System.lineSeparator());
+          }
+        }
+      } 
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+    }
+  }
 
 }
 ```
@@ -8023,50 +7990,50 @@ import java.util.Scanner;
 
 public class PostSearch {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/project";
-		String user = "project";
-		String password = "1234";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "project";
+    String password = "1234";   
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		Scanner scanner = null;
-		try {
-			scanner = new Scanner(System.in);
-			while(true) {
-				System.out.print("동이름을 입려하세요 > ");
-				String dongName = scanner.nextLine();
-				if(dongName.equals("exit")) {
-					System.out.println("프로그램 종료");
-					break;
-				}
-				Class.forName("org.mariadb.jdbc.Driver");
-				conn = DriverManager.getConnection(url, user, password);
-				stmt = conn.createStatement();
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    Scanner scanner = null;
+    try {
+      scanner = new Scanner(System.in);
+      while(true) {
+        System.out.print("동이름을 입력하세요 (종료 : exit) > ");
+        String dongName = scanner.nextLine();
+        if(dongName.equals("exit")) {
+          System.out.println("프로그램 종료");
+          break;
+        }
 
-				String sqlSelect = "select * from zipcode where dong like '" + dongName + "%'";
-				rs = stmt.executeQuery(sqlSelect);
-				while(rs.next()) {
-					System.out.printf("%s %s %s %s %s %s%n", rs.getString("zipcode"),rs.getString("sido"),rs.getString("gugun"),rs.getString("dong"),rs.getString("ri"),rs.getString("bunji"));
-				}
+        Class.forName("org.mariadb.jdbc.Driver");
+        conn = DriverManager.getConnection(url, user, password);
 
-			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
+        stmt = conn.createStatement();  
+        String sqlSelect = "select * from zipcode where dong like '" + dongName + "%'";
+        rs = stmt.executeQuery(sqlSelect);
+        while(rs.next()) {
+          System.out.printf("%s %s %s %s %s %s%n", rs.getString("zipcode"),rs.getString("sido"),rs.getString("gugun"),rs.getString("dong"),rs.getString("ri"),rs.getString("bunji"));
+        } 
+      }
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 
 }
 ```
 
-- ResultSet의 커서 이동
+- ResultSet 클래스 객체의 커서 이동
 
 ```java
 import java.sql.Connection;
@@ -8077,84 +8044,78 @@ import java.sql.SQLException;
 
 public class Emp4 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;  
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);  
 
-			try {
-				Class.forName("org.mariadb.jdbc.Driver");
-				conn = DriverManager.getConnection(url, user, password);
-
-				String sql = "select * from emp";
-				pstmt = conn.prepareStatement(sql);
-
-				rs = pstmt.executeQuery();
-				rs.absolute(1); // 1행으로 이동
-				System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
-				System.out.println("행번호 : " + rs.getRow());
-				rs.absolute(10); // 10행으로 이동
-				System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
-				System.out.println("행번호 : " + rs.getRow());
-
-				rs.beforeFirst(); // 커서의 초기화
-				System.out.println("행번호 : " + rs.getRow());
-
-			} catch (ClassNotFoundException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} catch (SQLException e) {
-				System.out.println("에러 : " + e.getMessage());
-			} finally {
-				if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-				if(rs != null) try {rs.close();} catch(SQLException e) {}
-				if(conn != null) try {conn.close();} catch(SQLException e) {}
-			}
-	}
+      String sql = "select * from emp";
+      pstmt = conn.prepareStatement(sql); 
+      rs = pstmt.executeQuery();
+      rs.absolute(1); // 1행으로 이동
+      System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
+      System.out.println("행번호 : " + rs.getRow());
+      rs.absolute(10); // 10행으로 이동
+      System.out.printf("%s %s%n", rs.getString("empno"), rs.getString("ename"));
+      System.out.println("행번호 : " + rs.getRow());  
+      rs.beforeFirst(); // 커서의 초기화
+      System.out.println("행번호 : " + rs.getRow());  
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 }
 ```
+#### 데이터베이스 메타데이터
 
 - MariaDB 버전 확인하기
 
 ```java
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseMetaEx01 {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
+    Connection conn = null; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);  
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-
-			DatabaseMetaData dmd = conn.getMetaData();
-
-			System.out.println(dmd.getDatabaseProductName()); // MariaDB
-			System.out.println(dmd.getDatabaseProductVersion()); // 10.11.2-MariaDB
-			System.out.println(dmd.getJDBCMajorVersion() + " : " + dmd.getJDBCMinorVersion()); // 4 : 2
-		} catch (ClassNotFoundException e) {
+      DatabaseMetaData dmd = conn.getMetaData();  
+      System.out.println(dmd.getDatabaseProductName()); // MariaDB
+      System.out.println(dmd.getDatabaseProductVersion()); // 10.11.2-MariaDB
+      System.out.println(dmd.getJDBCMajorVersion() + " : " + dmd.getJDBCMinorVersion()); // 4 : 2
+    } catch (ClassNotFoundException e) {
       System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
+    } catch (SQLException e) {
       System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
+    } finally {
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 
 }
 ```
-
+- mariaDB에서 특정 테이블의 메타데이터 확인하기
 ```java
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8165,39 +8126,39 @@ import java.sql.SQLException;
 
 public class ResultSetMetaEx {
 
-	public static void main(String[] args) {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
+  public static void main(String[] args) {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;  
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);  
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-
-			String sql = "select * from emp";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			ResultSetMetaData rsmd = rs.getMetaData();
-			System.out.println(rsmd.getColumnCount()); // 8
-			for(int i = 1 ; i <= rsmd.getColumnCount(); i++) {
-				System.out.print(rsmd.getColumnName(i) + " ");
-				System.out.print(rsmd.getColumnTypeName(i));
-				System.out.println("(" + rsmd.getPrecision(i) + ")");
-			} // emp 테이블의 컬럼명, 타입(저장공간) 모두 출력
-		} catch (ClassNotFoundException e) {
+      String sql = "select * from emp";
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();  
+      ResultSetMetaData rsmd = rs.getMetaData();
+      System.out.println(rsmd.getColumnCount()); // 8
+      for(int i = 1 ; i <= rsmd.getColumnCount(); i++)
+      // 인덱스는 1부터 시작한다는 것에 주의하자
+      {
+        System.out.print(rsmd.getColumnName(i) + " ");
+        System.out.print(rsmd.getColumnTypeName(i));
+        System.out.println("(" + rsmd.getPrecision(i) + ")");
+      } // emp 테이블의 컬럼명, 타입(저장공간) 모두 출력
+    } catch (ClassNotFoundException e) {
       System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
+    } catch (SQLException e) {
       System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-	}
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
 
 }
 ```
@@ -8218,13 +8179,13 @@ public class ResultSetMetaEx {
 
   - Background-Process : 서버
 
-    <small> !! background-Process는 실행 모습이 보이지 않는 프로그램이므로 작업관리자를 통해 확인할 수 있다</small>
+    <small> !! Background-Process는 실행 모습이 보이지 않는 프로그램이므로 작업관리자를 통해 확인할 수 있다</small>
 
     <small> !! Background-Process와 윈도우 관리 프로그램을 합쳐서 서비스로 부르기도 한다</small>
 
-- Java에서는 ProcessBuilder 클래스를 통해 프로세스를 진행시킨다
+- Java에서는 ProcessBuilder 클래스를 통해 프로세스를 실행시킨다
 
-- 스레드(thread) : 프로세스 동작의 최소단위로 모든 프로그램은 하나 이상으 스레드로 구성된다
+- 스레드(Thread) : 프로세스 동작의 최소단위로 모든 프로그램은 하나 이상의 스레드로 구성된다
 
   <small>!! 지금까지 실행시켰던 Java 프로그램은 모두 메인 스레드가 메인 메서드를 실행해줬던 것이다</small>
 
@@ -8241,37 +8202,39 @@ public class ResultSetMetaEx {
 
   - 스레드 제어의 어려움
 
-### 스레드 생성과 수행
-
-- Thread 클래스를 상속받거나 Runnable 인터페이스를 구현해서 스레드를 생성할 수 있다
-
-- 스레드 생애 주기
+### 스레드의 생애 주기
 
 <img src="https://postfiles.pstatic.net/MjAyMjAyMjVfODQg/MDAxNjQ1NzU3NDIxOTk3.6221-zRpPTzrGMdqLNNkXHUjNqz3VK4qEpynl2UR_3Eg.LXrLN4RrYAQpolc53104-Zwg9J9yc2OR3iiwBEUj7uYg.PNG.seounghye95/%EC%8A%A4%EB%A0%88%EB%93%9C%EC%83%81%ED%83%9C%EC%99%80%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0.PNG?type=w966">
 
+### 스레드 생성과 수행
+
+- Thread 클래스를 상속받거나 Runnable 인터페이스를 구현해서 스레드 클래스를 생성할 수 있다
+
+
 #### Thread 클래스 상속
+- 스레드를 실행시키면 Thread 클래스의 run() 메서드 안의 명령이 실행된다
 
 ```java
 // Go.java
 package pack2;
 
 public class Go extends Thread {
-	public void run() {
-		for(int i = 1; i <= 10; i++) {
-			System.out.println("go : " + i);
-		}
-	}
+  public void run() {
+    for(int i = 1; i <= 10; i++) {
+      System.out.println("go : " + i);
+    }
+  }
 }
 
 // Come.java
 package pack2;
 
 public class Come extends Thread {
-	public void run() {
-		for(int i = 10; i >= 1; i--) {
-			System.out.println("come : " + i);
-		}
-	}
+  public void run() {
+    for(int i = 10; i >= 1; i--) {
+      System.out.println("come : " + i);
+    }
+  }
 }
 
 // MainEx.java
@@ -8279,27 +8242,29 @@ package pack2;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		Go g = new Go();
-		Come c = new Come();
-
-		g.run();
-		c.run();
-		// g.run() 실행 후 c.run()이 실행된다
-		// 순차처리
+  public static void main(String[] args) {
+    Go g = new Go();
+    Come c = new Come();  
+    g.run();
+    c.run();
+    // g.run() 실행 후 c.run()이 실행된다
+    // 순차처리
     // 코드로 직접 run()을 실행시킨다
-		g.start();
-		c.start();
-		// 스레드 실행
-		// 순차처리가 아니고 병렬처리이기 때문에 번갈아가며 실행된다
-		// 결과가 항상 달라진다
+    g.start();
+    c.start();
+    // 스레드 실행
+    // 순차처리가 아니고 병렬처리이기 때문에 번갈아가며 실행된다
+    // 결과가 항상 달라진다
     // 코드로는 스레드를 실행시키고,
     // JVM의 스레드 스케줄러에 의해 run()이 실행된다
-	}
+  }
 }
 ```
 
 #### Runnable 인터페이스 구현
+- Runnable 인터페이스는 run() 메서드만 가지고 있는 함수형 인터페이스다
+
+- Runnable 인터페이스를 구현한 스레드 클래스를 생성자 인수로 쓰는 Thread 클래스의 객체를 만들어 사용한다
 
 ```java
 // Go.java
@@ -8307,12 +8272,12 @@ package pack3;
 
 public class Go implements Runnable {
 
-	@Override
-	public void run() {
-		for(int i = 1; i <= 10; i++) {
-			System.out.println("go : " + i);
-		}
-	}
+  @Override
+  public void run() {
+    for(int i = 1; i <= 10; i++) {
+      System.out.println("go : " + i);
+    }
+  }
 }
 
 // Come.java
@@ -8320,12 +8285,12 @@ package pack3;
 
 public class Come implements Runnable {
 
-	@Override
-	public void run() {
-		for(int i = 10; i >= 1; i--) {
-			System.out.println("come : " + i);
-		}
-	}
+  @Override
+  public void run() {
+    for(int i = 10; i >= 1; i--) {
+      System.out.println("come : " + i);
+    }
+  }
 }
 
 // MainEx.java
@@ -8333,19 +8298,18 @@ package pack3;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		Go g = new Go();
-		Come c = new Come();
+  public static void main(String[] args) {
+    Go g = new Go();
+    Come c = new Come();  
 
-		Thread t1 = new Thread(g);
-		Thread t2 = new Thread(c);
-
-		System.out.println("시작");
-		t1.start();
-		t2.start();
-		System.out.println("끝");
+    Thread t1 = new Thread(g);
+    Thread t2 = new Thread(c);  
+    System.out.println("시작");
+    t1.start();
+    t2.start();
+    System.out.println("끝");
     // 메인, t1, t2 스레드가 각각 동작되기 때문에 결과는 "끝"이 항상 마지막에 출력되는 것이 아니다
-	}
+  }
 
 }
 ```
@@ -8357,68 +8321,64 @@ public class MainEx {
 
   public static void main(String[] args) {
     Thread t1 = new Thread(new Runnable() {
-    	@Override
-    	public void run() {
-    		for(int i = 1; i <= 10; i++) {
-    			System.out.println("go : " + i);
-    		}
-    	}
-  	});
-    // 익명함수를 이용할 수 있다
-  	Thread t2 = new Thread(() -> {
-  		for(int i = 10; i >= 1; i--) {
-  		  System.out.println("come : " + i);
-  		}
-  	});
-    // 람다식을 이용할 수 있다
-  	System.out.println("시작");
-  	t1.start();
-  	t2.start();
-  	System.out.println("끝");
+      @Override
+      public void run() {
+        for(int i = 1; i <= 10; i++) {
+          System.out.println("go : " + i);
+        }
+      }
+    });
+    // Runnable 인터페이스가 함수형 인터페이스이기 때문에 익명함수를 이용해 구현할 수 있다
+    Thread t2 = new Thread(() -> {
+      for(int i = 10; i >= 1; i--) {
+        System.out.println("come : " + i);
+      }
+    });
+    // Runnable 인터페이스가 함수형 인터페이스이기 때문에 람다식을 이용할 수도 있다
+    System.out.println("시작");
+    t1.start();
+    t2.start();
+    System.out.println("끝");
   }
 
 }
 ```
 
-- 스레드 우선순위
-
+#### 스레드 우선순위
+- 스레드 우선순위로 스레드를 완벽하게 제어할 수는 없다
 ```java
 public final static int MIN_PRIORITY = 1;
 public final static int NORM_PRIORITY = 5; // 기본값
 public final static int MAX_PRIORITY = 10;
 ```
 
-<small> !! 스레드 우선순위로 스레드를 완벽하게 제어할 수는 없는 것에 주의하자</small>
-
 ```java
 package pack5;
 
 public class ThreadEx {
 
-	public static void main(String[] args) {
-		System.out.println(Thread.currentThread().getName()); // main
-		System.out.println(Thread.currentThread().getPriority()); // 5
-		// 스레드의 이름과 우선순위 확인
-	}
+  public static void main(String[] args) {
+    System.out.println(Thread.currentThread().getName()); // main
+    System.out.println(Thread.currentThread().getPriority()); // 5
+    // 스레드의 이름과 우선순위 확인
+  }
 }
 ```
 
 ```java
 // MyThread1.java
-
 package pack5;
 
 public class MyThread1 extends Thread {
 
-	@Override
-	public void run() {
-		System.out.println(this.getName() + " 스레드 시작");
-
-		for(int i = 0; i <= 300; i++) {
-			System.out.println("-");
-			for(int x = 0; x < 10_000_000; x++);
-		}
-	}
+  @Override
+  public void run() {
+    System.out.println(this.getName() + " 스레드 시작");  
+    for(int i = 0; i <= 300; i++) {
+      System.out.println("-");
+      for(int x = 0; x < 10_000_000; x++);
+    }
+  }
 
 }
 
@@ -8427,15 +8387,14 @@ package pack5;
 
 public class MyThread2 extends Thread {
 
-	@Override
-	public void run() {
-		System.out.println(this.getName() + " 스레드 시작");
-
-		for(int i = 0; i <= 300; i++) {
-			System.out.println("|");
-			for(int x = 0; x < 10_000_000; x++);
-		}
-	}
+  @Override
+  public void run() {
+    System.out.println(this.getName() + " 스레드 시작");  
+    for(int i = 0; i <= 300; i++) {
+      System.out.println("|");
+      for(int x = 0; x < 10_000_000; x++);
+    }
+  }
 
 }
 
@@ -8445,19 +8404,19 @@ package pack5;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		MyThread1 t1 = new MyThread1();
-		MyThread2 t2 = new MyThread2();
+  public static void main(String[] args) {
+    MyThread1 t1 = new MyThread1();
+    MyThread2 t2 = new MyThread2(); 
 
-		System.out.println(t1.getPriority()); // 5
-		t1.setPriority(7); // t1 스레드의 우선순위 변경
-
-		System.out.println("시작");
-		t1.start();
-		t2.start();
-		System.out.println("끝");
-	}
-  // t1 스레드의 우선순위가 가장 높기 때문에 되도록이면 먼저 실행된 결과를 얻는다
+    System.out.println(t1.getPriority()); // 5
+    t1.setPriority(7); // t1 스레드의 우선순위 변경
+     
+    System.out.println("시작");
+    t1.start();
+    t2.start();
+    System.out.println("끝");
+  }
+  // t1 스레드의 우선순위가 가장 높기 때문에 되도록이면 t1 스레드가 먼저 실행된 결과를 얻는다
   // 단, 우선순위가 높다고 무조건 먼저 실행되는 것은 아니다
 
 }
@@ -8467,73 +8426,73 @@ public class MainEx {
 package pack5;
 
 public class PriorityTest {
-	static class MessengerThread extends Thread{
-		public MessengerThread(String name) {
-			super(name);
-		}
+  static class MessengerThread extends Thread{
+    public MessengerThread(String name) {
+      super(name);
+    } 
+    public void run() {
+      for(int i = 0; i < 30; i++) {
+        System.out.print(this.getName());
+      }
+    }
+  }
 
-		public void run() {
-			for(int i = 0; i < 30; i++) {
-				System.out.print(this.getName());
-			}
-		}
-	}
-	public static void main(String[] args) {
-		Thread fThread = new MessengerThread("F");
-		Thread tThread = new MessengerThread("T");
-		fThread.setPriority(Thread.MIN_PRIORITY);
-		tThread.setPriority(Thread.MAX_PRIORITY);
-		fThread.start();
-		tThread.start();
-	}
+  public static void main(String[] args) {
+    Thread fThread = new MessengerThread("F");
+    Thread tThread = new MessengerThread("T");
+    fThread.setPriority(Thread.MIN_PRIORITY);
+    tThread.setPriority(Thread.MAX_PRIORITY);
+    fThread.start();
+    tThread.start();
+  }
 
 }
 ```
 
-### 스레드 관련 메서드
+### 스레드 제어 관련 메서드
 
 - Thread 클래스의 메서드로 스레드를 제어할 수 있다
 
 #### sleep()
+- Thread 클래스의 static 메서드
 
 - 스레드를 일정 시간 대기하게 한다
 
 ```java
 // Gugudan.java
-
 package pack6;
 
 public class Gugudan implements Runnable {
-	private int dan;
+  private int dan;  
 
-	public Gugudan(int dan) {
-		this.dan = dan;
-	}
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(1000); // 1초 지연시킨 후 동작시킨다
-		} catch (InterruptedException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		for(int i = 1; i <= 9; i++) {
-			System.out.printf("%s X %s = %s%n", dan, i, (dan * i));
-		}
-	}
+  public Gugudan(int dan) {
+    this.dan = dan;
+  }
+
+  @Override
+  public void run() {
+    try {
+      Thread.sleep(1000); // 1초 지연시킨 후 동작시킨다
+    } catch (InterruptedException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+    for(int i = 1; i <= 9; i++) {
+      System.out.printf("%s X %s = %s%n", dan, i, (dan * i));
+    }
+  }
 
 }
 
 // MainEx.java
-
 package pack6;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		Thread t1 = new Thread(new Gugudan(2));
+  public static void main(String[] args) {
+    Thread t1 = new Thread(new Gugudan(2)); 
 
-		t1.start(); // 실행시키면 1초가 흐르고 난 뒤 동작한다
-	}
+    t1.start(); // 실행시키면 1초가 흐르고 난 뒤 동작한다
+  }
 }
 ```
 
@@ -8543,22 +8502,23 @@ package pack6;
 import java.time.LocalTime;
 
 public class SleepTest1 {
-	static class Timer extends Thread{
-		public void run() {
-			for(int i = 0; i < 3; i++) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					System.out.println("에러 : " + e.getMessage());
-				}
-				System.out.println("째깍 : " + LocalTime.now());
-			}
-		}
-	}
-	public static void main(String[] args) {
-		Timer timer = new Timer();
-		timer.start();
-	}
+  static class Timer extends Thread{
+    public void run() {
+      for(int i = 0; i < 3; i++) {
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          System.out.println("에러 : " + e.getMessage());
+        }
+        System.out.println("째깍 : " + LocalTime.now());
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    Timer timer = new Timer();
+    timer.start();
+  }
 
 }
 ```
@@ -8572,56 +8532,52 @@ import java.util.List;
 
 public class JoinTest {
 
-	static class GuguThread extends Thread {
-		private int dan;
-		String[] result = new String[9];
+  static class GuguThread extends Thread {
+    private int dan;
+    String[] result = new String[9]; 
 
-		public GuguThread(int dan) {
-			this.dan = dan;
-		}
+    public GuguThread(int dan) {
+    	this.dan = dan;
+    } 
 
-		public void run() {
-			for(int i = 1; i < 10; i++) {
-				result[i - 1] = dan + "*" + i + "=" + (dan * i);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					System.out.println("에러 : " + e.getMessage());
-				}
-			}
-			System.out.println(dan + "단 완료\t");
-		}
-	}
+    public void run() {
+      for(int i = 1; i < 10; i++) {
+        result[i - 1] = dan + "*" + i + "=" + (dan * i);
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          System.out.println("에러 : " + e.getMessage());
+        }
+      }
+      System.out.println(dan + "단 완료\t");
+    }
+  } 
 
-	public static void main(String[] args) {
-		List<GuguThread> gugus = new ArrayList<>();
-
-		for(int i = 1; i < 10 ; i++) {
-			GuguThread gugu = new GuguThread(i);
-			gugus.add(gugu);
-			gugu.start();
-		}
-
-		for(GuguThread gugu : gugus) {
-			try {
-				gugu.join();
-			} catch (InterruptedException e) {
-				System.out.println("에러 : " + e.getMessage());
-			}
-		}
-
-		System.out.println("\n 구구단 출력");
-
-		for(GuguThread gugu : gugus) {
-			System.out.println(Arrays.toString(gugu.result));
-		}
-	}
+  public static void main(String[] args) {
+    List<GuguThread> gugus = new ArrayList<>(); 
+    for(int i = 1; i < 10 ; i++) {
+      GuguThread gugu = new GuguThread(i);
+      gugus.add(gugu);
+      gugu.start();
+    } 
+    for(GuguThread gugu : gugus) {
+      try {
+        gugu.join();
+      } catch (InterruptedException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    } 
+    System.out.println("\n 구구단 출력"); 
+    for(GuguThread gugu : gugus) {
+      System.out.println(Arrays.toString(gugu.result));
+    }
+  }
 
 }
 ```
 
 ### Daemon Thread
-
+- Thread 클래스의 setDaemon() 메서드를 이용해 데몬 스레드로 만들 수 있다
 - 일반 스레드의 작업을 돕는 보조적인 스레드로 작업을 마치지 못했더라도 메인 스레드가 종료될 때 같이 종료된다
 
   <small> !! 데몬스레드 작업이 먼저 끝나는 경우가 있기도 하다</small>
@@ -8631,19 +8587,18 @@ public class JoinTest {
 package pack7;
 
 public class Gugudan implements Runnable {
-	private int dan;
+  private int dan;
 
-	public Gugudan(int dan) {
-		this.dan = dan;
-	}
+  public Gugudan(int dan) {
+    this.dan = dan;
+  }
 
-	@Override
-	public void run() {
-		for (int i = 1; i <= 9; i++	) {
-			System.out.printf("%s X %s = %s%n", dan, i, dan * i);
-		}
-	}
-
+  @Override
+  public void run() {
+    for (int i = 1; i <= 9; i++	) {
+      System.out.printf("%s X %s = %s%n", dan, i, dan * i);
+    }
+  } 
 }
 
 // MainEx.java
@@ -8651,27 +8606,27 @@ package pack7;
 
 public class MainEx {
 
-	public static void main(String[] args) {
-		Thread t1 = new Thread(new Gugudan(2));
-		Thread t2 = new Thread(new Gugudan(4));
+  public static void main(String[] args) {
+    Thread t1 = new Thread(new Gugudan(2));
+    Thread t2 = new Thread(new Gugudan(4)); 
 
-		System.out.println("시작");
+    System.out.println("시작"); 
 
-		t1.setDaemon(true);
-		t2.setDaemon(true);
+    t1.setDaemon(true);
+    t2.setDaemon(true); 
 
-		t1.start();
-		t2.start();
-
-		try {
-			Thread.sleep(1000 * 3);
-		} catch (InterruptedException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
+    t1.start();
+    t2.start(); 
+    try {
+      Thread.sleep(1000 * 3);
+    } catch (InterruptedException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
     // try ~ catch 구문을 주석 처리하면 스레드가 t1, t2 스레드가 실행되기 전
     // 메인 스레드가 종료되기 때문에 구구단이 출력되지 않는다
-		System.out.println("끝");
-	}
+
+    System.out.println("끝");
+  }
 
 }
 ```
@@ -8681,37 +8636,36 @@ package pack7;
 
 public class DaemonThreadTest {
 
-	static class SaveDaemon extends Thread{
-		public SaveDaemon() {
-			this.setDaemon(true);
-		}
-		public void run() {
-			while(true) {
-				try {
-					Thread.sleep(1000 * 5);
-				} catch(InterruptedException e) {
-					System.out.println("에러 : " + e.getMessage());
-				}
-				System.out.println("자동 저장함");
-			}
-		}
-	}
+  static class SaveDaemon extends Thread{
+    public SaveDaemon() {
+      this.setDaemon(true);
+    }
+    public void run() {
+      while(true) {
+        try {
+          Thread.sleep(1000 * 5);
+        } catch(InterruptedException e) {
+          System.out.println("에러 : " + e.getMessage());
+        }
+        System.out.println("자동 저장함");
+      }
+    }
+  }
 
+  public static void main(String[] args) {
+    Thread daemon = new SaveDaemon();
+    daemon.start(); 
 
-	public static void main(String[] args) {
-		Thread daemon = new SaveDaemon();
-		daemon.start();
-
-		for( int i = 0; i < 20; i++) {
-			try {
-				Thread.sleep(1000);
-				System.out.println("작업 중..." + i);
-			} catch (InterruptedException e) {
-				System.out.println("에러 : " + e.getMessage());
-			}
-		}
-		System.out.println("main over");
-	}
+    for( int i = 0; i < 20; i++) {
+      try {
+        Thread.sleep(1000);
+        System.out.println("작업 중..." + i);
+      } catch (InterruptedException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    }
+    System.out.println("main over");
+  }
 
 }
 ```
@@ -8725,25 +8679,24 @@ public class DaemonThreadTest {
 package pack8;
 
 public class Account {
-	private int balance = 1000;
+  private int balance = 1000; 
 
-	public int getBalance() {
-		return balance;
-	}
+  public int getBalance() {
+    return balance;
+  } 
 
-	public void withdraw(int money) {
-		if(balance >= money) {
-			try {
-				Thread.sleep(1000 * 1);
-
-				balance -= money;
-			} catch (InterruptedException e) {
-				System.out.println("에러 : " + e.getMessage());
-			}
-		} else {
-			System.out.println("잔고 부족");
-		}
-	}
+  public void withdraw(int money) {
+    if(balance >= money) {
+      try {
+        Thread.sleep(1000 * 1); 
+        balance -= money;
+      } catch (InterruptedException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    } else {
+      System.out.println("잔고 부족");
+    }
+  }
 }
 
 // Client.java
@@ -8751,21 +8704,20 @@ package pack8;
 
 public class Client implements Runnable {
 
-	private Account account;
+  private Account account;  
 
-	public Client(Account account) {
-		this.account = account;
-	}
+  public Client(Account account) {
+    this.account = account;
+  } 
 
-	@Override
-	public void run() {
-		while(account.getBalance() > 0) {
-			int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
-			account.withdraw(money);
-
-			System.out.println("통장 잔고 : " + account.getBalance());
-		}
-	}
+  @Override
+  public void run() {
+    while(account.getBalance() > 0) {
+      int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
+      account.withdraw(money);  
+      System.out.println("통장 잔고 : " + account.getBalance());
+    }
+  }
 
 }
 // ClientMain.java
@@ -8773,18 +8725,17 @@ package pack8;
 
 public class ClientMain {
 
-	public static void main(String[] args) {
-		Account account = new Account();
+  public static void main(String[] args) {
+    Account account = new Account();
+    // 스레드가 공유할 객체 생성  
+    Thread t1 = new Thread(new Client(account));
+    Thread t2 = new Thread(new Client(account));
 
-		Thread t1 = new Thread(new Client(account));
-		Thread t2 = new Thread(new Client(account));
-
-		t1.start();
-		t2.start();
-	}
+    t1.start();
+    t2.start();
+  }
 
 }
-
 // account를 공유하기 때문에 잔액이 음수가 나오는 결과를 출력할 때가 있다
 ```
 
@@ -8797,47 +8748,44 @@ public class ClientMain {
 package pack8;
 
 public class Account {
-	private int balance = 1000;
+  private int balance = 1000; 
 
-	public int getBalance() {
-		return balance;
-	}
+  public int getBalance() {
+    return balance;
+  }
 
-	public synchronized void withdraw(int money) {
-		if(balance >= money) {
-			try {
-				Thread.sleep(1000 * 1);
-
-				balance -= money;
-			} catch (InterruptedException e) {
-				System.out.println("에러 : " + e.getMessage());
-			}
-		} else {
-			System.out.println("잔고 부족");
-		}
-	}
+  public synchronized void withdraw(int money) {
+    if(balance >= money) {
+      try {
+        Thread.sleep(1000 * 1); 
+        balance -= money;
+      } catch (InterruptedException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    } else {
+      System.out.println("잔고 부족");
+    }
+  }
 }
 
 // Client.java
 package pack8;
 
-public class Client implements Runnable {
+public class Client implements Runnable { 
+  private Account account;  
 
-	private Account account;
+  public Client(Account account) {
+    this.account = account;
+  } 
 
-	public Client(Account account) {
-		this.account = account;
-	}
-
-	@Override
-	public void run() {
-		while(account.getBalance() > 0) {
-			int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
-			account.withdraw(money);
-
-			System.out.println("통장 잔고 : " + account.getBalance());
-		}
-	}
+  @Override
+  public void run() {
+    while(account.getBalance() > 0) {
+      int money = (int)(Math.random() * 3 + 1) * 100; // 100, 200, 300 중 한가지 값을 가진다
+      account.withdraw(money);  
+      System.out.println("통장 잔고 : " + account.getBalance());
+    }
+  }
 
 }
 // ClientMain.java
@@ -8845,22 +8793,20 @@ package pack8;
 
 public class ClientMain {
 
-	public static void main(String[] args) {
-		Account account = new Account();
+  public static void main(String[] args) {
+    Account account = new Account();
 
-		Thread t1 = new Thread(new Client(account));
-		Thread t2 = new Thread(new Client(account));
+    Thread t1 = new Thread(new Client(account));
+    Thread t2 = new Thread(new Client(account));  
 
-		t1.start();
-		t2.start();
-	}
+    t1.start();
+    t2.start();
+  }
 
 }
 ```
 
 ## UI
-
-- 화면 구현
 
 - 종류
 
@@ -8870,7 +8816,7 @@ public class ClientMain {
 
     - 출력 : 텍스트
 
-      <sup> ex) cmd
+      <sup> ex) cmd</sup>
 
   - GUI (Graphic User Interface) : 그래픽을 이용하는 사용자 입출력 프로그램으로 발생한 이벤트를 처리하는 것을 중심으로 한다
 
@@ -8912,10 +8858,6 @@ public class ClientMain {
     - 다른 컴포넌트를 포함할 수 있는 GUI 컴포넌트
     - 다른 컨테이너에 포함될 수 있다
 
-    - window에서의 프레임
-
-      <b>&rarr; window &supset; (J)Frame &supset; Jdialog &supset; JPanel</b>
-
   - 컴포넌트
 
     - 컨테이너에 포함되어야 화면에 출력될 수 있는 GUI 객체
@@ -8924,18 +8866,25 @@ public class ClientMain {
 
     - JLabel, JButton, ...
 
-#### Swing으로 GUI 구현 순서
+#### Swing을 이용한 GUI 구현
 
-1. 컨테이너 (JFrame)
+- Swing에서의 포함 관계
+
+  <b>&rarr; window &supset; JFrame &supset; Jdialog &supset; JPanel</b>
 
 - 프로그램은 1개의 JFrame과 여러개의 JDialog로 구성된다
-2. 패널(JPanel)
-2. Layout-Manager 
-- 좌표중심배치인  (null / absolute) 레이아웃을 사용한다
-3. 컴포넌트
-4. 이벤트
 
-5. 이벤트 내부 코딩
+- GUI 구현 순서
+
+  1<sub>st</sub> 컨테이너 (JFrame)
+
+  2<sub>nd</sub> 패널(JPanel)
+
+  3<sub>rd</sub> Layout-Manager
+
+  4<sub>th</sub> 컴포넌트
+
+  5<sub>th</sub> 이벤트
 
 
 ##### JFrame
@@ -8945,14 +8894,13 @@ import javax.swing.JFrame;
 
 public class JFrameEx {
 
-	public static void main(String[] args) {
-		// "has ~ a" 관계로 JFrame 프레임 구현
-		JFrame frame = new JFrame();
+  public static void main(String[] args) {
+    JFrame frame = new JFrame();  
+    // "has ~ a" 관계로 JFrame 프레임 구현
 
-		frame.setSize(1024, 768); // 프레임 크기 설정
-
-		frame.setVisible(true); // 프레임을 보이게 한다
-	}
+    frame.setSize(1024, 768); // 프레임 크기 설정 
+    frame.setVisible(true); // 프레임을 보이게 한다
+  }
 }
 ```
 
@@ -8960,12 +8908,12 @@ public class JFrameEx {
 import javax.swing.JFrame;
 
 public class JFrameEx02 extends JFrame {
-  // 상속관계로 JFrame 프레임 구현
-	public static void main(String[] args) {
-		JFrameEx02 frame = new JFrameEx02();
-		frame.setSize(1024, 768);
-		frame.setVisible(true);
-	}
+// 상속관계로 JFrame 프레임 구현
+  public static void main(String[] args) {
+    JFrameEx02 frame = new JFrameEx02();
+    frame.setSize(1024, 768);
+    frame.setVisible(true);
+  }
 
 }
 ```
@@ -8977,9 +8925,9 @@ package pack8;
 import javax.swing.JFrame;
 
 public class UserFrame extends JFrame {
-	public UserFrame() {
-		this.setSize(1024, 768);
-	}
+  public UserFrame() {
+    this.setSize(1024, 768);
+  }
 }
 
 // JFrameMainEx.java
@@ -8987,10 +8935,10 @@ package pack8;
 
 public class JFrameMainEx {
 
-	public static void main(String[] args) {
-		UserFrame frame = new UserFrame();
-		frame.setVisible(true);
-	}
+  public static void main(String[] args) {
+    UserFrame frame = new UserFrame();
+    frame.setVisible(true);
+  }
 
 }
 ```
@@ -9001,23 +8949,20 @@ import javax.swing.JFrame;
 public class JFrameEx3 extends JFrame {
 
 	public JFrameEx3() {
-		this.setSize(1024, 768);
-		this.setLocation(100, 100); // 프레임의 위치 설정
-
-		// 위의 코드를 합쳐서 아래와 같이 한번에 쓸 수도 있다
-		// this.setBounds(100, 100, 1024, 768);
-
-		this.setTitle("JFrame 데모"); // 프레임의 제목 설정
-		System.out.println(this.getTitle());
-
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// 프레임의 종료 버튼을 누르면 프로그램도 같이 종료되게 설정
-		this.setResizable(false); // 컨테이너의 크기를 조절할 수 없게 설정
+	  this.setSize(1024, 768);
+	  this.setLocation(100, 100); // 프레임의 위치 설정
+	  // 위의 코드를 합쳐서 아래와 같이 한번에 쓸 수도 있다
+	  // this.setBounds(100, 100, 1024, 768); 
+	  this.setTitle("JFrame 데모"); // 프레임의 제목 설정
+	  System.out.println(this.getTitle());  
+	  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  // 프레임의 종료 버튼을 누르면 프로그램도 같이 종료되게 설정
+	  this.setResizable(false); // 컨테이너의 크기를 조절할 수 없게 설정
 	}
 	public static void main(String[] args) {
-		JFrameEx3 frame = new JFrameEx3();
-		frame.setSize(1024, 768);
-		frame.setVisible(true);
+	  JFrameEx3 frame = new JFrameEx3();
+	  frame.setSize(1024, 768);
+	  frame.setVisible(true);
 	}
 
 }
@@ -9031,29 +8976,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class JFrameEx4 extends JFrame {
-	private JPanel contentPane;
+  private JPanel contentPane; 
 
-	public JFrameEx4() {
-		this.setSize(1024, 768);
-		this.setLocation(100, 100);
+  public JFrameEx4() {
+    this.setSize(1024, 768);
+    this.setLocation(100, 100);   
 
+    contentPane = new JPanel(); 
+    contentPane.setBackground(Color.RED);
 
-		contentPane = new JPanel();
+    JButton btn1 = new JButton("버튼1");
+    btn1.setBounds(10, 10, 100, 25); // 버튼 컴포넌트의 크기, 위치 지정 
+    contentPane.add(btn1); // 생성한 버튼 컴포넌트를 패널에 추가한다  
 
-		contentPane.setBackground(Color.RED);
+    this.setContentPane(contentPane); // 프레임에 패널을 붙힌다
+  }
 
-		JButton btn1 = new JButton("버튼1");
-		btn1.setBounds(10, 10, 100, 25); // 버튼 컴포넌트의 크기, 위치 지정
-
-		contentPane.add(btn1); // 생성한 버튼 컴포넌트를 패널에 추가한다
-
-		this.setContentPane(contentPane); // 프레임에 패널을 붙힌다
-	}
-	public static void main(String[] args) {
-		JFrameEx4 frame = new JFr ameEx4();
-		frame.setSize(1024, 768);
-		frame.setVisible(true);
-	}
+  public static void main(String[] args) {
+    JFrameEx4 frame = new JFr ameEx4();
+    frame.setSize(1024, 768);
+    frame.setVisible(true);
+  }
 
 }
 ```
@@ -9066,55 +9009,45 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class JFrameEx4 extends JFrame {
-	private JPanel contentPane;
+  private JPanel contentPane; 
 
-	public JFrameEx4() {
-		this.setSize(1024, 768);
-		this.setLocation(100, 100);
+  public JFrameEx4() {
+    this.setSize(1024, 768);
+    this.setLocation(100, 100); 
 
+    contentPane = new JPanel(); 
+    contentPane.setBackground(Color.RED);
+    contentPane.setLayout(null);
+    // 패널이 Absolute / null 레이아웃을 사용하게 지정한다  
 
-		contentPane = new JPanel();
+    JButton btn1 = new JButton("버튼1");
+    btn1.setBounds(10, 10, 100, 25);  
+    JButton btn2 = new JButton("버튼2");
+    btn2.setBounds(10, 40, 100, 25);    
+    contentPane.add(btn1); // 생성한 버튼을 패널에 붙힌다
+    contentPane.add(btn2); // 생성한 버튼을 패널에 붙힌다 
 
-		contentPane.setBackground(Color.RED);
-
-		JButton btn1 = new JButton("버튼1");
-		btn1.setBounds(10, 10, 100, 25);
-
-		JButton btn2 = new JButton("버튼2");
-		btn2.setBounds(10, 40, 100, 25);
-
-		contentPane.setLayout(null);
-		// 레이아웃매니저로 컴포넌트 배치를 관리한다
-		// null - null layout / absolute layout
-
-		contentPane.add(btn1); // 생성한 버튼을 패널에 붙힌다
-		contentPane.add(btn2); // 생성한 버튼을 패널에 붙힌다
-
-		this.setContentPane(contentPane); // 컨테이너에 패널을 붙힌다
-	}
-	public static void main(String[] args) {
-		JFrameEx4 frame = new JFrameEx4();
-		frame.setSize(1024, 768);
-		frame.setVisible(true);
-	}
+    this.setContentPane(contentPane); // 컨테이너에 패널을 붙힌다
+  } 
+  public static void main(String[] args) {
+    JFrameEx4 frame = new JFrameEx4();
+    frame.setSize(1024, 768);
+    frame.setVisible(true);
+  }
 
 }
 ```
-
-
 
 ##### Layout-Manager
 
 - 직접 레이아웃을 구성하기 힘들기 대문에 eclipse에 있는 WindowBuilder를 사용한다
 
-  <small>!! WindowBuilder로 레이아웃을 구성하는 경우, WindowBuilder만의 코드 구성 방식이 있기 때문에 WindowBuilder만 사용해서 레이아웃을 구성해야 한다</small>
-
-  <img src = "./img/windowbuilder.png" width = "600">
+  <small>!! WindowBuilder로 레이아웃을 구성하는 경우, WindowBuilder만의 코드 구성 방식이 있기 때문에 주의해야 한다</small>
 
 ##### 컴포넌트
-- 위젯 (widget)이라고 불리기도 한다
+- 화면을 구성하는 요소로 위젯(widget)이라 불리기도 한다
 
-###### label 
+###### JLabel 
 
 ```java
 import java.awt.EventQueue;
@@ -9132,64 +9065,62 @@ import javax.swing.ImageIcon;
 
 public class JFrameEx03 extends JFrame {
 
-	private JPanel contentPane;
+  private JPanel contentPane; 
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrameEx03 frame = new JFrameEx03();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          JFrameEx03 frame = new JFrameEx03();
+          frame.setVisible(true);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public JFrameEx03() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
 
-	/**
-	 * Create the frame.
-	 */
-	public JFrameEx03() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null); 
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+    JLabel lbl1 = new JLabel("라벨1");
+    lbl1.setBounds(12, 10, 139, 15);
+    contentPane.add(lbl1);  
 
-		JLabel lbl1 = new JLabel("라벨1");
-		lbl1.setBounds(12, 10, 139, 15);
-		contentPane.add(lbl1);
-
-		String text = "<html><body>Hello label <br><font color = \"red\"> Hello label</font></body></html>";
-		// html을 사용할 수 있다
-		JLabel lbl2 = new JLabel(text);
-		lbl2.setIcon(new ImageIcon("C:\\html\\apache-tomcat-9.0.71\\webapps\\ROOT\\miniproject01\\img\\heart.png"));
+    String text = "<html><body>Hello label <br><font color = \"red\"> Hello label</font></body></html>";
+    // html을 사용할 수 있다
+    JLabel lbl2 = new JLabel(text);
+    lbl2.setIcon(new ImageIcon("C:\\html\\apache-tomcat-9.0.71\\webapps\\ROOT\\miniproject01\\img\\heart.png"));
     // icon으로 label에 이미지를 넣을 수 있다
-		lbl2.setFont(new Font("D2Coding", Font.BOLD, 17));
-		lbl2.setForeground(new Color(176, 90, 254));
-		lbl2.setVerticalAlignment(SwingConstants.BOTTOM);
-		lbl2.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl2.setBounds(12, 46, 299, 267);
-		contentPane.add(lbl2);
+    lbl2.setFont(new Font("D2Coding", Font.BOLD, 17));
+    lbl2.setForeground(new Color(176, 90, 254));
+    lbl2.setVerticalAlignment(SwingConstants.BOTTOM);
+    lbl2.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl2.setBounds(12, 46, 299, 267);
+    contentPane.add(lbl2);  
 
-		System.out.println(lbl1.getText());
-		System.out.println(lbl2.getText());
-
-		lbl1.setText("새 라벨1");
-	}
+    System.out.println(lbl1.getText());
+    System.out.println(lbl2.getText()); 
+    lbl1.setText("새 라벨1");
+  }
 }
 ```
 
 <img src="./img/labelResult.png" width = "600">
 
-###### button
+###### JButton
 
 ```java
 import java.awt.EventQueue;
@@ -9208,83 +9139,82 @@ import java.awt.event.MouseEvent;
 
 public class JFrame05 extends JFrame {
 
-	private JPanel contentPane;
-	private JLabel lbl;
-  // label을 멤버변수로 선언해서 버튼 컴포넌트가 접근할 수 있게 한다
+  private JPanel contentPane;
+  private JLabel lbl;
+  // label을 멤버변수로 선언해서 버튼 컴포넌트가 접근할 수 있게 한다  
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrame05 frame = new JFrame05();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          JFrame05 frame = new JFrame05();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public JFrame05() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
 
-	/**
-	 * Create the frame.
-	 */
-	public JFrame05() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);  
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+    JButton btn1 = new JButton("button 1");
+    btn1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println("버튼 1 클릭");
+        lbl.setText("결과 : 버튼 1 클릭");
+      }
+    });
+    btn1.setBounds(12, 10, 97, 23);
+    contentPane.add(btn1);  
 
-		JButton btn1 = new JButton("button 1");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("버튼 1 클릭");
-				lbl.setText("결과 : 버튼 1 클릭");
-			}
-		});
-		btn1.setBounds(12, 10, 97, 23);
-		contentPane.add(btn1);
+    JButton btn2 = new JButton("button 2");
+    btn2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println("버튼 2 클릭");
+        lbl.setText("결과 : 버튼 2 클릭");
+      }
+    });
+    btn2.setBounds(121, 10, 97, 23);
+    contentPane.add(btn2);  
 
-		JButton btn2 = new JButton("button 2");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("버튼 2 클릭");
-				lbl.setText("결과 : 버튼 2 클릭");
-			}
-		});
-		btn2.setBounds(121, 10, 97, 23);
-		contentPane.add(btn2);
+    JButton btn3 = new JButton("button 3");
+    btn3.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println("버튼 3 클릭");
+        lbl.setText("결과 : 버튼 3 클릭");
+      }
+    });
+    btn3.setBounds(230, 10, 97, 23);
+    contentPane.add(btn3);  
 
-		JButton btn3 = new JButton("button 3");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("버튼 3 클릭");
-				lbl.setText("결과 : 버튼 3 클릭");
-			}
-		});
-		btn3.setBounds(230, 10, 97, 23);
-		contentPane.add(btn3);
-
-		lbl = new JLabel("결과");
-		lbl.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl.setBounds(12, 43, 315, 42);
-		contentPane.add(lbl);
-	}
+    lbl = new JLabel("결과");
+    lbl.setFont(new Font("굴림", Font.BOLD, 18));
+    lbl.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl.setBounds(12, 43, 315, 42);
+    contentPane.add(lbl);
+  }
 
 }
 ```
 
-###### textfield
+###### JTextfield
 
 ```java
 import java.awt.EventQueue;
@@ -9300,65 +9230,60 @@ import javax.swing.JLabel;
 
 public class JTextFieldEx extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JLabel lbl;
+  private JPanel contentPane;
+  private JTextField textField;
+  private JLabel lbl; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          JTextFieldEx frame = new JTextFieldEx();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public JTextFieldEx() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JTextFieldEx frame = new JTextFieldEx();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null); 
 
-	/**
-	 * Create the frame.
-	 */
-	public JTextFieldEx() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    textField = new JTextField();
+    textField.setText("초기값");
+    textField.setBounds(12, 10, 403, 28);
+    contentPane.add(textField);
+    textField.setColumns(10); 
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+    JButton btn = new JButton("입력 내용 출력");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println(textField.getText());
+        lbl.setText(textField.getText());
+      }
+    });
+    btn.setBounds(12, 61, 148, 37);
+    contentPane.add(btn); 
 
-		textField = new JTextField();
-		textField.setText("초기값");
-		textField.setBounds(12, 10, 403, 28);
-		contentPane.add(textField);
-		textField.setColumns(10);
-
-		JButton btn = new JButton("입력 내용 출력");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(textField.getText());
-				lbl.setText(textField.getText());
-			}
-		});
-		btn.setBounds(12, 61, 148, 37);
-		contentPane.add(btn);
-
-		lbl = new JLabel("출력 결과");
-		lbl.setBounds(12, 126, 403, 28);
-		contentPane.add(lbl);
-	}
+    lbl = new JLabel("출력 결과");
+    lbl.setBounds(12, 126, 403, 28);
+    contentPane.add(lbl);
+  }
 }
 ```
-
-  <img src = "./img/event2.png" width = "600">
-
 
 GUI 주민등록 형식 검사기
 
@@ -9379,96 +9304,92 @@ import javax.swing.JFormattedTextField;
 
 public class JuminCheck extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField num1;
-	private JTextField num2;
-	private JLabel lbl;
+  private JPanel contentPane;
+  private JTextField num1;
+  private JTextField num2;
+  private JLabel lbl; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          JuminCheck frame = new JuminCheck();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public JuminCheck() {
+    setTitle("주민등록 형식 검사기");
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JuminCheck frame = new JuminCheck();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    num1 = new JTextField();
+    num1.setBounds(12, 10, 116, 21);
+    contentPane.add(num1);
+    num1.setColumns(10);
 
-	/**
-	 * Create the frame.
-	 */
-	public JuminCheck() {
-		setTitle("주민등록 형식 검사기");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    num2 = new JTextField();
+    num2.setBounds(140, 10, 116, 21);
+    contentPane.add(num2);
+    num2.setColumns(10);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		num1 = new JTextField();
-		num1.setBounds(12, 10, 116, 21);
-		contentPane.add(num1);
-		num1.setColumns(10);
-		
-		num2 = new JTextField();
-		num2.setBounds(140, 10, 116, 21);
-		contentPane.add(num2);
-		num2.setColumns(10);
-		
-		JButton btn = new JButton("검사");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(num1.getText().length() != 6 || num2.getText().length() != 7) {
-					lbl.setText("결과 : 입력한 주민번호를 확인해주세요");
-					num1.setText("");	
-					num2.setText(""); 
-				}else {
-					String strNum = num1.getText() + num2.getText(); 
-					int checkNum = Integer.parseInt(strNum.substring(strNum.length() - 1));
-					int sum = 0;
-					for(int i = 0, mulNum = 2; i < strNum.length() - 1; i++, mulNum++) {
-						if(mulNum == 10) {
-							mulNum = 2;
-						}
-						sum += Integer.parseInt(strNum.substring(i, i + 1)) * mulNum;
-					}
-					if(11 - (sum % 11) == checkNum) {
-						lbl.setText("결과 : 형식이 맞습니다");
-					}else {
-						lbl.setText("결과 : 형식이 맞지 않습니다");
-					}
-				}
-				
-			}
-		});
-		btn.setBounds(284, 9, 66, 23);
-		contentPane.add(btn);
-		
-		lbl = new JLabel("결과");
-		lbl.setFont(new Font("D2Coding", Font.BOLD, 13));
-		lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl.setBounds(12, 54, 352, 33);
-		contentPane.add(lbl);
-	}
+    JButton btn = new JButton("검사");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(num1.getText().length() != 6 || num2.getText().length() != 7) {
+          lbl.setText("결과 : 입력한 주민번호를 확인해주세요");
+          num1.setText("");	
+          num2.setText(""); 
+        }else {
+          String strNum = num1.getText() + num2.getText(); 
+          int checkNum = Integer.parseInt(strNum.substring(strNum.length() - 1));
+          int sum = 0;
+          for(int i = 0, mulNum = 2; i < strNum.length() - 1; i++, mulNum++) {
+            if(mulNum == 10) {
+              mulNum = 2;
+            }
+            sum += Integer.parseInt(strNum.substring(i, i + 1)) * mulNum;
+          }
+          if(11 - (sum % 11) == checkNum) {
+            lbl.setText("결과 : 형식이 맞습니다");
+          }else {
+            lbl.setText("결과 : 형식이 맞지 않습니다");
+          }
+        }
+
+      }
+    });
+    btn.setBounds(284, 9, 66, 23);
+    contentPane.add(btn);
+
+    lbl = new JLabel("결과");
+    lbl.setFont(new Font("D2Coding", Font.BOLD, 13));
+    lbl.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl.setBounds(12, 54, 352, 33);
+    contentPane.add(lbl);
+  }
 }
 ```
-###### textarea 
-
+###### JTextarea 
   - 엔터키를 사용해 여러 줄 입력 가능
 
   - 여러 줄 출력이 불가능한 JLabel의 문제점을 해결 
     
-    (단, editable 값을 false로 설정해서 입력하지 못하게 해야한다)
+    <small>!! 단, editable 값을 false로 설정해서 입력하지 못하게 해야한다</small>
 
 
 ```java
@@ -9492,69 +9413,64 @@ import javax.swing.ScrollPaneConstants;
 
 public class SwingEx01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTextArea textArea;
-	private JScrollPane scrollPane;
+  private JPanel contentPane;
+  private JTextArea textArea;
+  private JScrollPane scrollPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          SwingEx01 frame = new SwingEx01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public SwingEx01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx01 frame = new SwingEx01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		scrollPane = new JScrollPane();
+    scrollPane = new JScrollPane();
     // 스크롤 객체 추가
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    // 항상 수직 스크롤이 보이게 한다
-
-    // 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    // 항상 수직 스크롤이 보이게 한다 
+    // scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     // 필요할 때만 수직 스크롤이 보이게 한다
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    // 항상 수평 스크롤이 보이게한다
-
+    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    // 항상 수평 스크롤이 보이게한다  
     // scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     // 필요할 때문 수평 스크롤이 보이게 한다
-		scrollPane.setBounds(57, 31, 226, 177);
-		contentPane.add(scrollPane);
-		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
+    scrollPane.setBounds(57, 31, 226, 177);
+    contentPane.add(scrollPane);
+
+    textArea = new JTextArea();
+    scrollPane.setViewportView(textArea);
     // 내용 추가를 할 때, 영역을 벗어나면 더이상 추가되지 않는데, 
     // 스크롤 영역에 textArea를 포함시켜 스크롤을 사용하면 계속 추가 되고, 그 만큼 스크롤이 생긴다
-		
-		JButton btn =new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textArea.append("new Text" + System.lineSeparator());
-			}
-		});
-		btn.setBounds(295, 32, 97, 23);
-		contentPane.add(btn);
-	}
+
+    JButton btn =new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        textArea.append("new Text" + System.lineSeparator());
+      }
+    });
+    btn.setBounds(295, 32, 97, 23);
+    contentPane.add(btn);
+  }
 }
 ```
 구구단 출력하기
@@ -9579,123 +9495,115 @@ import javax.swing.SwingConstants;
 
 public class SwingEx01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField startStr;
-	private JTextField endStr;
-	private JTextArea result;
+  private JPanel contentPane;
+  private JTextField startStr;
+  private JTextField endStr;
+  private JTextArea result; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          SwingEx01 frame = new SwingEx01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public SwingEx01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx01 frame = new SwingEx01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uAD6C\uAD6C\uB2E8", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(6, 21, 463, 90);
+    contentPane.add(panel);
+    panel.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JLabel lbl1 = new JLabel("시작단");
+    lbl1.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl1.setBounds(6, 21, 57, 15);
+    panel.add(lbl1);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uAD6C\uAD6C\uB2E8", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(6, 21, 463, 90);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lbl1 = new JLabel("시작단");
-		lbl1.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl1.setBounds(6, 21, 57, 15);
-		panel.add(lbl1);
-		
-		startStr = new JTextField();
-		startStr.setBounds(75, 18, 247, 21);
-		panel.add(startStr);
-		startStr.setColumns(10);
-		
-		JLabel lbl2 = new JLabel("끝단");
-		lbl2.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl2.setBounds(6, 59, 57, 15);
-		panel.add(lbl2);
-		
-		endStr = new JTextField();
-		endStr.setBounds(75, 56, 247, 21);
-		panel.add(endStr);
-		endStr.setColumns(10);
-		
-		JButton btn = new JButton("구구단 출력");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			int startDan = Integer.parseInt(startStr.getText());
-			int endDan = Integer.parseInt(endStr.getText());
-			if(startDan >= endDan) {
-				result.setText("끝단은 시작단 보다 커야 합니다");
-				startStr.setText("");
-				endStr.setText("");
-			}else {
+    startStr = new JTextField();
+    startStr.setBounds(75, 18, 247, 21);
+    panel.add(startStr);
+    startStr.setColumns(10);
+
+    JLabel lbl2 = new JLabel("끝단");
+    lbl2.setHorizontalAlignment(SwingConstants.CENTER);
+    lbl2.setBounds(6, 59, 57, 15);
+    panel.add(lbl2);
+
+    endStr = new JTextField();
+    endStr.setBounds(75, 56, 247, 21);
+    panel.add(endStr);
+    endStr.setColumns(10);
+
+    JButton btn = new JButton("구구단 출력");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+      int startDan = Integer.parseInt(startStr.getText());
+      int endDan = Integer.parseInt(endStr.getText());
+      if(startDan >= endDan) {
+        result.setText("끝단은 시작단 보다 커야 합니다");
+        startStr.setText("");
+        endStr.setText("");
+      }else {
         textArea.setText(""); 
         // 버튼을 누를 때마다 내용이 추가되기 때문에 버튼을 누를 때마다 초기화 시켜야 한다
-				for(int i = startDan; i <= endDan; i++) {
-					for(int j = 1; j <= 9; j++) {
-						result.append(String.format(" %2d X %2d = %2d%t", i, j, i * j));
-					}
+        for(int i = startDan; i <= endDan; i++) {
+          for(int j = 1; j <= 9; j++) {
+            result.append(String.format(" %2d X %2d = %2d%t", i, j, i * j));
+          }
           result.append(System.lineSeparator());
-				}
-			}
-			}
-		});
-		btn.setBounds(341, 17, 103, 57);
-		panel.add(btn);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 153, 457, 217);
-		contentPane.add(scrollPane);
-		
-		result = new JTextArea();
-		result.setEditable(false);
-		scrollPane.setViewportView(result);
-	}
+        }
+      }
+      }
+    });
+    btn.setBounds(341, 17, 103, 57);
+    panel.add(btn);
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 153, 457, 217);
+    contentPane.add(scrollPane);
+
+    result = new JTextArea();
+    result.setEditable(false);
+    scrollPane.setViewportView(result);
+  }
 }
 ```
 ###### DAO (Data Access Object), DTO (Data Transfer Object)
 
 <img src="https://opensilex.github.io/docs-community-dev/img/global_dao_dto_model.png">
 
-- 역할에 따라 클래스를 분리시킨다
+- 데이터베이스에서 데이터를 가져올 때, 역할에 따라 클래스를 분리시킨다
 
-  1. 클래스
+    &rarr;  MVC (Model View Controller) 
+    - Model : 연결, 데이터 전송 
 
-  2. 분리  
+      <sup>ex) DAO(데이터, 파일과 연결해주는 객체), DTO(데이터 객체)</sup>
 
-      &rarr;  MVC (Model View Controller) 
-      - Model : 연결, 데이터 전송 
+      <small> !! 보통 sql문 하나당 한개의 메서드에 연결시킨다</small>
 
-        <sup>ex) DAO(데이터, 파일과 연결해주는 객체), DTO(데이터 객체)</sup>
+    - view : 디자인 
 
-        <small> !! 보통 sql문 하나당 한개의 메서드에 연결시킨다</small>
-
-      - view : 디자인 
-
-        <sup>ex) UI</sup>
-
-      - Controller : 흐름제어
+      <sup>ex) UI</sup>
+    - Controller : 흐름제어
 
 !! 우편번호 검사기를 분리해서 작성해보기 
 
@@ -9724,180 +9632,173 @@ import java.awt.Color;
 
 public class PostSearchTest extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField dongName;
-	private JTextArea resultArea;
-	private JScrollPane scrollPane;
-	private JPanel panel;
-	private JPanel panel_1;
+  private JPanel contentPane;
+  private JTextField dongName;
+  private JTextArea resultArea;
+  private JScrollPane scrollPane;
+  private JPanel panel;
+  private JPanel panel_1; 
 
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PostSearchTest frame = new PostSearchTest();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PostSearchTest frame = new PostSearchTest();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public PostSearchTest() {
+    setTitle("우편번호 검색기");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public PostSearchTest() {
-		setTitle("우편번호 검색기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    panel_1 = new JPanel();
+    panel_1.setBorder(null);
+    panel_1.setBounds(32, 24, 712, 485);
+    contentPane.add(panel_1);
+    panel_1.setLayout(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		panel_1 = new JPanel();
-		panel_1.setBorder(null);
-		panel_1.setBounds(32, 24, 712, 485);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBounds(0, 10, 712, 58);
-		panel_1.add(panel);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setLayout(null);
-		
-		dongName = new JTextField();
-		dongName.setBounds(6, 18, 503, 21);
-		panel.add(dongName);
-		dongName.setColumns(10);
-		
-		JButton btn = new JButton("우편번호 검색");
-		btn.setBounds(521, 17, 183, 23);
-		panel.add(btn);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 78, 708, 394);
-		panel_1.add(scrollPane);
-		
-		resultArea = new JTextArea();
-		scrollPane.setViewportView(resultArea);
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String url = "jdbc:mariadb://localhost:3306/project";
-				String user = "root";
-				String password = "123456";
-				
-				String dongStr = dongName.getText().trim();
-				
-				Connection conn = null;
-				Statement stmt = null;
-				ResultSet rs = null;
-				
-				try {
-					Class.forName("org.mariadb.jdbc.Driver");
-					
-					conn = DriverManager.getConnection(url, user, password);
-					stmt = conn.createStatement();
-					if(dongStr.length() < 2) {
-						resultArea.setText("두 자 이상 입력해야 됩니다");
-						dongName.setText("");
-					} else {
-						resultArea.setText("");
-						String selectSql = "select * from zipcode where dong like '" + dongStr + "%'";
-						rs = stmt.executeQuery(selectSql);
-						
-						while(rs.next()) {
+    panel = new JPanel();
+    panel.setBounds(0, 10, 712, 58);
+    panel_1.add(panel);
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setLayout(null);
+
+    dongName = new JTextField();
+    dongName.setBounds(6, 18, 503, 21);
+    panel.add(dongName);
+    dongName.setColumns(10);
+
+    JButton btn = new JButton("우편번호 검색");
+    btn.setBounds(521, 17, 183, 23);
+    panel.add(btn);
+
+    scrollPane = new JScrollPane();
+    scrollPane.setBounds(0, 78, 708, 394);
+    panel_1.add(scrollPane);
+
+    resultArea = new JTextArea();
+    scrollPane.setViewportView(resultArea);
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String url = "jdbc:mariadb://localhost:3306/project";
+        String user = "root";
+        String password = "123456";
+
+        String dongStr = dongName.getText().trim();
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+          Class.forName("org.mariadb.jdbc.Driver"); 
+          conn = DriverManager.getConnection(url, user, password);
+          stmt = conn.createStatement();
+          if(dongStr.length() < 2) {
+            resultArea.setText("두 자 이상 입력해야 됩니다");
+            dongName.setText("");
+          } else {
+            resultArea.setText("");
+            String selectSql = "select * from zipcode where dong like '" + dongStr + "%'";
+            rs = stmt.executeQuery(selectSql);  
+            while(rs.next()) {
               String zipcode = rs.getString("zipcode");
               String sido = rs.getString("sido");
               String gugun = rs.getString("gugun");
               String dong = rs.getString("dong");
               String ri = rs.getString("ri");
               String bungi = rs.getString("bunji");
-							String resultStr = String.format("[%s] %s %s %s %s %s", zipcode, sido, gugun, dong, ri, bunji);
-							resultArea.append(resultStr + System.lineSeparator());
-						}
+              String resultStr = String.format("[%s] %s %s %s %s %s", zipcode, sido, gugun, dong, ri, bunji);
+              resultArea.append(resultStr + System.lineSeparator());
+            }
             if(resultArea.getText().equals("")){
               resultArea.setText("검색 결과가 없습니다");
             }
-					}
-				} catch (ClassNotFoundException e1) {
-					System.out.println("에러 : " + e1.getMessage());
-				} catch (SQLException e1) {
-					System.out.println("에러 : " + e1.getMessage());
-				} finally {
-					if(rs != null) try {rs.close();} catch(SQLException e1) {}
-					if(stmt != null) try {stmt.close();} catch(SQLException e1) {}
-					if(conn != null) try {conn.close();} catch(SQLException e1) {}
-				}
-			}
-		});
-	}
+          }
+        } catch (ClassNotFoundException e1) {
+          System.out.println("에러 : " + e1.getMessage());
+        } catch (SQLException e1) {
+          System.out.println("에러 : " + e1.getMessage());
+        } finally {
+          if(rs != null) try {rs.close();} catch(SQLException e1) {}
+          if(stmt != null) try {stmt.close();} catch(SQLException e1) {}
+          if(conn != null) try {conn.close();} catch(SQLException e1) {}
+        }
+      }
+    });
+  }
 
 }
 ```
 
 ```java
 // ZipcodeTO.java
-
 public class ZipcodeTO {
-	private String zipcode;
-	private String sido;
-	private String gugun;
-	private String dong;
-	private String ri;
-	private String bunji;
-	private String seq;
-	
-	public String getZipcode() {
-		return zipcode;
-	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-	public String getSido() {
-		return sido;
-	}
-	public void setSido(String sido) {
-		this.sido = sido;
-	}
-	public String getGugun() {
-		return gugun;
-	}
-	public void setGugun(String gugun) {
-		this.gugun = gugun;
-	}
-	public String getDong() {
-		return dong;
-	}
-	public void setDong(String dong) {
-		this.dong = dong;
-	}
-	public String getRi() {
-		return ri;
-	}
-	public void setRi(String ri) {
-		this.ri = ri;
-	}
-	public String getBunji() {
-		return bunji;
-	}
-	public void setBunji(String bunji) {
-		this.bunji = bunji;
-	}
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+  private String seq; 
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode)  {
+    this.zipcode = zipcode  
+
+  public String getSido()   
+    return sido 
+
+  public void setSido(String sido)  
+    this.sido = sido  
+
+  public String getGugun()  
+    return gugun  
+
+  public void setGugun(String gugun)  
+    this.gugun = gugun  
+
+  public String getDong()   
+    return dong 
+
+  public void setDong(String dong)  
+    this.dong = dong  
+
+  public String getRi()   
+    return ri 
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
 	
 }
 
@@ -9911,58 +9812,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZipcodeDAO {
-	private Connection conn;
-	public ZipcodeDAO() {
-		String url = "jdbc:mariadb://localhost:3306/project";
-		String user = "root";
-		String password = "123456";
-		
-		conn = null;
-		
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			
-			this.conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} 
-	}
-	
-	public List<ZipcodeTO> searchZipcode(String dongName){
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		List<ZipcodeTO> addresses = new ArrayList<>();
-		
-		try {
-			String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dongName + '%' );
-      rs = pstmt.executeQuery();
-			while(rs.next()) {
-				ZipcodeTO to = new ZipcodeTO();
-				to.setZipcode(rs.getString("zipcode"));
-				to.setSido(rs.getString("sido"));
-				to.setGugun(rs.getString("gugun"));
-				to.setDong(rs.getString("dong"));
-				to.setRi(rs.getString("ri"));
-				to.setBunji(rs.getString("bunji"));
+  private Connection conn;
 
-				addresses.add(to);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return addresses;
-	}
+  public ZipcodeDAO() {
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "root";
+    String password = "123456";
+
+    conn = null;
+
+    try {
+      Class.forName("org.mariadb.jdbc.Driver"); 
+      this.conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } 
+  }
+
+  public List<ZipcodeTO> searchZipcode(String dongName){
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    List<ZipcodeTO> addresses = new ArrayList<>();
+
+    try {
+      String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, dongName + '%' );
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO to = new ZipcodeTO();
+        to.setZipcode(rs.getString("zipcode"));
+        to.setSido(rs.getString("sido"));
+        to.setGugun(rs.getString("gugun"));
+        to.setDong(rs.getString("dong"));
+        to.setRi(rs.getString("ri"));
+        to.setBunji(rs.getString("bunji")); 
+        addresses.add(to);
+      } 
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return addresses;
+  }
 }
 
 // PostSearchTest.java
@@ -9992,148 +9891,142 @@ import java.awt.Color;
 
 public class PostSearchTest extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField dongName;
-	private JTextArea resultArea;
-	private JScrollPane scrollPane;
-	private JPanel panel;
-	private JPanel panel_1;
+  private JPanel contentPane;
+  private JTextField dongName;
+  private JTextArea resultArea;
+  private JScrollPane scrollPane;
+  private JPanel panel;
+  private JPanel panel_1; 
 
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PostSearchTest frame = new PostSearchTest();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PostSearchTest frame = new PostSearchTest();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public PostSearchTest() {
+    setTitle("우편번호 검색기");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public PostSearchTest() {
-		setTitle("우편번호 검색기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    panel_1 = new JPanel();
+    panel_1.setBorder(null);
+    panel_1.setBounds(32, 24, 712, 485);
+    contentPane.add(panel_1);
+    panel_1.setLayout(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		panel_1 = new JPanel();
-		panel_1.setBorder(null);
-		panel_1.setBounds(32, 24, 712, 485);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBounds(0, 10, 712, 58);
-		panel_1.add(panel);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setLayout(null);
-		
-		dongName = new JTextField();
-		dongName.setBounds(6, 18, 503, 21);
-		panel.add(dongName);
-		dongName.setColumns(10);
-		
-		JButton btn = new JButton("우편번호 검색");
-		btn.setBounds(521, 17, 183, 23);
-		panel.add(btn);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 78, 708, 394);
-		panel_1.add(scrollPane);
-		
-		resultArea = new JTextArea();
-		scrollPane.setViewportView(resultArea);
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String dongStr = dongName.getText();
+    panel = new JPanel();
+    panel.setBounds(0, 10, 712, 58);
+    panel_1.add(panel);
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setLayout(null);
 
-					if(dongStr.trim().length() < 2) {
-						JOptionPane.showMessageDialog(PostSearchTest.this, "동이름을 두자 이상 입력해야 합니다", "에러", JOptionPane.ERROR_MESSAGE);
-					} else {
-						resultArea.setText("");
-						ZipcodeDAO dao = new ZipcodeDAO();
-						List<ZipcodeTO> addresses = dao.searchZipcode(dongStr);
-						for(ZipcodeTO to : addresses) {
-							String address = String.format("[%s] %s %s %s %s %s%n", to.getZipcode(),to.getSido(),to.getGugun(),to.getDong(),to.getRi(),to.getBunji());
-							resultArea.append(address);
-						}
-						if(resultArea.getText().trim().equals("")) {
-							JOptionPane.showMessageDialog(PostSearchTest.this, "검색 결과가 없습니다", "에러", JOptionPane.ERROR_MESSAGE);
-							dongName.setText("");
-						}
-					}
-			}
-		});
-	}
+    dongName = new JTextField();
+    dongName.setBounds(6, 18, 503, 21);
+    panel.add(dongName);
+    dongName.setColumns(10);
+
+    JButton btn = new JButton("우편번호 검색");
+    btn.setBounds(521, 17, 183, 23);
+    panel.add(btn);
+
+    scrollPane = new JScrollPane();
+    scrollPane.setBounds(0, 78, 708, 394);
+    panel_1.add(scrollPane);
+
+    resultArea = new JTextArea();
+    scrollPane.setViewportView(resultArea);
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String dongStr = dongName.getText();  
+          if(dongStr.trim().length() < 2) {
+            JOptionPane.showMessageDialog(PostSearchTest.this, "동이름을 두자 이상 입력해야 합니다", "에러", JOptionPane.ERROR_MESSAGE);
+          } else {
+            resultArea.setText("");
+            ZipcodeDAO dao = new ZipcodeDAO();
+            List<ZipcodeTO> addresses = dao.searchZipcode(dongStr);
+            for(ZipcodeTO to : addresses) {
+            	String address = String.format("[%s] %s %s %s %s %s%n", to.getZipcode(),to.getSido(),to.getGugun(),to.getDong(),to.getRi(),to.getBunji());
+            	resultArea.append(address);
+            }
+            if(resultArea.getText().trim().equals("")) {
+            	JOptionPane.showMessageDialog(PostSearchTest.this, "검색 결과가 없습니다", "에러", JOptionPane.ERROR_MESSAGE);
+            	dongName.setText("");
+            }
+          }
+      }
+    });
+  }
 
 }
 ```
 부서이름 검색기
 ```java
 // DeptTO.java
-
 public class DeptTO {
-	private String deptno;
-	private String loc;
-	private String empno;
-	private String ename;
-	private String job;
-	private String sal;
-	
-	public String getDeptno() {
-		return deptno;
-	}
-	public void setDeptno(String deptno) {
-		this.deptno = deptno;
-	}
-	public String getLoc() {
-		return loc;
-	}
-	public void setLoc(String loc) {
-		this.loc = loc;
-	}
-	public String getEmpno() {
-		return empno;
-	}
-	public void setEmpno(String empno) {
-		this.empno = empno;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-	public String getJob() {
-		return job;
-	}
-	public void setJob(String job) {
-		this.job = job;
-	}
-	public String getSal() {
-		return sal;
-	}
-	public void setSal(String sal) {
-		this.sal = sal;
-	}
+  private String deptno;
+  private String loc;
+  private String empno;
+  private String ename;
+  private String job;
+  private String sal;
+
+  public String getDeptno() {
+    return deptno;
+  }
+  public void setDeptno(String deptno) {
+    this.deptno = deptno;
+  }
+  public String getLoc() {
+    return loc;
+  }
+  public void setLoc(String loc) {
+    this.loc = loc;
+  }
+  public String getEmpno() {
+    return empno;
+  }
+  public void setEmpno(String empno) {
+    this.empno = empno;
+  }
+  public String getEname() {
+    return ename;
+  }
+  public void setEname(String ename) {
+    this.ename = ename;
+  }
+  public String getJob() {
+    return job;
+  }
+  public void setJob(String job) {
+    this.job = job;
+  }
+  public String getSal() {
+    return sal;
+  }
+  public void setSal(String sal) {
+    this.sal = sal;
+  }
 }
 
 // DeptDAO.java
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10143,55 +10036,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeptDAO {
-	private Connection conn = null;
-	
-	public DeptDAO() {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-		
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			this.conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		
-	}
-	
-	public List<DeptTO> deptSearch(String dname) {
-		List<DeptTO> informations = new ArrayList<>();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			String sqlSelect = "select d.deptno, d.loc, e.empno, e.ename, e.job, e.sal from emp e inner join dept d where d.dname = ?";
-			pstmt = conn.prepareStatement(sqlSelect);
-			pstmt.setString(1, dname);
-			rs = pstmt.executeQuery();
-			while(rs.next()	) {
-				DeptTO dt = new DeptTO();
-				dt.setDeptno(rs.getString("deptno"));
-				dt.setLoc(rs.getString("loc"));
-				dt.setEmpno(rs.getString("empno"));
-				dt.setEname(rs.getString("ename"));
-				dt.setJob(rs.getString("job"));
-				dt.setSal(rs.getString("sal"));
-				
-				informations.add(dt);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally{
+  private Connection conn = null;
+
+  public DeptDAO() {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      this.conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  
+  }
+
+  public List<DeptTO> deptSearch(String dname) {
+    List<DeptTO> informations = new ArrayList<>();
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    try {
+      String sqlSelect = "select d.deptno, d.loc, e.empno, e.ename, e.job, e.sal from emp e inner join dept d where d.dname = ?";
+      pstmt = conn.prepareStatement(sqlSelect);
+      pstmt.setString(1, dname);
+      rs = pstmt.executeQuery();
+      while(rs.next()	) {
+        DeptTO dt = new DeptTO();
+        dt.setDeptno(rs.getString("deptno"));
+        dt.setLoc(rs.getString("loc"));
+        dt.setEmpno(rs.getString("empno"));
+        dt.setEname(rs.getString("ename"));
+        dt.setJob(rs.getString("job"));
+        dt.setSal(rs.getString("sal"));
+
+        informations.add(dt);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally{
       if(pstmt != null) try{pstmt.close();} catch(SQLException e){}
       if(rs != null) try{rs.close();} catch(SQLException e){}
       if(conn != null) try{conn.close();} catch(SQLException e){}
     }
-		return informations; 
-	}
+    return informations; 
+  }
 }
 
 // DeptSearch.java
@@ -10215,91 +10107,86 @@ import java.awt.Color;
 
 public class DeptSearch extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField input;
-	private JTextArea resultArea;
-	private JPanel panel;
+  private JPanel contentPane;
+  private JTextField input;
+  private JTextArea resultArea;
+  private JPanel panel; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          DeptSearch frame = new DeptSearch();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public DeptSearch() {
+    setTitle("부서이름 검색기");
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DeptSearch frame = new DeptSearch();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uBD80\uC11C\uC774\uB984 \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(36, 33, 694, 51);
+    contentPane.add(panel);
+    panel.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public DeptSearch() {
-		setTitle("부서이름 검색기");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    input = new JTextField();
+    input.setBounds(6, 18, 515, 21);
+    panel.add(input);
+    input.setColumns(10);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uBD80\uC11C\uC774\uB984 \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(36, 33, 694, 51);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		input = new JTextField();
-		input.setBounds(6, 18, 515, 21);
-		panel.add(input);
-		input.setColumns(10);
-		
-		JButton btn = new JButton("부서이름 검색");
-		btn.setBounds(533, 17, 155, 23);
-		panel.add(btn);
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String dname = input.getText();
-				if(dname.trim().equals("")) {
-					resultArea.setText("  검색어를 입력해주세요" + System.lineSeparator() + System.lineSeparator());
-					resultArea.append(" 부서이름 : ACCOUNTING, RESEARCH, SALES, OPERATIONS");
-				}else {
-					resultArea.setText("");
-					DeptDAO dao = new DeptDAO();
-					
-					List<DeptTO> to = new ArrayList<>();
-					
-					to = dao.deptSearch(dname);
-					resultArea.append("부서번호\t부서위치\t사원번호\t사원이름\t직책\t급여" + System.lineSeparator());
-					for(DeptTO data : to) {
-						String result = String.format("%s\t%s\t%s\t%s\t%s\t%s", data.getDeptno(), data.getLoc(), data.getEmpno(), data.getEname(), data.getJob(), data.getSal());
-						resultArea.append(result + System.lineSeparator());
-					}
-					input.setText("");
-				}
-			}
-		});
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 88, 694, 428);
-		contentPane.add(scrollPane);
-		
-		resultArea = new JTextArea();
-		resultArea.setEditable(false);
-		scrollPane.setViewportView(resultArea);
-	}
+    JButton btn = new JButton("부서이름 검색");
+    btn.setBounds(533, 17, 155, 23);
+    panel.add(btn);
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String dname = input.getText();
+        if(dname.trim().equals("")) {
+          resultArea.setText("  검색어를 입력해주세요" + System.lineSeparator() + System.lineSeparator());
+          resultArea.append(" 부서이름 : ACCOUNTING, RESEARCH, SALES, OPERATIONS");
+        }else {
+          resultArea.setText("");
+          DeptDAO dao = new DeptDAO();  
+          List<DeptTO> to = new ArrayList<>();  
+          to = dao.deptSearch(dname);
+          resultArea.append("부서번호\t부서위치\t사원번호\t사원이름\t직책\t급여" + System.lineSeparator());
+          for(DeptTO data : to) {
+            String result = String.format("%s\t%s\t%s\t%s\t%s\t%s", data.getDeptno(), data.getLoc(), data.getEmpno(), data.getEname(), data.getJob(), data.getSal());
+          	resultArea.append(result + System.lineSeparator());
+          }
+          input.setText("");
+        }
+      }
+    });
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(36, 88, 694, 428);
+    contentPane.add(scrollPane);
+
+    resultArea = new JTextArea();
+    resultArea.setEditable(false);
+    scrollPane.setViewportView(resultArea);
+  }
 
 }
 ```
-###### passwordfield
+###### JPasswordfield
 
 ```java
 import java.awt.EventQueue;
@@ -15703,14 +15590,15 @@ public class JuminCheckMain extends JFrame {
 ```
 ## 네트워크
 
+- IP(Internet Protocol) : 전세계의 컴퓨터의 네트워크 카드에 IP를 부여한다 
+
 - 종류
-  - 인트라넷 : 사내망, 라우터(통신사 공유기) 내부에 있는 망
+  - 인트라넷 : 라우터(통신사 공유기) 내부에 있는 망으로 보통 사내망이라 불린다
 
-    <small> ex) 192.168.XXX.XXX</small>
+    <small> !! 인트라넷 IP는 보통 "192.168.XXX.XXX"의 형식이다</small>
 
-  - 인터넷 : 외부망, 라우터(통신사 공유기) 외부에 있는 망
+  - 인터넷 : 라우터(통신사 공유기) 외부에 있는 망으로 외부망이라 불린다
     
-    <small> IP(Internet Protocol) : 전세계의 컴퓨터의 네트워크 카드에 IP를 부여한다 
 
     ```java
     PS C:\java\study> ipconfig /all
@@ -15731,7 +15619,7 @@ public class JuminCheckMain extends JFrame {
       DHCP 사용 . . . . . . . . . : 예
       자동 구성 사용. . . . . . . : 예
       링크-로컬 IPv6 주소 . . . . : fe80::89cc:dab:6f2f:cfd1%4(기본 설정)
-      IPv4 주소 . . . . . . . . . : 192.168.0.87(기본 설정)
+      IPv4 주소 . . . . . . . . . : 192.168.0.87(기본 설정) // 인트라넷 IP
       서브넷 마스크 . . . . . . . : 255.255.255.0
       임대 시작 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 8:33:56
       임대 만료 날짜. . . . . . . : 2023년 4월 13일 목요일 오전 11:33:56
@@ -15743,25 +15631,8 @@ public class JuminCheckMain extends JFrame {
                                     168.126.63.2
       Tcpip를 통한 NetBIOS. . . . : 사용
     ```
-</small>
-
-- 외부에서 프로그램에 접근하기 위한 3요소
-  - 프로토콜(전송규약) 
-  
-    <sup> ex) http</sup>
-
-  - ip
-
-  - port : 포트의 번호는 대부분 기본값을 가지고 있고, 기본값은 생략이 가능하다
-
-    ||포트번호|
-    |:--:|:--:|
-    |http | 8080|
-    |https| 443|
-    |mail | 25|
-    |mariadb | 3306|
-
 - ip 확인 cmd 명령어
+
 ```java
 PS C:\java\study> ipconfig
 
@@ -15979,7 +15850,24 @@ PS C:\java\study> netstat -an
   UDP    [fe80::89cc:dab:6f2f:cfd1%4]:1900  *:*
   UDP    [fe80::89cc:dab:6f2f:cfd1%4]:50442  *:*
 ```
-- 프로그램 간의 역할
+- 네트워크로 접근하기 위한 3요소
+  - 프로토콜(전송규약) 
+  
+    <sup> ex) http</sup>
+
+  - ip
+
+  - port : 포트의 번호는 대부분 기본값을 가지고 있고, 기본값은 생략이 가능하다
+
+    ||포트번호|
+    |:--:|:--:|
+    |http | 8080|
+    |https| 443|
+    |mail | 25|
+    |mariadb | 3306|
+
+
+- 네트워크를 사용하는 프로그램의 종류
 
   - C / S : 클라이언트(요청) 프로그램과 서버(응답)프로그램이 네트워크를 통해 상호작용한다
   
@@ -15990,6 +15878,7 @@ PS C:\java\study> netstat -an
     <sup> ex) 블록체인</sup>
 
 ### 데이터크롤링(스크래핑)
+- 네트워크를 이용해 데이터를 얻는것을 데이터크롤링이라고 한다
 
 - 데이터 형식
   - text(csv)
@@ -16049,6 +15938,8 @@ public class Ex01 {
 ```
 
 #### URL
+
+- I / O 클래스와 같이 사용해 특정 url에 있는 데이터를 가져온다
 
 ```java
 import java.net.MalformedURLException;
@@ -16197,6 +16088,8 @@ public class Ex05 {
 
 #### URLConnection 
 
+- URL 클래스의 객체를 통해 특정 url과 연결한다
+
 ```java
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16232,7 +16125,7 @@ public class Ex06 {
 #### HttpURLConnection
 
  
-- URLConnection과 비슷하다
+- URLConnection과 비슷하게 URL 클래스의 객체를 사용해 특정 url과 연결시키지만, URLConnection 클래스와 달리 형변환 시켜서 사용해야 한다
 ```java
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16447,9 +16340,8 @@ public class Ex08 extends JFrame {
 	
 }
 ```
-
 #### Jsoup 
-- 외부 API
+- 외부 API로 html 문서를 구문분석해 정렬하고, 특정 요소를 가져올 수 있게 한다
 
   <sup> https://jsoup.org/ 참조</sup>
 
@@ -16859,7 +16751,9 @@ public class NewsMain extends JFrame {
 }
 ```
 
-#### OpenAPI
+### OpenAPI
+
+- 외부 API로 공식적으로 제공하는 사이트가 있다
 
 - text 또는 Library(API) 형식으로 데이터를 제공한다
 
@@ -16875,7 +16769,7 @@ public class NewsMain extends JFrame {
 
   - Library(API)
 
-##### XML 데이터 가져오기
+#### XML 데이터 가져오기
 ```java
 package parsing;
 
@@ -16975,7 +16869,7 @@ public class Ex03 {
 
 }
 ```
-##### JSON 데이터 가져오기
+#### JSON 데이터 가져오기
 ```java
 package parsing;
 
@@ -17071,25 +16965,27 @@ public class Ex04 {
 }
 ```
 ### Socket
-	
+- socket을 이용해 자바 프로그램간 데이터를 주고 받을 수 있다
 - 종류
-	- ServerSocket : 제공자용 소켓으로 여러 개의 소켓과 연결되어 데이터를 제공한다
+	- ServerSocket : 제공자용 소켓으로 여러 개의 socket과 연결되어 데이터를 제공한다
 		
-		- 전송규약 
-			- TCP (Transmission Control Protocol) : 전화처럼 상호적으로 작동(확인 / 응답)하기 때문에 속도가 느리다
-				
-				<sup> ex) http</sup>
-				
-				<small> https://www.cloudflare.com/ko-kr/learning/ddos/glossary/tcp-ip/ 참조</small>
-					
-				<img src="https://www.cloudflare.com/img/learning/cdn/tls-ssl/tcp-handshake-diagram.png">
-					
-			- UDP (User Diagram Protocol) : 방송처럼 상대방의 응답을 확인하지 않는다
-		
-		- 포트
 		
 	- Socket : 서버소켓에 연결되어 데이터를 제공받는다
-		
+
+- socket으로 데이터를 주고 받을 때 전송규약과 포트를 이용한다
+
+	- 전송규약 
+		- TCP (Transmission Control Protocol) : 전화처럼 상호적으로 작동(확인 / 응답)하기 때문에 속도가 느리다
+			
+			<sup> ex) http</sup>
+			
+			<small> https://www.cloudflare.com/ko-kr/learning/ddos/glossary/tcp-ip/ 참조</small>
+				
+			<img src="https://www.cloudflare.com/img/learning/cdn/tls-ssl/tcp-handshake-diagram.png">
+				
+		- UDP (User Diagram Protocol) : 방송처럼 상대방의 응답을 확인하지 않는다
+	
+	- port : 한개의 포트는 한개의 프로그램에만 사용할 수 있다
 ```java
 // TCPServerEx.java
 package pack1;
@@ -17106,7 +17002,6 @@ public class TCPServerEx {
 		
 		try {
 			serverSocket = new ServerSocket(7777);
-			// 한개의 포트는 한개의 프로그램만 사용할 수 있다
 			// 7777 포트를 사용하는 서버소켓을 만든다
 			
 			System.out.println("서버가 준비되었습니다.");
@@ -17522,6 +17417,112 @@ public class TCPClientEx01 {
 클라이언트가 연결되었습니다.
 메시지 : 안녕 에코 서버
 전송이 완료되었습니다
+```
+
+```java
+// GugudanClient.java
+package gugudanPack;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
+public class GugudanClient {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+				
+		try {
+			socket = new Socket("localhost", 7777);
+			System.out.println("서버와 연결 완료");
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			System.out.print("단을 입력하세요 >");
+			Scanner scanner = new Scanner(System.in);
+			String dan = scanner.nextLine();
+			bw.write(dan + System.lineSeparator());
+			bw.flush();
+			System.out.println(dan + "단 출력");
+			
+			String msg = br.readLine();
+			msg = msg.replaceAll(":", "\n");
+			System.out.println(msg);
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
+// GugudanServer.java
+package gugudanPack;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class GugudanServer {
+
+	public static void main(String[] args) {
+		ServerSocket server = null;
+		Socket socket = null;
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		
+		try {
+			server = new ServerSocket(7777);
+			System.out.println("서버 준비 완료");
+			socket = server.accept();
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			System.out.println("클라이언트 연결 완료");
+			
+			String msg = br.readLine();
+			
+			int dan = Integer.parseInt(msg.trim());
+			System.out.println("dan : " + dan);
+			String result = "";
+			
+			for(int i = 1; i <= 9; i++) {
+				result += String.format("%d X %d = %d:", dan, i, dan * i);
+			}
+			
+			bw.write(result + System.lineSeparator());
+			bw.flush();
+			
+			System.out.println("구구단 전송 완료");
+			System.out.println("연결 종료");
+		} catch (NumberFormatException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(server != null) try {server.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
 ```
 
 	
