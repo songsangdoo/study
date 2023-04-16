@@ -10188,6 +10188,7 @@ public class DeptSearch extends JFrame {
 ```
 ###### JPasswordfield
 
+- 입력한 텍스트가 보이지 않는다
 ```java
 import java.awt.EventQueue;
 
@@ -10200,57 +10201,53 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SwingEx06 extends JFrame {
+public class SwingEx06 extends JFrame { 
+  private JPanel contentPane;
+  private JPasswordField passwordField; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          SwingEx06 frame = new SwingEx06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public SwingEx06() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	private JPanel contentPane;
-	private JPasswordField passwordField;
+    passwordField = new JPasswordField();
+    passwordField.setBounds(12, 10, 249, 21);
+    contentPane.add(passwordField);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(12, 10, 249, 21);
-		contentPane.add(passwordField);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(new String(passwordField.getPassword()));
-				// JPasswordfield의 값을 출력
-			}
-		});
-		btnNewButton.setBounds(280, 9, 97, 23);
-		contentPane.add(btnNewButton);
-	}
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println(new String(passwordField.getPassword()));
+        // JPasswordfield의 값을 출력
+      }
+    });
+    btnNewButton.setBounds(280, 9, 97, 23);
+    contentPane.add(btnNewButton);
+  }
 }
 ```
-###### checkbox
+###### JCheckBox
 
 ```java
 import java.awt.EventQueue;
@@ -10268,136 +10265,132 @@ import javax.swing.JToggleButton;
 
 public class SwingEx06 extends JFrame {
 
-	private JPanel contentPane;
-	private JCheckBox check1;
-	private JCheckBox check2;
-	private JCheckBox check3;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btn3;
+  private JPanel contentPane;
+  private JCheckBox check1;
+  private JCheckBox check2;
+  private JCheckBox check3;
+  private JButton btnNewButton_1;
+  private JButton btnNewButton_2;
+  private JButton btn3; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          SwingEx06 frame = new SwingEx06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public SwingEx06() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    check1 = new JCheckBox("수박");
+    check1.setBounds(8, 81, 115, 23);
+    contentPane.add(check1);
 
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    check2 = new JCheckBox("참외");
+    check2.setBounds(8, 106, 115, 23);
+    contentPane.add(check2);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		check1 = new JCheckBox("수박");
-		check1.setBounds(8, 81, 115, 23);
-		contentPane.add(check1);
-		
-		check2 = new JCheckBox("참외");
-		check2.setBounds(8, 106, 115, 23);
-		contentPane.add(check2);
-		
-		check3 = new JCheckBox("딸기");
-		check3.setBounds(8, 131, 115, 23);
-		contentPane.add(check3);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(check1.isSelected());
-				System.out.println(check2.isSelected());
-				System.out.println(check3.isSelected());
-				// 체크되어 있으면 true, 아니면 false
-				System.out.println(check1.getText());
-				System.out.println(check2.getText());
-				System.out.println(check3.getText());
-				// 체크 여부 상관없이 무조건 텍스트 내용을 가져온다
-				
-				String result = "";
-				if(check1.isSelected()) {
-					result += check1.getText() + " ";
-				}
-				if(check2.isSelected()) {
-					result += check2.getText() + " ";
-				}
-				if(check3.isSelected()) {
-					result += check3.getText();
-				}
-				System.out.println("결과 : " + result);
-			}
-		});
-		btnNewButton.setBounds(12, 170, 97, 23);
-		contentPane.add(btnNewButton);
-		
-		btnNewButton_1 = new JButton("전체선택");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			check1.setSelected(true);
-			check2.setSelected(true);
-			check3.setSelected(true);
-			}
-		});
-		btnNewButton_1.setBounds(8, 10, 97, 23);
-		contentPane.add(btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("선택 해제");
-		btnNewButton_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				check1.setSelected(false);
-				check2.setSelected(false);
-				check3.setSelected(false);
-			}
-		});
-		btnNewButton_2.setBounds(117, 10, 97, 23);
-		contentPane.add(btnNewButton_2);
-		
-		btn3 = new JButton("전체선택");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(btn3.getText().equals("전체선택")) {
-					btn3.setText("전체해제");
-					check1.setSelected(true);
-					check2.setSelected(true);
-					check3.setSelected(true);
-				}else {
-					btn3.setText("전체선택");
-					check1.setSelected(false);
-					check2.setSelected(false);
-					check3.setSelected(false);
-				}
-			}
-		});
-		btn3.setBounds(8, 43, 97, 23);
-		contentPane.add(btn3);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
-		// 토글버튼을 누르면 눌린 상태로 있고, 다시 누르면 원래 상태로 돌아온다
-		tglbtnNewToggleButton.setBounds(117, 43, 135, 23);
-		contentPane.add(tglbtnNewToggleButton);
-	}
+    check3 = new JCheckBox("딸기");
+    check3.setBounds(8, 131, 115, 23);
+    contentPane.add(check3);
+
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println(check1.isSelected());
+        System.out.println(check2.isSelected());
+        System.out.println(check3.isSelected());
+        // 체크되어 있으면 true, 아니면 false
+        System.out.println(check1.getText());
+        System.out.println(check2.getText());
+        System.out.println(check3.getText());
+        // 체크 여부 상관없이 무조건 텍스트 내용을 가져온다 
+        String result = "";
+        if(check1.isSelected()) {
+          result += check1.getText() + " ";
+        }
+        if(check2.isSelected()) {
+          result += check2.getText() + " ";
+        }
+        if(check3.isSelected()) {
+          result += check3.getText();
+        }
+        System.out.println("결과 : " + result);
+      }
+    });
+    btnNewButton.setBounds(12, 170, 97, 23);
+    contentPane.add(btnNewButton);
+
+    btnNewButton_1 = new JButton("전체선택");
+    btnNewButton_1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+      check1.setSelected(true);
+      check2.setSelected(true);
+      check3.setSelected(true);
+      }
+    });
+    btnNewButton_1.setBounds(8, 10, 97, 23);
+    contentPane.add(btnNewButton_1);
+
+    btnNewButton_2 = new JButton("선택 해제");
+    btnNewButton_2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        check1.setSelected(false);
+        check2.setSelected(false);
+        check3.setSelected(false);
+      }
+    });
+    btnNewButton_2.setBounds(117, 10, 97, 23);
+    contentPane.add(btnNewButton_2);
+
+    btn3 = new JButton("전체선택");
+    btn3.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(btn3.getText().equals("전체선택")) {
+          btn3.setText("전체해제");
+          check1.setSelected(true);
+          check2.setSelected(true);
+          check3.setSelected(true);
+        }else {
+          btn3.setText("전체선택");
+          check1.setSelected(false);
+          check2.setSelected(false);
+          check3.setSelected(false);
+        }
+      }
+    });
+    btn3.setBounds(8, 43, 97, 23);
+    contentPane.add(btn3);
+
+    JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+    // 토글버튼을 누르면 눌린 상태로 있고, 다시 누르면 원래 상태로 돌아온다
+    tglbtnNewToggleButton.setBounds(117, 43, 135, 23);
+    contentPane.add(tglbtnNewToggleButton);
+  }
 }
 ```
-###### radio
+###### JRadioButton
 ```java
 import java.awt.EventQueue;
 
@@ -10416,80 +10409,78 @@ import javax.swing.ButtonGroup;
 
 public class SwingEx06 extends JFrame {
 
-	private JPanel contentPane;
-	private JRadioButton radio1;
-	private JRadioButton radio2;
-	private JRadioButton radio3;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	// 라디오 버튼을 묶어주기 위해 ButtonGroup 객체를 사용한다
+  private JPanel contentPane;
+  private JRadioButton radio1;
+  private JRadioButton radio2;
+  private JRadioButton radio3;
+  private final ButtonGroup buttonGroup = new ButtonGroup();
+  // 라디오 버튼을 묶어주기 위해 ButtonGroup 객체를 사용한다  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          SwingEx06 frame = new SwingEx06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public SwingEx06() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SwingEx06 frame = new SwingEx06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    radio1 = new JRadioButton("수박");
+    buttonGroup.add(radio1);
+    // radio1 라디오 버튼을 buttonGroup에 추가
+    radio1.setBounds(8, 6, 121, 23);
+    contentPane.add(radio1);
 
-	/**
-	 * Create the frame.
-	 */
-	public SwingEx06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    radio2 = new JRadioButton("딸기");
+    buttonGroup.add(radio2);
+    // radio2 라디오 버튼을 buttonGroup에 추가
+    radio2.setBounds(8, 31, 121, 23);
+    contentPane.add(radio2);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		radio1 = new JRadioButton("수박");
-		buttonGroup.add(radio1);
-		// radio1 라디오 버튼을 buttonGroup에 추가
-		radio1.setBounds(8, 6, 121, 23);
-		contentPane.add(radio1);
-		
-		radio2 = new JRadioButton("딸기");
-		buttonGroup.add(radio2);
-		// radio2 라디오 버튼을 buttonGroup에 추가
-		radio2.setBounds(8, 31, 121, 23);
-		contentPane.add(radio2);
-		
-		radio3 = new JRadioButton("사과");
-		buttonGroup.add(radio3);
-		// radio3 라디오 버튼을 buttonGroup에 추가
-		radio3.setBounds(8, 56, 121, 23);
-		contentPane.add(radio3);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(radio1.isSelected()) {
-					System.out.println(radio1.getText())
-				}else if(radio2.isSelected()) {
-					System.out.println(radio2.getText());
-				}else {
-					System.out.println(radio3.getText());
-				}
-			}
-		});
-		btnNewButton.setBounds(8, 85, 97, 23);
-		contentPane.add(btnNewButton);
-	}
+    radio3 = new JRadioButton("사과");
+    buttonGroup.add(radio3);
+    // radio3 라디오 버튼을 buttonGroup에 추가
+    radio3.setBounds(8, 56, 121, 23);
+    contentPane.add(radio3);
+
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(radio1.isSelected()) {
+          System.out.println(radio1.getText())
+        }else if(radio2.isSelected()) {
+          System.out.println(radio2.getText());
+        }else {
+          System.out.println(radio3.getText());
+        }
+      }
+    });
+    btnNewButton.setBounds(8, 85, 97, 23);
+    contentPane.add(btnNewButton);
+  }
 }
 ```
 
 ###### 알림창
+- JOptionPane 클래스의 showMessageDialog(), showConfirmDialog(), showInputDialog() 메서드를 사용한다
 ```java
 import java.awt.EventQueue;
 
@@ -10503,92 +10494,88 @@ import java.awt.event.MouseEvent;
 
 public class Ex01 extends JFrame {
 
-	private JPanel contentPane;
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JButton btn1 = new JButton("New Button");
+    btn1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        JOptionPane.showMessageDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.WARNING_MESSAGE);
+        // 현재 프레임 객체를 기반으로 해서 "새 타이틀" 경고창을 통해서 "메세지"를 보여준다
+        // JOptionPane.WARNING_MESSAGE는 경고창임을 알리는 이미지를 보여준다
+        // 에러, 경고를 알리기 위해 많이 사용한다
+      }
+    });
+    btn1.setBounds(12, 10, 97, 23);
+    contentPane.add(btn1);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JButton btn2 = new JButton("New button");
+    btn2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int result = JOptionPane.showConfirmDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.OK_CANCEL_OPTION);
+        // 기본적으로는 예, 아니오, 취소가 있는 알림창을 보여준다
+        // JOptionPane.OK_CANCEL_OTION을 사용해서 확인, 취소만 보여진다
+        // int 자료형을 리턴값으로 준다   
+        if(result == JOptionPane.OK_OPTION) {
+          System.out.println("OK 클릭");
+        }else if(result == JOptionPane.CANCEL_OPTION) {
+          System.out.println("CANCEL 클릭");
+        }else {
+          System.out.println("기타");
+        }
+      }
+    });
+    btn2.setBounds(12, 43, 97, 23);
+    contentPane.add(btn2);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn1 = new JButton("New Button");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.WARNING_MESSAGE);
-				// 현재 프레임 객체를 기반으로 해서 "새 타이틀" 경고창을 통해서 "메세지"를 보여준다
-				// JOptionPane.WARNING_MESSAGE는 경고창임을 알리는 이미지를 보여준다
-				// 에러, 경고를 알리기 위해 많이 사용한다
-			}
-		});
-		btn1.setBounds(12, 10, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int result = JOptionPane.showConfirmDialog(Ex01.this, "메세지", "새 타이틀", JOptionPane.OK_CANCEL_OPTION);
-				// 기본적으로는 예, 아니오, 취소가 있는 알림창을 보여준다
-				// JOptionPane.OK_CANCEL_OTION을 사용해서 확인, 취소만 보여진다
-				// int 자료형을 리턴값으로 준다 
-				
-				if(result == JOptionPane.OK_OPTION) {
-					System.out.println("OK 클릭");
-				}else if(result == JOptionPane.CANCEL_OPTION) {
-					System.out.println("CANCEL 클릭");
-				}else {
-					System.out.println("기타");
-				}
-			}
-		});
-		btn2.setBounds(12, 43, 97, 23);
-		contentPane.add(btn2);
-		
-		JButton btn3 = new JButton("New button");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String result = JOptionPane.showInputDialog("메세지", "초기값");
-				// 내용을 입력받을 수 있는 창이 생긴다
-				// String을 리턴값으로 준다
-			  // 창을 닫거나, 취소를 누르면 null을 리턴한다
-				if(result != null) { 
-					System.out.println("결과 : " + result);
-				}else {
-					System.out.println("입력 취소");
-				}
-			}
-		});
-		btn3.setBounds(12, 76, 97, 23);
-		contentPane.add(btn3);
-	}
+    JButton btn3 = new JButton("New button");
+    btn3.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String result = JOptionPane.showInputDialog("메세지", "초기값");
+        // 내용을 입력받을 수 있는 창이 생긴다
+        // String을 리턴값으로 준다
+        // 창을 닫거나, 취소를 누르면 null을 리턴한다
+        if(result != null) { 
+          System.out.println("결과 : " + result);
+        }else {
+          System.out.println("입력 취소");
+        }
+      }
+    });
+    btn3.setBounds(12, 76, 97, 23);
+    contentPane.add(btn3);
+  }
 }
 ```
-###### progressbar
+###### JProgressBar
 ```java
 import java.awt.EventQueue;
 
@@ -10605,88 +10592,85 @@ import java.awt.event.MouseEvent;
 
 public class Ex02 extends JFrame {
 
-	private JPanel contentPane;
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex02 frame = new Ex02();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex02() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex02 frame = new Ex02();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JProgressBar progressBar = new JProgressBar();
+    progressBar.setStringPainted(true);
+    // 비율 표시
+    progressBar.setMaximum(200);
+    // 최대값 설정
+    progressBar.setValue(51);
+    // 현재값 설정
+    progressBar.setBounds(12, 10, 408, 118);
+    contentPane.add(progressBar);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex02() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JButton btn1 = new JButton("증가 (+ 10)");
+    btn1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(progressBar.getValue() == progressBar.getMaximum()) {
+          JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 증가시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+        }else {
+          System.out.println(progressBar.getValue());
+          progressBar.setValue(progressBar.getValue() + 10);
+        }
+      }
+    });
+    btn1.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+      }
+    });
+    btn1.setBounds(12, 140, 97, 23);
+    contentPane.add(btn1);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JProgressBar progressBar = new JProgressBar();
-		progressBar.setStringPainted(true);
-		// 비율 표시
-		progressBar.setMaximum(200);
-		// 최대값 설정
-		progressBar.setValue(51);
-		// 현재값 설정
-		progressBar.setBounds(12, 10, 408, 118);
-		contentPane.add(progressBar);
-		
-		JButton btn1 = new JButton("증가 (+ 10)");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(progressBar.getValue() == progressBar.getMaximum()) {
-					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 증가시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
-				}else {
-					System.out.println(progressBar.getValue());
-					progressBar.setValue(progressBar.getValue() + 10);
-				}
-			}
-		});
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn1.setBounds(12, 140, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("감소 (- 10)");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(progressBar.getValue() == progressBar.getMinimum()) {
-					JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 감소시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
-				}else {
-					System.out.println(progressBar.getValue());
-					progressBar.setValue(progressBar.getValue() - 10);
-				}
-			}
-		});
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn2.setBounds(121, 140, 97, 23);
-		contentPane.add(btn2);
-	}
+    JButton btn2 = new JButton("감소 (- 10)");
+    btn2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(progressBar.getValue() == progressBar.getMinimum()) {
+          JOptionPane.showMessageDialog(Ex02.this, "더 이상 값을 감소시킬 수 없습니다", "경고", JOptionPane.ERROR_MESSAGE);
+        }else {
+          System.out.println(progressBar.getValue());
+          progressBar.setValue(progressBar.getValue() - 10);
+        }
+      }
+    });
+    btn2.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+      }
+    });
+    btn2.setBounds(121, 140, 97, 23);
+    contentPane.add(btn2);
+  }
 }
 ```
-###### slider
+###### JSlider
 
 ```java
 import java.awt.EventQueue;
@@ -10705,81 +10689,77 @@ import javax.swing.JScrollPane;
 
 public class Ex03 extends JFrame {
 
-	private JPanel contentPane;
-	private JTextArea textArea;
+  private JPanel contentPane;
+  private JTextArea textArea; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex03 frame = new Ex03();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex03() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex03 frame = new Ex03();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    textArea = new JTextArea();
+    textArea.setEditable(false);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex03() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JSlider slider = new JSlider();
+    slider.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        System.out.println(slider.getValue());
+        // 슬라이더의 값을 변경시킬 때마다 변경된 값을 출력한다
+        // 시작했을 때는 기본값이 출력된다
+        if(textArea != null) {
+          textArea.append(slider.getValue() + System.lineSeparator());
+          // 객체가 생성돼야 그 객체를 사용할 수 있기 때문에
+          // textArea 객체가 먼저 생성되어야 에러가 생기지 않는다
+        }
+      }
+    });
+    slider.setMinorTickSpacing(5);
+    slider.setPaintTicks(true);
+    slider.setMajorTickSpacing(10);
+    slider.setPaintLabels(true);
+    // 슬라이더의 간격을 표시한다
+    slider.setMaximum(200);
+    slider.setBounds(12, 10, 501, 66);
+    contentPane.add(slider);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		
-		JSlider slider = new JSlider();
-		slider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				System.out.println(slider.getValue());
-				// 슬라이더의 값을 변경시킬 때마다 변경된 값을 출력한다
-				// 시작했을 때는 기본값이 출력된다
-				if(textArea != null) {
-					textArea.append(slider.getValue() + System.lineSeparator());
-					// 객체가 생성돼야 그 객체를 사용할 수 있기 때문에
-					// textArea 객체가 먼저 생성되어야 에러가 생기지 않는다
-				}
-			}
-		});
-		slider.setMinorTickSpacing(5);
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(10);
-		slider.setPaintLabels(true);
-		// 슬라이더의 간격을 표시한다
-		slider.setMaximum(200);
-		slider.setBounds(12, 10, 501, 66);
-		contentPane.add(slider);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(slider.getValue());
-			}
-		});
-		btn.setBounds(12, 96, 97, 23);
-		contentPane.add(btn);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 131, 501, 278);
-		contentPane.add(scrollPane);
-		
-		scrollPane.setViewportView(textArea);
+    JButton btn = new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println(slider.getValue());
+      }
+    });
+    btn.setBounds(12, 96, 97, 23);
+    contentPane.add(btn);
 
-	}
-}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 131, 501, 278);
+    contentPane.add(scrollPane);
+
+    scrollPane.setViewportView(textArea); 
+  }
+}  
 ```
 Color picker 만들기
 ```java
@@ -10797,114 +10777,110 @@ import java.awt.Font;
 
 public class Test1 extends JFrame {
 
-	private JPanel contentPane;
-	private JSlider redSlider;
-	private JSlider greenSlider;
-	private JSlider blueSlider;
-	private JPanel panel;
+  private JPanel contentPane;
+  private JSlider redSlider;
+  private JSlider greenSlider;
+  private JSlider blueSlider;
+  private JPanel panel; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Test1 frame = new Test1();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Test1() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Test1 frame = new Test1();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JLabel green = new JLabel("GREEN");
+    green.setFont(new Font("굴림", Font.BOLD, 13));
+    green.setBounds(56, 168, 96, 23);
+    contentPane.add(green);
 
-	/**
-	 * Create the frame.
-	 */
-	public Test1() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JLabel red = new JLabel("RED");
+    red.setFont(new Font("굴림", Font.BOLD, 13));
+    red.setBounds(56, 88, 96, 23);
+    contentPane.add(red);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel green = new JLabel("GREEN");
-		green.setFont(new Font("굴림", Font.BOLD, 13));
-		green.setBounds(56, 168, 96, 23);
-		contentPane.add(green);
-		
-		JLabel red = new JLabel("RED");
-		red.setFont(new Font("굴림", Font.BOLD, 13));
-		red.setBounds(56, 88, 96, 23);
-		contentPane.add(red);
-		
-		JLabel blue = new JLabel("BLUE");
-		blue.setFont(new Font("굴림", Font.BOLD, 13));
-		blue.setBounds(56, 254, 96, 23);
-		contentPane.add(blue);
-				
-		panel = new JPanel();
-		panel.setForeground(new Color(255, 255, 255));
-		panel.setBorder(null);
-		panel.setBounds(56, 311, 597, 206);
-		contentPane.add(panel);
-		
-		redSlider = new JSlider();
-		redSlider.setPaintLabels(true);
-		redSlider.setPaintTicks(true);
-		redSlider.setMinorTickSpacing(10);
-		greenSlider = new JSlider();
-		greenSlider.setPaintLabels(true);
-		greenSlider.setMinorTickSpacing(10);
-		blueSlider = new JSlider();
-		blueSlider.setPaintLabels(true);
-		blueSlider.setMinorTickSpacing(10);
-		
-		redSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		greenSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		blueSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
-				panel.setBackground(color);
-			}
-		});
-		
-		
-		redSlider.setMajorTickSpacing(100);
-		redSlider.setMaximum(255);
-		redSlider.setBounds(153, 85, 488, 39);
-		contentPane.add(redSlider);
-		
-		greenSlider.setPaintTicks(true);
-		greenSlider.setMajorTickSpacing(100);
-		greenSlider.setMaximum(255);
-		greenSlider.setBounds(153, 165, 488, 39);
-		contentPane.add(greenSlider);
-		
-		blueSlider.setPaintTicks(true);
-		blueSlider.setMajorTickSpacing(100);
-		blueSlider.setMaximum(255);
-		blueSlider.setBounds(153, 251, 488, 39);
-		contentPane.add(blueSlider);
-		
-		
-	}
+    JLabel blue = new JLabel("BLUE");
+    blue.setFont(new Font("굴림", Font.BOLD, 13));
+    blue.setBounds(56, 254, 96, 23);
+    contentPane.add(blue);
+
+    panel = new JPanel();
+    panel.setForeground(new Color(255, 255, 255));
+    panel.setBorder(null);
+    panel.setBounds(56, 311, 597, 206);
+    contentPane.add(panel);
+
+    redSlider = new JSlider();
+    redSlider.setPaintLabels(true);
+    redSlider.setPaintTicks(true);
+    redSlider.setMinorTickSpacing(10);
+    greenSlider = new JSlider();
+    greenSlider.setPaintLabels(true);
+    greenSlider.setMinorTickSpacing(10);
+    blueSlider = new JSlider();
+    blueSlider.setPaintLabels(true);
+    blueSlider.setMinorTickSpacing(10);
+
+    redSlider.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+        panel.setBackground(color);
+      }
+    });
+    greenSlider.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+        panel.setBackground(color);
+      }
+    });
+    blueSlider.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        Color color = new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
+        panel.setBackground(color);
+      }
+    });
+
+    redSlider.setMajorTickSpacing(100);
+    redSlider.setMaximum(255);
+    redSlider.setBounds(153, 85, 488, 39);
+    contentPane.add(redSlider);
+
+    greenSlider.setPaintTicks(true);
+    greenSlider.setMajorTickSpacing(100);
+    greenSlider.setMaximum(255);
+    greenSlider.setBounds(153, 165, 488, 39);
+    contentPane.add(greenSlider);
+
+    blueSlider.setPaintTicks(true);
+    blueSlider.setMajorTickSpacing(100);
+    blueSlider.setMaximum(255);
+    blueSlider.setBounds(153, 251, 488, 39);
+    contentPane.add(blueSlider);
+
+
+  }
 }
 ```
-###### spinner
+###### JSpinner
 ```java
 package pack1;
 
@@ -10929,93 +10905,88 @@ import java.awt.event.ActionEvent;
 
 public class Ex04 extends JFrame {
 
-	private JPanel contentPane;
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex04 frame = new Ex04();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex04() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex04 frame = new Ex04();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JSpinner spinner1 = new JSpinner();
+    spinner1.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        System.out.println((Integer)spinner1.getValue());
+      }
+    });
+    spinner1.setModel(new SpinnerNumberModel(50, 20, 100, 5));
+    spinner1.setBounds(12, 10, 142, 27);
+    contentPane.add(spinner1);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex04() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JSpinner spinner1 = new JSpinner();
-		spinner1.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				System.out.println((Integer)spinner1.getValue());
-			}
-		});
-		spinner1.setModel(new SpinnerNumberModel(50, 20, 100, 5));
-		spinner1.setBounds(12, 10, 142, 27);
-		contentPane.add(spinner1);
-		
-		JSpinner spinner2 = new JSpinner();
-		spinner2.setModel(new SpinnerListModel(new String[] {"\uC0AC\uACFC", "\uB538\uAE30", "\uC218\uBC15", "\uCC38\uC678", "\uADE4"}));
-    // 다국어가 유니코드로 처리된다
-
+    JSpinner spinner2 = new JSpinner();
+    spinner2.setModel(new SpinnerListModel(new String[] {"\uC0AC\uACFC", "\uB538\uAE30", "\uC218\uBC15", "\uCC38\uC678", "\uADE4"}));
+    // 다국어가 유니코드로 처리된다 
     // String items = {"사과", "딸기", "수박", "참외", "귤"};
     // SpinnerListModel spinnerListModel = new SpinnerListModel(items);
-    // spinner2.setModel(spinnerListModel);
+    // spinner2.setModel(spinnerListModel); 
+    spinner2.setBounds(12, 47, 142, 27);
+    contentPane.add(spinner2);
 
-		spinner2.setBounds(12, 47, 142, 27);
-		contentPane.add(spinner2);
-		
-		JSpinner spinner3 = new JSpinner();
-		spinner3.setModel(new SpinnerDateModel(new Date(1675695600000L), new Date(-62109277200000L), new Date(4079170800000L), Calendar.MONTH));
-		spinner3.setBounds(12, 84, 142, 27);
-		contentPane.add(spinner3);
-		
-		JButton btn1 = new JButton("New button");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)spinner1.getValue());
-			}
-		});
-		btn1.setBounds(166, 12, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((String)spinner2.getValue());
-			}
-		});
-		btn2.setBounds(166, 49, 97, 23);
-		contentPane.add(btn2);
-		
-		JButton btn3 = new JButton("New button");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Date)spinner3.getValue());
-			}
-		});
-		btn3.setBounds(166, 86, 97, 23);
-		contentPane.add(btn3);
-	}
+    JSpinner spinner3 = new JSpinner();
+    spinner3.setModel(new SpinnerDateModel(new Date(1675695600000L), new Date(-62109277200000L), new Date(4079170800000L), Calendar.MONTH));
+    spinner3.setBounds(12, 84, 142, 27);
+    contentPane.add(spinner3);
+
+    JButton btn1 = new JButton("New button");
+    btn1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println((Integer)spinner1.getValue());
+      }
+    });
+    btn1.setBounds(166, 12, 97, 23);
+    contentPane.add(btn1);
+
+    JButton btn2 = new JButton("New button");
+    btn2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println((String)spinner2.getValue());
+      }
+    });
+    btn2.setBounds(166, 49, 97, 23);
+    contentPane.add(btn2);
+
+    JButton btn3 = new JButton("New button");
+    btn3.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println((Date)spinner3.getValue());
+      }
+    });
+    btn3.setBounds(166, 86, 97, 23);
+    contentPane.add(btn3);
+  }
 }
 ```
 
@@ -11026,11 +10997,11 @@ package pack1;
 import javax.swing.SpinnerListModel;
 
 public class CustomSpinnerListModel extends SpinnerListModel {
-	public CustomSpinnerListModel() {
-		super(new String[] {
-				"사과", "딸기", "수박", "참외", "귤"
-		});
-	}
+  public CustomSpinnerListModel() {
+    super(new String[] {
+        "사과", "딸기", "수박", "참외", "귤"
+    });
+  }
 }
 
 // Ex05.java
@@ -11049,57 +11020,54 @@ import java.awt.event.MouseEvent;
 
 public class Ex05 extends JFrame {
 
-	private JPanel contentPane;
-	private JButton btn;
+  private JPanel contentPane;
+  private JButton btn;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex05 frame = new Ex05();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex05() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex05 frame = new Ex05();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JSpinner spinner = new JSpinner();
+    spinner.setModel(new SpinnerListModel(new String[] {""}));
+    spinner.setBounds(12, 10, 219, 34);
+    contentPane.add(spinner);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex05() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JSpinner spinner = new JSpinner();
-		spinner.setModel(new SpinnerListModel(new String[] {""}));
-		spinner.setBounds(12, 10, 219, 34);
-		contentPane.add(spinner);
-		
-		btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				spinner.setModel(new CustomSpinnerListModel());
-			}
-		});
-		btn.setBounds(266, 15, 97, 23);
-		contentPane.add(btn);
-	}
+    btn = new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        spinner.setModel(new CustomSpinnerListModel());
+      }
+    });
+    btn.setBounds(266, 15, 97, 23);
+    contentPane.add(btn);
+  }
 
 }
 ```
-###### comboBoxModel
+###### JComboBox
 
 ```java
 package pack1;
@@ -11118,56 +11086,53 @@ import java.awt.event.MouseEvent;
 
 public class Ex06 extends JFrame {
 
-	private JPanel contentPane;
-	private JComboBox comboBox;
+  private JPanel contentPane;
+  private JComboBox comboBox; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex06 frame = new Ex06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex06() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    comboBox = new JComboBox();
+    comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+    comboBox.setBounds(12, 10, 188, 28);
+    contentPane.add(comboBox);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
-		comboBox.setBounds(12, 10, 188, 28);
-		contentPane.add(comboBox);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)comboBox.getSelectedIndex());
-				System.out.println((String)comboBox.getSelectedItem());
-				// ComboBoxModel model = comboBox.getModel();
-				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
-			}
-		});
-		btnNewButton.setBounds(212, 13, 97, 23);
-		contentPane.add(btnNewButton);
-	}
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println((Integer)comboBox.getSelectedIndex());
+        System.out.println((String)comboBox.getSelectedItem());
+        // ComboBoxModel model = comboBox.getModel();
+        // System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+      }
+    });
+    btnNewButton.setBounds(212, 13, 97, 23);
+    contentPane.add(btnNewButton);
+  }
 }
 ```
 
@@ -11178,18 +11143,19 @@ package pack1;
 import javax.swing.DefaultComboBoxModel;
 
 public class CustomComboBoxModel extends DefaultComboBoxModel<String> {
-	private String[] items = new String[] { "사과", "참외", "딸기", "귤"};
-	
-	@Override
-	public int getSize() {
-		System.out.println("getSize() 호출");
-		return items.length;
-	}
-	@Override
-	public String getElementAt(int index) {
-		System.out.println("getElementAt() 호출");
-		return items[index];
-	}
+  private String[] items = new String[] { "사과", "참외", "딸기", "귤"};
+
+  @Override
+  public int getSize() {
+    System.out.println("getSize() 호출");
+    return items.length;
+  }
+
+  @Override
+  public String getElementAt(int index) {
+    System.out.println("getElementAt() 호출");
+    return items[index];
+  }
 	
 }
 
@@ -11212,73 +11178,391 @@ import java.awt.event.ItemEvent;
 
 public class Ex06 extends JFrame {
 
-	private JPanel contentPane;
-	private JComboBox comboBox;
+  private JPanel contentPane;
+  private JComboBox comboBox; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex06 frame = new Ex06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex06() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    comboBox = new JComboBox();
+    comboBox.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+          System.out.println((String)comboBox.getSelectedItem());
+        }
+        // itemStateChanged()는 selected, deselected를 모두 감지해서 값을 내기 때문에
+        // itemEvent.SELECTED를 이용해 selected만 감지해서 작동하게 해야한다
+      }
+    });
+    comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
+    comboBox.setBounds(12, 10, 188, 28);
+    contentPane.add(comboBox);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println((Integer)comboBox.getSelectedIndex());
+        // System.out.println((String)comboBox.getSelectedItem());
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		comboBox = new JComboBox();
-		comboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					System.out.println((String)comboBox.getSelectedItem());
-				}
-				// itemStateChanged()는 selected, deselected를 모두 감지해서 값을 내기 때문에
-				// itemEvent.SELECTED를 이용해 selected만 감지해서 작동하게 해야한다
-			}
-		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"사과", "참외", "수박", "딸기", "귤"}));
-		comboBox.setBounds(12, 10, 188, 28);
-		contentPane.add(comboBox);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println((Integer)comboBox.getSelectedIndex());
-				// System.out.println((String)comboBox.getSelectedItem());
-				
-				// ComboBoxModel model = comboBox.getModel();
-				// System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
-				
-				CustomComboBoxModel2 cb = new CustomComboBoxModel2();
-				System.out.println(cb.getElementAt(comboBox.getSelectedIndex()));
-			}
-		});
-		btnNewButton.setBounds(212, 13, 97, 23);
-		contentPane.add(btnNewButton);
-	}
+        // ComboBoxModel model = comboBox.getModel();
+        // System.out.println(model.getElementAt(comboBox.getSelectedIndex()));
+
+        CustomComboBoxModel2 cb = new CustomComboBoxModel2();
+        System.out.println(cb.getElementAt(comboBox.getSelectedIndex()));
+      }
+    });
+    btnNewButton.setBounds(212, 13, 97, 23);
+    contentPane.add(btnNewButton);
+  }
 }
 
 ```
-###### list
+```java
+// EmpTO.java
+package Test2;
+
+public class EmpTO {
+  private String empno;
+  private String ename;
+  private String mgr;
+  private String hiredate;
+  private String sal;
+  private String comm;
+  private String dname;
+
+  public String getEmpno() {
+    return empno;
+  }
+  public void setEmpno(String empno) {
+    this.empno = empno;
+  }
+  public String getEname() {
+    return ename;
+  }
+  public void setEname(String ename) {
+    this.ename = ename;
+  }
+  public String getMgr() {
+    return mgr;
+  }
+  public void setMgr(String mgr) {
+    this.mgr = mgr;
+  }
+  public String getHiredate() {
+    return hiredate;
+  }
+  public void setHiredate(String hiredate) {
+    this.hiredate = hiredate;
+  }
+  public String getSal() {
+    return sal;
+  }
+  public void setSal(String sal) {
+    this.sal = sal;
+  }
+  public String getComm() {
+    return comm;
+  }
+  public void setComm(String comm) {
+    this.comm = comm;
+  }
+  public String getDname() {
+    return dname;
+  }
+  public void setDname(String dname) {
+    this.dname = dname;
+  }
+}
+// EmpDAO.java
+package Test2;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmpDAO {
+  Connection conn = null;
+  String url = "jdbc:mariadb://localhost:3306/sample";
+  String user = "root";
+  String password = "123456";
+  public EmpDAO() {
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+
+  public List<EmpTO> searchByJob(String job) {
+    List<EmpTO> to = new ArrayList<>();
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    try {
+      String sql = "select empno, ename, mgr, hiredate, sal, comm, dname from emp e left outer join dept d on (e.deptno = d.deptno) where job = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, job);
+
+      rs = pstmt.executeQuery();
+
+      while(rs.next()) {
+        EmpTO data = new EmpTO();
+        data.setComm(rs.getString("comm"));
+        data.setDname(rs.getString("dname"));
+        data.setEmpno(rs.getString("empno"));
+        data.setEname(rs.getString("ename"));
+        data.setHiredate(rs.getString("hiredate"));
+        data.setMgr(rs.getString("mgr"));
+        data.setSal(rs.getString("sal")); 
+        to.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally{
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return to;
+  }
+
+  public List<String> jobList(){
+    List<String> jobNames = new ArrayList<>();
+
+    Statement stmt = null;
+    ResultSet rs = null;
+
+    String sql = "select distinct job from emp";
+    try {
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(sql);
+
+      while(rs.next()) {
+        String job = rs.getString("job");
+
+        jobNames.add(job);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally{
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return jobNames;
+  }
+	
+}
+
+// EmpComboBoxModel.java
+package Test2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+
+public class EmpComboBoxModel extends DefaultComboBoxModel<String> {
+  private List<String> list = new ArrayList<>();  
+
+  public EmpComboBoxModel() {
+    EmpDAO dao = new EmpDAO();
+    list = dao.jobList();
+  } 
+  @Override
+  public int getSize() {
+    return list.size();
+  }
+  @Override
+  public String getElementAt(int index) {
+    return list.get(index);
+  }
+
+}
+// EmpTableModel.java
+package Test2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+public class EmpTableModel extends AbstractTableModel {
+  private List<EmpTO> list = new ArrayList<>();
+
+  private String[] colNames = {
+      "사원번호", "사원이름", "관리자번호", "입사일자", "급여", "보너스", "부서"
+  };
+
+  @Override
+  public String getColumnName(int column) {
+    return colNames[column];
+  }
+
+  public EmpTableModel(String job) {
+    EmpDAO dao = new EmpDAO();
+
+    list = dao.searchByJob(job);
+  }
+
+  @Override
+  public int getRowCount() {
+    return list.size();
+  } 
+  @Override
+  public int getColumnCount() {
+    return colNames.length;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    String result = null;
+
+    EmpTO to = list.get(rowIndex);
+
+    switch(columnIndex) {
+    case 0:
+      result = to.getEmpno();
+      break;
+    case 1:
+      result = to.getEname();
+      break;
+    case 2:
+      result = to.getMgr();
+      break;
+    case 3:
+      result = to.getHiredate();
+      break;
+    case 4:
+      result = to.getSal();
+      break;
+    case 5:
+      result = to.getComm();
+      break;
+    case 6:
+      result = to.getDname();
+      break;  
+    }
+    return result;
+  }
+
+}
+// Test2.java
+package Test2;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+
+public class Test2 extends JFrame {
+
+  private JPanel contentPane;
+  private JTable table;
+  private JComboBox job;  
+  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+  	EventQueue.invokeLater(new Runnable() {
+  		public void run() {
+  			try {
+  				Test2 frame = new Test2();
+  				frame.setVisible(true);
+  			} catch (Exception e) {
+  				e.printStackTrace();
+  			}
+  		}
+  	});
+  } 
+  /**
+   * Create the frame.
+   */
+  public Test2() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC9C1\uCC45\uBCC4", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(46, 23, 680, 67);
+    contentPane.add(panel);
+    panel.setLayout(null);
+
+    JLabel lbl = new JLabel("직 책");
+    lbl.setBounds(94, 27, 57, 15);
+    panel.add(lbl);
+
+    job = new JComboBox();
+    job.setModel(new EmpComboBoxModel());
+    job.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        table.setModel(new EmpTableModel((String)job.getSelectedItem()));
+      }
+    });
+    job.setBounds(163, 23, 334, 23);
+    panel.add(job);
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(48, 119, 674, 346);
+    contentPane.add(scrollPane);
+
+    table = new JTable();
+    scrollPane.setViewportView(table);
+  }
+}
+```
+###### JList
 
 ```java
 // CustomAbstractModel.java
@@ -11290,24 +11574,24 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 public class CustomAbstractModel extends AbstractListModel<String> {
-	private List<String> items = new ArrayList<>();
-	
-	public CustomAbstractModel() {
-		items.add("사과");
-		items.add("수박");
-		items.add("참외");
-		items.add("귤");
-	}
-	
-	@Override
-	public int getSize() {
-		return items.size();
-	}
+  private List<String> items = new ArrayList<>();
 
-	@Override
-	public String getElementAt(int index) {
-		return items.get(index);
-	}
+  public CustomAbstractModel() {
+    items.add("사과");
+    items.add("수박");
+    items.add("참외");
+    items.add("귤");
+  }
+
+  @Override
+  public int getSize() {
+    return items.size();
+  } 
+
+  @Override
+  public String getElementAt(int index) {
+    return items.get(index);
+  }
 	
 }
 
@@ -11331,76 +11615,73 @@ import javax.swing.event.ListSelectionEvent;
 
 public class Ex07 extends JFrame {
 
-	private JPanel contentPane;
-	private JButton btn;
+  private JPanel contentPane;
+  private JButton btn;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex07 frame = new Ex07();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex07() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex07 frame = new Ex07();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 29, 258, 196);
+    contentPane.add(scrollPane);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex07() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JList list = new JList();
+    list.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        if(e.getValueIsAdjusting()) {
+          return;
+        } // selected만 감지하도록 한다
+        System.out.println((String)list.getSelectedValue());
+      }
+    });
+    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    scrollPane.setViewportView(list);
+    // list.setModel(new AbstractListModel() {
+    // String[] values = new String[] {"사과", "참외", "수박", "딸기"};
+    //  public int getSize() {
+    //    return values.length;
+    //  }
+    //  public Object getElementAt(int index) {
+    //    return values[index];
+    //  }
+    // });
+    list.setModel(new CustomAbstractModel());
+    list.setSelectedIndex(2);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 29, 258, 196);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				if(e.getValueIsAdjusting()) {
-					return;
-				} // selected만 감지하도록 한다
-				System.out.println((String)list.getSelectedValue());
-			}
-		});
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(list);
-//		list.setModel(new AbstractListModel() {
-//			String[] values = new String[] {"사과", "참외", "수박", "딸기"};
-//			public int getSize() {
-//				return values.length;
-//			}
-//			public Object getElementAt(int index) {
-//				return values[index];
-//			}
-//		});
-		list.setModel(new CustomAbstractModel());
-		list.setSelectedIndex(2);
-		
-		btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(list.getSelectedIndex());
-				System.out.println((String)list.getSelectedValue());
-			}
-		});
-		btn.setBounds(12, 254, 97, 23);
-		contentPane.add(btn);
-	}
+    btn = new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println(list.getSelectedIndex());
+        System.out.println((String)list.getSelectedValue());
+      }
+    });
+    btn.setBounds(12, 254, 97, 23);
+    contentPane.add(btn);
+  }
 }
 ```
 ```java
@@ -11408,49 +11689,49 @@ public class Ex07 extends JFrame {
 package Test;
 
 public class PostSearchTO {
-	private String zipcode;
-	private String sido;
-	private String gugun;
-	private String dong;
-	private String ri;
-	private String bunji;
-	
-	public String getZipcode() {
-		return zipcode;
-	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-	public String getSido() {
-		return sido;
-	}
-	public void setSido(String sido) {
-		this.sido = sido;
-	}
-	public String getGugun() {
-		return gugun;
-	}
-	public void setGugun(String gugun) {
-		this.gugun = gugun;
-	}
-	public String getDong() {
-		return dong;
-	}
-	public void setDong(String dong) {
-		this.dong = dong;
-	}
-	public String getRi() {
-		return ri;
-	}
-	public void setRi(String ri) {
-		this.ri = ri;
-	}
-	public String getBunji() {
-		return bunji;
-	}
-	public void setBunji(String bunji) {
-		this.bunji = bunji;
-	}
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
+  public String getSido() {
+    return sido;
+  }
+  public void setSido(String sido) {
+    this.sido = sido;
+  }
+  public String getGugun() {
+    return gugun;
+  }
+  public void setGugun(String gugun) {
+    this.gugun = gugun;
+  }
+  public String getDong() {
+    return dong;
+  }
+  public void setDong(String dong) {
+    this.dong = dong;
+  }
+  public String getRi() {
+    return ri;
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
 }
 
 // PostSearchDAO.java
@@ -11465,57 +11746,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostSearchDAO {
-	Connection conn = null;
-	
-	public PostSearchDAO() {
-	String url = "jdbc:mariadb://localhost:3306/project";
-	String user = "root";
-	String password = "123456";
+  Connection conn = null;
 
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
-	
-	public List<PostSearchTO> searchPost(String dongName) {
-		List<PostSearchTO> informations = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dongName + '%');
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				PostSearchTO pt = new PostSearchTO();
-				pt.setZipcode(rs.getString("zipcode"));
-				pt.setSido(rs.getString("sido"));
-				pt.setGugun(rs.getString("gugun"));
-				pt.setDong(rs.getString("dong"));
-				pt.setRi(rs.getString("ri"));
-				pt.setBunji(rs.getString("bunji"));
-				
-				informations.add(pt);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return informations;
-	}
+  public PostSearchDAO() {
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "root";
+    String password = "123456"; 
+      try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        conn = DriverManager.getConnection(url, user, password);
+      } catch (ClassNotFoundException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (SQLException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+  }
+
+  public List<PostSearchTO> searchPost(String dongName) {
+    List<PostSearchTO> informations = new ArrayList<>();
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    String sql = "select zipcode, sido, gugun, dong, ri, bunji from zipcode where dong like ?";
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, dongName + '%');
+
+      rs = pstmt.executeQuery();
+
+      while(rs.next()) {
+        PostSearchTO pt = new PostSearchTO();
+        pt.setZipcode(rs.getString("zipcode"));
+        pt.setSido(rs.getString("sido"));
+        pt.setGugun(rs.getString("gugun"));
+        pt.setDong(rs.getString("dong"));
+        pt.setRi(rs.getString("ri"));
+        pt.setBunji(rs.getString("bunji"));
+
+        informations.add(pt);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return informations;
+  }
 	
 }
 
@@ -11528,31 +11808,28 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 public class InformaitonList extends AbstractListModel<String>{
-	private List<String> list = new ArrayList<>();
-	
-	public InformaitonList(String dongName) {
-		
-		PostSearchDAO dao = new PostSearchDAO();
-		
-		List<PostSearchTO> to = dao.searchPost(dongName);
-		
-		for(PostSearchTO data : to) {
-			String information = "";
-			information = String.format("[%s] %s %s %s %s %s%n", data.getZipcode(), data.getSido(), data.getGugun(), data.getDong(), data.getRi(), data.getBunji());
-			
-			list.add(information);
-		}
-	}
+  private List<String> list = new ArrayList<>();
 
-	@Override
-	public int getSize() {
-		return list.size();
-	}
+  public InformaitonList(String dongName) {
 
-	@Override
-	public String getElementAt(int index) {
-		return list.get(index);
-	}
+    PostSearchDAO dao = new PostSearchDAO();
+
+    List<PostSearchTO> to = dao.searchPost(dongName);
+
+    for(PostSearchTO data : to) {
+      String information = "";
+      information = String.format("[%s] %s %s %s %s %s%n", data.getZipcode(), data.getSido(), data.getGugun(), data.getDong(), data.getRi(), data.getBunji());  
+      list.add(information);
+    }
+  } 
+  @Override
+  public int getSize() {
+    return list.size();
+  } 
+  @Override
+  public String getElementAt(int index) {
+    return list.get(index);
+  }
 }
 
 // PostSearch.java
@@ -11583,113 +11860,109 @@ import javax.swing.event.ListSelectionEvent;
 
 public class PostSearch extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField input;
-	private JTextField address1;
-	private JTextField address2;
-	private JList resultList;
+  private JPanel contentPane;
+  private JTextField input;
+  private JTextField address1;
+  private JTextField address2;
+  private JList resultList; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PostSearch frame = new PostSearch();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public PostSearch() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PostSearch frame = new PostSearch();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(33, 24, 687, 51);
+    contentPane.add(panel);
+    panel.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public PostSearch() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    input = new JTextField();
+    input.setBounds(6, 17, 518, 24);
+    panel.add(input);
+    input.setColumns(10);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(33, 24, 687, 51);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		input = new JTextField();
-		input.setBounds(6, 17, 518, 24);
-		panel.add(input);
-		input.setColumns(10);
-		
-		JButton btn = new JButton("검색");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(input.getText().trim().length() < 2) {
-					JOptionPane.showMessageDialog(PostSearch.this, "동 이름을 두자 이상 입력해주세요", "경고", JOptionPane.ERROR_MESSAGE);
-					input.setText("");
-				}else {
-						resultList.setModel(new InformaitonList(input.getText()));
-				}
-			}
-		});
-		btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn.setBounds(536, 17, 132, 23);
-		panel.add(btn);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(38, 89, 682, 293);
-		contentPane.add(scrollPane);
-		
-		resultList = new JList();
-		resultList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				address1.setText((String)resultList.getSelectedValue());
-			}
-		});
+    JButton btn = new JButton("검색");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(input.getText().trim().length() < 2) {
+          JOptionPane.showMessageDialog(PostSearch.this, "동 이름을 두자 이상 입력해주세요", "경고", JOptionPane.ERROR_MESSAGE);
+          input.setText("");
+        }else {
+          resultList.setModel(new InformaitonList(input.getText()));
+        }
+      }
+    });
+    btn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+      }
+    });
+    btn.setBounds(536, 17, 132, 23);
+    panel.add(btn);
 
-		scrollPane.setViewportView(resultList);
-		
-		address1 = new JTextField();
-		address1.setEditable(false);
-		address1.setText("기본 주소");
-		address1.setBounds(33, 419, 557, 21);
-		contentPane.add(address1);
-		address1.setColumns(10);
-		
-		address2 = new JTextField();
-		address2.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(address2.getText().trim().equals("")) {
-					address2.setText("상세주소를 입력하세요");
-				}
-			}
-		});
-		address2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(address2.getText().trim().equals("상세주소를 입력하세요")) {
-					address2.setText("");
-				}
-			}
-		});
-		address2.setText("상세주소를 입력하세요");
-		address2.setBounds(33, 471, 557, 21);
-		contentPane.add(address2);
-		address2.setColumns(10);
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(38, 89, 682, 293);
+    contentPane.add(scrollPane);
+
+    resultList = new JList();
+    resultList.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        address1.setText((String)resultList.getSelectedValue());
+      }
+    }); 
+    scrollPane.setViewportView(resultList);
+
+    address1 = new JTextField();
+    address1.setEditable(false);
+    address1.setText("기본 주소");
+    address1.setBounds(33, 419, 557, 21);
+    contentPane.add(address1);
+    address1.setColumns(10);
+
+    address2 = new JTextField();
+    address2.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        if(address2.getText().trim().equals("")) {
+          address2.setText("상세주소를 입력하세요");
+        }
+      }
+    });
+    address2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if(address2.getText().trim().equals("상세주소를 입력하세요")) {
+          address2.setText("");
+        }
+      }
+    });
+    address2.setText("상세주소를 입력하세요");
+    address2.setBounds(33, 471, 557, 21);
+    contentPane.add(address2);
+    address2.setColumns(10);
+  }
 }
 ```
 
@@ -11699,49 +11972,49 @@ public class PostSearch extends JFrame {
 package Test;
 
 public class EmpSearchTO {
-	private String empno;
-	private String ename;
-	private String deptno;
-	private String sal;
-	private String hiredate;
-	private String mgrname;
-	
-	public String getEmpno() {
-		return empno;
-	}
-	public void setEmpno(String empno) {
-		this.empno = empno;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-	public String getDeptno() {
-		return deptno;
-	}
-	public void setDeptno(String deptno) {
-		this.deptno = deptno;
-	}
-	public String getSal() {
-		return sal;
-	}
-	public void setSal(String sal) {
-		this.sal = sal;
-	}
-	public String getHiredate() {
-		return hiredate;
-	}
-	public void setHiredate(String hiredate) {
-		this.hiredate = hiredate;
-	}
-	public String getMgrname() {
-		return mgrname;
-	}
-	public void setMgrname(String mgrname) {
-		this.mgrname = mgrname;
-	}
+  private String empno;
+  private String ename;
+  private String deptno;
+  private String sal;
+  private String hiredate;
+  private String mgrname;
+
+  public String getEmpno() {
+    return empno;
+  }
+  public void setEmpno(String empno) {
+    this.empno = empno;
+  }
+  public String getEname() {
+    return ename;
+  }
+  public void setEname(String ename) {
+    this.ename = ename;
+  }
+  public String getDeptno() {
+    return deptno;
+  }
+  public void setDeptno(String deptno) {
+    this.deptno = deptno;
+  }
+  public String getSal() {
+    return sal;
+  }
+  public void setSal(String sal) {
+    this.sal = sal;
+  }
+  public String getHiredate() {
+    return hiredate;
+  }
+  public void setHiredate(String hiredate) {
+    this.hiredate = hiredate;
+  }
+  public String getMgrname() {
+    return mgrname;
+  }
+  public void setMgrname(String mgrname) {
+    this.mgrname = mgrname;
+  }
 	
 }
 
@@ -11757,57 +12030,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmpSearchDAO {
-	Connection conn = null;
-	
-	public EmpSearchDAO() {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-	
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
-	
-	List<EmpSearchTO> searchEname(String ename){
-		List<EmpSearchTO> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select e.empno, e.ename, e.deptno, e.sal, e.hiredate, ifnull(m.ename, '관리자없음') mgrname from emp e left outer join emp m on (e.mgr = m.empno) where e.ename = ?";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, ename);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				EmpSearchTO to = new EmpSearchTO();
-				to.setEmpno(rs.getString("empno"));
-				to.setEname(rs.getString("ename"));
-				to.setDeptno(rs.getString("deptno"));
-				to.setSal(rs.getString("sal"));
-				to.setHiredate(rs.getString("hiredate"));
-				to.setMgrname(rs.getString("mgrname"));
-				
-				list.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		return list;
-	}
-	
+  Connection conn = null;
+
+  public EmpSearchDAO() {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456"; 
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+
+  List<EmpSearchTO> searchEname(String ename){
+    List<EmpSearchTO> list = new ArrayList<>();
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    String sql = "select e.empno, e.ename, e.deptno, e.sal, e.hiredate, ifnull(m.ename, '관리자없음') mgrname from emp e left outer join emp m on (e.mgr = m.empno) where e.ename = ?";
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, ename);
+
+      rs = pstmt.executeQuery();
+
+      while(rs.next()) {
+        EmpSearchTO to = new EmpSearchTO();
+        to.setEmpno(rs.getString("empno"));
+        to.setEname(rs.getString("ename"));
+        to.setDeptno(rs.getString("deptno"));
+        to.setSal(rs.getString("sal"));
+        to.setHiredate(rs.getString("hiredate"));
+        to.setMgrname(rs.getString("mgrname"));
+
+        list.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    return list;
+  }
+
 }
 
 // EmpListModel.java
@@ -11819,37 +12091,35 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 public class EmpListModel extends AbstractListModel<String> {
-	private List<String> data = new ArrayList<>();
-	
-	public EmpListModel(String input) {
-		EmpSearchDAO dao = new EmpSearchDAO();
-		List<EmpSearchTO> empList = new ArrayList<>();
-		
-		empList = dao.searchEname(input);
-		
-		for(EmpSearchTO to : empList) {
-			String empno = to.getEmpno();
-			String ename = to.getEname();
-			String deptno = to.getDeptno();
-			String sal = to.getSal();
-			String hiredate = to.getHiredate();
-			String mgrname = to.getMgrname();
-			
-			data.add(String.format("[%s]  %s  %s  %s  %s  %s" + System.lineSeparator(), empno, ename, deptno, sal, hiredate, mgrname));
-		}
-	}
-	
-	
-	
-	@Override
-	public int getSize() {
-		return data.size();
-	}
+  private List<String> data = new ArrayList<>();
 
-	@Override
-	public String getElementAt(int index) {
-		return data.get(index);
-	}
+  public EmpListModel(String input) {
+    EmpSearchDAO dao = new EmpSearchDAO();
+    List<EmpSearchTO> empList = new ArrayList<>();
+
+    empList = dao.searchEname(input);
+
+    for(EmpSearchTO to : empList) {
+      String empno = to.getEmpno();
+      String ename = to.getEname();
+      String deptno = to.getDeptno();
+      String sal = to.getSal();
+      String hiredate = to.getHiredate();
+      String mgrname = to.getMgrname(); 
+      data.add(String.format("[%s]  %s  %s  %s  %s  %s" + System.lineSeparator(), empno, ename, deptno, sal, hiredate, mgrname));
+    }
+  }
+
+
+
+  @Override
+  public int getSize() {
+    return data.size();
+  } 
+  @Override
+  public String getElementAt(int index) {
+    return data.get(index);
+  }
 	
 }
 
@@ -11878,90 +12148,88 @@ import javax.swing.ListSelectionModel;
 
 public class EmpSearchUI01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JList list;
-	private JTextField textField1;
+  private JPanel contentPane;
+  private JTextField textField;
+  private JList list;
+  private JTextField textField1;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          EmpSearchUI01 frame = new EmpSearchUI01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public EmpSearchUI01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 650, 509);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EmpSearchUI01 frame = new EmpSearchUI01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC0AC\uC6D0\uC774\uB984 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(6, 21, 616, 73);
+    contentPane.add(panel);
+    panel.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public EmpSearchUI01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 509);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC0AC\uC6D0\uC774\uB984 \uAC80\uC0C9\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(6, 21, 616, 73);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lbl = new JLabel("사원이름");
-		lbl.setBounds(12, 41, 57, 15);
-		panel.add(lbl);
-		
-		textField = new JTextField();
-		textField.setBounds(67, 38, 428, 21);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		JButton btn = new JButton("검색");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				list.setModel(new EmpListModel(textField.getText()));
-			}
-		});
-		btn.setBounds(507, 37, 97, 23);
-		panel.add(btn);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 111, 612, 318);
-		contentPane.add(scrollPane);
-		
-		list = new JList();
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textField1.setText((String)list.getSelectedValue());
-			}
-		});
-		scrollPane.setViewportView(list);
-		
-		textField1 = new JTextField();
-		textField1.setEditable(false);
-		textField1.setText("사원정보");
-		textField1.setBounds(6, 439, 616, 21);
-		contentPane.add(textField1);
-		textField1.setColumns(10);
-	}
+    JLabel lbl = new JLabel("사원이름");
+    lbl.setBounds(12, 41, 57, 15);
+    panel.add(lbl);
+
+    textField = new JTextField();
+    textField.setBounds(67, 38, 428, 21);
+    panel.add(textField);
+    textField.setColumns(10);
+
+    JButton btn = new JButton("검색");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        list.setModel(new EmpListModel(textField.getText()));
+      }
+    });
+    btn.setBounds(507, 37, 97, 23);
+    panel.add(btn);
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    scrollPane.setBounds(10, 111, 612, 318);
+    contentPane.add(scrollPane);
+
+    list = new JList();
+    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    list.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        textField1.setText((String)list.getSelectedValue());
+      }
+    });
+    scrollPane.setViewportView(list);
+
+    textField1 = new JTextField();
+    textField1.setEditable(false);
+    textField1.setText("사원정보");
+    textField1.setBounds(6, 439, 616, 21);
+    contentPane.add(textField1);
+    textField1.setColumns(10);
+  }
 }
 ```
 
-###### table
+###### JTable
   
 ```java
 package pack1;
@@ -11977,65 +12245,62 @@ import javax.swing.JScrollPane;
 
 public class Ex01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTable table;
+  private JPanel contentPane;
+  private JTable table; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 10, 372, 184);
+    contentPane.add(scrollPane);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		// 스크롤로 감싸줘야 컬럼명이 표시된다
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "2", "3"},
-				{null, null, null},
-			},
-			new String[] {
-				"\uCEEC\uB7FC\uBA851", "\uCEEC\uB7FC\uBA852", "\uCEEC\uB7FC\uBA853"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-	}
+    table = new JTable();
+    scrollPane.setViewportView(table);
+    // 스크롤로 감싸줘야 컬럼명이 표시된다
+    table.setModel(new DefaultTableModel(
+      new Object[][] {
+        {"1", "2", "3"},
+        {null, null, null},
+      },
+      new String[] {
+        "\uCEEC\uB7FC\uBA851", "\uCEEC\uB7FC\uBA852", "\uCEEC\uB7FC\uBA853"
+      }
+    ) {
+      boolean[] columnEditables = new boolean[] {
+        false, false, false
+      };
+      public boolean isCellEditable(int row, int column) {
+        return columnEditables[column];
+      }
+    });
+    table.getColumnModel().getColumn(0).setResizable(false);
+    table.getColumnModel().getColumn(1).setResizable(false);
+    table.getColumnModel().getColumn(2).setResizable(false);
+  }
 }
 ```
 ```java
@@ -12045,37 +12310,35 @@ package pack1;
 import javax.swing.table.AbstractTableModel;
 
 public class CustomTableModel01 extends AbstractTableModel {
-	
-	private String[][] items = new String[][]	{
-		{"11", "12", "13"},
-		{"21", "22", "23"},
-		{"31", "32", "33"},
-		{null, "32", "33"},
-	};
-	
-	private String[] columnNames = {
-			"col1", "col2", "col3"
-	};
-	@Override
-	public String getColumnName(int column) {
-		return columnNames[column]; 
-	} // 컬럼의 이름을 지정한다
-	
-	
-	@Override
-	public int getRowCount() {
-		return items.length;
-	}
 
-	@Override
-	public int getColumnCount() {
-		return items[0].length;
-	}
+  private String[][] items = new String[][]	{
+    {"11", "12", "13"},
+    {"21", "22", "23"},
+    {"31", "32", "33"},
+    {null, "32", "33"},
+  };
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		return items[rowIndex][columnIndex];
-	}
+  private String[] columnNames = {
+    	"col1", "col2", "col3"
+  };
+  @Override
+  public String getColumnName(int column) {
+    return columnNames[column]; 
+  } // 컬럼의 이름을 지정한다
+
+
+  @Override
+  public int getRowCount() {
+    return items.length;
+  } 
+  @Override
+  public int getColumnCount() {
+    return items[0].length;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    return items[rowIndex][columnIndex];
+  }
 
 }
 
@@ -12093,50 +12356,46 @@ import javax.swing.JScrollPane;
 
 public class Ex01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTable table;
+  private JPanel contentPane;
+  private JTable table; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 10, 372, 184);
+    contentPane.add(scrollPane);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel01());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-	}
+    table = new JTable();
+    scrollPane.setViewportView(table);  
+    table.setModel(new CustomTableModel01());
+    table.getColumnModel().getColumn(0).setResizable(false);
+    table.getColumnModel().getColumn(1).setResizable(false);
+    table.getColumnModel().getColumn(2).setResizable(false);
+  }
 }
 ```
 ```java
@@ -12149,53 +12408,50 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class CustomTableModel02 extends AbstractTableModel {
-	
-	private List<List<String>> items = new ArrayList<>();
-	
-	private String[] columnNames = {
-			"col1", "col2", "col3", "col4"
-	};
-	@Override
-	public String getColumnName(int column) {
-		return columnNames[column]; 
-	} 
-	
-	public CustomTableModel02() {
-		List<String> item1 = new ArrayList<>();
-		item1.add("11");
-		item1.add("12");
-		item1.add("13");
-		item1.add("14");
-		List<String> item2 = new ArrayList<>();
-		item2.add("21");
-		item2.add("22");
-		item2.add("23");
-		item2.add("24");
-		List<String> item3 = new ArrayList<>();
-		item3.add("31");
-		item3.add("32");
-		item3.add("33");
-		item3.add("34");
-		
-		items.add(item1);
-		items.add(item2);
-		items.add(item3);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return items.size();
-	}
 
-	@Override
-	public int getColumnCount() {
-		return items.get(0).size();
-	}
+  private List<List<String>> items = new ArrayList<>();
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		return items.get(rowIndex).get(columnIndex);
-	}
+  private String[] columnNames = {
+      "col1", "col2", "col3", "col4"
+  };
+  @Override
+  public String getColumnName(int column) {
+    return columnNames[column]; 
+  } 
+
+  public CustomTableModel02() {
+    List<String> item1 = new ArrayList<>();
+    item1.add("11");
+    item1.add("12");
+    item1.add("13");
+    item1.add("14");
+    List<String> item2 = new ArrayList<>();
+    item2.add("21");
+    item2.add("22");
+    item2.add("23");
+    item2.add("24");
+    List<String> item3 = new ArrayList<>();
+    item3.add("31");
+    item3.add("32");
+    item3.add("33");
+    item3.add("34");  
+    items.add(item1);
+    items.add(item2);
+    items.add(item3);
+  }
+
+  @Override
+  public int getRowCount() {
+    return items.size();
+  } 
+  @Override
+  public int getColumnCount() {
+    return items.get(0).size();
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    return items.get(rowIndex).get(columnIndex);
+  }
 
 }
 
@@ -12213,51 +12469,47 @@ import javax.swing.JScrollPane;
 
 public class Ex01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTable table;
+  private JPanel contentPane;
+  private JTable table; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 10, 372, 184);
+    contentPane.add(scrollPane);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel02());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-	}
+    table = new JTable();
+    scrollPane.setViewportView(table);  
+    table.setModel(new CustomTableModel02());
+    table.getColumnModel().getColumn(0).setResizable(false);
+    table.getColumnModel().getColumn(1).setResizable(false);
+    table.getColumnModel().getColumn(2).setResizable(false);
+    table.getColumnModel().getColumn(3).setResizable(false);
+  }
 }
 ```
 ```java
@@ -12272,69 +12524,65 @@ import javax.swing.table.AbstractTableModel;
 
 public class CustomTableModel03 extends AbstractTableModel {
 
-	private List<DataTO> items = new ArrayList<>(); 
-	
-	CustomTableModel03() {
-		DataTO to1 = new DataTO();
-		to1.setNum1("11");
-		to1.setNum2("12");
-		to1.setNum3("13");
-		to1.setNum4("14");
-		DataTO to2 = new DataTO();
-		to2.setNum1("21");
-		to2.setNum2("22");
-		to2.setNum3("23");
-		to2.setNum4("24");
-		DataTO to3 = new DataTO();
-		to3.setNum1("31");
-		to3.setNum2("32");
-		to3.setNum3("33");
-		to3.setNum4("34");
-		
-		items.add(to1);
-		items.add(to2);
-		items.add(to3);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return items.size();
-	}
+  private List<DataTO> items = new ArrayList<>(); 
 
-	@Override
-	public int getColumnCount() {
-		int count = 1;
-		
-		for(DataTO to : items) {
-			count++;
-		}
-		return count;
-	}
+  CustomTableModel03() {
+    DataTO to1 = new DataTO();
+    to1.setNum1("11");
+    to1.setNum2("12");
+    to1.setNum3("13");
+    to1.setNum4("14");
+    DataTO to2 = new DataTO();
+    to2.setNum1("21");
+    to2.setNum2("22");
+    to2.setNum3("23");
+    to2.setNum4("24");
+    DataTO to3 = new DataTO();
+    to3.setNum1("31");
+    to3.setNum2("32");
+    to3.setNum3("33");
+    to3.setNum4("34");  
+    items.add(to1);
+    items.add(to2);
+    items.add(to3);
+  }
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = null;
-		
-		DataTO to = items.get(rowIndex);
-		
-		
-		switch(columnIndex) {
-		case 0:
-			result = to.getNum1();
-			break;
-		case 1:
-			result = to.getNum2();
-			break;
-		case 2:
-			result = to.getNum3();
-			break;
-		case 3:
-			result = to.getNum4();
-			break;
-		}
-		
-		return result;
-	}
+  @Override
+  public int getRowCount() {
+    return items.size();
+  } 
+  @Override
+  public int getColumnCount() {
+    int count = 1;  
+    for(DataTO to : items) {
+    	count++;
+    }
+    return count;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    String result = null;
+
+    DataTO to = items.get(rowIndex);
+
+
+    switch(columnIndex) {
+    case 0:
+      result = to.getNum1();
+      break;
+    case 1:
+      result = to.getNum2();
+      break;
+    case 2:
+      result = to.getNum3();
+      break;
+    case 3:
+      result = to.getNum4();
+      break;
+    }
+
+    return result;
+  }
 
 }
 // Ex01.java
@@ -12351,51 +12599,47 @@ import javax.swing.JScrollPane;
 
 public class Ex01 extends JFrame {
 
-	private JPanel contentPane;
-	private JTable table;
+  private JPanel contentPane;
+  private JTable table; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 10, 372, 184);
+    contentPane.add(scrollPane);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 372, 184);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		table.setModel(new CustomTableModel03());
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-	}
+    table = new JTable();
+    scrollPane.setViewportView(table);  
+    table.setModel(new CustomTableModel03());
+    table.getColumnModel().getColumn(0).setResizable(false);
+    table.getColumnModel().getColumn(1).setResizable(false);
+    table.getColumnModel().getColumn(2).setResizable(false);
+    table.getColumnModel().getColumn(3).setResizable(false);
+  }
 }
 
 ```
@@ -12404,63 +12648,63 @@ public class Ex01 extends JFrame {
 package pack1;
 
 public class EmpTO {
-	private String empno;
-	private String ename;
-	private String job;
-	private String mgr;
-	private String hiredate;
-	private String sal;
-	private String comm;
-	private String deptno;
-	
-	public String getEmpno() {
-		return empno;
-	}
-	public void setEmpno(String empno) {
-		this.empno = empno;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-	public String getJob() {
-		return job;
-	}
-	public void setJob(String job) {
-		this.job = job;
-	}
-	public String getMgr() {
-		return mgr;
-	}
-	public void setMgr(String mgr) {
-		this.mgr = mgr;
-	}
-	public String getHiredate() {
-		return hiredate;
-	}
-	public void setHiredate(String hiredate) {
-		this.hiredate = hiredate;
-	}
-	public String getSal() {
-		return sal;
-	}
-	public void setSal(String sal) {
-		this.sal = sal;
-	}
-	public String getComm() {
-		return comm;
-	}
-	public void setComm(String comm) {
-		this.comm = comm;
-	}
-	public String getDeptno() {
-		return deptno;
-	}
-	public void setDeptno(String deptno) {
-		this.deptno = deptno;
-	}
+  private String empno;
+  private String ename;
+  private String job;
+  private String mgr;
+  private String hiredate;
+  private String sal;
+  private String comm;
+  private String deptno;
+
+  public String getEmpno() {
+    return empno;
+  }
+  public void setEmpno(String empno) {
+    this.empno = empno;
+  }
+  public String getEname() {
+    return ename;
+  }
+  public void setEname(String ename) {
+    this.ename = ename;
+  }
+  public String getJob() {
+    return job;
+  }
+  public void setJob(String job) {
+    this.job = job;
+  }
+  public String getMgr() {
+    return mgr;
+  }
+  public void setMgr(String mgr) {
+    this.mgr = mgr;
+  }
+  public String getHiredate() {
+    return hiredate;
+  }
+  public void setHiredate(String hiredate) {
+    this.hiredate = hiredate;
+  }
+  public String getSal() {
+    return sal;
+  }
+  public void setSal(String sal) {
+    this.sal = sal;
+  }
+  public String getComm() {
+    return comm;
+  }
+  public void setComm(String comm) {
+    this.comm = comm;
+  }
+  public String getDeptno() {
+    return deptno;
+  }
+  public void setDeptno(String deptno) {
+    this.deptno = deptno;
+  }
 	
 }
 // EmpDAO.java
@@ -12475,59 +12719,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmpDAO {
-	Connection conn = null;
-	
-	public EmpDAO() {
-		String url = "jdbc:mariadb://localhost:3306/sample";
-		String user = "root";
-		String password = "123456";
-		
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러: " + e.getMessage());
-		}
-	}
-	
-	public List<EmpTO> empSearchTable() {
-		List<EmpTO> list = new ArrayList<>();
-		
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select empno, ename, job, mgr, hiredate, sal, ifnull(comm, 'null') comm, deptno from emp";
-		try {
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery(sql);
-			
-			while(rs.next()) {
-				EmpTO to = new EmpTO();
-				
-				to.setEmpno(rs.getString("empno"));
-				to.setEname(rs.getString("ename"));
-				to.setJob(rs.getString("job"));
-				to.setMgr(rs.getString("mgr"));
-				to.setHiredate(rs.getString("hiredate"));
-				to.setSal(rs.getString("sal"));
-				to.setComm(rs.getString("comm"));
-				to.setDeptno(rs.getString("deptno"));
-				
-				list.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return list;
-	}
+  Connection conn = null;
+
+  public EmpDAO() {
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러: " + e.getMessage());
+    }
+  }
+
+  public List<EmpTO> empSearchTable() {
+    List<EmpTO> list = new ArrayList<>();
+
+    Statement stmt = null;
+    ResultSet rs = null;
+
+    String sql = "select empno, ename, job, mgr, hiredate, sal, ifnull(comm, 'null') comm, deptno from emp";
+    try {
+      stmt = conn.createStatement();  
+      rs = stmt.executeQuery(sql);  
+      while(rs.next()) {
+        EmpTO to = new EmpTO(); 
+        to.setEmpno(rs.getString("empno"));
+        to.setEname(rs.getString("ename"));
+        to.setJob(rs.getString("job"));
+        to.setMgr(rs.getString("mgr"));
+        to.setHiredate(rs.getString("hiredate"));
+        to.setSal(rs.getString("sal"));
+        to.setComm(rs.getString("comm"));
+        to.setDeptno(rs.getString("deptno")); 
+        list.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(stmt != null) try {stmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return list;
+  }
 	
 }
 
@@ -12546,1602 +12786,65 @@ import javax.swing.table.AbstractTableModel;
 
 public class CustomTableModel extends AbstractTableModel {
 	
-	List<EmpTO> empList = new ArrayList<>();
-	
-	public CustomTableModel() {
-		EmpDAO dao = new EmpDAO();
-		empList = dao.empSearchTable();
-	}
-	
-	private String[] colNames = {
-			"empno", "ename", "job", "mgr", "hiredate", "sal", "comm", "deptno"
-	};
-	
-	@Override
-	public String getColumnName(int column) {
-		return colNames[column];
-	}
-	@Override
-	public int getRowCount() {
-		return empList.size();
-	}
+  List<EmpTO> empList = new ArrayList<>();
+
+  public CustomTableModel() {
+    EmpDAO dao = new EmpDAO();
+    empList = dao.empSearchTable();
+  }
+
+  private String[] colNames = {
+      "empno", "ename", "job", "mgr", "hiredate", "sal", "comm", "deptno"
+  };
+
+  @Override
+  public String getColumnName(int column) {
+    return colNames[column];
+  }
+
+  @Override
+  public int getRowCount() {
+    return empList.size();
+  } 
+  @Override
+  public int getColumnCount() {
+    return colNames.length;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    String result = null;
+
+    EmpTO to = empList.get(rowIndex);
+
+    switch(columnIndex) {
+    case 0:
+      result = to.getEmpno();
+      break;
+    case 1:
+      result = to.getEname();
+      break;
+    case 2:
+      result = to.getJob();
+      break;
+    case 3: 
+      result = to.getMgr();
+      break;
+    case 4:
+      result = to.getHiredate();
+      break;
+    case 5:
+      result = to.getSal();
+      break;
+    case 6:
+      result = to.getComm();
+      break;
+    case 7:
+      result = to.getDeptno(); 
+      break;
+    }
+    return result;
+  }
 
-	@Override
-	public int getColumnCount() {
-		
-		return colNames.length;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = null;
-		
-		EmpTO to = empList.get(rowIndex);
-		
-		switch(columnIndex) {
-		case 0:
-			result = to.getEmpno();
-			break;
-		case 1:
-			result = to.getEname();
-			break;
-		case 2:
-			result = to.getJob();
-			break;
-		case 3: 
-			result = to.getMgr();
-			break;
-		case 4:
-			result = to.getHiredate();
-			break;
-		case 5:
-			result = to.getSal();
-			break;
-		case 6:
-			result = to.getComm();
-			break;
-		case 7:
-			result = to.getDeptno(); 
-			break;
-		}
-		return result;
-	}
-
-}
-```
-###### tree
-
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTree tree;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		tree = new JTree();
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click " + tree.getSelectionPath().toString());
-				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
-				// click [JTree, colors, 빨강색]
-			}
-		});
-		tree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("JTree") { // "JTree"를 루트노드로 갖는 트리
-				{
-					DefaultMutableTreeNode node_1;
-					node_1 = new DefaultMutableTreeNode("colors");
-					node_1.add(new DefaultMutableTreeNode("파랑색"));
-					node_1.add(new DefaultMutableTreeNode("보라색"));
-					node_1.add(new DefaultMutableTreeNode("빨강색"));
-					node_1.add(new DefaultMutableTreeNode("노랑색"));
-					add(node_1);
-					node_1 = new DefaultMutableTreeNode("sports");
-					node_1.add(new DefaultMutableTreeNode("basketball"));
-					node_1.add(new DefaultMutableTreeNode("soccer"));
-					node_1.add(new DefaultMutableTreeNode("football"));
-					node_1.add(new DefaultMutableTreeNode("hockey"));
-					add(node_1);
-					node_1 = new DefaultMutableTreeNode("food");
-					node_1.add(new DefaultMutableTreeNode("hot dogs"));
-					node_1.add(new DefaultMutableTreeNode("pizza"));
-					node_1.add(new DefaultMutableTreeNode("ravioli"));
-					node_1.add(new DefaultMutableTreeNode("bananas"));
-					add(node_1);
-				}
-			}
-		));
-		tree.setBounds(12, 10, 229, 476);
-		contentPane.add(tree);
-	}
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex01 extends JFrame {
-
-	private JPanel contentPane;
-	private JTree tree;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex01 frame = new Ex01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		tree = new JTree();
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click " + tree.getSelectionPath().toString());
-				// 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
-				// click [JTree, colors, 빨강색]
-			}
-		});
-
-
-		tree.setModel(new DefaultTreeModel(makeTree("root")));
-		
-		tree.setBounds(12, 10, 229, 476);
-		contentPane.add(tree);
-	}
-	public DefaultMutableTreeNode makeTree(String rootName) {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
-		
-		DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
-		DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("sports");
-		DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("food");
-		
-		node1.add(new DefaultMutableTreeNode("파랑색"));
-		node1.add(new DefaultMutableTreeNode("빨강색"));
-		node1.add(new DefaultMutableTreeNode("노랑색"));
-		
-		node2.add(new DefaultMutableTreeNode("축구"));
-		node2.add(new DefaultMutableTreeNode("농구"));
-		node2.add(new DefaultMutableTreeNode("야구"));
-		
-		node3.add(new DefaultMutableTreeNode("고기"));
-		node3.add(new DefaultMutableTreeNode("소고기"));
-		node3.add(new DefaultMutableTreeNode("돼지고기"));
-		
-		root.add(node1);
-		root.add(node2);
-		root.add(node3);
-		
-		return root;
-	}
-}
-```
-
-###### dialog
-```java
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex02 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex02 frame = new Ex02();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex02() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// 창을 닫았을 때 프로그램이 종료된다
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					JDialogEx01 dialog = new JDialogEx01();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					// 창을 닫았을 때 프로그램은 계속 실행되고 다이얼로그 창만 종료된다
-					Dimension d = Ex02.this.getSize();
-					System.out.println(d.toString()); // java.awt.Dimension[width=800,height=600]
-					
-					Point p = Ex02.this.getLocation();
-					System.out.println(p.toString()); // java.awt.Point[x=100,y=100]
-					
-					Rectangle r = Ex02.this.getBounds();
-					System.out.println(r.toString()); // java.awt.Rectangle[x=100,y=100,width=800,height=600]
-					
-					int fx = (int)r.getX();
-					int fy = (int)r.getY();
-					int fwidth = (int)r.getWidth();
-					int fheight = (int)r.getHeight();
-					
-					int dwidth = 450;
-					int dheight = 300;
-					
-					dialog.setBounds(100 + (fwidth - dwidth) / 2, 100 + (fheight - dheight) / 2, dwidth, dheight);
-					// 다이얼로그 창이 가운데 위치에서 열린다
-
-					dialog.setModal(true);
-					// 한개의 다이얼로그 창만 열리게 한다
-					dialog.setVisible(true);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btn.setBounds(12, 10, 97, 23);
-		contentPane.add(btn);
-	}
-}
-```
-```java
-// JDialogEx03.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class JDialogEx03 extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-	private String data; 
-	private JTextField textField;
-	
-	public void setData(String data) {
-		this.data = data;
-	}
-	
-	public String getData() {
-		return data;
-	}
-	
-	public JDialogEx03(String data) {
-		this();
-		this.data = data;
-		textField.setText(data);
-		System.out.println(data);
-	}
-	
-	/**
-	 * Create the dialog.
-	 */
-	public JDialogEx03() {
-		JDialogEx03.this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		{
-			textField = new JTextField();
-			textField.setEditable(false);
-			textField.setBounds(12, 10, 259, 21);
-			contentPanel.add(textField);
-			textField.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JDialogEx03.this.dispose();
-
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JDialogEx03.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-	}
-
-}
-
-// Ex03.java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex03 extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField1;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex03 frame = new Ex03();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex03() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textField1 = new JTextField();
-		textField1.setBounds(12, 10, 309, 21);
-		contentPane.add(textField1);
-		textField1.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setBounds(12, 41, 436, 21);
-		contentPane.add(textField2);
-		textField2.setColumns(10);
-		
-		JButton btn = new JButton("New button");
-		btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JDialogEx03 dialog = new JDialogEx03(textField1.getText());
-				System.out.println("1");
-				
-				dialog.setModal(true);
-				// setModal(true)는 프로그램의 제어권을 다이얼로그창으로 넘겨서 프레임창을 이용할 수 없다
-				System.out.println("2");
-				
-				dialog.setVisible(true);
-				System.out.println("3");
-				
-				// 프레임 -> 다이얼로그 : 생성자, setter
-				// 다이얼로그 -> 프레임 : getter, 멤버필드
-				
-				String data = dialog.getData();
-				System.out.println("결과 :" + data);
-				
-				textField2.setText(dialog.getData());
-				// 다이얼로그창이 닫힐때 다이얼로그 창에서 프레임으로 제어권이 넘어오면서 실행된다
-			}
-		});
-		btn.setBounds(351, 9, 97, 23);
-		contentPane.add(btn);
-	}
-}
-```
-```java
-// GuguDialog.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class GuguDialog extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-		private int startDan;
-		private int endDan;
-		private JTextArea textArea;
-	
-	public int getStartDan() {
-			return startDan;
-		}
-
-		public void setStartDan(int startDan) {
-			this.startDan = startDan;
-		}
-
-		public int getEndDan() {
-			return endDan;
-		}
-
-		public void setEndDan(int endDan) {
-			this.endDan = endDan;
-		}
-
-	/**
-	 * Create the dialog.
-	 */
-	public GuguDialog() {
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 410, 152);
-		contentPanel.add(scrollPane);
-		
-		textArea = new JTextArea();
-		
-		scrollPane.setViewportView(textArea);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialog.this.dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialog.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-	}
-	public void guguPrint() {
-		String result = "";
-		for(int i = startDan; i <= endDan; i++) {
-			for(int j = 1; j <= 9; j++) {
-				result += String.format("%2d X %2d = %d%n", i, j, i*j); 
-			}
-		}
-		textArea.setText(result);
-	}
-}
-
-// GugudanMain.java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class GugudanMain extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GugudanMain frame = new GugudanMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public GugudanMain() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("시작단");
-		lblNewLabel.setBounds(12, 10, 119, 30);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("끝단");
-		lblNewLabel_1.setBounds(12, 50, 119, 30);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(91, 13, 188, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setColumns(10);
-		textField2.setBounds(91, 50, 188, 25);
-		contentPane.add(textField2);
-		
-		JButton btnNewButton = new JButton("구구단 출력");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GuguDialog dialog = new GuguDialog();
-				dialog.setStartDan(Integer.parseInt(textField.getText()));
-				dialog.setEndDan(Integer.parseInt(textField2.getText()));
-				dialog.guguPrint();
-				dialog.setModal(true);
-				dialog.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(316, 10, 119, 70);
-		contentPane.add(btnNewButton);
-	}
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class GugudanMain extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GugudanMain frame = new GugudanMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public GugudanMain() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("시작단");
-		lblNewLabel.setBounds(12, 10, 119, 30);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("끝단");
-		lblNewLabel_1.setBounds(12, 50, 119, 30);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(91, 13, 188, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setColumns(10);
-		textField2.setBounds(91, 50, 188, 25);
-		contentPane.add(textField2);
-		
-		JButton btnNewButton = new JButton("구구단 출력");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				GuguDialogTable dialog = new GuguDialogTable(Integer.parseInt(textField.getText()), Integer.parseInt(textField2.getText()));
-				dialog.setModal(true);
-				dialog.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(316, 10, 119, 70);
-		contentPane.add(btnNewButton);
-	}
-}
-// CustomGuguTableModel.java
-import javax.swing.table.AbstractTableModel;
-
-public class CustomGuguTableModel extends AbstractTableModel {
-
-	private int startDan;
-	private int endDan;
-	
-	public CustomGuguTableModel(int startDan, int endDan) {
-		this.startDan = startDan;
-		this.endDan = endDan;
-	}
-	
-	private String[] colNames = {
-			"X 1", "X 2", "X 3", "X 4", "X 5", "X 6", "X 7", "X 8", "X 9"
-	};
-	
-	@Override
-	public String getColumnName(int column) {
-		return colNames[column];
-	}
-	
-	@Override
-	public int getRowCount() {
-		return endDan - startDan + 1;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return 9;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = "";
-		result = String.format("%2d X %2d = %d", rowIndex + startDan, columnIndex + 1, (rowIndex + startDan) * (columnIndex + 1));
-		return result;
-	}
-
-}
-// GuguDialogTable.java
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class GuguDialogTable extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-
-	/**
-	 * Create the dialog.
-	 */
-	
-	public GuguDialogTable(int startDan, int endDan) {
-		this();
-		
-		table.setModel(new CustomGuguTableModel(startDan, endDan));
-	}
-	
-	public GuguDialogTable() {
-		setBounds(100, 100, 600, 300);
-		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 434, 1);
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel);
-		contentPanel.setLayout(null);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(0, 228, 434, 33);
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialogTable.this.dispose();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						GuguDialogTable.this.dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 562, 170);
-		getContentPane().add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-	}
-}
-```
-###### colorChooser
-```java
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class Ex04 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex04 frame = new Ex04();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex04() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Color color = JColorChooser.showDialog(Ex04.this, "파란색", Color.BLUE);
-				System.out.println("결과 : " + color);
-				// 컬러를 선택하지 않고 창을 닫을 경우 "결과 : null"을 출력한다
-				if(color != null) {
-					System.out.println("Red : " + color.getRed());
-					System.out.println("Green : " + color.getGreen());
-					System.out.println("Blue : " + color.getBlue());
-				}else {
-					System.out.println("취소 선택");
-				}
-			}
-		});
-		btnNewButton.setBounds(12, 10, 97, 23);
-		contentPane.add(btnNewButton);
-	}
-
-}
-```
-###### fileChooser
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-
-public class Ex05 extends JFrame {
-
-	private JPanel contentPane;
-	private JTextArea textArea;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex05 frame = new Ex05();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex05() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("파일 열기");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser filechooser = new JFileChooser("c:\\"); 
-				// 파일 선택의 처음 위치를 인수로 줘서 지정할 수 있다
-				
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Java 소스", "java", "txt");
-				filechooser.setFileFilter(filter);
-				// 파일 선택 화면에서 특정 형식의 파일만 보이게 할 수 있다
-				
-				int result = filechooser.showOpenDialog(Ex05.this);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					System.out.println("확인");
-					
-					File file = filechooser.getSelectedFile();
-					
-					System.out.println(file.getName());
-					System.out.println(file.getAbsolutePath());
-					
-					textArea.setText("");
-					
-					BufferedReader br = null;
-					
-					try {
-						br = new BufferedReader(new FileReader(file));
-						String line = null;
-						while((line = br.readLine()) != null) {
-							textArea.append(line + System.lineSeparator());
-						}
-					} catch (FileNotFoundException e1) {
-						System.out.println("에러 : " + e1.getMessage());
-					} catch (IOException e1) {
-						System.out.println("에러 : " + e1.getMessage());
-					}finally {
-						if(br != null) try {br.close();} catch(IOException e1) {}
-					}
-				}else if(result == JFileChooser.CANCEL_OPTION) {
-					System.out.println("취소");
-				}
-			}
-		});
-		btnNewButton.setBounds(12, 10, 113, 23);
-		contentPane.add(btnNewButton);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 39, 324, 342);
-		contentPane.add(scrollPane);
-		
-		textArea = new JTextArea();
-		scrollPane.setViewportView(textArea);
-		
-		JButton btnNewButton_1 = new JButton("내용 지우기");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				textArea.setText("");
-			}
-		});
-		btnNewButton_1.setBounds(137, 10, 120, 23);
-		contentPane.add(btnNewButton_1);
-		
-		JButton btn2 = new JButton("파일 저장");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser("c:\\");
-				int result = fileChooser.showSaveDialog(Ex05.this);
-				
-				if(result == JFileChooser.APPROVE_OPTION) {
-					System.out.println("확인 " + fileChooser.getSelectedFile().getName());
-					System.out.println("확인 " + fileChooser.getSelectedFile().getAbsolutePath());
-					
-					BufferedWriter bw = null;
-				
-					try {
-						bw = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile().getAbsolutePath()));
-						
-						bw.write(textArea.getText());
-						
-						JOptionPane.showMessageDialog(Ex05.this, "내용 저장", "저장" , JOptionPane.INFORMATION_MESSAGE);
-						
-					} catch (IOException e1) {
-						System.out.println(" 에러 : " + e1.getMessage());
-					} finally {
-						if(bw != null) try {bw.close();} catch(IOException e1) {}
-					}
-				}else {
-					System.out.println("취소");
-				}
-			}
-		});
-		btn2.setBounds(269, 10, 120, 23);
-		contentPane.add(btn2);
-	}
-
-}
-```
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-
-public class Ex06 extends JFrame {
-
-	private JPanel contentPane;
-	private JLabel lbl;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex06 frame = new Ex06();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex06() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 69, 506, 355);
-		contentPane.add(scrollPane);
-		
-		lbl = new JLabel("");
-		scrollPane.setViewportView(lbl);
-		
-		JButton btnNewButton = new JButton("이미지 보이기");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser("c:\\");
-				
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("이미지 파일", "png", "img");
-				
-				
-				fileChooser.setFileFilter(filter);
-				
-				int result = fileChooser.showOpenDialog(Ex06.this);
-				
-				lbl.setIcon(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
-				
-				
-			}
-		});
-		btnNewButton.setBounds(12, 10, 168, 23);
-		contentPane.add(btnNewButton);
-	}
-
-}
-```
-###### menuBar
-```java
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Ex07 extends JFrame {
-
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex07 frame = new Ex07();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex07() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		// menuBar <- menu <- menuItem
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("파일");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("new");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("새파일");
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("open");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("열기");
-			}
-		});
-		mnNewMenu.add(mntmNewMenuItem_2);
-		
-		mnNewMenu.addSeparator(); // menuItem을 구분해주는 선을 넣는다
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("save");
-		mnNewMenu.add(mntmNewMenuItem_3);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("사과");
-		mnNewMenu.add(chckbxmntmNewCheckItem);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("참외");
-		chckbxmntmNewCheckItem_1.setSelected(true);
-		mnNewMenu.add(chckbxmntmNewCheckItem_1);
-		
-		JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("수박");
-		mnNewMenu.add(chckbxmntmNewCheckItem_2);
-		
-		
-		JMenu mnNewMenu_1 = new JMenu("홈");
-		menuBar.add(mnNewMenu_1);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("menu 1");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
-		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("menu 2");
-		mnNewMenu_1.add(mntmNewMenuItem_4);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-	}
-}
-```
-
-
-
-
-```java
-// EmpTO.java
-package Test2;
-
-public class EmpTO {
-	private String empno;
-	private String ename;
-	private String mgr;
-	private String hiredate;
-	private String sal;
-	private String comm;
-	private String dname;
-	
-	public String getEmpno() {
-		return empno;
-	}
-	public void setEmpno(String empno) {
-		this.empno = empno;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-	public String getMgr() {
-		return mgr;
-	}
-	public void setMgr(String mgr) {
-		this.mgr = mgr;
-	}
-	public String getHiredate() {
-		return hiredate;
-	}
-	public void setHiredate(String hiredate) {
-		this.hiredate = hiredate;
-	}
-	public String getSal() {
-		return sal;
-	}
-	public void setSal(String sal) {
-		this.sal = sal;
-	}
-	public String getComm() {
-		return comm;
-	}
-	public void setComm(String comm) {
-		this.comm = comm;
-	}
-	public String getDname() {
-		return dname;
-	}
-	public void setDname(String dname) {
-		this.dname = dname;
-	}
-}
-// EmpDAO.java
-package Test2;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-public class EmpDAO {
-	Connection conn = null;
-	String url = "jdbc:mariadb://localhost:3306/sample";
-	String user = "root";
-	String password = "123456";
-	public EmpDAO() {
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
-	
-	public List<EmpTO> searchByJob(String job) {
-		List<EmpTO> to = new ArrayList<>();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			String sql = "select empno, ename, mgr, hiredate, sal, comm, dname from emp e left outer join dept d on (e.deptno = d.deptno) where job = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, job);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				EmpTO data = new EmpTO();
-				data.setComm(rs.getString("comm"));
-				data.setDname(rs.getString("dname"));
-				data.setEmpno(rs.getString("empno"));
-				data.setEname(rs.getString("ename"));
-				data.setHiredate(rs.getString("hiredate"));
-				data.setMgr(rs.getString("mgr"));
-				data.setSal(rs.getString("sal"));
-				
-				to.add(data);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally{
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return to;
-	}
-	
-	public List<String> jobList(){
-		List<String> jobNames = new ArrayList<>();
-		
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		String sql = "select distinct job from emp";
-		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			
-			while(rs.next()) {
-				String job = rs.getString("job");
-				
-				jobNames.add(job);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally{
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(stmt != null) try {stmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return jobNames;
-	}
-	
-}
-
-// EmpComboBoxModel.java
-package Test2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
-
-public class EmpComboBoxModel extends DefaultComboBoxModel<String> {
-	private List<String> list = new ArrayList<>();  
-	
-	public EmpComboBoxModel() {
-		EmpDAO dao = new EmpDAO();
-		list = dao.jobList();
-	}
-
-	@Override
-	public int getSize() {
-		return list.size();
-	}
-	@Override
-	public String getElementAt(int index) {
-		return list.get(index);
-	}
-
-}
-// EmpTableModel.java
-package Test2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
-public class EmpTableModel extends AbstractTableModel {
-	private List<EmpTO> list = new ArrayList<>();
-	
-	private String[] colNames = {
-			"사원번호", "사원이름", "관리자번호", "입사일자", "급여", "보너스", "부서"
-	};
-	
-	@Override
-	public String getColumnName(int column) {
-		return colNames[column];
-	}
-	
-	public EmpTableModel(String job) {
-		EmpDAO dao = new EmpDAO();
-		
-		list = dao.searchByJob(job);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return list.size();
-	}
-
-	@Override
-	public int getColumnCount() {
-		return colNames.length;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = null;
-		
-		EmpTO to = list.get(rowIndex);
-		
-		switch(columnIndex) {
-		case 0:
-			result = to.getEmpno();
-			break;
-		case 1:
-			result = to.getEname();
-			break;
-		case 2:
-			result = to.getMgr();
-			break;
-		case 3:
-			result = to.getHiredate();
-			break;
-		case 4:
-			result = to.getSal();
-			break;
-		case 5:
-			result = to.getComm();
-			break;
-		case 6:
-			result = to.getDname();
-			break;
-
-		}
-		return result;
-	}
-
-}
-// Test2.java
-package Test2;
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-
-public class Test2 extends JFrame {
-
-	private JPanel contentPane;
-	private JTable table;
-	private JComboBox job;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Test2 frame = new Test2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Test2() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC9C1\uCC45\uBCC4", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(46, 23, 680, 67);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lbl = new JLabel("직 책");
-		lbl.setBounds(94, 27, 57, 15);
-		panel.add(lbl);
-		
-		job = new JComboBox();
-		job.setModel(new EmpComboBoxModel());
-		job.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				table.setModel(new EmpTableModel((String)job.getSelectedItem()));
-			}
-		});
-		job.setBounds(163, 23, 334, 23);
-		panel.add(job);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(48, 119, 674, 346);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-	}
 }
 ```
 ```java
@@ -14149,56 +12852,56 @@ public class Test2 extends JFrame {
 package Test;
 
 public class PostSearchTO {
-	private String seq;
-	private String zipcode;
-	private String sido;
-	private String gugun;
-	private String dong;
-	private String ri;
-	private String bunji;
-	
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-	public String getZipcode() {
-		return zipcode;
-	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-	public String getSido() {
-		return sido;
-	}
-	public void setSido(String sido) {
-		this.sido = sido;
-	}
-	public String getGugun() {
-		return gugun;
-	}
-	public void setGugun(String gugun) {
-		this.gugun = gugun;
-	}
-	public String getDong() {
-		return dong;
-	}
-	public void setDong(String dong) {
-		this.dong = dong;
-	}
-	public String getRi() {
-		return ri;
-	}
-	public void setRi(String ri) {
-		this.ri = ri;
-	}
-	public String getBunji() {
-		return bunji;
-	}
-	public void setBunji(String bunji) {
-		this.bunji = bunji;
-	}
+  private String seq;
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
+  public String getSido() {
+    return sido;
+  }
+  public void setSido(String sido) {
+    this.sido = sido;
+  }
+  public String getGugun() {
+    return gugun;
+  }
+  public void setGugun(String gugun) {
+    this.gugun = gugun;
+  }
+  public String getDong() {
+    return dong;
+  }
+  public void setDong(String dong) {
+    this.dong = dong;
+  }
+  public String getRi() {
+    return ri;
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
 	
 }
 
@@ -14214,140 +12917,129 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostSearchDAO {
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	private String url = "jdbc:mariadb://localhost:3306/project";
-	private String user = "root";
-	private String password = "123456";
-	
-	public PostSearchDAO() {
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException e) {
-			System.out.println("에러 " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 " + e.getMessage());
-		}
-		
-	}
-	
-	public List<PostSearchTO> sidoList() {
-		List<PostSearchTO> sidoAll = new ArrayList<>();
-		
-		String sql = "select distinct sido from zipcode";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				PostSearchTO to = new PostSearchTO();
-				
-				to.setSido(rs.getString("sido"));
-				
-				sidoAll.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-			
-		return sidoAll;
-	}
-	public List<PostSearchTO> gugunList(String sido) {
-		List<PostSearchTO> gugunAll = new ArrayList<>();
-		
-		String sql = "select distinct gugun from zipcode where sido = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sido);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				PostSearchTO to = new PostSearchTO();
-				
-				to.setSido(sido);
-				to.setGugun(rs.getString("gugun"));
-				
-				gugunAll.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		return gugunAll;
-	}
-	
-	public List<PostSearchTO> dongList(String sido, String gugun) {
-		List<PostSearchTO> dongAll = new ArrayList<>();
-		
-		String sql = "select distinct dong from zipcode where sido = ? and gugun = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sido);
-			pstmt.setString(2, gugun);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				PostSearchTO to = new PostSearchTO();
-				
-				to.setSido(sido);
-				to.setGugun(gugun);
-				to.setDong(rs.getString("dong"));
-				
-				dongAll.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return dongAll;
-	}
-	
-	public List<PostSearchTO> tableData(String sido, String gugun, String dong){
-		List<PostSearchTO> dataAll = new ArrayList<>();
-		
-		String sql = "select * from zipcode where sido = ? and gugun = ? and dong = ?";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sido);
-			pstmt.setString(2, gugun);
-			pstmt.setString(3, dong);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				PostSearchTO to = new PostSearchTO();
-				
-				to.setBunji(rs.getString("bunji"));
-				to.setDong(rs.getString("dong"));
-				to.setGugun(rs.getString("gugun"));
-				to.setRi(rs.getString("ri"));
-				to.setSeq(rs.getString("seq"));
-				to.setSido(rs.getString("sido"));
-				to.setZipcode(rs.getString("zipcode"));
-				
-				dataAll.add(to);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		
-		return dataAll;
-	}
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+
+  private String url = "jdbc:mariadb://localhost:3306/project";
+  private String user = "root";
+  private String password = "123456";
+
+  public PostSearchDAO() {
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 " + e.getMessage());
+    }
+  
+  }
+
+  public List<PostSearchTO> sidoList() {
+    List<PostSearchTO> sidoAll = new ArrayList<>();
+
+    String sql = "select distinct sido from zipcode";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();  
+      while(rs.next()) {
+        PostSearchTO to = new PostSearchTO(); 
+        to.setSido(rs.getString("sido")); 
+        sidoAll.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+
+    return sidoAll;
+  }
+  public List<PostSearchTO> gugunList(String sido) {
+    List<PostSearchTO> gugunAll = new ArrayList<>();
+
+    String sql = "select distinct gugun from zipcode where sido = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, sido);
+      rs = pstmt.executeQuery();  
+      while(rs.next()) {
+        PostSearchTO to = new PostSearchTO(); 
+        to.setSido(sido);
+        to.setGugun(rs.getString("gugun")); 
+        gugunAll.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    return gugunAll;
+  }
+
+  public List<PostSearchTO> dongList(String sido, String gugun) {
+    List<PostSearchTO> dongAll = new ArrayList<>(); 
+    String sql = "select distinct dong from zipcode where sido = ? and gugun = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, sido);
+      pstmt.setString(2, gugun);
+      rs = pstmt.executeQuery();  
+      while(rs.next()){
+        PostSearchTO to = new PostSearchTO(); 
+        to.setSido(sido);
+        to.setGugun(gugun);
+        to.setDong(rs.getString("dong")); 
+        dongAll.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    } 
+    return dongAll;
+  }
+
+  public List<PostSearchTO> tableData(String sido, String gugun, String dong){
+    List<PostSearchTO> dataAll = new ArrayList<>();
+
+    String sql = "select * from zipcode where sido = ? and gugun = ? and dong = ?";
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, sido);
+      pstmt.setString(2, gugun);
+      pstmt.setString(3, dong);
+
+      rs = pstmt.executeQuery();
+
+      while(rs.next()) {
+        PostSearchTO to = new PostSearchTO();
+
+        to.setBunji(rs.getString("bunji"));
+        to.setDong(rs.getString("dong"));
+        to.setGugun(rs.getString("gugun"));
+        to.setRi(rs.getString("ri"));
+        to.setSeq(rs.getString("seq"));
+        to.setSido(rs.getString("sido"));
+        to.setZipcode(rs.getString("zipcode"));
+
+        dataAll.add(to);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+
+    return dataAll;
+  }
 }
 
 // SidoComboBoxModel.java
@@ -14393,35 +13085,31 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
 public class GugunComboBoxModel extends DefaultComboBoxModel<String> {
-	private List<PostSearchTO> gugunList = new ArrayList<>();
-	
-	
-	public GugunComboBoxModel() {
-		PostSearchDAO dao = new PostSearchDAO();
-		PostSearchTO to = new PostSearchTO();
-		
-		to.setGugun("구군");
-		gugunList.add(to);
-	}
-	public GugunComboBoxModel(String sido) {
-		this();
-		PostSearchDAO dao = new PostSearchDAO();
-		gugunList.addAll(dao.gugunList(sido));
-	}
+  private List<PostSearchTO> gugunList = new ArrayList<>();
 
-	@Override
-	public int getSize() {
-		return gugunList.size();
-	}
+  public GugunComboBoxModel() {
+    PostSearchDAO dao = new PostSearchDAO();
+    PostSearchTO to = new PostSearchTO(); 
+    to.setGugun("구군");
+    gugunList.add(to);
+  }
+  public GugunComboBoxModel(String sido) {
+    this();
+    PostSearchDAO dao = new PostSearchDAO();
+    gugunList.addAll(dao.gugunList(sido));
+  } 
+  @Override
+  public int getSize() {
+    return gugunList.size();
+  } 
+  @Override
+  public String getElementAt(int index) {
+    String result = "";
 
-	@Override
-	public String getElementAt(int index) {
-		String result = "";
-		
-		result = gugunList.get(index).getGugun();
-		
-		return result;
-	}
+    result = gugunList.get(index).getGugun();
+
+    return result;
+  }
 	
 }
 
@@ -14435,37 +13123,33 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
 public class DongComboBoxModel extends DefaultComboBoxModel<String> {
-	private List<PostSearchTO> dongList = new ArrayList<>();
-	
-	
-	public DongComboBoxModel() {
-		PostSearchDAO dao = new PostSearchDAO();
-		PostSearchTO to = new PostSearchTO();
-		
-		to.setDong("동");
-		dongList.add(to);
-	}
-	
-	public DongComboBoxModel(String sido, String gugun) {
-		this();
-		PostSearchDAO dao = new PostSearchDAO();
-		
-		dongList.addAll(dao.dongList(sido, gugun));
-	}
+  private List<PostSearchTO> dongList = new ArrayList<>();
 
-	@Override
-	public int getSize() {
-		return dongList.size();
-	}
+  public DongComboBoxModel() {
+    PostSearchDAO dao = new PostSearchDAO();
+    PostSearchTO to = new PostSearchTO(); 
+    to.setDong("동");
+    dongList.add(to);
+  }
 
-	@Override
-	public String getElementAt(int index) {
-		String result = "";
-		
-		result = dongList.get(index).getDong();
-		
-		return result;
-	}
+  public DongComboBoxModel(String sido, String gugun) {
+    this();
+    PostSearchDAO dao = new PostSearchDAO();
+
+    dongList.addAll(dao.dongList(sido, gugun));
+  } 
+  @Override
+  public int getSize() {
+    return dongList.size();
+  } 
+  @Override
+  public String getElementAt(int index) {
+    String result = "";
+  
+    result = dongList.get(index).getDong();
+  
+    return result;
+  }
 	
 }
 
@@ -14478,63 +13162,59 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class PostTableModel extends AbstractTableModel {
-	private List<PostSearchTO> data = new ArrayList<>();
-	
-	private String[] colNames = {
-			"번호", "우편번호", "시도", "구군", "동", "리", "번지"
-	};
-	
-	@Override
-	public String getColumnName(int column) {
-		return colNames[column];
-	}
-	
-	
-	public PostTableModel(String sido, String gugun, String dong) {
-		PostSearchDAO dao = new PostSearchDAO();
-		
-		data = dao.tableData(sido, gugun, dong);
-	}
-	
-	@Override
-	public int getRowCount() {
-		return data.size();
-	}
+  private List<PostSearchTO> data = new ArrayList<>();
 
-	@Override
-	public int getColumnCount() {
-		return colNames.length;
-	}
+  private String[] colNames = {
+      "번호", "우편번호", "시도", "구군", "동", "리", "번지"
+  };
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String result = "";
-		
-		switch(columnIndex) {
-		case 0:
-			result = data.get(rowIndex).getSeq();
-			break;
-		case 1:
-			result = String.format("[%s]", data.get(rowIndex).getZipcode());
-			break;
-		case 2:
-			result = data.get(rowIndex).getSido();
-			break;
-		case 3:
-			result = data.get(rowIndex).getGugun();
-			break;
-		case 4:
-			result = data.get(rowIndex).getDong();
-			break;
-		case 5:
-			result = data.get(rowIndex).getRi();
-			break;
-		case 6:
-			result = data.get(rowIndex).getBunji();
-		}
-		
-		return result;
-	}
+  @Override
+  public String getColumnName(int column) {
+    return colNames[column];
+  }
+
+  public PostTableModel(String sido, String gugun, String dong) {
+    PostSearchDAO dao = new PostSearchDAO();
+    data = dao.tableData(sido, gugun, dong);
+  }
+
+  @Override
+  public int getRowCount() {
+    return data.size();
+  } 
+  @Override
+  public int getColumnCount() {
+    return colNames.length;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    String result = "";
+
+    switch(columnIndex) {
+    case 0:
+      result = data.get(rowIndex).getSeq();
+      break;
+    case 1:
+      result = String.format("[%s]", data.ge  (rowIndex).getZipcode());
+      break 
+    case 2:
+      result = data.get(rowIndex).getSido();
+      break;
+    case 3:
+      result = data.get(rowIndex).getGugun();
+      break;
+    case 4:
+      result = data.get(rowIndex).getDong();
+      break;
+    case 5:
+      result = data.get(rowIndex).getRi();
+      break;
+    case 6:
+      result = data.get(rowIndex).getBunji();
+    }
+
+    return result;
+  }
 
 }
 
@@ -14559,106 +13239,1258 @@ import javax.swing.JTable;
 
 public class PostSearch extends JFrame {
 
+  private JPanel contentPane;
+  private JComboBox gugunBox;
+  private JComboBox dongBox;
+  private JComboBox sidoBox;
+  private JTable table;
+  private JScrollPane scrollPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          PostSearch frame = new PostSearch();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public PostSearch() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+  
+    JPanel panel = new JPanel();
+    panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel.setBounds(59, 24, 601, 52);
+    contentPane.add(panel);
+    panel.setLayout(null);
+  
+    sidoBox = new JComboBox();
+    sidoBox.setModel(new SidoComboBoxModel());
+    sidoBox.setSelectedIndex(0);
+    sidoBox.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+          gugunBox.setModel(new GugunComboBoxModel((String)sidoBox.getSelectedItem()));
+          gugunBox.setSelectedIndex(0);
+          dongBox.setModel(new DongComboBoxModel());
+          dongBox.setSelectedIndex(0);
+        }
+      }
+    });
+  
+    sidoBox.setBounds(6, 17, 169, 23);
+    panel.add(sidoBox);
+  
+    gugunBox = new JComboBox();
+    gugunBox.setModel(new GugunComboBoxModel());
+    gugunBox.setSelectedIndex(0);
+    gugunBox.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+          dongBox.setModel(new DongComboBoxModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem()));
+          dongBox.setSelectedIndex(0);
+        }
+      }
+    });
+  
+    gugunBox.setBounds(218, 17, 169, 23);
+    panel.add(gugunBox);
+  
+    dongBox = new JComboBox();
+    dongBox.setModel(new DongComboBoxModel());
+    dongBox.setSelectedIndex(0);
+    dongBox.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+          table.setModel(new PostTableModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem(), (String)dongBox.getSelectedItem()));
+        }
+      }
+    });
+    dongBox.setBounds(426, 17, 169, 23);
+    panel.add(dongBox);
+  
+    scrollPane = new JScrollPane();
+    scrollPane.setBounds(59, 86, 601, 413);
+    contentPane.add(scrollPane);
+  
+    table = new JTable();
+    scrollPane.setViewportView(table);
+  }
+
+}
+```
+###### JTree
+
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+  private JPanel contentPane;
+  private JTree tree; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    tree = new JTree();
+    tree.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println("click " + tree.getSelectionPath().toString());
+        // 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+        // click [JTree, colors, 빨강색]
+      }
+    });
+    tree.setModel(new DefaultTreeModel(
+      new DefaultMutableTreeNode("JTree") { // "JTree"를 루트노드로 갖는 트리
+        {
+          DefaultMutableTreeNode node_1;
+          node_1 = new DefaultMutableTreeNode("colors");
+          node_1.add(new DefaultMutableTreeNode("파랑색"));
+          node_1.add(new DefaultMutableTreeNode("보라색"));
+          node_1.add(new DefaultMutableTreeNode("빨강색"));
+          node_1.add(new DefaultMutableTreeNode("노랑색"));
+          add(node_1);
+          node_1 = new DefaultMutableTreeNode("sports");
+          node_1.add(new DefaultMutableTreeNode("basketball"));
+          node_1.add(new DefaultMutableTreeNode("soccer"));
+          node_1.add(new DefaultMutableTreeNode("football"));
+          node_1.add(new DefaultMutableTreeNode("hockey"));
+          add(node_1);
+          node_1 = new DefaultMutableTreeNode("food");
+          node_1.add(new DefaultMutableTreeNode("hot dogs"));
+          node_1.add(new DefaultMutableTreeNode("pizza"));
+          node_1.add(new DefaultMutableTreeNode("ravioli"));
+          node_1.add(new DefaultMutableTreeNode("bananas"));
+          add(node_1);
+        }
+      }
+    ));
+    tree.setBounds(12, 10, 229, 476);
+    contentPane.add(tree);
+  }
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex01 extends JFrame {
+
+  private JPanel contentPane;
+  private JTree tree; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex01 frame = new Ex01();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex01() {
+  	setResizable(false);
+  	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  	setBounds(100, 100, 800, 600);
+  	contentPane = new JPanel();
+  	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+  	setContentPane(contentPane);
+  	contentPane.setLayout(null);
+  
+  	tree = new JTree();
+  	tree.addMouseListener(new MouseAdapter() {
+  	  @Override
+  	  public void mouseClicked(MouseEvent e) {
+  	    System.out.println("click " + tree.getSelectionPath().toString());
+  	    // 클릭한 것까지의 경로가 아래와 같이 모두 표현된다
+  	    // click [JTree, colors, 빨강색]
+  	  }
+  	}); 
+  	tree.setModel(new DefaultTreeModel(makeTree("root")));
+  
+  	tree.setBounds(12, 10, 229, 476);
+  	contentPane.add(tree);
+  }
+  public DefaultMutableTreeNode makeTree(String rootName) {
+    DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
+
+    DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
+    DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("sports");
+    DefaultMutableTreeNode node3 = new DefaultMutableTreeNode("food");
+
+    node1.add(new DefaultMutableTreeNode("파랑색"));
+    node1.add(new DefaultMutableTreeNode("빨강색"));
+    node1.add(new DefaultMutableTreeNode("노랑색"));
+
+    node2.add(new DefaultMutableTreeNode("축구"));
+    node2.add(new DefaultMutableTreeNode("농구"));
+    node2.add(new DefaultMutableTreeNode("야구"));
+
+    node3.add(new DefaultMutableTreeNode("고기"));
+    node3.add(new DefaultMutableTreeNode("소고기"));
+    node3.add(new DefaultMutableTreeNode("돼지고기"));
+
+    root.add(node1);
+    root.add(node2);
+    root.add(node3);
+
+    return root;
+  }
+}
+```
+
+###### JDialog
+```java
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex02 extends JFrame {
+
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex02 frame = new Ex02();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex02() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // 창을 닫았을 때 프로그램이 종료된다
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JButton btn = new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        try {
+          JDialogEx01 dialog = new JDialogEx01();
+          dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+          // 창을 닫았을 때 프로그램은 계속 실행되고 다이얼로그 창만 종료된다
+          Dimension d = Ex02.this.getSize();
+          System.out.println(d.toString()); // java.awt.Dimension[width=800,height=600]
+
+          Point p = Ex02.this.getLocation();
+          System.out.println(p.toString()); // java.awt.Point[x=100,y=100]
+
+          Rectangle r = Ex02.this.getBounds();
+          System.out.println(r.toString()); // java.awt.Rectangle[x=100,y=100,width=800,height=600]
+
+          int fx = (int)r.getX();
+          int fy = (int)r.getY();
+          int fwidth = (int)r.getWidth();
+          int fheight = (int)r.getHeight();
+
+          int dwidth = 450;
+          int dheight = 300;
+
+          dialog.setBounds(100 + (fwidth - dwidth) / 2, 100 + (fheight - dheight) / 2, dwidth, dheight);
+          // 다이얼로그 창이 가운데 위치에서 열린다 
+          dialog.setModal(true);
+          // 한개의 다이얼로그 창만 열리게 한다
+          dialog.setVisible(true);
+        } catch (Exception e1) {
+        	e1.printStackTrace();
+        }
+      }
+    });
+    btn.setBounds(12, 10, 97, 23);
+    contentPane.add(btn);
+  }
+}
+```
+```java
+// JDialogEx03.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class JDialogEx03 extends JDialog {
+
+  private final JPanel contentPanel = new JPanel();
+  private String data; 
+  private JTextField textField;
+
+  public void setData(String data) {
+    this.data = data;
+  }
+
+  public String getData() {
+    return data;
+  }
+
+  public JDialogEx03(String data) {
+    this();
+    this.data = data;
+    textField.setText(data);
+    System.out.println(data);
+  }
+
+  /**
+   * Create the dialog.
+   */
+  public JDialogEx03() {
+    JDialogEx03.this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    setBounds(100, 100, 450, 300);
+    getContentPane().setLayout(new BorderLayout());
+    contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    getContentPane().add(contentPanel, BorderLayout.CENTER);
+    contentPanel.setLayout(null);
+    {
+      textField = new JTextField();
+      textField.setEditable(false);
+      textField.setBounds(12, 10, 259, 21);
+      contentPanel.add(textField);
+      textField.setColumns(10);
+    }
+    {
+      JPanel buttonPane = new JPanel();
+      buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      getContentPane().add(buttonPane, BorderLayout.SOUTH);
+      {
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            JDialogEx03.this.dispose(); 
+          }
+        });
+        okButton.setActionCommand("OK");
+        buttonPane.add(okButton);
+        getRootPane().setDefaultButton(okButton);
+      }
+      {
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            JDialogEx03.this.dispose();
+          }
+        });
+        cancelButton.setActionCommand("Cancel");
+        buttonPane.add(cancelButton);
+      }
+    }
+  }
+
+}
+
+// Ex03.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex03 extends JFrame {
+
+  private JPanel contentPane;
+  private JTextField textField1;
+  private JTextField textField2;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex03 frame = new Ex03();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex03() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    textField1 = new JTextField();
+    textField1.setBounds(12, 10, 309, 21);
+    contentPane.add(textField1);
+    textField1.setColumns(10);
+
+    textField2 = new JTextField();
+    textField2.setBounds(12, 41, 436, 21);
+    contentPane.add(textField2);
+    textField2.setColumns(10);
+
+    JButton btn = new JButton("New button");
+    btn.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        JDialogEx03 dialog = new JDialogEx03(textField1.getText());
+        System.out.println("1");
+
+        dialog.setModal(true);
+        // setModal(true)는 프로그램의 제어권을 다이얼로그창으로 넘겨서 프레임창을 이용할 수 없다
+        System.out.println("2");
+
+        dialog.setVisible(true);
+        System.out.println("3");
+
+        // 프레임 -> 다이얼로그 : 생성자, setter
+        // 다이얼로그 -> 프레임 : getter, 멤버필드
+
+        String data = dialog.getData();
+        System.out.println("결과 :" + data);
+
+        textField2.setText(dialog.getData());
+        // 다이얼로그창이 닫힐때 다이얼로그 창에서 프레임으로 제어권이 넘어오면서 실행된다
+      }
+    });
+    btn.setBounds(351, 9, 97, 23);
+    contentPane.add(btn);
+  }
+}
+```
+```java
+// GuguDialog.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialog extends JDialog {
+
+  private final JPanel contentPanel = new JPanel();
+  private int startDan;
+  private int endDan;
+  private JTextArea textArea;
+
+  public int getStartDan() {
+  	  return startDan;
+  	} 
+  public void setStartDan(int startDan) {
+    this.startDan = startDan;
+  } 
+  public int getEndDan() {
+    return endDan;
+  }
+  public void setEndDan(int endDan) {
+    this.endDan = endDan;
+  } 
+  /**
+   * Create the dialog.
+   */
+  public GuguDialog() {
+    setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    setBounds(100, 100, 450, 300);
+    getContentPane().setLayout(new BorderLayout());
+    contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    getContentPane().add(contentPanel, BorderLayout.CENTER);
+    contentPanel.setLayout(null);
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 10, 410, 152);
+    contentPanel.add(scrollPane);
+
+    textArea = new JTextArea();
+
+    scrollPane.setViewportView(textArea);
+    {
+      JPanel buttonPane = new JPanel();
+      buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      getContentPane().add(buttonPane, BorderLayout.SOUTH);
+      {
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            GuguDialog.this.dispose();
+          }
+        });
+        okButton.setActionCommand("OK");
+        buttonPane.add(okButton);
+        getRootPane().setDefaultButton(okButton);
+      }
+      {
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            GuguDialog.this.dispose();
+          }
+        });
+        cancelButton.setActionCommand("Cancel");
+        buttonPane.add(cancelButton);
+      }
+    }
+  }
+  public void guguPrint() {
+    String result = "";
+    for(int i = startDan; i <= endDan; i++) {
+      for(int j = 1; j <= 9; j++) {
+        result += String.format("%2d X %2d = %d%n", i, j, i*j); 
+      }
+    }
+    textArea.setText(result);
+  }
+}
+
+// GugudanMain.java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+  private JPanel contentPane;
+  private JTextField textField;
+  private JTextField textField2;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          GugudanMain frame = new GugudanMain();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public GugudanMain() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JLabel lblNewLabel = new JLabel("시작단");
+    lblNewLabel.setBounds(12, 10, 119, 30);
+    contentPane.add(lblNewLabel);
+
+    JLabel lblNewLabel_1 = new JLabel("끝단");
+    lblNewLabel_1.setBounds(12, 50, 119, 30);
+    contentPane.add(lblNewLabel_1);
+
+    textField = new JTextField();
+    textField.setBounds(91, 13, 188, 25);
+    contentPane.add(textField);
+    textField.setColumns(10);
+
+    textField2 = new JTextField();
+    textField2.setColumns(10);
+    textField2.setBounds(91, 50, 188, 25);
+    contentPane.add(textField2);
+
+    JButton btnNewButton = new JButton("구구단 출력");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        GuguDialog dialog = new GuguDialog();
+        dialog.setStartDan(Integer.parseInt(textField.getText()));
+        dialog.setEndDan(Integer.parseInt(textField2.getText()));
+        dialog.guguPrint();
+        dialog.setModal(true);
+        dialog.setVisible(true);
+      }
+    });
+    btnNewButton.setBounds(316, 10, 119, 70);
+    contentPane.add(btnNewButton);
+  }
+}
+```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class GugudanMain extends JFrame {
+
+  private JPanel contentPane;
+  private JTextField textField;
+  private JTextField textField2;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          GugudanMain frame = new GugudanMain();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public GugudanMain() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JLabel lblNewLabel = new JLabel("시작단");
+    lblNewLabel.setBounds(12, 10, 119, 30);
+    contentPane.add(lblNewLabel);
+
+    JLabel lblNewLabel_1 = new JLabel("끝단");
+    lblNewLabel_1.setBounds(12, 50, 119, 30);
+    contentPane.add(lblNewLabel_1);
+
+    textField = new JTextField();
+    textField.setBounds(91, 13, 188, 25);
+    contentPane.add(textField);
+    textField.setColumns(10);
+
+    textField2 = new JTextField();
+    textField2.setColumns(10);
+    textField2.setBounds(91, 50, 188, 25);
+    contentPane.add(textField2);
+
+    JButton btnNewButton = new JButton("구구단 출력");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        GuguDialogTable dialog = new GuguDialogTable(Integer.parseInt(textField.getText()), Integer.parseInt(textField2.getText()));
+        dialog.setModal(true);
+        dialog.setVisible(true);
+      }
+    });
+    btnNewButton.setBounds(316, 10, 119, 70);
+    contentPane.add(btnNewButton);
+  }
+}
+// CustomGuguTableModel.java
+import javax.swing.table.AbstractTableModel;
+
+public class CustomGuguTableModel extends AbstractTableModel {
+
+  private int startDan;
+  private int endDan;
+
+  public CustomGuguTableModel(int startDan, int endDan) {
+    this.startDan = startDan;
+    this.endDan = endDan;
+  }
+
+  private String[] colNames = {
+      "X 1", "X 2", "X 3", "X 4", "X 5", "X 6", "X 7", "X 8", "X 9"
+  };
+
+  @Override
+  public String getColumnName(int column) {
+    return colNames[column];
+  }
+
+  @Override
+  public int getRowCount() {
+    return endDan - startDan + 1;
+  } 
+  @Override
+  public int getColumnCount() {
+  	return 9;
+  } 
+  @Override
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    String result = "";
+    result = String.format("%2d X %2d = %d", rowIndex + startDan, columnIndex + 1, (rowIndex + startDan) * (columnIndex + 1));
+    return result;
+  }
+
+}
+// GuguDialogTable.java
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class GuguDialogTable extends JDialog {
+
+  private final JPanel contentPanel = new JPanel();
+  private JTable table; 
+  /**
+   * Create the dialog.
+   */
+
+  public GuguDialogTable(int startDan, int endDan) {
+    this();
+
+    table.setModel(new CustomGuguTableModel(startDan, endDan));
+  }
+
+  public GuguDialogTable() {
+    setBounds(100, 100, 600, 300);
+    getContentPane().setLayout(null);
+    contentPanel.setBounds(0, 0, 434, 1);
+    contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    getContentPane().add(contentPanel);
+    contentPanel.setLayout(null);
+    {
+      JPanel buttonPane = new JPanel();
+      buttonPane.setBounds(0, 228, 434, 33);
+      buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      getContentPane().add(buttonPane);
+      {
+        JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            GuguDialogTable.this.dispose();
+          }
+        });
+        okButton.setActionCommand("OK");
+        buttonPane.add(okButton);
+        getRootPane().setDefaultButton(okButton);
+      }
+      {
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            GuguDialogTable.this.dispose();
+          }
+        });
+        cancelButton.setActionCommand("Cancel");
+        buttonPane.add(cancelButton);
+      }
+    }
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(10, 11, 562, 170);
+    getContentPane().add(scrollPane);
+
+    table = new JTable();
+    scrollPane.setViewportView(table);
+  }
+}
+```
+###### JColorChooser
+```java
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Ex04 extends JFrame {
+
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex04 frame = new Ex04();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex04() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        Color color = JColorChooser.showDialog(Ex04.this, "파란색", Color.BLUE);
+        System.out.println("결과 : " + color);
+        // 컬러를 선택하지 않고 창을 닫을 경우 "결과 : null"을 출력한다
+        if(color != null) {
+          System.out.println("Red : " + color.getRed());
+          System.out.println("Green : " + color.getGreen());
+          System.out.println("Blue : " + color.getBlue());
+        }else {
+          System.out.println("취소 선택");
+        }
+      }
+    });
+    btnNewButton.setBounds(12, 10, 97, 23);
+    contentPane.add(btnNewButton);
+  }
+
+}
+```
+###### JFileChooser
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
+public class Ex05 extends JFrame {
+
 	private JPanel contentPane;
-	private JComboBox gugunBox;
-	private JComboBox dongBox;
-	private JComboBox sidoBox;
-	private JTable table;
-	private JScrollPane scrollPane;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PostSearch frame = new PostSearch();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	  EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+	      try {
+	        Ex05 frame = new Ex05();
+	        frame.setVisible(true);
+	      } catch (Exception e) {
+	        e.printStackTrace();
+	      }
+	    }
+	  });
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public PostSearch() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	public Ex05() {
+	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  setBounds(100, 100, 800, 600);
+	  contentPane = new JPanel();
+	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+	  setContentPane(contentPane);
+	  contentPane.setLayout(null);
+  
+	  JButton btnNewButton = new JButton("파일 열기");
+	  btnNewButton.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      JFileChooser filechooser = new JFileChooser("c:\\"); 
+	      // 파일 선택의 처음 위치를 인수로 줘서 지정할 수 있다 
+	      FileNameExtensionFilter filter = new FileNameExtensionFilter("Java 소스", "java", "txt");
+	      filechooser.setFileFilter(filter);
+	      // 파일 선택 화면에서 특정 형식의 파일만 보이게 할 수 있다  
+	      int result = filechooser.showOpenDialog(Ex05.this);
+	      if (result == JFileChooser.APPROVE_OPTION) {
+	        System.out.println("확인"); 
+	        File file = filechooser.getSelectedFile();  
+	        System.out.println(file.getName());
+	        System.out.println(file.getAbsolutePath()); 
+	        textArea.setText(""); 
+	        BufferedReader br = null; 
+	        try {
+	          br = new BufferedReader(new FileReader(file));
+	          String line = null;
+	          while((line = br.readLine()) != null) {
+	            textArea.append(line + System.lineSeparator());
+	          }
+	        } catch (FileNotFoundException e1) {
+	          System.out.println("에러 : " + e1.getMessage());
+	        } catch (IOException e1) {
+	          System.out.println("에러 : " + e1.getMessage());
+	        }finally {
+	          if(br != null) try {br.close();} catch(IOException e1) {}
+	        }
+	      }else if(result == JFileChooser.CANCEL_OPTION) {
+	        System.out.println("취소");
+	      }
+	    }
+	  });
+	  btnNewButton.setBounds(12, 10, 113, 23);
+	  contentPane.add(btnNewButton);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC6B0\uD3B8\uBC88\uD638 \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(59, 24, 601, 52);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		sidoBox = new JComboBox();
-		sidoBox.setModel(new SidoComboBoxModel());
-		sidoBox.setSelectedIndex(0);
-		sidoBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					gugunBox.setModel(new GugunComboBoxModel((String)sidoBox.getSelectedItem()));
-					gugunBox.setSelectedIndex(0);
-					dongBox.setModel(new DongComboBoxModel());
-					dongBox.setSelectedIndex(0);
-				}
-			}
-		});
-		
-		sidoBox.setBounds(6, 17, 169, 23);
-		panel.add(sidoBox);
-		
-		gugunBox = new JComboBox();
-		gugunBox.setModel(new GugunComboBoxModel());
-		gugunBox.setSelectedIndex(0);
-		gugunBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					dongBox.setModel(new DongComboBoxModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem()));
-					dongBox.setSelectedIndex(0);
-				}
-			}
-		});
-		
-		gugunBox.setBounds(218, 17, 169, 23);
-		panel.add(gugunBox);
-		
-		dongBox = new JComboBox();
-		dongBox.setModel(new DongComboBoxModel());
-		dongBox.setSelectedIndex(0);
-		dongBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					table.setModel(new PostTableModel((String)sidoBox.getSelectedItem(), (String)gugunBox.getSelectedItem(), (String)dongBox.getSelectedItem()));
-				}
-			}
-		});
-		dongBox.setBounds(426, 17, 169, 23);
-		panel.add(dongBox);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(59, 86, 601, 413);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+	  JScrollPane scrollPane = new JScrollPane();
+	  scrollPane.setBounds(12, 39, 324, 342);
+	  contentPane.add(scrollPane);
+
+	  textArea = new JTextArea();
+	  scrollPane.setViewportView(textArea);
+
+	  JButton btnNewButton_1 = new JButton("내용 지우기");
+	  btnNewButton_1.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      textArea.setText("");
+	    }
+	  });
+	  btnNewButton_1.setBounds(137, 10, 120, 23);
+	  contentPane.add(btnNewButton_1);
+
+	  JButton btn2 = new JButton("파일 저장");
+	  btn2.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      JFileChooser fileChooser = new JFileChooser("c:\\");
+	      int result = fileChooser.showSaveDialog(Ex05.this);
+
+	      if(result == JFileChooser.APPROVE_OPTION) {
+	        System.out.println("확인 " + fileChooser.getSelectedFile().getName());
+	        System.out.println("확인 " + fileChooser.getSelectedFile().getAbsolutePath());
+
+	        BufferedWriter bw = null;
+
+	        try {
+	          bw = new BufferedWriter(new FileWriter(fileChooser.getSelectedFile().getAbsolutePath())); 
+	          bw.write(textArea.getText()); 
+	          JOptionPane.showMessageDialog(Ex05.this, "내용 저장", "저장" , JOptionPane.INFORMATION_MESSAGE);  
+	        } catch (IOException e1) {
+	          System.out.println(" 에러 : " + e1.getMessage());
+	        } finally {
+	          if(bw != null) try {bw.close();} catch(IOException e1) {}
+	        }
+	      }else {
+	        System.out.println("취소");
+	      }
+	    }
+	  });
+	  btn2.setBounds(269, 10, 120, 23);
+	  contentPane.add(btn2);
 	}
 
 }
 ```
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+
+public class Ex06 extends JFrame {
+
+  private JPanel contentPane;
+  private JLabel lbl; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex06 frame = new Ex06();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex06() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 69, 506, 355);
+    contentPane.add(scrollPane);
+
+    lbl = new JLabel("");
+    scrollPane.setViewportView(lbl);
+
+    JButton btnNewButton = new JButton("이미지 보이기");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        JFileChooser fileChooser = new JFileChooser("c:\\");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("이미지 파일", "png", "img");
+
+
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(Ex06.this);
+
+        lbl.setIcon(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
+
+
+      }
+    });
+    btnNewButton.setBounds(12, 10, 168, 23);
+    contentPane.add(btnNewButton);
+  }
+
+}
+```
+###### JMenuBar
+```java
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ex07 extends JFrame {
+
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex07 frame = new Ex07();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex07() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    // menuBar <- menu <- menuItem
+    JMenuBar menuBar = new JMenuBar();
+    setJMenuBar(menuBar);
+
+    JMenu mnNewMenu = new JMenu("파일");
+    menuBar.add(mnNewMenu);
+
+    JMenuItem mntmNewMenuItem = new JMenuItem("new");
+    mntmNewMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("새파일");
+      }
+    });
+    mnNewMenu.add(mntmNewMenuItem);
+
+    JMenuItem mntmNewMenuItem_2 = new JMenuItem("open");
+    mntmNewMenuItem_2.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("열기");
+      }
+    });
+    mnNewMenu.add(mntmNewMenuItem_2);
+
+    mnNewMenu.addSeparator(); // menuItem을 구분해주는 선을 넣는다
+
+    JMenuItem mntmNewMenuItem_3 = new JMenuItem("save");
+    mnNewMenu.add(mntmNewMenuItem_3);
+
+    JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("사과");
+    mnNewMenu.add(chckbxmntmNewCheckItem);
+
+    JCheckBoxMenuItem chckbxmntmNewCheckItem_1 = new JCheckBoxMenuItem("참외");
+    chckbxmntmNewCheckItem_1.setSelected(true);
+    mnNewMenu.add(chckbxmntmNewCheckItem_1);
+
+    JCheckBoxMenuItem chckbxmntmNewCheckItem_2 = new JCheckBoxMenuItem("수박");
+    mnNewMenu.add(chckbxmntmNewCheckItem_2);
+
+
+    JMenu mnNewMenu_1 = new JMenu("홈");
+    menuBar.add(mnNewMenu_1);
+
+    JMenuItem mntmNewMenuItem_1 = new JMenuItem("menu 1");
+    mnNewMenu_1.add(mntmNewMenuItem_1);
+
+    JMenuItem mntmNewMenuItem_4 = new JMenuItem("menu 2");
+    mnNewMenu_1.add(mntmNewMenuItem_4);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+  }
+}
+```
+
 ##### Layout 
-- 컨테이너, 컴포넌트를 배치한다
+- 프레임, 패널에서의 컴포넌트 배치 방식
+
 - 종류(클래스)
   - NullLayout(Absolute Layout) : 좌표를 이용한 화면 배치
 
@@ -14672,7 +14504,7 @@ public class PostSearch extends JFrame {
 
   - getLayout() : 레이아웃을 가져온다
 
-- 컨테이너의 기본 레이아웃
+- 컨테이너의 레이아웃 기본 설정
   - JFrame : Border Layout
 
   - JPanel : Flow Layout
@@ -14689,37 +14521,34 @@ import javax.swing.border.EmptyBorder;
 
 public class Ex extends JFrame {
 
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex frame = new Ex();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex frame = new Ex();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
     // AbosoluteLayout 설정
-	}
+  }
 
 }
 ```
@@ -14736,37 +14565,34 @@ import java.awt.BorderLayout;
 
 public class Ex extends JFrame {
 
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex frame = new Ex();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex frame = new Ex();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new BorderLayout(0, 0));
     // BorderLayout 설정
-	}
+  }
 
 }
 ```
@@ -14784,37 +14610,34 @@ import java.awt.FlowLayout;
 
 public class Ex extends JFrame {
 
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex frame = new Ex();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex frame = new Ex();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
     // FlowLayout 설정
-	}
+  }
 
 }
 ```
@@ -14835,37 +14658,34 @@ import java.awt.GridLayout;
 
 public class Ex extends JFrame {
 
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex frame = new Ex();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Ex() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(5, 6, 0, 0));
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex frame = new Ex();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new GridLayout(5, 6, 0, 0));
     // 5행 6열의 GridLayout 설정
-	}
+  }
 
 }
 ```
@@ -14890,107 +14710,103 @@ import java.awt.event.MouseEvent;
 
 public class Ex extends JFrame {
 
-	private JPanel contentPane;
-	private JPanel panel2;
+  private JPanel contentPane;
+  private JPanel panel2;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex frame = new Ex();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new BorderLayout(0, 0));
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex frame = new Ex();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JPanel panel1 = new JPanel();
+    FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
+    flowLayout.setAlignment(FlowLayout.LEFT);
+    contentPane.add(panel1, BorderLayout.NORTH);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JButton btn1 = new JButton("pannel1");
+    btn1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // name_1136464503695200
+        ((CardLayout)panel2.getLayout()).show(panel2, "name_1136464503695200");
+      }
+    });
+    panel1.add(btn1);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel1 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		contentPane.add(panel1, BorderLayout.NORTH);
-		
-		JButton btn1 = new JButton("pannel1");
-		btn1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// name_1136464503695200
-				((CardLayout)panel2.getLayout()).show(panel2, "name_1136464503695200");
-			}
-		});
-		panel1.add(btn1);
-		
-		JButton btn2 = new JButton("pannel2");
-		btn2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// name_1136521683011000
-				((CardLayout)panel2.getLayout()).show(panel2, "name_1136521683011000");
+    JButton btn2 = new JButton("pannel2");
+    btn2.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // name_1136521683011000
+        ((CardLayout)panel2.getLayout()).show(panel2, "name_1136521683011000"); 
+      }
+    });
+    panel1.add(btn2);
 
-			}
-		});
-		panel1.add(btn2);
-		
-		JButton btn3 = new JButton("pannel3");
-		btn3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// name_1136524431820700
-				((CardLayout)panel2.getLayout()).show(panel2, "name_1136524431820700");
-			}
-		});
-		panel1.add(btn3);
-		
-		panel2 = new JPanel();
-		contentPane.add(panel2, BorderLayout.CENTER);
-		panel2.setLayout(new CardLayout(0, 0));
-		
-		JPanel panel21 = new JPanel();
-		panel21.setBackground(Color.RED);
-		panel21.setForeground(Color.BLACK);
-		panel2.add(panel21, "name_1136464503695200");
-		panel21.setLayout(null);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(12, 10, 97, 23);
-		panel21.add(btnNewButton);
-		
-		JPanel panel22 = new JPanel();
-		panel22.setBackground(Color.GREEN);
-		panel22.setForeground(Color.BLACK);
-		panel2.add(panel22, "name_1136521683011000");
-		panel22.setLayout(null);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(91, 380, 97, 23);
-		panel22.add(btnNewButton_1);
-		
-		JPanel panel23 = new JPanel();
-		panel23.setBackground(Color.BLUE);
-		panel23.setForeground(Color.BLACK);
-		panel2.add(panel23, "name_1136524431820700");
-		panel23.setLayout(null);
-		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setBounds(287, 218, 97, 23);
-		panel23.add(btnNewButton_2);
-	}
+    JButton btn3 = new JButton("pannel3");
+    btn3.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // name_1136524431820700
+        ((CardLayout)panel2.getLayout()).show(panel2, "name_1136524431820700");
+      }
+    });
+    panel1.add(btn3);
+
+    panel2 = new JPanel();
+    contentPane.add(panel2, BorderLayout.CENTER);
+    panel2.setLayout(new CardLayout(0, 0));
+
+    JPanel panel21 = new JPanel();
+    panel21.setBackground(Color.RED);
+    panel21.setForeground(Color.BLACK);
+    panel2.add(panel21, "name_1136464503695200");
+    panel21.setLayout(null);
+
+    JButton btnNewButton = new JButton("New button");
+    btnNewButton.setBounds(12, 10, 97, 23);
+    panel21.add(btnNewButton);
+
+    JPanel panel22 = new JPanel();
+    panel22.setBackground(Color.GREEN);
+    panel22.setForeground(Color.BLACK);
+    panel2.add(panel22, "name_1136521683011000");
+    panel22.setLayout(null);
+
+    JButton btnNewButton_1 = new JButton("New button");
+    btnNewButton_1.setBounds(91, 380, 97, 23);
+    panel22.add(btnNewButton_1);
+
+    JPanel panel23 = new JPanel();
+    panel23.setBackground(Color.BLUE);
+    panel23.setForeground(Color.BLACK);
+    panel2.add(panel23, "name_1136524431820700");
+    panel23.setLayout(null);
+
+    JButton btnNewButton_2 = new JButton("New button");
+    btnNewButton_2.setBounds(287, 218, 97, 23);
+    panel23.add(btnNewButton_2);
+  }
 }
 ```
 
@@ -15002,13 +14818,13 @@ public class Ex extends JFrame {
 
 - 이벤트 연결
 ```java
-		btn2.addMouseListener(new MouseAdapter() {
-      // addMousListner()가 이벤트 연결 메서드
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("mouseClicked");
-			}
-		});
+  btn2.addMouseListener(new MouseAdapter() {
+    // addMousListner()가 이벤트 연결 메서드
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      System.out.println("mouseClicked");
+    }
+  });
 ```
 
 - 이벤트 클래스
@@ -15018,50 +14834,47 @@ public class Ex extends JFrame {
   - adapter class 상속 : 필요한 것만 오버라이딩해서 사용할 수 있다
 
 ```java
-		btn1.addMouseListener(new MouseListener() {
-			// MouseListener()는 interface로 모두 구현해줘야 한다 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("mouseReleased");
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println("mousePressed");
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				System.out.println("mouseExited");
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				System.out.println("mouseEntered");
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("mouseClicked");
-			}
-		});
+  btn1.addMouseListener(new MouseListener() {
+    // MouseListener()는 interface로 모두 구현해줘야 한다 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+      System.out.println("mouseReleased");
+    } 
+    @Override
+    public void mousePressed(MouseEvent e) {
+      System.out.println("mousePressed");
+    } 
+    @Override
+    public void mouseExited(MouseEvent e) {
+      System.out.println("mouseExited");
+    } 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+      System.out.println("mouseEntered");
+    } 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      System.out.println("mouseClicked");
+    }
+  });
 ```
 ```java
-		btn2.addMouseListener(new MouseAdapter() {
-      // MouseAdapter()는 adapter class로 필요한 것만 구현하면 된다
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("mouseClicked");
-			}
-		});
+  btn2.addMouseListener(new MouseAdapter() {
+    // MouseAdapter()는 adapter class로 필요한 것만 구현하면 된다
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      System.out.println("mouseClicked");
+    }
+  });
 ```
 - 이벤트 핸들러
+
 ```java
-			@Override
-			public void mouseReleased(MouseEvent e) {
-        // mouseReleased() 메서드가 이벤트 핸들러
-				System.out.println("mouseReleased");
-			}
+  @Override
+  public void mouseReleased(MouseEvent e) {
+    // mouseReleased() 메서드가 이벤트 핸들러
+    System.out.println("mouseReleased");
+  }
 ```
 
 <img src="./img/event.png">
@@ -15091,97 +14904,91 @@ public class EventEx01 extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EventEx01 frame = new EventEx01();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	  EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+	      try {
+	        EventEx01 frame = new EventEx01();
+	        frame.setVisible(true);
+	      } catch (Exception e) {
+	        e.printStackTrace();
+	      }
+	    }
+	  });
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public EventEx01() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	  setResizable(false);
+	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  setBounds(100, 100, 800, 600);
+	  contentPane = new JPanel();
+	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+	  setContentPane(contentPane);
+	  contentPane.setLayout(null);
+  
+	  JButton btn1 = new JButton("New button");
+  
+	  btn1.addMouseListener(new MouseListener() {
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn1 = new JButton("New button");
-		
-		btn1.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("mouseReleased");
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println("mousePressed");
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				System.out.println("mouseExited");
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				System.out.println("mouseEntered");
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("mouseClicked");
-			}
-		});
-		
-		
-		
-		btn1.setBounds(12, 10, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("mouseClicked");
-			}
-		});
-		btn2.setBounds(121, 10, 97, 23);
-		contentPane.add(btn2);
-		
-		textField = new JTextField();
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(textField.getText());
-				// 엔터키를 누르면 동작한다
-			}
-		});
-		textField.setBounds(12, 153, 250, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(textField.getText());
-			}
-		});
-		btnNewButton.setBounds(288, 152, 97, 23);
-		contentPane.add(btnNewButton);
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+	      System.out.println("mouseReleased");
+	    } 
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	      System.out.println("mousePressed");
+	    } 
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+	      System.out.println("mouseExited");
+	    } 
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+	      System.out.println("mouseEntered");
+	    } 
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      System.out.println("mouseClicked");
+	    }
+	  });
+  
+  
+  
+	  btn1.setBounds(12, 10, 97, 23);
+	  contentPane.add(btn1);
+  
+	  JButton btn2 = new JButton("New button");
+	  btn2.addMouseListener(new MouseAdapter() {  
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      System.out.println("mouseClicked");
+	    }
+	  });
+	  btn2.setBounds(121, 10, 97, 23);
+	  contentPane.add(btn2);
+  
+	  textField = new JTextField();
+	  textField.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+	      System.out.println(textField.getText());
+	      // 엔터키를 누르면 동작한다
+	    }
+	  });
+	  textField.setBounds(12, 153, 250, 21);
+	  contentPane.add(textField);
+	  textField.setColumns(10);
+  
+	  JButton btnNewButton = new JButton("New button");
+	  btnNewButton.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+	      System.out.println(textField.getText());
+	    }
+	  });
+	  btnNewButton.setBounds(288, 152, 97, 23);
+	  contentPane.add(btnNewButton);
 	}
 }
 ```
@@ -15203,89 +15010,80 @@ import java.awt.event.MouseListener;
 
 public class EventEx02 extends JFrame {
 
-	private JPanel contentPane;
+  private JPanel contentPane; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+  	EventQueue.invokeLater(new Runnable() {
+  		public void run() {
+  			try {
+  				EventEx02 frame = new EventEx02();
+  				frame.setVisible(true);
+  			} catch (Exception e) {
+  				e.printStackTrace();
+  			}
+  		}
+  	});
+  } 
+  /**
+   * Create the frame.
+   */
+  public EventEx02() {
+  	setResizable(false);
+  	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  	setBounds(100, 100, 800, 600);
+  	contentPane = new JPanel();
+  	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+  	setContentPane(contentPane);
+  	contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EventEx02 frame = new EventEx02();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  	JButton btn1 = new JButton("New button");
+  	btn1.addMouseListener(new UserMousEvent1());
+  	btn1.setBounds(12, 10, 97, 23);
+  	contentPane.add(btn1);
 
-	/**
-	 * Create the frame.
-	 */
-	public EventEx02() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+  	JButton btn2 = new JButton("New button");
+  	btn2.addMouseListener(new UserMousEvent2());
+  	btn2.setBounds(12, 47, 97, 23);
+  	contentPane.add(btn2);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton btn1 = new JButton("New button");
-		btn1.addMouseListener(new UserMousEvent1());
-		btn1.setBounds(12, 10, 97, 23);
-		contentPane.add(btn1);
-		
-		JButton btn2 = new JButton("New button");
-		btn2.addMouseListener(new UserMousEvent2());
-		btn2.setBounds(12, 47, 97, 23);
-		contentPane.add(btn2);
-		
-		JButton btn3 = new JButton("New button");
-		btn3.addMouseListener(new UserMousEvent2());
-		btn3.setBounds(12, 86, 97, 23);
-		contentPane.add(btn3);
-	}
+  	JButton btn3 = new JButton("New button");
+  	btn3.addMouseListener(new UserMousEvent2());
+  	btn3.setBounds(12, 86, 97, 23);
+  	contentPane.add(btn3);
+  } 
+  class UserMousEvent1 implements MouseListener{  
+  	@Override
+  	public void mouseClicked(MouseEvent e) {
+  		System.out.println("mouseClicked");
+  	} 
+  	@Override
+  	public void mousePressed(MouseEvent e) {
+  		System.out.println("mousePressed");
+  	} 
+  	@Override
+  	public void mouseReleased(MouseEvent e) {
+  		System.out.println("mouseReleased");
+  	} 
+  	@Override
+  	public void mouseEntered(MouseEvent e) {
+  		System.out.println("mouseEntered");
+  	} 
+  	@Override
+  	public void mouseExited(MouseEvent e) {
+  		System.out.println("mouseExited");
+  	}
 
-	class UserMousEvent1 implements MouseListener{
+  }
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			System.out.println("mouseClicked");
-		}
+  class UserMouseEvent2 extends MouseAdapter{
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			System.out.println("mousePressed");
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("mouseReleased");
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			System.out.println("mouseEntered");
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			System.out.println("mouseExited");
-		}
-		
-	}
-	
-	class UserMouseEvent2 extends MouseAdapter{
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			System.out.println("mouseClicked");
-		}
-	}
+  	@Override
+  	public void mouseClicked(MouseEvent e) {
+  		System.out.println("mouseClicked");
+  	}
+  }
 
 }
 ```
@@ -15314,290 +15112,284 @@ import java.awt.Dimension;
 
 public class JuminCheckMain extends JFrame {
 
-	private JPanel contentPane;
-	private JLabel lblResult;
-	private JTextField textField1;
-	private JTextField textField2;
+  private JPanel contentPane;
+  private JLabel lblResult;
+  private JTextField textField1;
+  private JTextField textField2;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          JuminCheckMain frame = new JuminCheckMain();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public JuminCheckMain() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 500, 800);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new BorderLayout(0, 0));
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JuminCheckMain frame = new JuminCheckMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    JPanel panel = new JPanel();
+    FlowLayout flowLayout_1 = (FlowLayout) panel.getLayout();
+    flowLayout_1.setVgap(30);
+    flowLayout_1.setHgap(10);
+    contentPane.add(panel, BorderLayout.NORTH);
 
-	/**
-	 * Create the frame.
-	 */
-	public JuminCheckMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 800);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    textField1 = new JTextField();
+    textField1.setEditable(false);
+    panel.add(textField1);
+    textField1.setColumns(10);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel.getLayout();
-		flowLayout_1.setVgap(30);
-		flowLayout_1.setHgap(10);
-		contentPane.add(panel, BorderLayout.NORTH);
-		
-		textField1 = new JTextField();
-		textField1.setEditable(false);
-		panel.add(textField1);
-		textField1.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("-");
-		panel.add(lblNewLabel_1);
-		
-		textField2 = new JTextField();
-		textField2.setEditable(false);
-		panel.add(textField2);
-		textField2.setColumns(10);
-		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new GridLayout(4, 3, 0, 0));
-		
-		JButton btn7 = new JButton("7");
-		btn7.setName("btn7");
-		btn7.addMouseListener(new NumberClick());
-		panel_1.add(btn7);
-		
-		JButton btn8 = new JButton("8");
-		btn8.setName("btn8");
-		btn8.addMouseListener(new NumberClick());
-		panel_1.add(btn8);
-		
-		JButton btn9 = new JButton("9");
-		btn9.setName("btn9");
-		btn9.addMouseListener(new NumberClick());
-		panel_1.add(btn9);
-		
-		JButton btn4 = new JButton("4");
-		btn4.setName("btn4");
-		btn4.addMouseListener(new NumberClick());
-		panel_1.add(btn4);
-		
-		JButton btn5 = new JButton("5");
-		btn5.setName("btn5");
-		btn5.addMouseListener(new NumberClick());
-		panel_1.add(btn5);
-		
-		JButton btn6 = new JButton("6");
-		btn6.setName("btn6");
-		btn6.addMouseListener(new NumberClick());
-		panel_1.add(btn6);
-		
-		JButton btn1 = new JButton("1");
-		btn1.setName("btn1");
-		btn1.addMouseListener(new NumberClick());
-		panel_1.add(btn1);
-		
-		JButton btn2 = new JButton("2");
-		btn2.setName("btn2");
-		btn2.addMouseListener(new NumberClick());
-		panel_1.add(btn2);
-		
-		JButton btn3 = new JButton("3");
-		btn3.setName("btn3");
-		btn3.addMouseListener(new NumberClick());
-		panel_1.add(btn3);
-		
-		JButton btn0 = new JButton("0");
-		btn0.setName("btn0");
-		btn0.addMouseListener(new NumberClick());
-		panel_1.add(btn0);
-		
-		JButton delBtn = new JButton("DEL");
-		delBtn.setName("delBtn");
-		delBtn.addMouseListener(new NumberClick());
-		panel_1.add(delBtn);
-		
-		JButton checkBtn = new JButton("검사");
-		checkBtn.setName("checkBtn");
-		checkBtn.addMouseListener(new NumberClick());
-		panel_1.add(checkBtn);
-		
-		JPanel panel_2 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		contentPane.add(panel_2, BorderLayout.SOUTH);
-		
-		lblResult = new JLabel("결과 :");
-		panel_2.add(lblResult);
-	}
-	
-	class NumberClick extends MouseAdapter {
-		
-		boolean checkJumin(String jumin){
-			boolean result = false;
-			
-			int mulNum = 2;
-			int checkNum = Integer.parseInt(jumin.substring(12, 13));
-			int sum = 0;
-			for(int i = 0; i < jumin.length() - 1; i++) {
-				if(mulNum == 10) {
-					mulNum = 2;
-				}
-				sum += Integer.parseInt(jumin.substring(i, i + 1)) * mulNum;
-				mulNum++;
-			}
-			if(11 - (sum % 11) == checkNum) {
-				result = true;
-			}
-			return result;
-		}
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			
-			String btn = ((JButton)e.getSource()).getName();
-			
-			String result = "";
-			switch(btn) {
-			case "btn1":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "1";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "1";
-					textField2.setText(result);
-				}
-				break;
-			case "btn2":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "2";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "2";
-					textField2.setText(result);
-				}
-				break;
-			case "btn3":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "3";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "3";
-					textField2.setText(result);
-				}
-				break;
-			case "btn4":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "4";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "4";
-					textField2.setText(result);
-				}
-				break;
-			case "btn5":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "5";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "5";
-					textField2.setText(result);
-				}
-				break;
-			case "btn6":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "6";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "6";
-					textField2.setText(result);
-				}
-				break;
-			case "btn7":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "7";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "7";
-					textField2.setText(result);
-				}
-				break;
-			case "btn8":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "8";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "8";
-					textField2.setText(result);
-				}
-				break;
-			case "btn9":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "9";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "9";
-					textField2.setText(result);
-				}
-				break;
-			case "btn0":
-				if(textField1.getText().length() < 6) {
-					result = textField1.getText() + "0";
-					textField1.setText(result);
-				}else if(textField2.getText().length() < 7){
-					result = textField2.getText() + "0";
-					textField2.setText(result);
-				}
-				break;
-			case "delBtn":
-				if(textField1.getText().length() <= 6 && textField1.getText().length() != 0 && textField2.getText().length() == 0) {
-					result = textField1.getText().substring(0,textField1.getText().length() - 1);
-					textField1.setText(result);
-				} else if(textField2.getText().length() != 0) {
-					result = textField2.getText().substring(0,textField2.getText().length() - 1);
-					textField2.setText(result);
-				}
-				break;
-			case "checkBtn":
-				String jumin = textField1.getText() + textField2.getText();
-				
-				if(jumin.length() != 13) {
-					JOptionPane.showMessageDialog(JuminCheckMain.this, "주민등록번호를 끝까지 입력해주세요", "경고", JOptionPane.INFORMATION_MESSAGE);
-				}else {
-					if(checkJumin(jumin)) {
-						result = "형식이 맞습니다";
-					}else {
-						result = "형식이 맞지 않습니다";
-					}
-					lblResult.setText(String.format("결과 : %s", result));
-				}
-				break;
-			}
-		
-		}
+    JLabel lblNewLabel_1 = new JLabel("-");
+    panel.add(lblNewLabel_1);
 
-	}
+    textField2 = new JTextField();
+    textField2.setEditable(false);
+    panel.add(textField2);
+    textField2.setColumns(10);
+
+    JPanel panel_1 = new JPanel();
+    contentPane.add(panel_1, BorderLayout.CENTER);
+    panel_1.setLayout(new GridLayout(4, 3, 0, 0));
+
+    JButton btn7 = new JButton("7");
+    btn7.setName("btn7");
+    btn7.addMouseListener(new NumberClick());
+    panel_1.add(btn7);
+
+    JButton btn8 = new JButton("8");
+    btn8.setName("btn8");
+    btn8.addMouseListener(new NumberClick());
+    panel_1.add(btn8);
+
+    JButton btn9 = new JButton("9");
+    btn9.setName("btn9");
+    btn9.addMouseListener(new NumberClick());
+    panel_1.add(btn9);
+
+    JButton btn4 = new JButton("4");
+    btn4.setName("btn4");
+    btn4.addMouseListener(new NumberClick());
+    panel_1.add(btn4);
+
+    JButton btn5 = new JButton("5");
+    btn5.setName("btn5");
+    btn5.addMouseListener(new NumberClick());
+    panel_1.add(btn5);
+
+    JButton btn6 = new JButton("6");
+    btn6.setName("btn6");
+    btn6.addMouseListener(new NumberClick());
+    panel_1.add(btn6);
+
+    JButton btn1 = new JButton("1");
+    btn1.setName("btn1");
+    btn1.addMouseListener(new NumberClick());
+    panel_1.add(btn1);
+
+    JButton btn2 = new JButton("2");
+    btn2.setName("btn2");
+    btn2.addMouseListener(new NumberClick());
+    panel_1.add(btn2);
+
+    JButton btn3 = new JButton("3");
+    btn3.setName("btn3");
+    btn3.addMouseListener(new NumberClick());
+    panel_1.add(btn3);
+
+    JButton btn0 = new JButton("0");
+    btn0.setName("btn0");
+    btn0.addMouseListener(new NumberClick());
+    panel_1.add(btn0);
+
+    JButton delBtn = new JButton("DEL");
+    delBtn.setName("delBtn");
+    delBtn.addMouseListener(new NumberClick());
+    panel_1.add(delBtn);
+
+    JButton checkBtn = new JButton("검사");
+    checkBtn.setName("checkBtn");
+    checkBtn.addMouseListener(new NumberClick());
+    panel_1.add(checkBtn);
+
+    JPanel panel_2 = new JPanel();
+    FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
+    flowLayout.setAlignment(FlowLayout.LEFT);
+    contentPane.add(panel_2, BorderLayout.SOUTH);
+
+    lblResult = new JLabel("결과 :");
+    panel_2.add(lblResult);
+  }
+
+  class NumberClick extends MouseAdapter {
+
+    boolean checkJumin(String jumin){
+      boolean result = false; 
+      int mulNum = 2;
+      int checkNum = Integer.parseInt(jumin.substring(12, 13));
+      int sum = 0;
+      for(int i = 0; i < jumin.length() - 1; i++) {
+        if(mulNum == 10) {
+          mulNum = 2;
+        }
+        sum += Integer.parseInt(jumin.substring(i, i + 1)) * mulNum;
+        mulNum++;
+      }
+      if(11 - (sum % 11) == checkNum) {
+        result = true;
+      }
+      return result;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {  
+      String btn = ((JButton)e.getSource()).getName();  
+      String result = "";
+      switch(btn) {
+      case "btn1":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "1";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "1";
+          textField2.setText(result);
+        }
+        break;
+      case "btn2":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "2";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "2";
+          textField2.setText(result);
+        }
+        break;
+      case "btn3":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "3";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "3";
+          textField2.setText(result);
+        }
+        break;
+      case "btn4":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "4";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "4";
+          textField2.setText(result);
+        }
+        break;
+      case "btn5":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "5";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "5";
+          textField2.setText(result);
+        }
+        break;
+      case "btn6":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "6";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "6";
+          textField2.setText(result);
+        }
+        break;
+      case "btn7":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "7";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "7";
+          textField2.setText(result);
+        }
+        break;
+      case "btn8":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "8";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "8";
+          textField2.setText(result);
+        }
+        break;
+      case "btn9":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "9";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "9";
+          textField2.setText(result);
+        }
+        break;
+      case "btn0":
+        if(textField1.getText().length() < 6) {
+          result = textField1.getText() + "0";
+          textField1.setText(result);
+        }else if(textField2.getText().length() < 7){
+          result = textField2.getText() + "0";
+          textField2.setText(result);
+        }
+        break;
+      case "delBtn":
+        if(textField1.getText().length() <= 6 && textField1.getText().length() != 0 && textField2.getText().length() == 0) {
+          result = textField1.getText().substring(0,textField1.getText().length() - 1);
+          textField1.setText(result);
+        } else if(textField2.getText().length() != 0) {
+          result = textField2.getText().substring(0,textField2.getText().length() - 1);
+          textField2.setText(result);
+        }
+        break;
+      case "checkBtn":
+        String jumin = textField1.getText() + textField2.getText(); 
+        if(jumin.length() != 13) {
+          JOptionPane.showMessageDialog(JuminCheckMain.this, "주민등록번호를 끝까지 입력해주세요", "경고", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+          if(checkJumin(jumin)) {
+            result = "형식이 맞습니다";
+          }else {
+            result = "형식이 맞지 않습니다";
+          }
+          lblResult.setText(String.format("결과 : %s", result));
+        }
+        break;
+      } 
+    } 
+  }
 
 }
 ```
 ## 네트워크
 
-- IP(Internet Protocol) : 전세계의 컴퓨터의 네트워크 카드에 IP를 부여한다 
+- IP(Internet Protocol) 
+  - 인터넷이 통하는 네트워크에서 어떤 정보를 수신하고 송신하는 통신에 대한 규약
+
+  - 전세계의 컴퓨터의 네트워크 카드에는 IP가 부여된다 
 
 - 종류
   - 인트라넷 : 라우터(통신사 공유기) 내부에 있는 망으로 보통 사내망이라 불린다
 
     <small> !! 인트라넷 IP는 보통 "192.168.XXX.XXX"의 형식이다</small>
 
-  - 인터넷 : 라우터(통신사 공유기) 외부에 있는 망으로 외부망이라 불린다
+  - 인터넷 : 라우터(통신사 공유기) 외부에 있는 망
     
 
     ```java
@@ -15857,7 +15649,7 @@ PS C:\java\study> netstat -an
 
   - ip
 
-  - port : 포트의 번호는 대부분 기본값을 가지고 있고, 기본값은 생략이 가능하다
+  - 포트 : 포트 번호는 사용 용도에 따라 대부분 기본값을 가지고 있고, 포트 번호를 지저하지 않고 기본값을 그냥 사용할 경우 생략이 가능하다
 
     ||포트번호|
     |:--:|:--:|
@@ -15912,28 +15704,28 @@ import java.net.UnknownHostException;
 
 public class Ex01 {
 
-	public static void main(String[] args) {
-		
-		try {
-			InetAddress inetAddress1 = InetAddress.getByName("www.daum.net");
-			System.out.println(inetAddress1.getHostAddress()); // 211.249.220.24
-			System.out.println(inetAddress1.getHostName()); // www.daum.net
-			
-			InetAddress[] inetAddresses1 = InetAddress.getAllByName("www.daum.net");
-			for(InetAddress iAddress : inetAddresses1) {
-				System.out.println(iAddress.getHostAddress());
-			} // 한개의 출력 결과가 나온다
-			
-			InetAddress[] inetAddresses2 = InetAddress.getAllByName("www.naver.net");
-			for(InetAddress iAddress : inetAddresses2) {
-				System.out.println(iAddress.getHostAddress());
-			} // 두 개의 출력 결과가 나온다
-			// 네이버는 두개의 ip를 사용한다는 것을 알 수 있다
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
+  public static void main(String[] args) {
 
+    try {
+      InetAddress inetAddress1 = InetAddress.getByName("www.daum.net");
+      System.out.println(inetAddress1.getHostAddress()); // 211.249.220.24
+      System.out.println(inetAddress1.getHostName()); // www.daum.net
+
+      InetAddress[] inetAddresses1 = InetAddress.getAllByName("www.daum.net");
+      for(InetAddress iAddress : inetAddresses1) {
+        System.out.println(iAddress.getHostAddress());
+      } // 한개의 출력 결과가 나온다
+
+      InetAddress[] inetAddresses2 = InetAddress.getAllByName("www.naver.net");
+      for(InetAddress iAddress : inetAddresses2) {
+        System.out.println(iAddress.getHostAddress());
+      } 
+      // 두 개의 출력 결과가 나오고, 이를 통해
+      // 네이버는 두개의 ip를 사용한다는 것을 알 수 있다
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  } 
 }
 ```
 
@@ -15947,25 +15739,25 @@ import java.net.URL;
 
 public class Ex02 {
 
-	public static void main(String[] args) {
-		// https:// : 프로토콜
-		// search.naver.com:443 : 도메인(ip)/포트
-		// /search.naver : 경로 /파일명
-		// ?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C : 키와 값으로 이루어진 쿼리
-		
-		try {
-			URL url = new URL("https://search.naver.com:443/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C");
-			System.out.println(url.getProtocol()); // https
-			System.out.println(url.getHost()); // search.naver.com
-			System.out.println(url.getPort()); // 443
+  public static void main(String[] args) {
+    // https:// : 프로토콜
+    // search.naver.com:443 : 도메인(ip)/포트
+    // /search.naver : 경로 /파일명
+    // ?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C : 키와 값으로 이루어진 쿼리
+
+    try {
+      URL url = new URL("https://search.naver.com:443/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C");
+      System.out.println(url.getProtocol()); // https
+      System.out.println(url.getHost()); // search.naver.com
+      System.out.println(url.getPort()); // 443
       // 포트번호를 따로 지정하지 않은 경우 -1을 출력한다
-			System.out.println(url.getPath()); // /search.naver
-			System.out.println(url.getQuery()); // where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		
-	}
+      System.out.println(url.getPath()); // /search.naver
+      System.out.println(url.getQuery()); // where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%BD%94%EB%B9%84%EB%93%9C
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  
+  }
 
 }
 ```
@@ -15978,27 +15770,27 @@ import java.net.URL;
 
 public class Ex03 {
 	
-	public static void main(String[] args) {
-		InputStream is = null;
-		
-		try {
-			URL url = new URL("https://m.daum.net");
-			is = url.openStream();
-			
-			int data = 0;
-			while((data = is.read()) != -1) {
-				System.out.print((char)data);
+  public static void main(String[] args) {
+    InputStream is = null;
+
+    try {
+      URL url = new URL("https://m.daum.net");
+      is = url.openStream();
+
+      int data = 0;
+      while((data = is.read()) != -1) {
+        System.out.print((char)data);
         // InputStream을 사용했기 때문에 다국어는 깨져 보인다
-			}
-			System.out.println();
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(is != null) try {is.close();} catch(IOException e) {}
-		}
-	}
+      }
+      System.out.println();
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(is != null) try {is.close();} catch(IOException e) {}
+    }
+  }
 
 }
 ```
@@ -16012,30 +15804,29 @@ import java.net.URL;
 
 public class Ex04 {
 
-	public static void main(String[] args) {
-		InputStream is = null;
-		InputStreamReader isr = null;
-
-		try {
-			URL url = new URL("https://m.daum.net");
-			is = url.openStream();
-			isr = new InputStreamReader(is);
+  public static void main(String[] args) {
+    InputStream is = null;
+    InputStreamReader isr = null; 
+    try {
+      URL url = new URL("https://m.daum.net");
+      is = url.openStream();
+      isr = new InputStreamReader(is);
       // 다국어가 깨지지 않게 하기 위해 InputStreamReader를 사용한다
-			int data = 0;
-			while((data = isr.read()) != -1) {
-				System.out.print((char)data);
-			}
-			System.out.println();
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(is != null) try {is.close();} catch(IOException e) {}
-			if(isr != null) try {isr.close();} catch(IOException e) {}
-		}
-		
-	}
+      int data = 0;
+      while((data = isr.read()) != -1) {
+        System.out.print((char)data);
+      }
+      System.out.println();
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+    	System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(is != null) try {is.close();} catch(IOException e) {}
+      if(isr != null) try {isr.close();} catch(IOException e) {}
+    }
+  
+  }
 
 }
 ```
@@ -16051,37 +15842,37 @@ import java.net.URL;
 
 public class Ex05 {
 
-	public static void main(String[] args) {
-		InputStream is = null;
-		BufferedReader br = null;
-		
-		try {
-			URL url = new URL("https://news.daum.net/");
-			is = url.openStream();
-			br = new BufferedReader(new InputStreamReader(is));
-			
-			String data = null;
-			boolean flag = false;
-			while((data = br.readLine()) != null) {
-				if(data.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
-					flag = true;
-				}
-				if(data.contains("</a>")) {
-					flag = false;
-				}
-				if(flag) {
-					System.out.println(br.readLine().trim());
-				}
-			}
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(is != null) try {is.close();} catch(IOException e) {}
-			if(br != null) try {is.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    InputStream is = null;
+    BufferedReader br = null;
+
+    try {
+      URL url = new URL("https://news.daum.net/");
+      is = url.openStream();
+      br = new BufferedReader(new InputStreamReader(is));
+
+      String data = null;
+      boolean flag = false;
+      while((data = br.readLine()) != null) {
+        if(data.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
+          flag = true;
+        }
+        if(data.contains("</a>")) {
+          flag = false;
+        }
+        if(flag) {
+          System.out.println(br.readLine().trim());
+        }
+      }
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(is != null) try {is.close();} catch(IOException e) {}
+      if(br != null) try {is.close();} catch(IOException e) {}
+    }
+  }
 
 }
 ```
@@ -16100,25 +15891,25 @@ import java.net.URLConnection;
 
 public class Ex06 {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		
-		try {
-			URLConnection conn = new URL("https://news.daum.net/").openConnection();
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			String line = null;
-			while((line = br.readLine()) != null) {
-				System.out.println(line);
-			}
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException E) {}
-		}
-	}
+  public static void main(String[] args) {
+    BufferedReader br = null;
+
+    try {
+      URLConnection conn = new URL("https://news.daum.net/").openConnection();
+      br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+      String line = null;
+      while((line = br.readLine()) != null) {
+      	System.out.println(line);
+      }
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException E) {}
+    }
+  }
 
 }
 ```
@@ -16136,36 +15927,33 @@ import java.net.URL;
 
 public class Ex06 {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		
-		try {
-			HttpURLConnection conn = (HttpURLConnection)new URL("https://news.daum.net/").openConnection();
-			int responseCode = conn.getResponseCode();
+  public static void main(String[] args) {
+    BufferedReader br = null;
+
+    try {
+      HttpURLConnection conn = (HttpURLConnection)new URL("https://news.daum.net/").openConnection();
+      int responseCode = conn.getResponseCode();
       // url이 잘못된 경우 에러코드를 반환한다
-			System.out.println(responseCode);
-			
-			if(responseCode == HttpURLConnection.HTTP_OK) {
-				System.out.println(conn.getRequestMethod()); // get
-				System.out.println(conn.getResponseMessage()); // 200
-				
-				br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-				
-				String line = null;
-				while((line = br.readLine()) != null) {
-					System.out.println(line);
-				}
-			} else {
-				System.out.println("접속 에러");
-			}
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException E) {}
-		}
-	}
+      System.out.println(responseCode); 
+      if(responseCode == HttpURLConnection.HTTP_OK) {
+        System.out.println(conn.getRequestMethod()); // get
+        System.out.println(conn.getResponseMessage()); // 200 
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));  
+        String line = null;
+        while((line = br.readLine()) != null) {
+          System.out.println(line);
+        }
+      } else {
+        System.out.println("접속 에러");
+      }
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException E) {}
+    }
+  }
 
 }
 ```
@@ -16179,34 +15967,30 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Ex07 {
+public class Ex07 { 
+  public static void main(String[] args) {
+    BufferedInputStream bis = null;
+    // 이미지를 읽어오기 위해서는 reader가 아닌 InputStream을 써야한다
+    BufferedOutputStream bos = null;
+    // 이미지를 쓰기 위해서는 writer가 아닌 OutputStream을 써야한다 
 
-	public static void main(String[] args) {
-		BufferedInputStream bis = null;
-		// 이미지를 읽어오기 위해서는 reader가 아닌 InputStream을 써야한다
-		BufferedOutputStream bos = null;
-		// 이미지를 쓰기 위해서는 writer가 아닌 OutputStream을 써야한다
-
-		
-		try {
-			HttpURLConnection conn = (HttpURLConnection)new URL("https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png").openConnection();
-			bis = new BufferedInputStream(conn.getInputStream());
-			bos = new BufferedOutputStream(new FileOutputStream("./daum.png"));
-			
-			int data = 0;
-			while((data = bis.read()) != -1) {
-				bos.write(data);
-			}
-				
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bis != null) try {bis.close();} catch(IOException E) {}
-			if(bos != null) try {bos.close();} catch(IOException E) {}
-		}
-	}
+    try {
+      HttpURLConnection conn = (HttpURLConnection)new URL("https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png").openConnection();
+      bis = new BufferedInputStream(conn.getInputStream());
+      bos = new BufferedOutputStream(new FileOutputStream("./daum.png")); 
+      int data = 0;
+      while((data = bis.read()) != -1) {
+        bos.write(data);
+      } 
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bis != null) try {bis.close();} catch(IOException E) {}
+      if(bos != null) try {bos.close();} catch(IOException E) {}
+    }
+  }
 
 }
 ```
@@ -16237,106 +16021,99 @@ import java.net.URL;
 
 public class Ex08 extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textField1;
-	private JTextField textField2;
-	private JLabel lbl;
+  private JPanel contentPane;
+  private JTextField textField1;
+  private JTextField textField2;
+  private JLabel lbl; 
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          Ex08 frame = new Ex08();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public Ex08() {
+    setResizable(false);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ex08 frame = new Ex08();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    textField1 = new JTextField();
+    textField1.setText("https://");
+    textField1.setBounds(12, 10, 508, 21);
+    contentPane.add(textField1);
+    textField1.setColumns(10);
 
-	/**
-	 * Create the frame.
-	 */
-	public Ex08() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    textField2 = new JTextField();
+    textField2.setText(new File("").getAbsolutePath().replaceAll("\\\\", "/") + "/");
+    textField2.setBounds(12, 59, 508, 21);
+    contentPane.add(textField2);
+    textField2.setColumns(10);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textField1 = new JTextField();
-		textField1.setText("https://");
-		textField1.setBounds(12, 10, 508, 21);
-		contentPane.add(textField1);
-		textField1.setColumns(10);
-		
-		textField2 = new JTextField();
-		textField2.setText(new File("").getAbsolutePath().replaceAll("\\\\", "/") + "/");
-		textField2.setBounds(12, 59, 508, 21);
-		contentPane.add(textField2);
-		textField2.setColumns(10);
-		
+    JButton btnNewButton = new JButton("저장");
+    btnNewButton.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String url = textField1.getText();
+        String filePath = textField2.getText(); 
+        doFunc(url, filePath);
+        lbl.setText("");
+        lbl.setIcon(new ImageIcon(filePath));
+        lbl.setVisible(true);
+      }
+    });
+    btnNewButton.setBounds(552, 9, 97, 71);
+    contentPane.add(btnNewButton);  
+    JScrollPane scrollPane = new JScrollPane();
+    scrollPane.setBounds(12, 100, 637, 397);
+    contentPane.add(scrollPane);  
+    lbl = new JLabel("이미지가 여기에 보여요");
+    lbl.setHorizontalAlignment(SwingConstants.CENTER);
+    scrollPane.setViewportView(lbl);
+  }
 
-		JButton btnNewButton = new JButton("저장");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String url = textField1.getText();
-				String filePath = textField2.getText();
-				
-				doFunc(url, filePath);
-				lbl.setText("");
-				lbl.setIcon(new ImageIcon(filePath));
-				lbl.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(552, 9, 97, 71);
-		contentPane.add(btnNewButton);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 100, 637, 397);
-		contentPane.add(scrollPane);
-		
-		lbl = new JLabel("이미지가 여기에 보여요");
-		lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		scrollPane.setViewportView(lbl);
-	}
-	
-	public void doFunc(String url, String filePath) {
-		BufferedInputStream bis = null;
-		BufferedOutputStream bos = null;
-		
-		try {
-			HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
-			
-			bis = new BufferedInputStream(conn.getInputStream());
-			bos = new BufferedOutputStream(new FileOutputStream(filePath));
-			
-			int data = 0;
-			
-			while((data = bis.read()) != -1) {
-				bos.write(data);
-			}
-			
-			System.out.println("완료");
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (FileNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bis != null) try {bis.close();} catch(IOException e) {}
-			if(bos != null) try {bos.close();} catch(IOException e) {}
-		}
-	}
+  public void doFunc(String url, String filePath) {
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+
+    try {
+      HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
+
+      bis = new BufferedInputStream(conn.getInputStream());
+      bos = new BufferedOutputStream(new FileOutputStream(filePath));
+
+      int data = 0;
+
+      while((data = bis.read()) != -1) {
+        bos.write(data);
+      }
+
+      System.out.println("완료");
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bis != null) try {bis.close();} catch(IOException e) {}
+      if(bos != null) try {bos.close();} catch(IOException e) {}
+    }
+  }
 	
 }
 ```
@@ -16355,32 +16132,33 @@ import org.jsoup.select.Elements;
 
 public class Ex01 {
 
-	public static void main(String[] args) {
-		String html = "<html>"
-				+ "<head>"
-				+ "<title>First parse</title>"
-				+ "</head>"
-			  + "<body>"
-			  + "<p>Parsed HTML into a doc1.</p>"
-			  + "<p>Parsed HTML into a doc2.</p>"
-			  + "</body>"
-			  + "</html>";
-		
-		Document doc = Jsoup.parse(html);
-		System.out.println(doc); // doc에 저장된 html 문서를 정렬된 트리 형태로 출력해준다
-		System.out.println(doc.title()); // First parse
-		
-		Elements titles = doc.getElementsByTag("title"); // Elements로 특정 요소의 원소들을 모두 가져온다
-		System.out.println(titles); // <title>First parse</title>
-		System.out.println(titles.text()); // First parse
-		
-		Elements pTags = doc.getElementsByTag("p");
-		System.out.println(pTags);
-		for(Element pTag : pTags) {
-			System.out.println(pTag.tagName());
-			System.out.println(pTag.text());
-		}
-	}
+  public static void main(String[] args) {
+    String html = "<html>"
+        + "<head>"
+        + "<title>First parse</title>"
+        + "</head>"
+        + "<body>"
+        + "<p>Parsed HTML into a doc1.</p>"
+        + "<p>Parsed HTML into a doc2.</p>"
+        + "</body>"
+        + "</html>";
+
+    Document doc = Jsoup.parse(html);
+    // 한줄로 된 html 문자열을 요소별로 정렬해 준다
+    System.out.println(doc); 
+    System.out.println(doc.title()); // First parse
+
+    Elements titles = doc.getElementsByTag("title"); // Elements로 특정 요소의 원소들을 모두 가져온다
+    System.out.println(titles); // <title>First parse</title>
+    System.out.println(titles.text()); // First parse
+
+    Elements pTags = doc.getElementsByTag("p");
+    System.out.println(pTags);
+    for(Element pTag : pTags) {
+      System.out.println(pTag.tagName());
+      System.out.println(pTag.text());
+    }
+  }
 
 }
 ```
@@ -16394,29 +16172,29 @@ import org.jsoup.select.Elements;
 
 public class Ex02 {
 
-	public static void main(String[] args) {
-		String html = "<html>"
-				+ "<head>"
-				+ "<title>First parse</title>"
-				+ "</head>"
-			  + "<body>"
-			  + "<p id='i1' class='c1'>Parsed HTML into a doc1.</p>"
-			  + "<p id='i2' class='c2'>Parsed HTML into a doc2.</p>"
-			  + "<p id='i3' class='c1'>Parsed HTML into a doc3.</p>"
-			  + "<p id='i4' class='c2'>Parsed HTML into a doc4.</p>"
-			  + "</body>"
-			  + "</html>";
-		
-		Document doc = Jsoup.parse(html);
-		Element pTag = doc.getElementById("i1");
-		System.out.println(pTag.text());
-		
-		Elements pTags = doc.getElementsByClass("c1");
-		for(Element e : pTags) {
-			System.out.println(e.text());
-		}
-				
-	}
+  public static void main(String[] args) {
+    String html = "<html>"
+        + "<head>"
+        + "<title>First parse</title>"
+        + "</head>"
+        + "<body>"
+        + "<p id='i1' class='c1'>Parsed HTML into a doc1.</p>"
+        + "<p id='i2' class='c2'>Parsed HTML into a doc2.</p>"
+        + "<p id='i3' class='c1'>Parsed HTML into a doc3.</p>"
+        + "<p id='i4' class='c2'>Parsed HTML into a doc4.</p>"
+        + "</body>"
+        + "</html>";
+
+    Document doc = Jsoup.parse(html);
+    Element pTag = doc.getElementById("i1");
+    System.out.println(pTag.text());
+
+    Elements pTags = doc.getElementsByClass("c1");
+    for(Element e : pTags) {
+      System.out.println(e.text());
+    }
+
+  }
 
 }
 ```
@@ -16460,294 +16238,281 @@ import java.awt.event.MouseEvent;
 
 public class NewsMain extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textField1;
-	private JTextField textField2;
-	private JTextField textField3;
-	private JTextField textField4;
-	private JTextField textField5;
-	private JTextField textField6;
-	private JTextField textField7;
-	private JTextField textField8;
-	private JTextField textField9;
-	private JTextField textField10;
-	private JButton btnView;
-	private JButton btn1;
-	private JButton btn2;
-	private JButton btn3;
-	private JButton btn4;
-	private JButton btn5;
-	private JButton btn6;
-	private JButton btn7;
-	private JButton btn8;
-	private JButton btn9;
-	private JButton btn10;
+  private JPanel contentPane;
+  private JTextField textField1;
+  private JTextField textField2;
+  private JTextField textField3;
+  private JTextField textField4;
+  private JTextField textField5;
+  private JTextField textField6;
+  private JTextField textField7;
+  private JTextField textField8;
+  private JTextField textField9;
+  private JTextField textField10;
+  private JButton btnView;
+  private JButton btn1;
+  private JButton btn2;
+  private JButton btn3;
+  private JButton btn4;
+  private JButton btn5;
+  private JButton btn6;
+  private JButton btn7;
+  private JButton btn8;
+  private JButton btn9;
+  private JButton btn10;  
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          NewsMain frame = new NewsMain();
+          frame.setVisible(true);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  } 
+  /**
+   * Create the frame.
+   */
+  public NewsMain() {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 800, 600);
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); 
+    setContentPane(contentPane);
+    contentPane.setLayout(new BorderLayout(0, 0));
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewsMain frame = new NewsMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    btnView = new JButton("실시간 뉴스보기");
+    btnView.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        getNewsTitle();
+        getNewsUrl();
+      }
+    });
+    contentPane.add(btnView, BorderLayout.NORTH);
 
-	/**
-	 * Create the frame.
-	 */
-	public NewsMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    JPanel panel = new JPanel();
+    contentPane.add(panel, BorderLayout.CENTER);
+    panel.setLayout(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		btnView = new JButton("실시간 뉴스보기");
-		btnView.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				getNewsTitle();
-				getNewsUrl();
-			}
-		});
-		contentPane.add(btnView, BorderLayout.NORTH);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uB274\uC2A4 \uBCF4\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(6, 4, 751, 448);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
-		textField1 = new JTextField("뉴스 제목");
-		textField1.setEditable(false);
-		textField1.setBounds(6, 28, 573, 21);
-		panel_1.add(textField1);
-		textField1.setColumns(10);
-		
-		textField2 = new JTextField("뉴스 제목");
-		textField2.setEditable(false);
-		textField2.setBounds(6, 59, 573, 21);
-		panel_1.add(textField2);
-		textField2.setColumns(10);
-		
-		textField3 = new JTextField("뉴스 제목");
-		textField3.setEditable(false);
-		textField3.setBounds(6, 90, 573, 21);
-		panel_1.add(textField3);
-		textField3.setColumns(10);
-		
-		textField4 = new JTextField("뉴스 제목");
-		textField4.setEditable(false);
-		textField4.setBounds(6, 121, 573, 21);
-		panel_1.add(textField4);
-		textField4.setColumns(10);
-		
-		textField5 = new JTextField("뉴스 제목");
-		textField5.setEditable(false);
-		textField5.setBounds(6, 152, 573, 21);
-		panel_1.add(textField5);
-		textField5.setColumns(10);
-		
-		textField6 = new JTextField("뉴스 제목");
-		textField6.setEditable(false);
-		textField6.setBounds(6, 183, 573, 21);
-		panel_1.add(textField6);
-		textField6.setColumns(10);
-		
-		textField7 = new JTextField("뉴스 제목");
-		textField7.setEditable(false);
-		textField7.setBounds(6, 214, 573, 21);
-		panel_1.add(textField7);
-		textField7.setColumns(10);
-		
-		textField8 = new JTextField("뉴스 제목");
-		textField8.setEditable(false);
-		textField8.setBounds(6, 245, 573, 21);
-		panel_1.add(textField8);
-		textField8.setColumns(10);
-		
-		textField9 = new JTextField("뉴스 제목");
-		textField9.setEditable(false);
-		textField9.setBounds(6, 276, 573, 21);
-		panel_1.add(textField9);
-		textField9.setColumns(10);
-		
-		textField10 = new JTextField("뉴스 제목");
-		textField10.setEditable(false);
-		textField10.setBounds(6, 307, 573, 21);
-		panel_1.add(textField10);
-		textField10.setColumns(10);
-		
-		btn1 = new JButton("바로가기");
-		btn1.setBounds(591, 27, 154, 23);
-		panel_1.add(btn1);
-		
-		btn2 = new JButton("바로가기");
-		btn2.setBounds(591, 58, 154, 23);
-		panel_1.add(btn2);
-		
-		btn3 = new JButton("바로가기");
-		btn3.setBounds(591, 89, 154, 23);
-		panel_1.add(btn3);
-		
-		btn4 = new JButton("바로가기");
-		btn4.setBounds(591, 120, 154, 23);
-		panel_1.add(btn4);
-		
-		btn5 = new JButton("바로가기");
-		btn5.setBounds(591, 151, 154, 23);
-		panel_1.add(btn5);
-		
-		btn6 = new JButton("바로가기");
-		btn6.setBounds(591, 182, 154, 23);
-		panel_1.add(btn6);
-		
-		btn7 = new JButton("바로가기");
-		btn7.setBounds(591, 213, 154, 23);
-		panel_1.add(btn7);
-		
-		btn8 = new JButton("바로가기");
-		btn8.setBounds(591, 244, 154, 23);
-		panel_1.add(btn8);
-		
-		btn9 = new JButton("바로가기");
-		btn9.setBounds(591, 275, 154, 23);
-		panel_1.add(btn9);
-		
-		btn10 = new JButton("바로가기");
-		btn10.setBounds(591, 306, 154, 23);
-		panel_1.add(btn10);
-	}
-	
-	public void getNewsTitle() {
-		BufferedReader br = null;
-		
-		Date date = null;
-		List<String> titleList = new ArrayList<>();
-		
-		try {
-			HttpURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();
-			
-			date = new Date(conn.getDate());
-			btnView.setText(String.format("실시간 뉴스보기 (%s)", date.toString()));
-			
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    JPanel panel_1 = new JPanel();
+    panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uB274\uC2A4 \uBCF4\uAE30", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+    panel_1.setBounds(6, 4, 751, 448);
+    panel.add(panel_1);
+    panel_1.setLayout(null);
 
-			boolean flag = false;
-			String line = "";
-			while((line = br.readLine()) != null) {
-				if(line.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
-					flag = true;
-				}
-				if(line.contains("</a>")) {
-					flag = false;
-				}
-				
-				if(flag) {
-					titleList.add(br.readLine());
-				}
-			}
-			
-			List<JTextField> textFields = new ArrayList<>();
-			
-			textFields.add(textField1);
-			textFields.add(textField2);
-			textFields.add(textField3);
-			textFields.add(textField4);
-			textFields.add(textField5);
-			textFields.add(textField6);
-			textFields.add(textField7);
-			textFields.add(textField8);
-			textFields.add(textField9);
-			textFields.add(textField10);
-			
-			for(int i = 0; i < textFields.size(); i++) {
-				textFields.get(i).setText(titleList.get(i));
-			}
-			
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-		}
-		
-	}
-	
-	public void getNewsUrl() {
-		BufferedReader br = null;
-		
-		try {
-			HttpsURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();
-			
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			String line = null;
-			String html = null;
-			while((line = br.readLine()) != null) {
-				html += line;
-			}
-			
-			Document doc = Jsoup.parse(html);
-			List<String> strLink = new ArrayList<>();
-			
-			Elements link_txt_Elements = doc.getElementsByClass("link_txt");
-			
-			for(Element e : link_txt_Elements) {
-				strLink.add(e.attr("href"));
-			}
-			List<JButton> buttons = new ArrayList<>();
-			
-			buttons.add(btn1);
-			buttons.add(btn2);
-			buttons.add(btn3);
-			buttons.add(btn4);
-			buttons.add(btn5);
-			buttons.add(btn6);
-			buttons.add(btn7);
-			buttons.add(btn8);
-			buttons.add(btn9);
-			buttons.add(btn10);
-			
-			for(int i = 0; i < buttons.size(); i++) {
-				
-				String str = strLink.get(i);
-				
-				buttons.get(i).addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						ProcessBuilder pr = new ProcessBuilder("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" , str);
-						try {
-							pr.start();
-						} catch (IOException e1) {
-							System.out.println("에러 : " + e1.getMessage());
-						}
-					}
-			});
-			}
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-		}
+    textField1 = new JTextField("뉴스 제목");
+    textField1.setEditable(false);
+    textField1.setBounds(6, 28, 573, 21);
+    panel_1.add(textField1);
+    textField1.setColumns(10);
 
-	}
+    textField2 = new JTextField("뉴스 제목");
+    textField2.setEditable(false);
+    textField2.setBounds(6, 59, 573, 21);
+    panel_1.add(textField2);
+    textField2.setColumns(10);
+
+    textField3 = new JTextField("뉴스 제목");
+    textField3.setEditable(false);
+    textField3.setBounds(6, 90, 573, 21);
+    panel_1.add(textField3);
+    textField3.setColumns(10);
+
+    textField4 = new JTextField("뉴스 제목");
+    textField4.setEditable(false);
+    textField4.setBounds(6, 121, 573, 21);
+    panel_1.add(textField4);
+    textField4.setColumns(10);
+
+    textField5 = new JTextField("뉴스 제목");
+    textField5.setEditable(false);
+    textField5.setBounds(6, 152, 573, 21);
+    panel_1.add(textField5);
+    textField5.setColumns(10);
+
+    textField6 = new JTextField("뉴스 제목");
+    textField6.setEditable(false);
+    textField6.setBounds(6, 183, 573, 21);
+    panel_1.add(textField6);
+    textField6.setColumns(10);
+
+    textField7 = new JTextField("뉴스 제목");
+    textField7.setEditable(false);
+    textField7.setBounds(6, 214, 573, 21);
+    panel_1.add(textField7);
+    textField7.setColumns(10);
+
+    textField8 = new JTextField("뉴스 제목");
+    textField8.setEditable(false);
+    textField8.setBounds(6, 245, 573, 21);
+    panel_1.add(textField8);
+    textField8.setColumns(10);
+
+    textField9 = new JTextField("뉴스 제목");
+    textField9.setEditable(false);
+    textField9.setBounds(6, 276, 573, 21);
+    panel_1.add(textField9);
+    textField9.setColumns(10);
+
+    textField10 = new JTextField("뉴스 제목");
+    textField10.setEditable(false);
+    textField10.setBounds(6, 307, 573, 21);
+    panel_1.add(textField10);
+    textField10.setColumns(10);
+
+    btn1 = new JButton("바로가기");
+    btn1.setBounds(591, 27, 154, 23);
+    panel_1.add(btn1);
+
+    btn2 = new JButton("바로가기");
+    btn2.setBounds(591, 58, 154, 23);
+    panel_1.add(btn2);
+
+    btn3 = new JButton("바로가기");
+    btn3.setBounds(591, 89, 154, 23);
+    panel_1.add(btn3);
+
+    btn4 = new JButton("바로가기");
+    btn4.setBounds(591, 120, 154, 23);
+    panel_1.add(btn4);
+
+    btn5 = new JButton("바로가기");
+    btn5.setBounds(591, 151, 154, 23);
+    panel_1.add(btn5);
+
+    btn6 = new JButton("바로가기");
+    btn6.setBounds(591, 182, 154, 23);
+    panel_1.add(btn6);
+
+    btn7 = new JButton("바로가기");
+    btn7.setBounds(591, 213, 154, 23);
+    panel_1.add(btn7);
+
+    btn8 = new JButton("바로가기");
+    btn8.setBounds(591, 244, 154, 23);
+    panel_1.add(btn8);
+
+    btn9 = new JButton("바로가기");
+    btn9.setBounds(591, 275, 154, 23);
+    panel_1.add(btn9);
+
+    btn10 = new JButton("바로가기");
+    btn10.setBounds(591, 306, 154, 23);
+    panel_1.add(btn10);
+  }
+
+  public void getNewsTitle() {
+    BufferedReader br = null;
+
+    Date date = null;
+    List<String> titleList = new ArrayList<>();
+
+    try {
+      HttpURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();  
+      date = new Date(conn.getDate());
+      btnView.setText(String.format("실시간 뉴스보기 (%s)", date.toString()));  
+      br = new BufferedReader(new InputStreamReader(conn.getInputStream()));  
+      boolean flag = false;
+      String line = "";
+      while((line = br.readLine()) != null) {
+        if(line.contains("class=\"link_txt\" data-tiara-layer=\"article_main\"")) {
+          flag = true;
+        }
+        if(line.contains("</a>")) {
+          flag = false;
+        } 
+        if(flag) {
+          titleList.add(br.readLine());
+        }
+      } 
+      List<JTextField> textFields = new ArrayList<>();  
+      textFields.add(textField1);
+      textFields.add(textField2);
+      textFields.add(textField3);
+      textFields.add(textField4);
+      textFields.add(textField5);
+      textFields.add(textField6);
+      textFields.add(textField7);
+      textFields.add(textField8);
+      textFields.add(textField9);
+      textFields.add(textField10);  
+      for(int i = 0; i < textFields.size(); i++) {
+        textFields.get(i).setText(titleList.get(i));
+      } 
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    }
+  
+  }
+
+  public void getNewsUrl() {
+    BufferedReader br = null;
+
+    try {
+      HttpsURLConnection conn = (HttpsURLConnection)new URL("https://news.daum.net/").openConnection();
+
+      br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+      String line = null;
+      String html = null;
+      while((line = br.readLine()) != null) {
+        html += line;
+      }
+
+      Document doc = Jsoup.parse(html);
+      List<String> strLink = new ArrayList<>();
+
+      Elements link_txt_Elements = doc.getElementsByClass("link_txt");
+
+      for(Element e : link_txt_Elements) {
+        strLink.add(e.attr("href"));
+      }
+      List<JButton> buttons = new ArrayList<>();
+
+      buttons.add(btn1);
+      buttons.add(btn2);
+      buttons.add(btn3);
+      buttons.add(btn4);
+      buttons.add(btn5);
+      buttons.add(btn6);
+      buttons.add(btn7);
+      buttons.add(btn8);
+      buttons.add(btn9);
+      buttons.add(btn10);
+
+      for(int i = 0; i < buttons.size(); i++) {
+      
+        String str = strLink.get(i);  
+        buttons.get(i).addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            ProcessBuilder pr = new ProcessBuilder("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" , str);
+            try {
+              pr.start();
+            } catch (IOException e1) {
+              System.out.println("에러 : " + e1.getMessage());
+            }
+          }
+        });
+      }
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    } 
+  }
 }
 ```
 
@@ -16783,35 +16548,35 @@ import java.net.URLConnection;
 
 public class Ex01 {
 
-	public static void main(String[] args) {
-		BufferedReader br = null;
-		try {
-			URLConnection conn = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20230409").openConnection();
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			String line = br.readLine();
-			
-			line = line.replaceAll("><", ">\n<");
-			// 한 줄로 나온 문서에 태그마다 띄어쓰기를 넣어준다
-			
-			String[] xml = line.split("\n");
-			
-			for(String s : xml) {
-				if(s.contains("<rank>")) {
-					System.out.print(s.substring(s.indexOf(">") + 1, s.indexOf("</")) + '\t');
-				}
-				if(s.contains("<movieNm>")) {
-					System.out.println(s.substring(s.indexOf(">") + 1, s.indexOf("</")));
-				}
-			}
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    BufferedReader br = null;
+    try {
+      URLConnection conn = new URL("https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20230409").openConnection();
+      br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+      String line = br.readLine();
+
+      line = line.replaceAll("><", ">\n<");
+      // 한 줄로 나온 문서에 태그마다 띄어쓰기를 넣어준다
+
+      String[] xml = line.split("\n");
+
+      for(String s : xml) {
+        if(s.contains("<rank>")) {
+          System.out.print(s.substring(s.indexOf(">") + 1, s.indexOf("</")) + '\t');
+        }
+        if(s.contains("<movieNm>")) {
+          System.out.println(s.substring(s.indexOf(">") + 1, s.indexOf("</")));
+        }
+      }
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    }
+  }
 
 }
 
@@ -16833,43 +16598,37 @@ import org.jsoup.select.Elements;
 
 public class Ex03 {
 
-	public static void main(String[] args) {
-		
-		// movieCd, movieNm, actors
-		
-		BufferedReader br = null;
-		
-		try {
-			URLConnection conn = new URL("https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=f5eef3421c602c6cb7ea224104795888&movieCd=20112621").openConnection();
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			String line = br.readLine();
-			Document doc = Jsoup.parse(line);
-			
-			Elements movieCd = doc.getElementsByTag("movieCd");
-			Elements movieNm = doc.getElementsByTag("movieNm");
-			Elements actors = doc.getElementsByTag("actor");
-			Elements actorsNm = actors.tagName("peopleNm");
-			
-			System.out.println(movieCd.text());
-			System.out.println(movieNm.text());
-			for(Element e : actorsNm) {
-				System.out.println(e.text());
-			}
-			
-		} catch (MalformedURLException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-		}
-		
-	}
+  public static void main(String[] args) {
+
+    // movieCd, movieNm, actors 
+    BufferedReader br = null; 
+    try {
+      URLConnection conn = new URL("https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.xml?key=f5eef3421c602c6cb7ea224104795888&movieCd=20112621").openConnection();
+      br = new BufferedReader(new InputStreamReader(conn.getInputStream()));  
+      String line = br.readLine();
+      Document doc = Jsoup.parse(line); 
+      Elements movieCd = doc.getElementsByTag("movieCd");
+      Elements movieNm = doc.getElementsByTag("movieNm");
+      Elements actors = doc.getElementsByTag("actor");
+      Elements actorsNm = actors.tagName("peopleNm"); 
+      System.out.println(movieCd.text());
+      System.out.println(movieNm.text());
+      for(Element e : actorsNm) {
+        System.out.println(e.text());
+      } 
+    } catch (MalformedURLException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+    } 
+  }
 
 }
 ```
 #### JSON 데이터 가져오기
+- 배열이 아닌 객체를 가져올 때는 JSONObject 클래스를 이용한다
 ```java
 package parsing;
 
@@ -16880,24 +16639,25 @@ import org.json.simple.parser.ParseException;
 
 public class Ex04 {
 
-	public static void main(String[] args) {
-		String strJson = "{\"data1\" : \"value1\", \"data2\" : \"values2\"}";
-		JSONParser parser = new JSONParser();
-		
-		try {
-			JSONObject obj = (JSONObject)parser.parse(strJson);
-			String data1 = (String)obj.get("data1");
-			System.out.println(data1);
-			
-			String data2 = (String)obj.get("data2");
-			System.out.println(data2);
-		} catch (ParseException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
+  public static void main(String[] args) {
+    String strJson = "{\"data1\" : \"value1\", \"data2\" : \"values2\"}";
+    JSONParser parser = new JSONParser();
+
+    try {
+      JSONObject obj = (JSONObject)parser.parse(strJson);
+      String data1 = (String)obj.get("data1");
+      System.out.println(data1);
+
+      String data2 = (String)obj.get("data2");
+      System.out.println(data2);
+    } catch (ParseException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
 
 }
 ```
+- 배열을 가져올 때는 JSONArray 클래스를 사용한다
 ```java
 package parsing;
 
@@ -16908,24 +16668,24 @@ import org.json.simple.parser.ParseException;
 
 public class Ex05 {
 
-	public static void main(String[] args) {
-		String strJson = "[8, 9, 6, 2, 9]";
-		JSONParser parser = new JSONParser();
-		
-		try {
-			JSONArray arr = (JSONArray)parser.parse(strJson);
-			System.out.println(arr);
-			System.out.println(arr.size());
-			for(int i = 0; i < arr.size(); i++) {
-				long data = (Long)arr.get(i);
-				// 데이터를 받아올 때는 long이 정수형의 기본이다
-				System.out.println(data);
-			}
-			
-		} catch (ParseException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
+  public static void main(String[] args) {
+    String strJson = "[8, 9, 6, 2, 9]";
+    JSONParser parser = new JSONParser();
+
+    try {
+      JSONArray arr = (JSONArray)parser.parse(strJson);
+      System.out.println(arr);
+      System.out.println(arr.size());
+      for(int i = 0; i < arr.size(); i++) {
+        long data = (Long)arr.get(i);
+        // 데이터를 받아올 때는 long 자료형이 정수형의 기본이다
+        System.out.println(data);
+      }
+
+    } catch (ParseException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
 
 }
 ```
@@ -16941,26 +16701,26 @@ import org.json.simple.parser.ParseException;
 
 public class Ex04 {
 
-	public static void main(String[] args) {
-		String strJson = "{\"data1\" : [1, 2, 3, 4], \"data2\" : [\"10\", \"20\", \"300\"]}";
-		JSONParser parser = new JSONParser();
-		
-		try {
-			JSONObject obj = (JSONObject)parser.parse(strJson);
-			JSONArray arr1 = (JSONArray)obj.get("data1");
-			System.out.println(arr1);
-			for(int i = 0; i < arr1.size(); i++) {
-				System.out.println(arr1.get(i));
-			}
-			JSONArray arr2 = (JSONArray)obj.get("data2");
-			System.out.println(arr2);
-			for(int i = 0; i < arr2.size(); i++) {
-				System.out.println(arr2.get(i));
-			}
-		} catch (ParseException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
+  public static void main(String[] args) {
+    String strJson = "{\"data1\" : [1, 2, 3, 4], \"data2\" : [\"10\", \"20\", \"300\"]}";
+    JSONParser parser = new JSONParser();
+
+    try {
+      JSONObject obj = (JSONObject)parser.parse(strJson);
+      JSONArray arr1 = (JSONArray)obj.get("data1");
+      System.out.println(arr1);
+      for(int i = 0; i < arr1.size(); i++) {
+        System.out.println(arr1.get(i));
+      }
+      JSONArray arr2 = (JSONArray)obj.get("data2");
+      System.out.println(arr2);
+      for(int i = 0; i < arr2.size(); i++) {
+        System.out.println(arr2.get(i));
+      }
+    } catch (ParseException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
 
 }
 ```
@@ -16975,7 +16735,7 @@ public class Ex04 {
 - socket으로 데이터를 주고 받을 때 전송규약과 포트를 이용한다
 
 	- 전송규약 
-		- TCP (Transmission Control Protocol) : 전화처럼 상호적으로 작동(확인 / 응답)하기 때문에 속도가 느리다
+		- TCP (Transmission Control Protocol) : 전화처럼 상호적으로 작동(확인 / 응답)하기 때문에 상대적으로 속도가 느리다
 			
 			<sup> ex) http</sup>
 			
@@ -16985,7 +16745,7 @@ public class Ex04 {
 				
 		- UDP (User Diagram Protocol) : 방송처럼 상대방의 응답을 확인하지 않는다
 	
-	- port : 한개의 포트는 한개의 프로그램에만 사용할 수 있다
+	- 포트 : 한개의 포트는 한개의 프로그램에만 사용할 수 있다
 ```java
 // TCPServerEx.java
 package pack1;
@@ -16996,25 +16756,25 @@ import java.net.Socket;
 
 public class TCPServerEx {
 
-	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-		
-		try {
-			serverSocket = new ServerSocket(7777);
-			// 7777 포트를 사용하는 서버소켓을 만든다
-			
-			System.out.println("서버가 준비되었습니다.");
-			socket = serverSocket.accept();
-			
-			System.out.println("클라이언트가 연결되었습니다.");
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    Socket socket = null;
+
+    try {
+      serverSocket = new ServerSocket(7777);
+      // 7777 포트를 사용하는 서버소켓을 만든다
+
+      System.out.println("서버가 준비되었습니다.");
+      socket = serverSocket.accept();
+
+      System.out.println("클라이언트가 연결되었습니다.");
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // TCPClientEx01.java
@@ -17026,21 +16786,21 @@ import java.net.UnknownHostException;
 
 public class TCPClientEx01 {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		System.out.println("서버와 연결을 시작합니다");
-		
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결되었습니다");
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    Socket socket = null;
+    System.out.println("서버와 연결을 시작합니다");
+
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결되었습니다");
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 	
@@ -17066,33 +16826,32 @@ import java.net.Socket;
 
 public class TCPServerEx {
 
-	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-		
-		BufferedWriter bw = null;
-		
-		try {
-			serverSocket = new ServerSocket(7777);
-			
-			System.out.println("서버가 준비되었습니다.");
-			socket = serverSocket.accept();
-			
-			System.out.println("클라이언트가 연결되었습니다.");
-			
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			bw.write("Hello Client" + System.lineSeparator());
-			
-			System.out.println("전송이 완료되었습니다");
-			
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    Socket socket = null;
+
+    BufferedWriter bw = null;
+
+    try {
+      serverSocket = new ServerSocket(7777);
+      System.out.println("서버가 준비되었습니다.");
+
+      socket = serverSocket.accept();
+      System.out.println("클라이언트가 연결되었습니다.");
+
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+      bw.write("Hello Client" + System.lineSeparator());
+
+      System.out.println("전송이 완료되었습니다");
+
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 
@@ -17107,30 +16866,29 @@ import java.net.UnknownHostException;
 
 public class TCPClientEx01 {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		System.out.println("서버와 연결을 시작합니다");
-		
-		BufferedReader br = null;
-		
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결되었습니다");
-			
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			System.out.println("메시지 : " + br.readLine());
-			
-			
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			// 스트림 닫는 순서에 따라 값을 못 받아올 수도 있으니 주의하자!!
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    Socket socket = null;
+    System.out.println("서버와 연결을 시작합니다");
+
+    BufferedReader br = null;
+
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결되었습니다");
+
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      System.out.println("메시지 : " + br.readLine());
+
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      // 스트림 닫는 순서에 따라 값을 못 받아올 수도 있으니 주의하자!!
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // cmd
@@ -17153,34 +16911,31 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TCPServerEx {
+public class TCPServerEx {  
+  public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    Socket socket = null;
 
-	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-		
-		BufferedReader br = null;
-		
-		try {
-			serverSocket = new ServerSocket(7777);
-			System.out.println("서버가 준비되었습니다.");
-			socket = serverSocket.accept();
-			
-			System.out.println("클라이언트가 연결되었습니다.");
-			
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
-			// 다국어 사용을 위해서 "utf-8" 속성값을 준다
-			System.out.println("메시지 : " + br.readLine());
-			System.out.println("전송이 완료되었습니다");
-			
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
-		}
-	}
+    BufferedReader br = null;
+
+    try {
+      serverSocket = new ServerSocket(7777);
+      System.out.println("서버가 준비되었습니다."); 
+      socket = serverSocket.accept();
+      System.out.println("클라이언트가 연결되었습니다."); 
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+      // 다국어 사용을 위해서 "utf-8" 속성값을 준다
+      System.out.println("메시지 : " + br.readLine());
+      System.out.println("전송이 완료되었습니다");
+
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // TCPClientEx01.java
@@ -17194,28 +16949,27 @@ import java.net.UnknownHostException;
 
 public class TCPClientEx01 {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		System.out.println("서버와 연결을 시작합니다");
-		
-		BufferedWriter bw = null;
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결되었습니다");
-			
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
-			// 다국어 사용을 위해서 "utf-8" 속성값을 준다
-			bw.write("안녕");
+  public static void main(String[] args) {
+    Socket socket = null;
+    System.out.println("서버와 연결을 시작합니다");
 
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-	}
+    BufferedWriter bw = null;
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결되었습니다");
+
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+      // 다국어 사용을 위해서 "utf-8" 속성값을 준다
+      bw.write("안녕" + System.lineSeparator());  
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // cmd
@@ -17240,33 +16994,33 @@ import java.net.Socket;
 
 public class TCPServerEx {
 
-	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-		
-		BufferedReader br = null;
-		
-		try {
-			serverSocket = new ServerSocket(7777);
-			System.out.println("서버가 준비되었습니다.");
-			socket = serverSocket.accept();
-			
-			System.out.println("클라이언트가 연결되었습니다.");
-			
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
-			String str = br.readLine().replaceAll(":", "\n");
-			// 미리 약속한대로 ":"를 "\n"으로 대체한다
-			System.out.println(str);
-			System.out.println("전송이 완료되었습니다");
-			
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
-		}
-	}
+  public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    Socket socket = null;
+
+    BufferedReader br = null;
+
+    try {
+      serverSocket = new ServerSocket(7777);
+      System.out.println("서버가 준비되었습니다.");
+      socket = serverSocket.accept();
+
+      System.out.println("클라이언트가 연결되었습니다.");
+
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+      String str = br.readLine().replaceAll(":", "\n");
+      // 미리 약속한대로 ":"를 "\n"으로 대체한다
+      System.out.println(str);
+      System.out.println("전송이 완료되었습니다");
+
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // TCPClientEx01
@@ -17280,34 +17034,32 @@ import java.net.UnknownHostException;
 
 public class TCPClientEx01 {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		System.out.println("서버와 연결을 시작합니다");
-		
-		BufferedWriter bw = null;
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결되었습니다");
-			
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
-//			bw.write("안녕1" + System.lineSeparator());
-//			bw.write("안녕2" + System.lineSeparator());
-//			bw.write("안녕3" + System.lineSeparator());
-			
-			bw.write("안녕1:안녕2:안녕3");
-			// System.lineSeparator() 대신 ":"을 사용한다고 미리 약속한다
-			// 전송프로토콜
+  public static void main(String[] args) {
+    Socket socket = null;
+    System.out.println("서버와 연결을 시작합니다");
 
+    BufferedWriter bw = null;
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결되었습니다");
 
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-	}
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+      // bw.write("안녕1" + System.lineSeparator());
+      // bw.write("안녕2" + System.lineSeparator());
+      // bw.write("안녕3" + System.lineSeparator());
+
+      bw.write("안녕1:안녕2:안녕3");
+      // System.lineSeparator() 대신 ":"을 사용한다고 미리 약속한다
+      // 전송프로토콜 
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 ```
@@ -17323,42 +17075,38 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TCPServerEx {
+public class TCPServerEx {  
+  public static void main(String[] args) {
+    ServerSocket serverSocket = null;
+    Socket socket = null;
 
-	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-		
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-		try {
-			serverSocket = new ServerSocket(7777);
-			
-			System.out.println("서버가 준비되었습니다.");
-			socket = serverSocket.accept();
-			
-			System.out.println("클라이언트가 연결되었습니다.");
-			
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
-			
-			String msg = br.readLine();
-			System.out.println("메시지 : " + msg);
-			System.out.println("전송이 완료되었습니다");
-			
-			bw.write(msg + System.lineSeparator());
-			
-			bw.flush();
-			// flush()는 버퍼에 남아있는 데이터를 다 출력하는 메서드로 전송 완료를 의미한다
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
-		}
-	}
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+    try {
+      serverSocket = new ServerSocket(7777);
+      System.out.println("서버가 준비되었습니다."); 
+      socket = serverSocket.accept();
+      System.out.println("클라이언트가 연결되었습니다.");   
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"));
+
+      String msg = br.readLine();
+      System.out.println("메시지 : " + msg);
+      System.out.println("전송이 완료되었습니다");
+
+      bw.write(msg + System.lineSeparator());
+
+      bw.flush();
+      // flush()는 버퍼에 남아있는 데이터를 다 출력하는 메서드로 전송 완료를 의미한다
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(serverSocket != null) try {serverSocket.close();} catch(IOException e) {}
+    }
+  }
 
 }	
 // TCPClientEx01.java
@@ -17374,38 +17122,36 @@ import java.net.UnknownHostException;
 
 public class TCPClientEx01 {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		System.out.println("서버와 연결을 시작합니다");
-		
-		BufferedWriter bw = null;
-		BufferedReader br = null;
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결되었습니다");
-			
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
-			
-			bw.write("안녕 에코 서버" + System.lineSeparator());
-			bw.flush();
-			
-			System.out.println("전송이 완료되었습니다");
-			
-			String msg = br.readLine();
-			System.out.println("에코 메시지 : " + msg);
+  public static void main(String[] args) {
+    Socket socket = null;
+    System.out.println("서버와 연결을 시작합니다");
 
+    BufferedWriter bw = null;
+    BufferedReader br = null;
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결되었습니다");
 
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-	}
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+
+      bw.write("안녕 에코 서버" + System.lineSeparator());
+      bw.flush();
+
+      System.out.println("전송이 완료되었습니다");
+
+      String msg = br.readLine();
+      System.out.println("에코 메시지 : " + msg);   
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // cmd
@@ -17434,37 +17180,36 @@ import java.util.Scanner;
 
 public class GugudanClient {
 
-	public static void main(String[] args) {
-		Socket socket = null;
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-				
-		try {
-			socket = new Socket("localhost", 7777);
-			System.out.println("서버와 연결 완료");
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			System.out.print("단을 입력하세요 >");
-			Scanner scanner = new Scanner(System.in);
-			String dan = scanner.nextLine();
-			bw.write(dan + System.lineSeparator());
-			bw.flush();
-			System.out.println(dan + "단 출력");
-			
-			String msg = br.readLine();
-			msg = msg.replaceAll(":", "\n");
-			System.out.println(msg);
-		} catch (UnknownHostException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-		}
-		
-	}
+  public static void main(String[] args) {
+    Socket socket = null;
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+
+    try {
+      socket = new Socket("localhost", 7777);
+      System.out.println("서버와 연결 완료");
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      System.out.print("단을 입력하세요 >");
+      Scanner scanner = new Scanner(System.in);
+      String dan = scanner.nextLine();
+      bw.write(dan + System.lineSeparator());
+      // BufferedReader 클래스의 readLine() 메서드는 한 줄을 끝까지 읽기 때문에 끝에 다음 줄로 가는 엔터키를 넣어줘야 한다
+      bw.flush();
+      System.out.println(dan + "단 출력");  
+      String msg = br.readLine();
+      msg = msg.replaceAll(":", "\n");
+      System.out.println(msg);
+    } catch (UnknownHostException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+    }
+  }
 
 }
 // GugudanServer.java
@@ -17480,47 +17225,47 @@ import java.net.Socket;
 
 public class GugudanServer {
 
-	public static void main(String[] args) {
-		ServerSocket server = null;
-		Socket socket = null;
-		BufferedReader br = null;
-		BufferedWriter bw = null;
-		
-		try {
-			server = new ServerSocket(7777);
-			System.out.println("서버 준비 완료");
-			socket = server.accept();
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			System.out.println("클라이언트 연결 완료");
-			
-			String msg = br.readLine();
-			
-			int dan = Integer.parseInt(msg.trim());
-			System.out.println("dan : " + dan);
-			String result = "";
-			
-			for(int i = 1; i <= 9; i++) {
-				result += String.format("%d X %d = %d:", dan, i, dan * i);
-			}
-			
-			bw.write(result + System.lineSeparator());
-			bw.flush();
-			
-			System.out.println("구구단 전송 완료");
-			System.out.println("연결 종료");
-		} catch (NumberFormatException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(br != null) try {br.close();} catch(IOException e) {}
-			if(bw != null) try {bw.close();} catch(IOException e) {}
-			if(socket != null) try {socket.close();} catch(IOException e) {}
-			if(server != null) try {server.close();} catch(IOException e) {}
-		}
-		
-	}
+  public static void main(String[] args) {
+    ServerSocket server = null;
+    Socket socket = null;
+    BufferedReader br = null;
+    BufferedWriter bw = null;
+  
+    try {
+      server = new ServerSocket(7777);
+      System.out.println("서버 준비 완료");
+      socket = server.accept();
+      br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+      System.out.println("클라이언트 연결 완료");
+  
+      String msg = br.readLine();
+  
+      int dan = Integer.parseInt(msg.trim());
+      System.out.println("dan : " + dan);
+      String result = "";
+  
+      for(int i = 1; i <= 9; i++) {
+        result += String.format("%d X %d = %d:", dan, i, dan * i);
+      }
+  
+      bw.write(result + System.lineSeparator());
+      bw.flush();
+  
+      System.out.println("구구단 전송 완료");
+      System.out.println("연결 종료");
+    } catch (NumberFormatException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(br != null) try {br.close();} catch(IOException e) {}
+      if(bw != null) try {bw.close();} catch(IOException e) {}
+      if(socket != null) try {socket.close();} catch(IOException e) {}
+      if(server != null) try {server.close();} catch(IOException e) {}
+    }
+  	
+  }
 
 }
 ```
