@@ -17269,5 +17269,844 @@ public class GugudanServer {
 
 }
 ```
+- 계속 실행되는 서버를 만들기 위해서는 무한루프를 사용한다
+```java
+// EchoServer.java
+package guguPack;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class EchoServer {
+
+	public static void main(String[] args) {
+		ServerSocket server = null;
+		Socket socket = null;
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		
+		try {
+			server = new ServerSocket(7777);
+			System.out.println("서버 생성");
+			while(true) {
+				try {
+					socket = server.accept();
+					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+					System.out.println("클라이언트와 연결되었습니다");
+					
+					String msg = br.readLine();
+					System.out.println("메시지를 받았습니다 : " + msg);
+					
+					bw.write(msg + System.lineSeparator());
+					bw.flush();
+					System.out.println("에코 메시지를 보냈습니다: " + msg);
+				} catch (Exception e) {
+					System.out.println("에러 : " + e.getMessage());
+				} finally {
+					if(br != null) try {br.close();} catch(IOException e) {}
+					if(bw != null) try {bw.close();} catch(IOException e) {}
+					if(socket != null) try {socket.close();} catch(IOException e) {}
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		}finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(server != null) try {server.close();} catch(IOException e) {}
+		}
+				
+	}
+
+}
+
+// EchoClient.java
+package guguPack;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
+public class EchoClient {
+
+	public static void main(String[] args) {
+		Socket socket = null;
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		
+		try {
+			socket = new Socket("localhost", 7777);
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			System.out.println("서버와 연결되었습니다");
+
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("메시지를 입력해주세요 >");
+			String msg = scanner.nextLine();
+			bw.write(msg + System.lineSeparator());
+			bw.flush();
+			System.out.println("메시지를 보냈습니다 : " + msg);
+			
+			String echo = br.readLine();
+			System.out.println("에코메시지 : " + echo);
+			
+			System.out.println("서버와 연결을 종료합니다");
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+		}
+	}
+
+}
+```
+```java
+// guguSever.java
+package guguGUI;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class guguServer {
+
+	public static void main(String[] args) {
+		ServerSocket server = null;
+		Socket socket = null;
+		BufferedWriter bw = null;
+		BufferedReader br = null;
+		
+		try {
+			server = new ServerSocket(7777);
+			System.out.println("서버 생성 완료");
+			
+			while(true) {
+				try {
+					socket = server.accept();
+					System.out.println("클라이언트와 연결성공");
+					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+					
+					int startDan = Integer.parseInt(br.readLine());
+					int endDan = Integer.parseInt(br.readLine());
+					
+					System.out.println("시작단 : " + startDan + ", 끝단 : " + endDan);
+					
+					String result = "";
+					for(int i = startDan; i <= endDan; i++) {
+						for(int j = 1; j <= 9; j++) {
+							result += String.format("%d X %d = %d:", i, j, i*j);
+						}
+					}
+					
+					bw.write(result + System.lineSeparator());
+					bw.flush();
+				} catch (NumberFormatException e) {
+					System.out.println("에러 : " + e.getMessage());
+				} catch (IOException e) {
+					System.out.println("에러 : " + e.getMessage());
+				}finally {
+					if(br != null) try {br.close();} catch(IOException e) {}
+					if(bw != null) try {bw.close();} catch(IOException e) {}
+					if(socket != null) try {socket.close();} catch(IOException e) {}
+				}
+				
+			}
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();} catch(IOException e) {}
+			if(bw != null) try {bw.close();} catch(IOException e) {}
+			if(socket != null) try {socket.close();} catch(IOException e) {}
+			if(server != null) try {server.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
+// guguClient.java
+package guguGUI;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSpinner;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import javax.swing.SpinnerNumberModel;
+
+public class guguClient extends JFrame {
+
+	private JPanel contentPane;
+	private JSpinner startDan;
+	private JSpinner endDan;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					guguClient frame = new guguClient();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public guguClient() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uAD6C\uAD6C\uB2E8", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(67, 10, 626, 113);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		startDan = new JSpinner();
+		startDan.setModel(new SpinnerNumberModel(2, 2, 8, 1));
+		startDan.setBounds(91, 34, 344, 22);
+		panel.add(startDan);
+		
+		endDan = new JSpinner();
+		endDan.setModel(new SpinnerNumberModel(3, 3, 9, 1));
+		endDan.setBounds(91, 66, 344, 22);
+		panel.add(endDan);
+		
+		JLabel lblNewLabel = new JLabel("시작단");
+		lblNewLabel.setBounds(24, 33, 55, 22);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("끝단");
+		lblNewLabel_1.setBounds(24, 65, 55, 22);
+		panel.add(lblNewLabel_1);
+		
+		JButton btn = new JButton("구구단 출력");
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Socket socket = null;
+				BufferedReader br = null;
+				BufferedWriter bw = null;
+					
+				try {
+					if((Integer)startDan.getValue() > (Integer)endDan.getValue() ) {
+						JOptionPane.showMessageDialog(guguClient.this, "시작단은 끝단 보다 작아야 합니다", "경고", JOptionPane.ERROR_MESSAGE);
+					}else {
+						socket = new Socket("localhost", 7777);
+						System.out.println("서버와 연결");
+						br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+						
+						bw.write((Integer)startDan.getValue() + System.lineSeparator());
+						bw.flush();
+						bw.write((Integer)endDan.getValue() + System.lineSeparator());
+						bw.flush();
+						System.out.println("시작단 : " + (Integer)startDan.getValue() + ", 끝단 : " + (Integer)endDan.getValue());
+						
+						String result = br.readLine();
+						result = result.replaceAll(":", System.lineSeparator());
+						
+						textArea.setText(result);
+					}
+				} catch (UnknownHostException e1) {
+					System.out.println("에러 : " + e1.getMessage());
+				} catch (IOException e1) {
+					System.out.println("에러 : " + e1.getMessage());
+				} finally {
+					if(br != null) try {br.close();} catch(IOException e1) {} 
+					if(bw != null) try {bw.close();} catch(IOException e1) {} 
+					if(socket != null) try {socket.close();} catch(IOException e1) {} 
+				}
+				
+			}
+		});
+		btn.setBounds(447, 33, 164, 55);
+		panel.add(btn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(69, 125, 620, 371);
+		contentPane.add(scrollPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+	}
+}
+```
+- cmd에서 jdbc 드라이버 사용하기
+```java
+C:\Java\java_workspace\23_04_17\bin>java -classpath ".;C:\Java\jdk-11.0.17\API\mariadb-java-client-3.0.8" postGUI.PostSearchServer
+```
+```java
+// PostSearchTO.java
+package postGUI;
+
+public class PostSearchTO {
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
 	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getSido() {
+		return sido;
+	}
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+	public String getGugun() {
+		return gugun;
+	}
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
+	}
+	public String getDong() {
+		return dong;
+	}
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+	public String getRi() {
+		return ri;
+	}
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+	public String getBunji() {
+		return bunji;
+	}
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
+	}
+}
+
+// PostSearchDAO.java
+package postGUI;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostSearchDAO {
+	String url = "jdbc:mariadb://localhost:3306/project";
+	String user = "root";
+	String password = "123456";
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	public PostSearchDAO() {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+			System.out.println("jdbc와 연결 성공");
+		} catch (ClassNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage() );
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	List<PostSearchTO> dataSearch(String dong){
+		List<PostSearchTO> data = new ArrayList<>();
+		
+		try {
+			String sql = "select * from zipcode where dong like ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dong + "%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				PostSearchTO to = new PostSearchTO();
+				to.setBunji(rs.getString("bunji"));
+				to.setDong(rs.getString("dong"));
+				to.setGugun(rs.getString("gugun"));
+				to.setRi(rs.getString("ri"));
+				to.setSido(rs.getString("sido"));
+				to.setZipcode(rs.getString("zipcode"));
+				
+				data.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		return data;
+	}
+}
+
+// PostSearchServer.java
+package postGUI;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostSearchServer {
+
+	public static void main(String[] args) {
+		ServerSocket server = null;
+		Socket socket = null;
+		BufferedWriter bw = null;
+		BufferedReader br = null;
+		
+		try {
+			server = new ServerSocket(7777);
+			System.out.println("서버 생성 완료");
+			
+			while(true) {
+				try {
+					socket = server.accept();
+					System.out.println("클라이언트와 연결 완료");
+					br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+					bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+					
+					PostSearchDAO dao = new PostSearchDAO();
+					System.out.println("데이터베이스와 연결 성공");
+					
+					String input = br.readLine();
+					System.out.println(input);
+					
+					List<PostSearchTO> data = new ArrayList<>();
+					
+					data = dao.dataSearch(input);
+					String result = "";
+					
+					for(int i = 0; i < data.size(); i++) {
+						String zipcode = data.get(i).getZipcode();
+						String sido = data.get(i).getSido();
+						String gugun = data.get(i).getGugun();
+						String dong = data.get(i).getDong();
+						String ri = data.get(i).getRi();
+						String bunji = data.get(i).getBunji();
+						result += String.format("[%s] %s %s %s %s %s", zipcode, sido, gugun, dong, ri, bunji);
+						result += ":";
+					}
+					
+					System.out.println(result);
+					bw.write(result + System.lineSeparator());
+					bw.flush();
+				} catch (UnsupportedEncodingException e) {
+					System.out.println("에러 : " + e.getMessage()); 
+				} catch (IOException e) {
+					System.out.println("에러 : " + e.getMessage());
+				} finally{
+					if(br != null) try {br.close();} catch(IOException e) {}
+					if(bw != null) try {bw.close();} catch(IOException e) {}
+					if(socket != null) try {socket.close();} catch(IOException e) {}
+				}
+				
+			}
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(br != null) try {br.close();}catch(IOException e) {}
+			if(bw != null) try {bw.close();}catch(IOException e) {}
+			if(socket != null) try {socket.close();}catch(IOException e) {}
+			if(server != null) try {server.close();} catch(IOException e) {}
+		}
+		
+	}
+
+}
+
+// PostSearchClient.java
+package postGUI;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.swing.JTextArea;
+
+public class PostSearchClient extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PostSearchClient frame = new PostSearchClient();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public PostSearchClient() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "\uC8FC\uC18C \uAC80\uC0C9", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(35, 16, 651, 55);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("동이름");
+		lblNewLabel.setBounds(26, 17, 60, 32);
+		panel.add(lblNewLabel);
+		
+		textField = new JTextField();
+		textField.setBounds(98, 23, 435, 21);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("검색");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Socket socket = null;
+				BufferedReader br = null;
+				BufferedWriter bw = null;
+				
+				if(textField.getText().length() < 2) {
+					JOptionPane.showMessageDialog(PostSearchClient.this, "동이름은 두자 이상 입력하셔야 합니다", "경고창", JOptionPane.ERROR_MESSAGE);
+				}else {
+					try {
+						socket = new Socket("localhost", 7777);
+						br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+						bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"));
+						
+						String dong = textField.getText();
+						bw.write(dong + System.lineSeparator());
+						bw.flush();
+						
+						String result = br.readLine();
+						result = result.replaceAll(":", System.lineSeparator());
+						
+						textArea.setText(result);
+					} catch (UnknownHostException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					} catch (UnsupportedEncodingException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					} catch (IOException e1) {
+						System.out.println("에러 : " + e1.getMessage());
+					} finally {
+						if(br != null) try {br.close();} catch(IOException e1) {}
+						if(bw != null) try {bw.close();} catch(IOException e1) {}
+						if(socket != null) try {socket.close();} catch(IOException e1) {}
+					}
+				}
+			}
+		});
+		btnNewButton.setBounds(548, 22, 97, 23);
+		panel.add(btnNewButton);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(35, 81, 651, 401);
+		contentPane.add(scrollPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+	}
+}
+
+```
+#### 병렬처리
+- 스레드를 사용해서 네트워크를 통한 채팅 프로그램을 만들 수 있다
+```java
+// ChatServer.java
+package chatPack;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Iterator;
+
+public class ChatServer {
+	private HashMap<String, OutputStream> clients;
+	
+	
+	public static void main(String[] args) {
+		new ChatServer().start();
+	}
+	
+	public ChatServer() {
+		clients = new HashMap<String, OutputStream>();
+	}
+
+	public void start() {
+		ServerSocket server = null;
+		Socket socket = null;
+		
+		try {
+			server = new ServerSocket(7778);
+			System.out.println("서버가 시작되었습니다");
+			
+			while(true) {
+				socket = server.accept();
+				System.out.println("[" + socket.getInetAddress() + " : " + socket.getPort() + "]" + "에서 접속하였습니다");
+				
+				ServerReceiver thread = new ServerReceiver(socket);
+				thread.start();
+			}
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public void sendToAll(String msg) {
+		Iterator<String> it = clients.keySet().iterator();
+		
+		while(it.hasNext()) {
+			try {
+				DataOutputStream out = (DataOutputStream)clients.get(it.next());
+				out.writeUTF(msg);
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+	}
+	
+	class ServerReceiver extends Thread{
+		private Socket socket;
+		private DataInputStream in;
+		private DataOutputStream out;
+		
+		public ServerReceiver(Socket socket) {
+			this.socket = socket;
+			
+			try {
+				in = new DataInputStream(socket.getInputStream());
+				out = new DataOutputStream(socket.getOutputStream());
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+		
+		public void run() {
+			String name = "";
+			
+			try {
+				name = in.readUTF();
+				sendToAll("#" + name + "님이 들어오셨습니다");
+				
+				clients.put(name, out);
+				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다");
+				
+				while(in != null) {
+					sendToAll(in.readUTF());
+				}
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				sendToAll("#" + name + "님이 나가셨습니다");
+				clients.remove(name);
+				System.out.println("[" + socket.getInetAddress() + " : " + socket.getPort() + "]" + "에서 접속을 종료하였습니다");
+				System.out.println("현재 서버접속자 수는 " + clients.size() + "입니다");
+			}
+		}
+	}
+}
+// ChatClient.java
+package chatPack;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class ChatClient {
+
+	public static void main(String[] args) {
+		if(args.length != 1) {
+			System.out.println("USAGE: java ChatClient 대화명");
+			System.exit(0);
+		}
+		
+		try {
+			Socket socket = new Socket("localhost", 7778);
+			System.out.println("서버에 연결되었습니다");
+			
+			Thread sender = new Thread(new ClientSender(socket, args[0]));
+			Thread receiver = new Thread(new ClientReceiver(socket));
+			
+			sender.start();
+			receiver.start();
+		} catch (UnknownHostException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+
+	}
+	
+	static class ClientSender extends Thread{
+		private Socket socket;
+		private DataOutputStream out;
+		private String name;
+		
+		public ClientSender(Socket socket, String name) {
+			this.socket = socket;
+			try {
+				out = new DataOutputStream(socket.getOutputStream());
+				this.name = name;
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+		
+		public void run() {
+			BufferedReader br = null;
+			
+			try {
+				br = new BufferedReader(new InputStreamReader(System.in));
+				if(out != null) {
+					out.writeUTF(name);
+				}
+				
+				while(out != null) {
+					out.writeUTF("[" + name + "]" + br.readLine());
+				}
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			} finally {
+				if(br != null) try {br.close();} catch(IOException e) {}
+			}
+		}
+	}
+	
+	static class ClientReceiver extends Thread{
+		private Socket socket;
+		private DataInputStream in;
+		
+		public ClientReceiver(Socket socket) {
+			this.socket = socket;
+			try {
+				in = new DataInputStream(socket.getInputStream());
+			} catch (IOException e) {
+				System.out.println("에러 : " + e.getMessage());
+			}
+		}
+		
+		public void run() {
+			while(in != null) {
+				try {
+					System.out.println(in.readUTF());
+				} catch (IOException e) {
+					System.out.println("에러 : " + e.getMessage());
+				}
+			}
+		}
+	}
+
+}
+
+```
