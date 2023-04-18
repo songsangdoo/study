@@ -18110,3 +18110,48 @@ public class ChatClient {
 }
 
 ```
+## Build
+  
+- 프로젝트에대한 전반적인 관리를 의미하며 c언어에서의 Compile, Make과 같은 개념이다
+
+  - 컴파일 관리
+  - 라이브러리 관리
+  
+  - 산출물(jar) 관리
+
+    <small>!! jar (java Archive)의 종류
+
+    - 라이브러리
+
+    - 실행 
+    </small>
+
+- 빌드 툴
+
+  - ant
+
+  - maven
+
+    <small> https://blog.naver.com/gfr897/222559829657 참조</small>
+
+  - gradle
+
+
+### Maven
+<small> https://maven.apahce.org/ 참조 </small>
+
+- pom.xml의 dependencies 태그에 직접 입력을 통해 라이브러리를 추가시킬 수 있다
+
+  <small>!! 라이브러리 저장소
+
+  https://mvnrepository.com/ 참조</small>
+
+maven project &rarr; org.apache.maven-quickstart &rarr; 패키지 이름 설정
+&rarr; jre, 컴파일러 버전 변경
+- 패키지 이름
+  com.exam.test1
+  com.exam.test2
+
+  com.exam : 그룹
+  test1, test2 : artifact
+
