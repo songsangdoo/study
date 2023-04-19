@@ -5450,6 +5450,9 @@ public class SimpleDateFormatEx {
     String source = "2020년 12월 25일";
     System.out.println(source + "를 요일 정보까지 출력한다면?");
     SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
+    // 대문자, 소문자에 주의하자!!
+    // MM은 월을 mm은 분을 나타낸다
+    // dd를 대문자로 쓸 경우 잘못된 형식의 날짜가 출력된다
     try {
       Date parsed = format.parse(source);
       // 문자열을 지정한 패턴을 이용해 Date 객체로 변환 시킨다
@@ -18149,9 +18152,244 @@ public class ChatClient {
 maven project &rarr; org.apache.maven-quickstart &rarr; 패키지 이름 설정
 &rarr; jre, 컴파일러 버전 변경
 - 패키지 이름
-  com.exam.test1
-  com.exam.test2
+
+  com.exam.test1, com.exam.test2
 
   com.exam : 그룹
+
   test1, test2 : artifact
 
+## 메시지 전송
+- 메시지 전송 유형
+  - 회원가입 시 본인 확인
+
+  - 게시판 답글
+
+- 전송방법
+
+  - 이메일
+
+  - SMS (Simple Message Service)
+
+    <small> https://hosting.cafe24.com/ sms 발송 API를 제공한다 </small>
+  - 카카오톡 : 우리나라에서 주로 사용된다
+
+  - 아이메세지 : 아이폰 전용
+
+### 이메일
+
+- 이메일 전송 과정
+
+  <b>메일작성 &rarr; 메일서버 (&rarr; 우체국서버) &rarr; 메일전송</b>
+
+
+- SMTP(Simple Mail Transfer Protocol) : 메일서버 프로토콜
+
+- 메일서버 : 메일을 보내기 위해 사용하는 서버로 도메인이 필요하다
+
+  <small> !! 도메인을 구매하기는 어렵기 때문에 이미 구축된 메일서버(gmail, ...)를 이용하기도 한다</small>
+
+- MAVEN에서 이메일 관련 라이브러리 추가
+
+  <img src="./img/mail_library.png">
+
+- MAVEN으로 gmail 서버를 이용해 이메일 보내기
+```java
+// MyAuthenticator.java
+package com.exam.mail;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+
+public class MyAuthenticator extends Authenticator {
+	private String fromEmail;
+	private String fromPassword;
+	// 구글 로그인할 수 있는 아이디, 앱 비밀번호(12자리)
+	
+	public MyAuthenticator(String fromEmail, String fromPassword) {
+		this.fromEmail = fromEmail;
+		this.fromPassword = fromPassword;
+	}
+	
+	@Override
+	protected PasswordAuthentication getPasswordAuthentication() {
+		return new PasswordAuthentication(fromEmail, fromPassword);
+	} // 아이디, 패스워드는 객체의 형태로 랩핑되어 전달된다
+	
+}
+
+// MailSender.java
+package com.exam.mail;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class MailSender {
+	private String fromEamil;
+	private String fromPassword;
+	
+	public MailSender(String fromEamil, String fromPassword) {
+		this.fromEamil = fromEamil;
+		this.fromPassword = fromPassword;
+	}
+	
+	public void sendMail(String toEmail, String toName, String subject, String content) {
+		try {
+			// google SMTP 서버 접속환경 설정
+			Properties props = new Properties();
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.transport.protocol", "smtp");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "465");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			
+			// 인증 환경 설정
+			MyAuthenticator myAuthenicator = new MyAuthenticator(fromEamil, fromPassword);
+			
+			// 접속
+			Session session = Session.getDefaultInstance(props, myAuthenicator);
+			
+			MimeMessage msg = new MimeMessage(session);
+			msg.setHeader("Content-type", "text/plain;charset=utf-8");
+      // 내용을 평문 방식으로 전달
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail, toName, "utf-8"));
+			msg.setSubject(subject);
+			msg.setContent(content, "text/plain;charset=utf-8");
+			msg.setSentDate(new java.util.Date()); // 지금 즉시 메일을 전송한다
+			
+			Transport.send(msg);
+			
+			System.out.println("메일이 전송되었습니다");
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (MessagingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+}
+
+// App.java
+package com.exam.mail;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	MailSender mailSender = new MailSender("eogh7204@gmail.com", "ddqn revq nout ffan");
+    	
+    	String toEmail = "qkreogh0@naver.com";
+    	String toName = "테스터";
+    	String subject = "test1";
+    	String content = "testContent";
+    	
+    	mailSender.sendMail(toEmail, toName, subject, content);
+    }
+}
+
+```
+- 메일로 html 문서를 보낼 수 있다
+```java
+// MyAuthenticator.java
+package com.exam.mail;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+
+public class MyAuthenticator extends Authenticator {
+	private String fromEmail;
+	private String fromPassword;
+	
+	public MyAuthenticator(String fromEmail, String fromPassword) {
+		this.fromEmail = fromEmail;
+		this.fromPassword = fromPassword;
+	}
+	
+	@Override
+	protected PasswordAuthentication getPasswordAuthentication() {
+		return new PasswordAuthentication(fromEmail, fromPassword);
+	} 
+
+}
+
+// MailSender.java
+package com.exam.mail;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class MailSender {
+	private String fromEamil;
+	private String fromPassword;
+	
+	public MailSender(String fromEamil, String fromPassword) {
+		this.fromEamil = fromEamil;
+		this.fromPassword = fromPassword;
+	}
+	
+	public void sendMail(String toEmail, String toName, String subject, String content) {
+		try {
+			Properties props = new Properties();
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.transport.protocol", "smtp");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "465");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			
+			MyAuthenticator myAuthenicator = new MyAuthenticator(fromEamil, fromPassword);
+			
+			Session session = Session.getDefaultInstance(props, myAuthenicator);
+			
+			MimeMessage msg = new MimeMessage(session);
+			msg.setHeader("Content-type", "text/html;charset=utf-8");
+			// 내용으로 html 문서를 보낸다고 설정
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail, toName, "utf-8"));
+			msg.setSubject(subject);
+			msg.setContent(content, "text/html;charset=utf-8");
+			// 내용으로 html 문서를 보낸다고 설정
+			msg.setSentDate(new java.util.Date()); 
+			
+			Transport.send(msg);
+			
+			System.out.println("메일이 전송되었습니다");
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (MessagingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+}
+
+// App.java
+package com.exam.mail;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	MailSender mailSender = new MailSender("eogh7204@gmail.com", "ddqn revq nout ffan");
+    	
+    	String toEmail = "qkreogh0@naver.com";
+    	String toName = "테스터";
+    	String subject = "test4";
+    	String content = "<html><head><meta charset='utf-8'><head><body><font color='blue'>내용테스트</body></html>";
+    	
+    	mailSender.sendMail(toEmail, toName, subject, content);
+    }
+}
+```
