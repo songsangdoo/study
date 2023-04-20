@@ -18482,4 +18482,4 @@ public class DeptTO {
 
 - 사진의 EXIF 형식의 데이터도 가져올 수 있다
 
-  <small>EXIF (Exchangeable Image File Format) : 사진의 메타데이터 (사진 생성 시간, 사진을 찍은 위치 등 ...) 포맷이다</small>
+  <small>!! EXIF (Exchangeable Image File Format) : 사진의 메타데이터 (사진 생성 시간, 사진을 찍은 위치 등 ...) 포맷이다</small>
