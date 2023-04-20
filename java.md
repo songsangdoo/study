@@ -5488,6 +5488,8 @@ public class MessageFormatTest {
 
 }
 ```
+### 정규식
+<small>https://inpa.tistory.com/entry/JAVA-%E2%98%95-%EC%A0%95%EA%B7%9C%EC%8B%9DRegular-Expression-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%A0%95%EB%A6%AC 참조 </small>
 
 ## I / O
 
@@ -12300,6 +12302,13 @@ public class Ex01 extends JFrame {
         return columnEditables[column];
       }
     });
+    DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+    dtcr.setHorizontalAlignment(SwingConstants.CENTER)
+    TableColumnModel tcm = table.getColumnModel();
+    for(int i = 0; i < tcm.getColumnCount(); i++){
+      tcm.getColumn(i).setCellRenderer(dtcr);
+    }
+    // 테이블 안의 내용을 가운데로 정렬시킨다
     table.getColumnModel().getColumn(0).setResizable(false);
     table.getColumnModel().getColumn(1).setResizable(false);
     table.getColumnModel().getColumn(2).setResizable(false);
@@ -18193,6 +18202,25 @@ maven project &rarr; org.apache.maven-quickstart &rarr; 패키지 이름 설정
 
   <img src="./img/mail_library.png">
 
+- MAVEN의 컴파일된 바이너리 파일은 MAVEN 프로젝트 안의 target 디렉터리에 있다
+
+  <small>!! 명령프롬프트로 컴파일할 때 주의하자</small>
+
+```java
+C:\Java\java_workspace\lombok01\target\classes> javap com.exam.lombok.DeptTO
+// javap는 클래스의 구조를 보여준다
+Compiled from "DeptTO.java"
+public class com.exam.lombok.DeptTO {
+  public com.exam.lombok.DeptTO();
+  public void setDeptno(java.lang.String);
+  public void setDname(java.lang.String);
+  public void setLoc(java.lang.String);
+  public java.lang.String getDeptno();
+  public java.lang.String getDname();
+  public java.lang.String getLoc();
+}
+```
+
 - MAVEN으로 gmail 서버를 이용해 이메일 보내기
 ```java
 // MyAuthenticator.java
@@ -18393,3 +18421,65 @@ public class App
     }
 }
 ```
+
+## lombok
+<small>https://projectlombok.org/ 영상 참조</small>
+- getteer, setter 자동 생성기능 annotation
+
+- 이클립스에 인스톨 방법
+
+1. Help &rarr; install New Software &rarr; https://projectlombok.org/p2 입력 
+
+2. lombok.jar을 홈페이지에서 직접 다운로드하거나 MAVEN을 이용해 다운로드한다 
+
+
+- 사용법
+```java
+package com.exam.lombok;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+// @Data 
+// TO 관련된 모든 애노테이션을 추가하게하는 애노테이션
+@Setter // 컴파일러에게 setter를 만들도록 지시하는 애노테이션
+@Getter // 컴파일러에게 getter를 만들도록 지시하는 애노테이션
+@NoArgsConstructor // 컴파일러에게 디폴트 생성자를 만들도록 지시하는 애노테이션
+@AllArgsConstructor // 컴파일러에게 모든 클래스, 인스턴스 변수를 지정할 수 있는 생성자를 만들도록 지시하는 애노테이션
+
+@ToString // 컴파일러에게 클래스, 인스턴스 변수의 내용을 출력하도록 toString()을 오버라이딩하게 하는 애노테이션
+// @ToString(exclude = {"deptno"}) 
+// 이렇게 사용해서 특정 변수는 출력되지 않게 할 수 있다
+@EqualsAndHashCode // 컴파일러에게 hashCode()를 오버라이딩 하게 하는 애노테이션
+
+public class DeptTO {
+	// private @Setter @Getter String deptno; 
+	// 이렇게 변수마다 따로 지정할 수도 있다
+	private String deptno;
+	private String dname;
+	private String loc;
+
+}
+```
+
+## 그래프 (차트)
+<small>https://www.jfree.org/jfreechart/ 참조</small>
+
+<small>https://jchart2d.sourceforge.net/ 참조</small>
+- 데이터 관련 화면 구현 종류
+  - 테이블
+  
+  - 그래프(차트) 
+
+- 그래프는 JFreeChart, JChart 클래스를 이용한다
+
+## 사진
+<small>https://drewnoakes.com/code/exif/ 참조</small>
+
+- 사진의 EXIF 형식의 데이터도 가져올 수 있다
+
+  <small>EXIF (Exchangeable Image File Format) : 사진의 메타데이터 (사진 생성 시간, 사진을 찍은 위치 등 ...) 포맷이다</small>
