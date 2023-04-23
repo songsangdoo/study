@@ -2,15 +2,32 @@
 
 - Java 언어를 이용해 동적 웹사이트를 제작하게 하는 프로그램
 
-  - 정적 웹페이지 : 요청할때마다 같은 페이지를 보여준다 ex) html
+  - 정적 웹페이지 : 요청할때마다 같은 페이지를 보여준다 
 
-  - 동적 웹페이지 : 요청에 따라 다른 페이지를 보여준다 ex) 웹프로그램, 라이브러리를 이용
+    <sup> ex) html</sup>
+
+  - 동적 웹페이지 : 요청에 따라 다른 페이지를 보여준다  
+  
+    <sup>ex) 웹프로그램, 라이브러리를 이용</sup>
 
 
 - 전송방식
-  - get - url + 데이터
+  - get : url에 보내는 데이터가 보인다
 
-  - post - url + header(데이터)
+  - post : 데이터가 헤더에 숨겨져 url에 보이지 않는다
+
+
+
+
+- java를 이용해 동적 웹페이지를 만드는 웹 프로그램
+
+  - sevlet
+
+  - jsp (Java Server Page)
+
+- WAS (Web Application Server) : 프로그램 해석기가 달린 웹서버
+
+  <sup> ex) apache-tomcat, resin, OC4J, ... </sup>
 
   |웹프로그램의 종류  | 기본언어 | 플랫폼 | 기타
   |--| --| --|--|
@@ -19,16 +36,6 @@
   |python|python|모든 플랫폼|자체|
   |js|js|모든 플랫폼|자체|
   |ASP.net|윈도용 언어|윈도우|iis|
-
-- java에서 클래스를 이용해 만드는 웹프로그램
-  - sevlet
-
-  - jsp (Java Server Page)
-
-- WAS : 프로그램 해석기가 달린 웹서버
-
-  <sup> ex) apache-tomcat, resin, OC4J, ... </sup>
-
 - 파일 확장자 : .jsp
 
 - java는 출력을 통해서 문자열을 보여주지만 jsp는 .html / .css / .js 파일을 보여준다
@@ -99,7 +106,7 @@
     
     구구단 출력
     ```jsp
-    <%@ page language='java' contentType='text/html;charset=UTF-8' pageEncoding='UTF-8'%>
+    <%@ page language='java' contentType='text/html;charset=UTF-8' pageEncoding='UTF-8' %>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -164,25 +171,28 @@
     </head>
     <body>
     <%
-    int year = 2023;
-    int month = 3;
-    Calendar startCalendar = Calendar.getInstance();
-    Calendar endCalendar = Calendar.getInstance();
-    startCalendar.set(year, month - 1, 1);
-    endCalendar.set(year, month, 1 - 1);
-    int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
-    int endDate = endCalendar.get(Calendar.DATE);
-    out.println(" SU MO TU WE TH FR SA<br>");
-    for (int i = 1; i < startDayOfWeek; i++) {
-      out.print("   ");
-    }
-    for (int i = 1, n = startDayOfWeek; i <= endDate; i++, n++) {
-      String date = (i < 10) ? "  " + i : " " + i;
-      out.print(date);
-      if(n % 7 == 0) {
-        out.println("<br>");
+      Calendar startCalendar = Calendar.getInstance();
+      Calendar endCalendar = Calendar.getInstance();
+
+      int year = 2023;
+      int month = 3;
+      startCalendar.set(year, month - 1, 1);
+      endCalendar.set(year, month, 1 - 1);
+
+      int startDayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
+      int endDate = endCalendar.get(Calendar.DATE);
+
+      out.println(" SU MO TU WE TH FR SA<br>");
+      for (int i = 1; i < startDayOfWeek; i++) {
+        out.print("   ");
       }
-    };
+      for (int i = 1, n = startDayOfWeek; i <= endDate; i++, n++) {
+        String date = (i < 10) ? "  " + i : " " + i;
+        out.print(date);
+        if(n % 7 == 0) {
+          out.println("<br>");
+        }
+      };
     %>
     </body>
     </html>
@@ -211,13 +221,17 @@
       Calendar nDay = Calendar.getInstance(); 
       int year = nDay.get( Calendar.YEAR );
       int month = nDay.get( Calendar.MONTH ) + 1; 
+      
       Calendar sDay = Calendar.getInstance();
       Calendar eDay = Calendar.getInstance(); 
+
       sDay.set( year, month-1, 1 );
       eDay.set( year, month, 1-1 ); 
+
       int startDayOfWeek = sDay.get( Calendar.DAY_OF_WEEK );
       int endDayOfWeek = eDay.get( Calendar.DAY_OF_WEEK );
       int endDay = eDay.get( Calendar.DATE ); 
+
       out.println( "<table width='800' border='1'>" );
       out.println( "<tr>" );
       out.println( "<td colspan='7'>" + year + "년" + month + "월</td>" );
@@ -264,14 +278,14 @@
 ### expression
 
 ```jsp
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
   // 전처리 구간
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -292,7 +306,7 @@
 </html>
 ```
 ```jsp
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%!
   // 선언구역
   public int multiply(int a, int b){
@@ -303,7 +317,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -319,7 +333,7 @@
 </html>
 ```
 ```jsp
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%!
   public int add(int a, int b){
     return a + b;
@@ -332,7 +346,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -384,7 +398,7 @@
 </html>
 ```
 ```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.Enumeration" %>
 <!DOCTYPE html>
 <html>
@@ -427,11 +441,11 @@
 </body>
 </html>
 <!-- request_ok.jsp -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="utf-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -444,7 +458,7 @@
 ```
 ```jsp
 <!-- request.jsp -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% 
   request.setCharacterEncoding("utf-8");
   <!-- get 방식과 달리 post 방식은 한글이 깨진 상태로 전송되는데 위의 전처리 구문을 적어주면 한글이 깨지지 않는다 -->
@@ -470,7 +484,7 @@
 </body>
 </html>
 <!-- request_ok.jsp -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -487,7 +501,7 @@
 ```
 ```jsp
 <!-- form.jsp -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -497,7 +511,7 @@
 <body>
   <form action="viewParameter.jsp" method="post">
   이름: <input type="text" name="name" size="10"><br>
-  주소: <input type="text" name="address" size="30"	> <br>
+  주소: <input type="text" name="address" size="30"> <br>
 
   좋아하는 동물 : 
   <input type="checkbox" name="pet" value="dog">강아지
@@ -509,7 +523,7 @@
 </body>
 </html>
 <!-- viewParameter.jsp -->
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Map" %>
 <%
@@ -566,7 +580,7 @@ name = <%= nameParam[0] %>
 jsp를 이용해 구구단 출력하기
 ```jsp
 <!-- gugudan.jsp -->
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
   request.setCharacterEncoding("utf-8");
 %>
@@ -586,9 +600,10 @@ jsp를 이용해 구구단 출력하기
 </html>
 
 <!-- gugudan_ok.jsp -->
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
   request.setCharacterEncoding("utf-8");
+
   String strStartDan = request.getParameter("startDan");
   String strEndDan = request.getParameter("endDan");
   System.out.println(strStartDan);
@@ -617,6 +632,93 @@ jsp를 이용해 구구단 출력하기
 </head>
 <body>
 <%= sbHtml.toString() %>
+</body>
+</html>
+```
+
+달력 출력하기
+```jsp
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import='java.util.Calendar' %>
+<% 
+  request.setCharacterEncoding("utf-8");
+  
+  int year = 0;
+  int month = 0;
+  StringBuilder sbHTML = new StringBuilder();
+
+  if(request.getParameter("year") != null && request.getParameter("month") != null){
+    year = Integer.parseInt(request.getParameter("year"));
+    month = Integer.parseInt(request.getParameter("month"));
+    System.out.println(year + ":" + month);
+
+    Calendar sDay = Calendar.getInstance();
+    Calendar eDay = Calendar.getInstance();
+
+    sDay.set(year, month - 1, 1);
+    eDay.set(year, month, 1 - 1);
+
+    int startDayOfWeek = sDay.get(Calendar.DAY_OF_WEEK);
+    int endDayOfWeek = eDay.get(Calendar.DAY_OF_WEEK);
+    int endDate = eDay.get(Calendar.DATE);
+
+    sbHTML.append("<table width='800' border='1'>");	
+    sbHTML.append("<tr>");
+    sbHTML.append(String.format("<th colspan='7'>%d년 %d월</th>", year, month));
+    sbHTML.append("</tr>");
+    sbHTML.append("<tr>");
+    sbHTML.append("<th id='sunday'>SUN</th>");
+    sbHTML.append("<th>MON</th>");
+    sbHTML.append("<th>TUS</th>");
+    sbHTML.append("<th>WEN</th>");
+    sbHTML.append("<th>THU</th>");
+    sbHTML.append("<th>FRI</th>");
+    sbHTML.append("<th id='saturday'>SAT</th>");
+    sbHTML.append("</tr>");
+    sbHTML.append("<tr>");
+    for(int i = 1; i < startDayOfWeek; i++){
+      sbHTML.append("<td></td>");
+    }
+
+    for(int i = 1, n = startDayOfWeek; i <= endDate; i++, n++){
+      if(n % 7 == 1){
+        sbHTML.append("<tr>");
+        sbHTML.append(String.format("<td id='sunday'>%d</td>", i));
+      }else if(n % 7 == 0){
+        sbHTML.append(String.format("<td id='saturday'>%d</td>", i));
+        sbHTML.append("</tr>");
+      }else{
+        sbHTML.append(String.format("<td>%d</td>", i));
+      }
+    }
+
+    for(int i = endDayOfWeek; i <= 6; i++){
+      sbHTML.append("<td></td>");
+    }
+    sbHTML.append("</tr>");
+
+    sbHTML.append("</table>");	
+  }
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Calendar</title>
+</head>
+<body>
+<form action="calendar.jsp" method='get'>
+<input type="text" name="year"> 년	<input type="text" name="month">월	
+<input type="submit" value="달력 출력">
+</form>
+
+
+<%
+	if(year != 0 && month != 0){
+	  out.print("<hr>");
+		out.print(sbHTML.toString());
+	}
+%>
 </body>
 </html>
 ```
