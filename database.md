@@ -3031,7 +3031,7 @@ Rows matched: 6  Changed: 6  Warnings: 0
   - 중복 방지 (unique)
 
   - 필수 요소 + 중복 방지 (primary key)
-  - 참조 (foreign key) : 다른 테이블의 unique, primary key를 참조하는데 보통 primary keyf를 참조한다
+  - 참조 (foreign key) : 다른 테이블의 unique, primary key를 참조하는데 보통 primary key를 참조한다
 
   <small>!! 값에 대한 검사도 있는데 MariaDB에는 아직 구현되지 않았다</small>
 
