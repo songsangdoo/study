@@ -18382,7 +18382,7 @@ public class MailSender {
 
   public void sendMail(String toEmail, String toName, String subject, String content) {
     try {
-      // google SMTP 서버 접속환경 설정
+      // google SMTP 서버 465 포트 접속환경 설정
       Properties props = new Properties();
       props.put("mail.smtp.starttls.enable", "true");
       props.put("mail.transport.protocol", "smtp");
@@ -18390,6 +18390,15 @@ public class MailSender {
       props.put("mail.smtp.port", "465");
       props.put("mail.smtp.auth", "true");
       props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
+      // google SMTP 서버 587 포트 접속환경 설정
+			// props.put("mail.smtp.starttls.enable", "true");
+			// props.put("mail.smtp.host", "smtp.gmail.com");
+			// props.put("mail.smtp.port", "587");
+			// props.put("mail.smtp.auth", "true");
+			// props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+			// props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+      // 포트 상황에 따라 다르게 사용한다
+      
       // 인증 환경 설정
       MyAuthenticator myAuthenicator = new MyAuthenticator(fromEamil, fromPassword);  
       // 접속

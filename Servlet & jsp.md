@@ -982,7 +982,7 @@ jsp를 이용해 구구단 출력하기
 </html>
 ```
 
-## JDBC와 연동하기
+### JDBC와 연동하기
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -1205,7 +1205,7 @@ jsp를 이용해 구구단 출력하기
 </body>
 </html>
 ```
-### 데이터베이스 풀링
+#### 데이터베이스 풀링
 
 - 미리 만들어 놓은 데이터베이스와의 연결을 사용하는 것
 
@@ -1382,7 +1382,7 @@ jsp를 이용해 구구단 출력하기
   </html>
   ```
 
-## 웹 프로그램 기획
+#### 웹 프로그램 기획
 - 디자인 기획
 	- html / css / js 를 이용해 페이지 간의 링크까지 구현한다
 
@@ -1401,7 +1401,21 @@ jsp를 이용해 구구단 출력하기
 	    <small> https://terms.naver.com/entry.naver?docId=3532935&cid=58528&categoryId=58528 참조</small>
 
 
-### CRUD 게시판 만들기
+##### CRUD 게시판 만들기
+- 기본 테이블 생성 구문
+```sql
+create table board1(
+	seq int not null primary key auto_increment,
+	subject varchar(150) not null,
+	writer varchar(12) not null,
+	mail varchar(50),
+	password varchar(12) not null,
+	content varchar(2000),
+	hit int not null,
+	wip varchar(15) not null,
+	wdate datetime not null
+);
+```
 
 - board1 테이블 컬럼 정의
 
@@ -4055,26 +4069,56 @@ MariaDB [board]> select '12345', md5('12345'), length(md5('12345'));
 
 - 게시판에 page 블록 넣기
 
--	board_list1.jsp
 
-	- board_write1.jsp (cpage)
+	- 페이징 필수 요소
 
-		- board_write1_ok.jsp
+		- 페이지별 게시물 출력
 
-			- board_list1.jsp
-	
-	- board_view1.jsp (cpage)
-		- board_modify1.jsp (cpage)
+		- 전체 페이지에 해당하는 링크 생성
 
-			- board_modify1_ok.jsp (cpage)
+		- 페이지 블록 생성
 
-				- board_view1.jsp (cpage)
-		- board_delete1.jsp (cpage)
+	- 페이지 흐름도
+		-	board_list1.jsp
 
-			- board_delete1_ok.jsp
+			- board_write1.jsp (cpage)
 
-				- board_list1.jsp
+				- board_write1_ok.jsp
 
+					- board_list1.jsp
+
+			- board_view1.jsp (cpage)
+				- board_modify1.jsp (cpage)
+
+					- board_modify1_ok.jsp (cpage)
+
+						- board_view1.jsp (cpage)
+				- board_delete1.jsp (cpage)
+
+					- board_delete1_ok.jsp
+
+						- board_list1.jsp
+
+	- 기본틀
+	```jsp
+	<!--페이지넘버-->
+	<div class="paginate_regular">
+		<div align="absmiddle">
+			<span><a>&lt;&lt;</a></span>
+			&nbsp;
+			<span><a>&lt;</a></span>
+			&nbsp;&nbsp;
+			<span><a>[ 1 ]</a></span>
+			<span><a href="board_list1.jsp">2</a></span>
+			<span><a href="board_list1.jsp">3</a></span>
+			&nbsp;&nbsp;
+			<span><a>&gt;</a></span>
+			&nbsp;
+			<span><a>&gt;&gt;</a></span>
+		</div>
+	</div>
+	<!--//페이지넘버-->
+	```
 ```jsp
 <!-- board_list1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -4100,7 +4144,11 @@ if (request.getParameter("cpage") != null && !request.getParameter("cpage").equa
 
 int recordPerPage = 10;
 
+int totalPage = 1;
+
 int startNum = (cpage - 1) * recordPerPage;
+
+int blockPerPage = 5;
 
 Connection conn = null;
 PreparedStatement pstmt = null;
@@ -4109,10 +4157,6 @@ ResultSet rs = null;
 StringBuilder sbHTML = new StringBuilder();
 
 int count = 0;
-
-int totalPage = 1;
-
-int blockPerPage = 5;
 
 try {
 	Context initCtx = (Context) new InitialContext();
@@ -4137,8 +4181,8 @@ try {
 	totalPage = (count - 1) / recordPerPage + 1;
 
 	int skip = (cpage - 1) * recordPerPage;
-	if (skip != 0)
-		rs.absolute(skip);
+	
+	if (skip != 0) rs.absolute(skip);
 	
 
 	for (int i = 0; i < recordPerPage && rs.next(); i++) {
@@ -4228,7 +4272,7 @@ try {
 				<div class="align_right">
 					<input type="button" value="쓰기" class="btn_write btn_txt01"
 						style="cursor: pointer;"
-						onclick="location.href='board_write1.jsp'" />
+						onclick="location.href='board_write1.jsp?cpage=<%= cpage %>'" />
 				</div>
 			</div>
 			<!--//게시판-->
@@ -4281,4 +4325,799 @@ try {
 
 </body>
 </html>
+```
+- 답변글 게시판
+	- 글에 대한 답글 (Reply형 게시판)
+		- 글 목록에서 표현됨
+		
+	- 글에 대한 댓글 (Comment형 게시판)
+		- view에서 표현됨
+
+	- Reply형 게시판 구현하기
+
+		- 기본 테이블에 컬럼을 추가 정의해서 구현한다
+
+			- grp : 글 그룹
+
+			- grps : 글 그룹 내의 순서
+
+			- grpl : 글 그룹 내의 깊이
+
+		- 모글 작성
+			- grp  - seq 동일
+			- grps - 0
+
+			- grpl - 0
+
+		- 답글 작성
+			- grp 
+				- 모글의 grp
+			- grps 
+				- 모글과 같은 grp 내부에서 
+
+					- 모글의 grps보다 큰 grps는 무조건 + 1
+					
+					- 자신은 모글의 grps + 1
+			- grpl
+				- 자신은 모글의 grpl + 1
+
+			||seq | grp| grps|grpl|
+			|--|--|--|--|--|
+			|모글1|1|1|0|0|
+			|모글2|2|2|0|0|
+			|1-1|3|1|4|1|
+			|1-2|4|1|2|1|
+			|1-3|5|1|1|1|
+			|1-1-1|6|1|6|2|
+			|1-1-2|7|1|5|2|
+			|1-2-1|8|1|3|2|
+
+			- order by grp desc, grps asc
+
+			```
+			모글2
+
+			모글1
+
+				1-3
+
+				1-2
+
+					1-2-1
+
+				1-1
+
+					1-1-2
+
+					1-1-1
+			```
+			- rep_table 생성
+
+			```sql
+			create table rep_board1(
+				seq int not null primary key auto_increment,
+				grp int not null,
+			  grps int not null,
+			  grpl int not null,
+				subject varchar(150) not null,
+				writer varchar(12) not null,
+				mail varchar(50),
+				password varchar(12) not null,
+				content varchar(2000),
+				hit int not null,
+				wip varchar(15) not null,
+				wdate datetime not null
+			);
+			```
+
+			```sql
+			select last_insert_id() from rep_board1;
+			<!-- 테이블의 마지막 auto_increment 값을 리턴한다 -->
+			```
+			```jsp
+			<!-- board_list1.jsp -->
+			<%@ page language="java" contentType="text/html; charset=UTF-8"
+			    pageEncoding="UTF-8"%>
+
+			<%@ page import="javax.naming.Context" %>
+			<%@ page import="javax.naming.InitialContext" %>
+			<%@ page import="javax.naming.NamingException" %>
+
+			<%@ page import="javax.sql.DataSource" %>
+
+			<%@ page import="java.sql.Connection" %>
+			<%@ page import="java.sql.PreparedStatement" %>
+			<%@ page import="java.sql.ResultSet" %>
+			<%@ page import="java.sql.SQLException" %>
+
+			<%
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+
+
+				StringBuilder sbHTML = new StringBuilder();
+
+				int count = 0;
+
+				try{
+					Context initCtx = (Context)new InitialContext();
+					Context envCtx = (Context)initCtx.lookup("java:comp/env");
+					DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+
+					conn = dataSource.getConnection();
+
+					String sql = "select seq, grpl, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from rep_board1 order by grp desc, grps asc";
+
+					pstmt = conn.prepareStatement(sql);
+
+					rs = pstmt.executeQuery();
+
+					rs.last();
+					count = rs.getRow();
+					rs.beforeFirst();
+
+					while(rs.next()){
+
+						int grpl = rs.getInt("grpl");
+						String strGrpl = "";
+						for(int j = 1; j <= grpl; j++){
+							strGrpl += "&nbsp;&nbsp;";
+						}
+
+						String seq = rs.getString("seq");
+						String subject = rs.getString("subject");
+						String writer = rs.getString("writer");
+						String wdate = rs.getString("wdate");
+						String hit = rs.getString("hit");
+
+
+						int wgap = rs.getInt("wgap");
+
+
+						sbHTML.append("<tr>");
+						sbHTML.append("<td>&nbsp;</td>");
+						sbHTML.append("<td>" + seq + "</td>");
+						sbHTML.append("<td class='left'>");
+
+						if(grpl != 0){
+							sbHTML.append(strGrpl + "<img src='../../images/icon_re1.gif'/>");
+						}
+						sbHTML.append("<a href='board_view1.jsp?seq=" + seq + "'>" + subject + "</a>");
+						if(wgap ==0){
+						sbHTML.append("&nbsp;<img src='../../images/icon_new.gif' alt='NEW'>");
+						}
+						sbHTML.append("</td>");
+						sbHTML.append("<td>" + writer + "</td>");
+						sbHTML.append("<td>" + wdate + "</td>");
+						sbHTML.append("<td>" + hit + "</td>");
+						sbHTML.append("<td>&nbsp;</td>");
+						sbHTML.append("</tr>");
+
+					}
+
+				}catch(NamingException e){
+					System.out.print("에러 : " + e.getMessage());
+				}catch(SQLException e){
+					System.out.print("에러 : " + e.getMessage());
+				}finally{
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn != null) conn.close();
+				}
+			%>
+			<!DOCTYPE html>
+			<html lang="ko">
+			<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<title>Insert title here</title>
+			<link rel="stylesheet" type="text/css" href="../../css/board.css">
+			</head>
+
+			<body>
+			<!-- 상단 디자인 -->
+			<div class="con_title">
+				<h3>게시판</h3>
+				<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+			</div>
+			<div class="con_txt">
+				<div class="contents_sub">
+					<div class="board_top">
+						<div class="bold">총 <span class="txt_orange"><%= count %></span>건</div>
+					</div>
+
+					<!--게시판-->
+					<div class="board">
+						<table>
+						<tr>
+							<th width="3%">&nbsp;</th>
+							<th width="5%">번호</th>
+							<th>제목</th>
+							<th width="10%">글쓴이</th>
+							<th width="17%">등록일</th>
+							<th width="5%">조회</th>
+							<th width="3%">&nbsp;</th>
+						</tr>
+						<%= sbHTML %>
+						</table>
+					</div>	
+
+					<div class="btn_area">
+						<div class="align_right">
+							<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+						</div>
+					</div>
+					<!--//게시판-->
+				</div>
+			</div>
+			<!--//하단 디자인 -->
+
+			</body>
+			</html>
+
+			```
+			```jsp
+			<!-- board_reply1.jsp -->
+			<%@ page language="java" contentType="text/html; charset=UTF-8"
+				pageEncoding="UTF-8"%>
+
+			<%
+				request.setCharacterEncoding("utf-8");
+
+				String seq = request.getParameter("seq");
+			%>
+			<!DOCTYPE html>
+			<html lang="ko">
+			<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<title>Insert title here</title>
+			<link rel="stylesheet" type="text/css" href="../../css/board.css">
+			<script type="text/javascript">
+				window.onload = function() {
+					document.getElementById('wbtn').onclick = function() {
+						// alert('click');
+						if(document.wfrm.info.checked == false){
+							alert("개인정보 이용에 동의해주세요");
+							return false;
+						}
+						if(document.wfrm.writer.value.trim() == ''){
+							alert("글쓴이를 입력해주세요");
+							return false;
+						}
+						if(document.wfrm.subject.value.trim() == ''){
+							alert("제목을 입력해주세요");
+							return false;
+						}
+						if(document.wfrm.password.value.trim() == ''){
+							alert("비밀번호를 입력해주세요");
+							return false;
+						}
+						document.wfrm.submit();
+					};
+				};
+			</script>
+			</head>
+
+			<body>
+			<!-- 상단 디자인 -->
+			<div class="con_title">
+				<h3>게시판</h3>
+				<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+			</div>
+			<div class="con_menu"></div>
+			<div class="con_txt">
+				<form action="board_reply1_ok.jsp" method="post" name="wfrm">
+					<input type='hidden' name='seq' value=<%= seq %>> 
+					<div class="contents_sub">	
+						<!--게시판-->
+						<div class="board_write">
+							<table>
+							<tr>
+								<th class="top">글쓴이</th>
+								<td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+							</tr>
+							<tr>
+								<th>제목</th>
+								<td><input type="text" name="subject" value="" class="board_view_input" /></td>
+							</tr>
+							<tr>
+								<th>비밀번호</th>
+								<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td><textarea name="content" class="board_editor_area"></textarea></td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+							</tr>
+							</table>
+
+							<table>
+							<tr>
+								<br />
+								<td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+									<div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+									<div style="padding-left:10px;">
+										<div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+											1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+											2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+											3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+											4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+										</div>
+									</div>
+									<div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+										<input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+									</div>
+								</td>
+							</tr>
+							</table>
+						</div>
+
+						<div class="btn_area">
+							<div class="align_left">
+								<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+							</div>
+							<div class="align_right">
+								<input type="button" id='wbtn' value="답글쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+							</div>
+						</div>
+						<!--//게시판-->
+					</div>
+				</form>
+			</div>
+			<!-- 하단 디자인 -->
+
+			</body>
+			</html>
+
+			```
+			```jsp
+			<!-- board_reply1_ok.jsp -->
+			<%@ page language="java" contentType="text/html; charset=UTF-8"
+			    pageEncoding="UTF-8"%>
+
+			<%@ page import="javax.naming.Context" %>
+			<%@ page import="javax.naming.InitialContext" %>
+			<%@ page import="javax.naming.NamingException" %>
+
+			<%@ page import="javax.sql.DataSource" %>
+
+			<%@ page import="java.sql.Connection" %>
+			<%@ page import="java.sql.PreparedStatement" %>
+			<%@ page import="java.sql.ResultSet" %>
+			<%@ page import="java.sql.SQLException" %>
+
+			<% 
+				request.setCharacterEncoding("utf-8");
+
+				String seq = request.getParameter("seq"); // 모글의 seq
+
+				String subject = request.getParameter("subject");
+				String writer = request.getParameter("writer");
+				String password = request.getParameter("password");
+				String email = "";
+				if(!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+					email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+				}
+				String content = request.getParameter("content");
+				String wip = request.getRemoteAddr(); 
+
+
+
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+
+				int flag = 1; 
+
+				try{
+					Context initCtx = new InitialContext();
+					Context envCtx = (Context)initCtx.lookup("java:comp/env");
+					DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+
+					conn = dataSource.getConnection();
+
+					// 모글에 대한 정보
+					String sql = "select grp, grps, grpl from rep_board1 where seq = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					rs = pstmt.executeQuery();
+
+					int grp = 0;
+					int grps = 0;
+					int grpl = 0;
+
+					if(rs.next()){
+						grp = rs.getInt("grp");
+						grps = rs.getInt("grps");
+						grpl = rs.getInt("grpl");
+					}
+
+					// 모글의 grps 보다 큰 grps를 가진 데이터의 grps + 1
+					sql = "update rep_board1 set grps = grps + 1 where grp = ? and grps > ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, grp);
+					pstmt.setInt(2, grps);
+
+					pstmt.executeUpdate();
+
+
+					sql = "insert into rep_board1 values (0, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, now())";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, grp);
+					pstmt.setInt(2, grps + 1);
+					pstmt.setInt(3, grpl + 1);
+
+					pstmt.setString(4, subject);
+					pstmt.setString(5, writer);
+					pstmt.setString(6, email);
+					pstmt.setString(7, password);
+					pstmt.setString(8, content);
+					pstmt.setString(9, wip);
+
+					int result = pstmt.executeUpdate();
+					if(result == 1){
+						System.out.println("성공");
+						flag = 0;
+					}else{
+						System.out.println("실패");
+					}
+				}catch(NamingException e){
+					System.out.println("에러 : " + e.getMessage());
+				}catch(SQLException e){
+					System.out.println("에러 : " + e.getMessage());
+				}finally{
+					if(pstmt != null) pstmt.close();
+					if(conn != null) conn.close();
+				}
+
+				// 페이지 이동을 위해 javascript를 사용한다
+				out.println("<script type='text/javascript'>");
+				if(flag == 0){
+					out.println("alert('답글쓰기 성공');");
+					out.println("location.href='board_list1.jsp';");
+				}else{
+					out.println("alert('답글쓰기 실패')");
+					out.println("history.back();");
+				}
+				out.println("</script>");
+			%>
+			<!DOCTYPE html>
+			<html>
+			<head>
+			<meta charset="UTF-8">
+			<title>Insert title here</title>
+			</head>
+			<body>
+
+			</body>
+			</html>
+			```
+
+### 내장객체
+
+- redirect
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	// response.sendRedirect("https://www.daum.net");
+	// jsp를 이용한 특정 url로의 이동
+
+	out.println("<script type='text/javascript'>");	
+	out.println("alert('성공 후 실행')");	
+	out.println("location.href='https://www.daum.net';");	
+	out.println("</script>");	
+	// javascript를 이용한 특정 url로의 이동
+%>
+```
+- jsp 처리과정 
+
+<img src='https://miro.medium.com/v2/resize:fit:640/0*72KBQpvzlWcREOhz' width=500>
+
+
+!! jsp파일의 컴파일된 class 파일 저장 경로
+- eclipse - C:\Java\jsp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\BoardEx01\org\apache\jsp
+
+- tomcat - C:\Java\apache-tomcat-9.0.74\work\Catalina\localhost\ROOT\org\apache\jsp
+
+
+- 버퍼
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" buffer="1kb" autoFlush="true"%>
+<%
+	out.println("버퍼 크기 : " + out.getBufferSize() + "<br>"); 
+	out.println("버퍼 남은 크기 : " + out.getRemaining()+ "<br>"); 
+	
+	for(int i = 1; i < 100; i++){
+		out.println(i + "Hello JSP<br>");
+		if(i % 20 == 0){
+			out.println("버퍼 남은 크기 : " + out.getRemaining()+ "<br>"); 
+		}
+	}
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% 
+	out.println(out.getRemaining() + "<br>");
+	out.println("1<br>");
+	out.println("2<br>");
+	out.println("3<br>");
+	
+	out.clearBuffer(); // 버퍼에 있는 내용을 지운다
+	out.println(out.getRemaining() + "<br>");
+	
+	out.println("4<br>");
+	out.println("5<br>");
+	out.println("6<br>");
+	
+	out.flush(); // 버퍼에 있는 내용을 출력하면서 비운다
+	out.println(out.getRemaining() + "<br>");
+	
+	out.println("7<br>");
+	out.println("8<br>");
+
+	out.close(); // 뒤에 출력 내용이 있더라도 출력 스트림을 해제한다
+
+	out.println("9<br>");
+	out.println("10<br>");
+%>
+```
+#### include
+
+- include
+	- <%@ include file="" > : 프로그램적인 포함에 사용한다
+		- a <- b
+			- a + b => compile
+
+	
+	- <jsp: include page=""> : 디자인적인 포함에 사용한다
+		- a => compileA
+		  , b => compileB
+
+			=> compileA + compileB (출력 결과만 결합시킨다)
+
+```jsp
+<!-- include.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+	int i = 2;
+%>
+<%@ include file="./include1/include3.jspf" %>
+</body>
+</html>
+<!-- include3.jspf -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% 
+	out.println("i : " + i);
+	// 선언을 하지 않았지만 include.jsp와 합쳐져 컴파일 되는 것과 같으므로 
+	// include.jsp에 선언된 변수 i를 사용할 수 있다
+	// 하지만 include3.jsp 파일 자체로는 에러가 생기므로 확장자 명을 .jspf로 바꿔줘서 에러를 막아준다
+%>
+```
+
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+-- include 이전<br>
+<%
+	// pageContext.include("./include1/include.jsp");
+	// 페이지에 include.jsp 내용을 포함시킨다
+	pageContext.forward("./include1/include.jsp");
+	// 페이지 내용이 include.jsp로 바뀐다
+%>
+-- include 이후<br>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+-- include 이전<br>
+<jsp:include page="./include1/include.jsp"></jsp:include>
+-- include 이후<br>
+</body>
+</html>
+```
+
+```jsp
+<!-- include.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+-- include 이전<br>
+<%
+	int i = 2;
+%>
+<jsp:include page="./include1/include2.jsp">
+	<jsp:param name="data1" value="value1"/>
+	<jsp:param name="data2" value="<%= i %>"/>
+</jsp:include>
+-- include 이후<br>
+</body>
+</html>
+
+<!-- include2.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	out.println("Hello include2.jsp<br>");
+	// 출력만 있는 미완성 구문
+	out.println("data1 : " + request.getParameter("data1")+"<br>");
+	out.println("data2 : " + request.getParameter("data2")+"<br>");
+%>
+```
+#### forward
+```jsp
+<!-- forwardEx.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+-- forward 전
+<jsp:forward page="./forward1/forward.jsp"></jsp:forward>
+<!-- 현재의 페이지가 아닌 forward.jsp 페이지가 보인다 -->
+-- forward 후
+</body>
+</html>
+<!-- forward.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+Hello forward.jsp
+</body>
+</html>
+```
+위의 코드는 아래와 같이 쓸 수도 있다
+```jsp
+<!-- forwardEx2.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+-- forward 전<br>
+<%
+	RequestDispatcher dispatcher = request.getRequestDispatcher("./forward1/forward.jsp");
+	dispatcher.forward(request, response);
+%>
+-- forward 후<br>
+</body>
+</html>
+<!-- forward.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+Hello forward.jsp
+</body>
+</html>
+```
+
+### JSP에서 모델 호출
+- TO (java beans), DAO를 이용한다
+```jsp
+package pack1;
+
+public class MemberTO {
+	private String id;
+	private String password;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="pack1.MemberTO" %>
+<%
+	MemberTO to = new MemberTO();
+	to.setId("tester");
+	to.setPassword("1234");
+	
+	out.println(to.getId() + "<br>");
+	out.println(to.getPassword() + "<br>");
+%>
+```
+아래와 같이 액션태그를 이용할 수도 있다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<jsp:useBean id="to" class="pack1.MemberTO"></jsp:useBean>
+<% 
+	to.setId("tester");
+	to.setPassword("1234");
+	
+	out.println(to.getId() + "<br>");
+	out.println(to.getPassword() + "<br>");
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<jsp:useBean id="to" class="pack1.MemberTO"></jsp:useBean>
+<jsp:setProprety name="to" property="id" value="tester"></jsp:setProprety>
+<jsp:setProprety name="to" property="password" value="1234"></jsp:setProprety>
+<% 
+	out.println(to.getId() + "<br>");
+	out.println(to.getPassword() + "<br>");
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<jsp:useBean id="to" class="pack1.MemberTO"></jsp:useBean>
+<jsp:setProperty name="to" property="id" value="tester"></jsp:setProperty>
+<jsp:setProperty name="to" property="password" value="1234"></jsp:setProperty>
+<jsp:getProperty name="to" property="id"></jsp:getProperty><br>
+<jsp:getProperty name="to" property="password"></jsp:getProperty>
 ```
