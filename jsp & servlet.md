@@ -5229,38 +5229,38 @@ public class MemberTO {
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<div class="contents_sub">
-		<div class="board_top">
-			<div class="bold">총 <span class="txt_orange"><%= totalRecord %></span>건</div>
-		</div>
+  <div class="contents_sub">
+    <div class="board_top">
+      <div class="bold">총 <span class="txt_orange"><%= totalRecord %></span>건</div>
+    </div>
 
-		<!--게시판-->
-		<div class="board">
-			<table>
-			<tr>
-				<th width="3%">&nbsp;</th>
-				<th width="5%">번호</th>
-				<th>제목</th>
-				<th width="10%">글쓴이</th>
-				<th width="17%">등록일</th>
-				<th width="5%">조회</th>
-				<th width="3%">&nbsp;</th>
-			</tr>
-			<%= sb %>
-			</table>
-		</div>	
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
+      <%= sb %>
+      </table>
+    </div>	
 
-		<div class="btn_area">
-			<div class="align_right">
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
-			</div>
-		</div>
-		<!--//게시판-->
-	</div>
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
 </div>
 <!--//하단 디자인 -->
 
@@ -5280,7 +5280,7 @@ public class MemberTO {
 
     - MultipartRequest
 
-      <small>!! http://www.servlets.com 참조</small>
+      <small>!! http://www.servlets.com &rarr; COS File Upload Library에서 압축파일 다운로드 <br>&rarr; 압축해제 후 lib 디렉터리에 cos.jar 라이브러리 사용 </small>
 
     - Apache
        
@@ -5316,22 +5316,22 @@ public class MemberTO {
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
 
 <%
-	// 1. 업로드 경로는 절대경로로 입력해야한다
-	// 2. 업로드 제한 용량은 byte 단위로 입력한다
-	// 3. 인코딩
-	
-	String uploadPath = "C:/Java/jsp_workspace/UploadEx/src/main/webapp/upload";
-	int maxFileSize = 2 * 1024 * 1024; // 2mb
-	String encType = "utf-8";
-	
-	MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-	// DefaultFileRenamePolicy 객체를 파라미터로 주는 이유는 같은 이름의 파일을 업로드 했을 때 파일 이름을 바꿔서 업로드시키기 위한 것이다 
-	out.println("전송 완료<br>");
-	out.println("파일명 : " + multi.getFilesystemName("upload1") + "<br>"); // 업로드 된 파일의 이름이 출력
-	out.println("파일명 : " + multi.getOriginalFileName("upload1")); // 업로드 되기 전 원래 파일의 이름이 출력
-	
-	java.io.File file = multi.getFile("upload1");
-	out.println("사이즈 : " + file.length() + "<br>"); // File 클래스의 객체를 통해서 업로드된 파일의 크기 출력, 단위는 byte
+  // 1. 업로드 경로는 절대경로로 입력해야한다
+  // 2. 업로드 제한 용량은 byte 단위로 입력한다
+  // 3. 인코딩
+  
+  String uploadPath = "C:/Java/jsp_workspace/UploadEx/src/main/webapp/upload";
+  int maxFileSize = 2 * 1024 * 1024; // 2mb
+  String encType = "utf-8";
+  
+  MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+  // DefaultFileRenamePolicy 객체를 파라미터로 주는 이유는 같은 이름의 파일을 업로드 했을 때 파일 이름을 바꿔서 업로드시키기 위한 것이다 
+  out.println("전송 완료<br>");
+  out.println("파일명 : " + multi.getFilesystemName("upload1") + "<br>"); // 업로드 된 파일의 이름이 출력
+  out.println("파일명 : " + multi.getOriginalFileName("upload1")); // 업로드 되기 전 원래 파일의 이름이 출력
+  
+  java.io.File file = multi.getFile("upload1");
+  out.println("사이즈 : " + file.length() + "<br>"); // File 클래스의 객체를 통해서 업로드된 파일의 크기 출력, 단위는 byte
 %>
 
 ```
@@ -5364,26 +5364,407 @@ public class MemberTO {
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
 
 <%
-	String uploadPath = "C:/Java/jsp_workspace/UploadEx/src/main/webapp/upload";
-	int maxFileSize = 2 * 1024 * 1024; // 2mb
-	String encType = "utf-8";
-	
-	MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-	out.println("전송 완료<br>");
-	out.println("파일명 : " + multi.getFilesystemName("upload1") + "<br>");
-	out.println("파일명 : " + multi.getOriginalFileName("upload1") + "<br>"); 
-	
-	// out.println("아이디 : " + request.getParameter("id") + "<br>");
-	// request를 multi 객체를 생성할 때 사용했기 때문에 이렇게 쓰면 null 값이 나온다
-	// 따라서 mulit 안에 있는 multi 객체를 이용해서 값을 가져와야 한다
+  String uploadPath = "C:/Java/jsp_workspace/UploadEx/src/main/webapp/upload";
+  int maxFileSize = 2 * 1024 * 1024; // 2mb
+  String encType = "utf-8";
+  
+  MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+  out.println("전송 완료<br>");
+  out.println("파일명 : " + multi.getFilesystemName("upload1") + "<br>");
+  out.println("파일명 : " + multi.getOriginalFileName("upload1") + "<br>"); 
+  
+  // out.println("아이디 : " + request.getParameter("id") + "<br>");
+  // request를 multi 객체를 생성할 때 사용했기 때문에 이렇게 쓰면 null 값이 나온다
+  // 따라서 mulit 안에 있는 multi 객체를 이용해서 값을 가져와야 한다
   // multi 객체의 파라미터로 encType을 줬기 때문에 한글 데이터도 받을 수 있다
-	out.println("아이디 : " + multi.getParameter("id") + "<br>");
-	out.println("비밀번호 : " + multi.getParameter("password"));
+  out.println("아이디 : " + multi.getParameter("id") + "<br>");
+  out.println("비밀번호 : " + multi.getParameter("password"));
 %>
 ```
 
 ##### 자료실 게시판 만들기
-- 기본 
+- 기본 구성
+```jsp
+<!-- board_list1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <div class="board_top">
+      <div class="bold">
+        <p>총 <span class="txt_orange">1</span>건</p>
+      </div>
+    </div>
+
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>1</td>
+        <td class="left"><a href="board_view1.jsp">adfas</a>&nbsp;<img src="../../images/icon_new.gif" alt="NEW"></td>
+        <td>asdfa</td>
+        <td>2017.01.31 09:57</td>
+        <td>6</td>
+        <td><img src="../../images/icon_file.gif" /></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>2</td>
+        <td class="left"><a href="board_view1.jsp">adfas</a>&nbsp;<img src="../../images/icon_new.gif" alt="NEW"></td>
+        <td>asdfa</td>
+        <td>2017.01.31 09:57</td>
+        <td>6</td>
+        <td><img src="../../images/icon_file.gif" /></td>
+      </tr>
+      </table>
+    </div>
+
+    
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
+</div>
+<!--//하단 디자인 -->
+
+</body>
+</html>
+```
+```jsp
+<!-- borad_write1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="" method="post" name="">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top">
+            <input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" />
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            <input type="file" name="upload" value="" class="board_view_input" />
+          </td>
+        </tr>
+        </table>
+        
+        <table>
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+                1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+```
+```jsp
+<!-- board_view1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%">제목입니다.</td>
+        <th width="10%">등록일</th>
+        <td width="20%">2017.01.31 09:57</td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td>작성자(test@test.com)(000.000.000.000)</td>
+        <th>조회</th>
+        <td>3</td>
+      </tr>
+      <tr>
+        <th>첨부 파일</th>
+        <td>test.txt(1024 Kbyte)</td>
+        <th></th>
+        <td></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%">내용입니다.</td>
+      </tr>
+      </table>
+    </div>
+
+    <div class="btn_area">
+      <div class="align_left">
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+```
+```jsp
+<!-- board_delete1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="" method="post" name="">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top">
+            <input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" readonly/>
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" readonly/></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+```
+```jsp
+<!-- board_modify1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="" method="post" name="">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top">
+            <input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" readonly/>
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            기존 파일명 : text.txt<br /><br />
+            <input type="file" name="upload" value="" class="board_view_input" />
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+```
 
 - pds_board 테이블 생성 구문
 
@@ -5412,7 +5793,7 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 ```jsp
 <!-- board_write1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5422,106 +5803,106 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById('wbtn').onclick = function() {
-			if(document.wfrm.info.checked == false){
-				alert("개인정보 이용에 동의해주세요");
-				return false;
-			}
-			if(document.wfrm.writer.value.trim() == ''){
-				alert("글쓴이를 입력해주세요");
-				return false;
-			}
-			if(document.wfrm.subject.value.trim() == ''){
-				alert("제목을 입력해주세요");
-				return false;
-			}
-			if(document.wfrm.password.value.trim() == ''){
-				alert("비밀번호를 입력해주세요");
-				return false;
-			}
-			document.wfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById('wbtn').onclick = function() {
+      if(document.wfrm.info.checked == false){
+        alert("개인정보 이용에 동의해주세요");
+        return false;
+      }
+      if(document.wfrm.writer.value.trim() == ''){
+        alert("글쓴이를 입력해주세요");
+        return false;
+      }
+      if(document.wfrm.subject.value.trim() == ''){
+        alert("제목을 입력해주세요");
+        return false;
+      }
+      if(document.wfrm.password.value.trim() == ''){
+        alert("비밀번호를 입력해주세요");
+        return false;
+      }
+      document.wfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_write1_ok.jsp" method="post" name="wfrm" enctype="multipart/form-data">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top">
-						<input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" />
-					</td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="" class="board_view_input" /></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td><textarea name="content" class="board_editor_area"></textarea></td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td>
-						<input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/>
-					</td>
-				</tr>
-				<tr>
-					<th>첨부파일</th>
-					<td>
-						<input type="file" name="upload" value="" class="board_view_input" />
-					</td>
-				</tr>
-				</table>
-				
-				<table>
-				<tr>
-					<br />
-					<td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
-						<div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
-						<div style="padding-left:10px;">
-							<div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
-								1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
-								2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
-								3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
-								4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
-							</div>
-						</div>
-						<div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
-							<input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
-						</div>
-					</td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_write1_ok.jsp" method="post" name="wfrm" enctype="multipart/form-data">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top">
+            <input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" />
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            <input type="file" name="upload" value="" class="board_view_input" />
+          </td>
+        </tr>
+        </table>
+        
+        <table>
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+                1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -5551,81 +5932,81 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.io.File" %>
 
 <%
-	String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
-	int maxFileSize = 4 * 1024 * 1024;
-	String encType = "utf-8";
-	
-	MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-	
-	String subject = multi.getParameter("subject");
-	String writer = multi.getParameter("writer");
-	String password = multi.getParameter("password");
-	String mail = "";
-	if(!multi.getParameter("mail1").equals("") && !multi.getParameter("mail2").equals("")){
-		mail = multi.getParameter("mail1") + "@" + multi.getParameter("mail2");
-	}
-	String content = multi.getParameter("content");
-	
-	String wip = request.getRemoteAddr();
-	// getRemoteAddr() 메서드는 그냥 request 객체를 이용한다
-	
-	String fileName = multi.getFilesystemName("upload");
-	
-	long filesize = 0;
-	if(multi.getFile("upload") != null){
-		filesize = multi.getFile("upload").length();
-	}
-	
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	
-	int flag = 1; 
-	
-	try{
-		Context initCtx = new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "insert into pds_board values (0, ?, ?, ?, ?, ?, ?, ?, 0, ?, now())";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, subject);
-		pstmt.setString(2, writer);
-		pstmt.setString(3, mail);
-		pstmt.setString(4, password);
-		pstmt.setString(5, content);
-		pstmt.setString(6, fileName);
-		pstmt.setLong(7, filesize);
-		pstmt.setString(8, wip);
-		
-		int result = pstmt.executeUpdate();
-		if(result == 1){
-			System.out.println("성공");
-			flag = 0;
-		}else{
-			System.out.println("실패");
-		}
-	}catch(NamingException e){
-		System.out.println("에러 : " + e.getMessage());
-	}catch(SQLException e){
-		System.out.println("에러 : " + e.getMessage());
-	}finally{
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글쓰기 성공');");
-		out.println("location.href='board_list1.jsp';");
-	}else{
-		out.println("alert('글쓰기 실패')");
-		out.println("history.back();");
-	}
-	out.println("</script>");
-	
+  String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
+  int maxFileSize = 4 * 1024 * 1024;
+  String encType = "utf-8";
+  
+  MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+  
+  String subject = multi.getParameter("subject");
+  String writer = multi.getParameter("writer");
+  String password = multi.getParameter("password");
+  String mail = "";
+  if(!multi.getParameter("mail1").equals("") && !multi.getParameter("mail2").equals("")){
+    mail = multi.getParameter("mail1") + "@" + multi.getParameter("mail2");
+  }
+  String content = multi.getParameter("content");
+  
+  String wip = request.getRemoteAddr();
+  // getRemoteAddr() 메서드는 그냥 request 객체를 이용한다
+  
+  String fileName = multi.getFilesystemName("upload");
+  
+  long filesize = 0;
+  if(multi.getFile("upload") != null){
+    filesize = multi.getFile("upload").length();
+  }
+  
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  
+  int flag = 1; 
+  
+  try{
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "insert into pds_board values (0, ?, ?, ?, ?, ?, ?, ?, 0, ?, now())";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, subject);
+    pstmt.setString(2, writer);
+    pstmt.setString(3, mail);
+    pstmt.setString(4, password);
+    pstmt.setString(5, content);
+    pstmt.setString(6, fileName);
+    pstmt.setLong(7, filesize);
+    pstmt.setString(8, wip);
+    
+    int result = pstmt.executeUpdate();
+    if(result == 1){
+      System.out.println("성공");
+      flag = 0;
+    }else{
+      System.out.println("실패");
+    }
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글쓰기 성공');");
+    out.println("location.href='board_list1.jsp';");
+  }else{
+    out.println("alert('글쓰기 실패')");
+    out.println("history.back();");
+  }
+  out.println("</script>");
+  
 %>
 <!DOCTYPE html>
 <html>
@@ -5641,8 +6022,8 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 ```jsp
 <!-- board_list1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
+  pageEncoding="UTF-8"%>
+  
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
@@ -5655,73 +6036,73 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.sql.SQLException" %>
 
 <%
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	
-	StringBuilder sbHTML = new StringBuilder();
-	
-	int count = 0;
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, filesize, hit, datediff(now(), wdate) wgap from pds_board order by seq desc";
-		
-		pstmt = conn.prepareStatement(sql);
-		
-		rs = pstmt.executeQuery();
-		
-		rs.last();
-		count = rs.getRow();
-		rs.beforeFirst();
-		
-		while(rs.next()){
-			String seq = rs.getString("seq");
-			String subject = rs.getString("subject");
-			String writer = rs.getString("writer");
-			String wdate = rs.getString("wdate");
-			String hit = rs.getString("hit");
-			
-			int wgap = rs.getInt("wgap");
-			 
-			long filesize = rs.getLong("filesize");
-			
-			sbHTML.append("<tr>");
-			sbHTML.append("<td>&nbsp;</td>");
-			sbHTML.append("<td>" + seq + "</td>");
-			sbHTML.append("<td class='left'>");
-			sbHTML.append("<a href='board_view1.jsp?seq=" + seq + "'>" + subject + "</a>");
-			if(wgap ==0){
-			sbHTML.append("&nbsp;<img src='../../images/icon_new.gif' alt='NEW'>");
-			}
-			sbHTML.append("</td>");
-			sbHTML.append("<td>" + writer + "</td>");
-			sbHTML.append("<td>" + wdate + "</td>");
-			sbHTML.append("<td>" + hit + "</td>");
-			sbHTML.append("<td>");
-			if(filesize != 0){
-				sbHTML.append("<img src='../../images/icon_file.gif'/>");
-			}
-			sbHTML.append("</td>");
-			sbHTML.append("</tr>");
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  
+  StringBuilder sbHTML = new StringBuilder();
+  
+  int count = 0;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, filesize, hit, datediff(now(), wdate) wgap from pds_board order by seq desc";
+    
+    pstmt = conn.prepareStatement(sql);
+    
+    rs = pstmt.executeQuery();
+    
+    rs.last();
+    count = rs.getRow();
+    rs.beforeFirst();
+    
+    while(rs.next()){
+      String seq = rs.getString("seq");
+      String subject = rs.getString("subject");
+      String writer = rs.getString("writer");
+      String wdate = rs.getString("wdate");
+      String hit = rs.getString("hit");
+      
+      int wgap = rs.getInt("wgap");
+       
+      long filesize = rs.getLong("filesize");
+      
+      sbHTML.append("<tr>");
+      sbHTML.append("<td>&nbsp;</td>");
+      sbHTML.append("<td>" + seq + "</td>");
+      sbHTML.append("<td class='left'>");
+      sbHTML.append("<a href='board_view1.jsp?seq=" + seq + "'>" + subject + "</a>");
+      if(wgap ==0){
+      sbHTML.append("&nbsp;<img src='../../images/icon_new.gif' alt='NEW'>");
+      }
+      sbHTML.append("</td>");
+      sbHTML.append("<td>" + writer + "</td>");
+      sbHTML.append("<td>" + wdate + "</td>");
+      sbHTML.append("<td>" + hit + "</td>");
+      sbHTML.append("<td>");
+      if(filesize != 0){
+        sbHTML.append("<img src='../../images/icon_file.gif'/>");
+      }
+      sbHTML.append("</td>");
+      sbHTML.append("</tr>");
 
-		}
-		
-	}catch(NamingException e){
-		System.out.print("에러 : " + e.getMessage());
-	}catch(SQLException e){
-		System.out.print("에러 : " + e.getMessage());
-	}finally{
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
+    }
+    
+  }catch(NamingException e){
+    System.out.print("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.print("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -5736,41 +6117,41 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<div class="contents_sub">
-		<div class="board_top">
-			<div class="bold">
-				<p>총 <span class="txt_orange">1</span>건</p>
-			</div>
-		</div>
+  <div class="contents_sub">
+    <div class="board_top">
+      <div class="bold">
+        <p>총 <span class="txt_orange">1</span>건</p>
+      </div>
+    </div>
 
-		<!--게시판-->
-		<div class="board">
-			<table>
-			<tr>
-				<th width="3%">&nbsp;</th>
-				<th width="5%">번호</th>
-				<th>제목</th>
-				<th width="10%">글쓴이</th>
-				<th width="17%">등록일</th>
-				<th width="5%">조회</th>
-				<th width="3%">&nbsp;</th>
-			</tr>
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
 <%= sbHTML %>
-			</table>
-		</div>
+      </table>
+    </div>
 
-		
-		<div class="btn_area">
-			<div class="align_right">
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
-			</div>
-		</div>
-		<!--//게시판-->
-	</div>
+    
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
 </div>
 <!--//하단 디자인 -->
 
@@ -5781,7 +6162,7 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 ```jsp
 <!-- board_view1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
@@ -5794,65 +6175,65 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.sql.SQLException" %>
 
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	String seq = request.getParameter("seq");
-	String subject = null;
-	String writer = null;
-	String mail = null;
-	String wip = null;
-	String wdate = null;
-	String hit = null;
-	String content = null;
-	String filename = null;
-	long filesize = 0;
-	String file = "";
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select * from pds_board where seq = ?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		
-		rs = pstmt.executeQuery();
-		
-		if(rs.next()){
-			subject = rs.getString("subject");
-			writer = rs.getString("writer");
-			mail = rs.getString("mail");
-			wip = rs.getString("wip");
-			wdate = rs.getString("wdate");
-			hit = rs.getString("hit");
-			content = rs.getString("content");
-			
-			filename = rs.getString("filename");
-			filesize = rs.getLong("filesize");
-			
-			if(filesize != 0){
-				file = "<a href='../../upload/"+ filename + "'>" + filename +"</a>" + "(" + filesize + "byte)";
-			}
-		}
-		
-	}catch(NamingException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}catch(SQLException e){
-		System.out.println("에러 : " + e.getMessage());
-	}finally{
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
-	
+  request.setCharacterEncoding("utf-8");
+  
+  String seq = request.getParameter("seq");
+  String subject = null;
+  String writer = null;
+  String mail = null;
+  String wip = null;
+  String wdate = null;
+  String hit = null;
+  String content = null;
+  String filename = null;
+  long filesize = 0;
+  String file = "";
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select * from pds_board where seq = ?";
+    
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    
+    rs = pstmt.executeQuery();
+    
+    if(rs.next()){
+      subject = rs.getString("subject");
+      writer = rs.getString("writer");
+      mail = rs.getString("mail");
+      wip = rs.getString("wip");
+      wdate = rs.getString("wdate");
+      hit = rs.getString("hit");
+      content = rs.getString("content");
+      
+      filename = rs.getString("filename");
+      filesize = rs.getLong("filesize");
+      
+      if(filesize != 0){
+        file = "<a href='../../upload/"+ filename + "'>" + filename +"</a>" + "(" + filesize + "byte)";
+      }
+    }
+    
+  }catch(NamingException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -5867,50 +6248,50 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<div class="contents_sub">
-		<!--게시판-->
-		<div class="board_view">
-			<table>
-			<tr>
-				<th width="10%">제목</th>
-				<td width="60%"><%= subject %></td>
-				<th width="10%">등록일</th>
-				<td width="20%"><%= wdate %></td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td><%= writer %>(<%= mail %>)(<%= wip %>)</td>
-				<th>조회</th>
-				<td>3</td>
-			</tr>
-			<tr>
-				<th>첨부 파일</th>
-				<td><%= file %></td>
-				<th></th>
-				<td></td>
-			</tr>
-			<tr>
-				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%">내용입니다.</td>
-			</tr>
-			</table>
-		</div>
+  <div class="contents_sub">
+    <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%"><%= subject %></td>
+        <th width="10%">등록일</th>
+        <td width="20%"><%= wdate %></td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td><%= writer %>(<%= mail %>)(<%= wip %>)</td>
+        <th>조회</th>
+        <td>3</td>
+      </tr>
+      <tr>
+        <th>첨부 파일</th>
+        <td><%= file %></td>
+        <th></th>
+        <td></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%">내용입니다.</td>
+      </tr>
+      </table>
+    </div>
 
-		<div class="btn_area">
-			<div class="align_left">
-				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-			</div>
-			<div class="align_right">
-				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%=seq %>'" />
-				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%=seq %>'" />
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
-			</div>
-		</div>
-		<!--//게시판-->
-	</div>
+    <div class="btn_area">
+      <div class="align_left">
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%=seq %>'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%=seq %>'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
 </div>
 <!-- 하단 디자인 -->
 
@@ -5921,8 +6302,8 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 ```jsp
 <!-- board_delete1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	
+  pageEncoding="UTF-8"%>
+  
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
@@ -5935,44 +6316,44 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.sql.SQLException" %>
 
 <% 
-	request.setCharacterEncoding("utf-8");
-	
-	String seq = request.getParameter("seq");
-	System.out.println(seq);
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	String subject = "";
-	String writer = "";
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select subject, writer from pds_board where seq=?";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		
-		rs = pstmt.executeQuery();
-		if(rs.next()){
-			subject = rs.getString("subject");
-			writer = rs.getString("writer");
-		}
-		
-	}catch(NamingException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}catch(SQLException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}finally{
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
+  request.setCharacterEncoding("utf-8");
+  
+  String seq = request.getParameter("seq");
+  System.out.println(seq);
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  String subject = "";
+  String writer = "";
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select subject, writer from pds_board where seq=?";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    
+    rs = pstmt.executeQuery();
+    if(rs.next()){
+      subject = rs.getString("subject");
+      writer = rs.getString("writer");
+    }
+    
+  }catch(NamingException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }catch(SQLException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -5984,56 +6365,56 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 </head>
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById("dbtn").onclick = function() {
-			if(document.dfrm.password.value.trim() == ''){
-				alert("비밀번호를 입력하셔야 합니다");
-				return false;
-			}
-			document.dfrm.submit();
-		}
-	}
+  window.onload = function() {
+    document.getElementById("dbtn").onclick = function() {
+      if(document.dfrm.password.value.trim() == ''){
+        alert("비밀번호를 입력하셔야 합니다");
+        return false;
+      }
+      document.dfrm.submit();
+    }
+  }
 </script>
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_delete1_ok.jsp" method="post" name="dfrm">
-		<input type='hidden' name="seq" value="<%= seq %>">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top"><input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" readonly/></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id='dbtn' value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_delete1_ok.jsp" method="post" name="dfrm">
+    <input type='hidden' name="seq" value="<%= seq %>">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" readonly/></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id='dbtn' value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6059,82 +6440,82 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 
 <%@ page import="java.io.File" %>
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	String seq = request.getParameter("seq");
-	String password = request.getParameter("password");
-	String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
-	
-	System.out.println(seq);
-	System.out.println(password);
+  request.setCharacterEncoding("utf-8");
+  
+  String seq = request.getParameter("seq");
+  String password = request.getParameter("password");
+  String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
+  
+  System.out.println(seq);
+  System.out.println(password);
 
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	int flag = 2;
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select filename from pds_board where seq = ?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		
-		rs = pstmt.executeQuery();
-		
-		String filename = null;
-		if(rs.next()){
-			filename = rs.getString("filename");
-		}
-		
-		sql = "delete from pds_board where seq = ? and password= ?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		pstmt.setString(2, password);
-		
-		int result = pstmt.executeUpdate();
-		
-		if(result == 1){
-			if(filename != null){
-				File file = new File(uploadPath, filename);
-				file.delete();
-				// 파일 삭제 구문
-			}
-			
-			flag = 0;
-		}else if(result == 0 ){
-			flag = 1;
-		}
-	}catch(NamingException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}catch(SQLException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}finally{
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글삭제 성공');");
-		out.println("location.href='board_list1.jsp';");
-	}else if(flag == 1){
-		out.println("alert('비밀번호 오류');");
-		out.println("history.back();");
-	}else{
-		out.println("alert('글삭제에 실패');");
-		out.println("history.back();");
-	}
-	out.println("</script>");
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  int flag = 2;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select filename from pds_board where seq = ?";
+    
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    
+    rs = pstmt.executeQuery();
+    
+    String filename = null;
+    if(rs.next()){
+      filename = rs.getString("filename");
+    }
+    
+    sql = "delete from pds_board where seq = ? and password= ?";
+    
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    pstmt.setString(2, password);
+    
+    int result = pstmt.executeUpdate();
+    
+    if(result == 1){
+      if(filename != null){
+        File file = new File(uploadPath, filename);
+        file.delete();
+        // 파일 삭제 구문
+      }
+      
+      flag = 0;
+    }else if(result == 0 ){
+      flag = 1;
+    }
+  }catch(NamingException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }catch(SQLException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글삭제 성공');");
+    out.println("location.href='board_list1.jsp';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호 오류');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글삭제에 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
 %>
 <!DOCTYPE html>
 <html>
@@ -6150,7 +6531,7 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 ```jsp
 <!-- board_modify1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.naming.InitialContext" %>
 <%@ page import="javax.naming.NamingException" %>
@@ -6163,58 +6544,58 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.sql.SQLException" %>
 
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	String seq = request.getParameter("seq");
-	String writer = "";
-	String subject = "";
-	String content = "";
-	String email1 = "";
-	String email2 = "";
-	String filename = "";
-	
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select * from pds_board where seq = ?";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		rs = pstmt.executeQuery();
-		
-		if(rs.next()){
-			writer = rs.getString("writer");
-			subject = rs.getString("subject");
-			content = rs.getString("content");
-			String[] emailArr = null;
-			if(rs.getString("mail").equals("")){
-				emailArr = new String[]{"", ""};
-			}else{
-				emailArr = rs.getString("mail").split("@");
-				email1 = emailArr[0];
-				email2 = emailArr[1];
-			}
-			filename = rs.getString("filename") == null? "" : rs.getString("filename");
-			// 업로드한 파일이 없는 경우 파일이름이 null로 표시되기 때문에 위와 같은 작업을 해줘야 한다
-		}
-		
-	}catch(NamingException e){
-		System.out.println("에러 : " + e.getMessage());
-	}catch(SQLException e){
-		System.out.println("에러 : " + e.getMessage());
-	}finally{
-		if(rs != null) rs.close();
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
-	
+  request.setCharacterEncoding("utf-8");
+  
+  String seq = request.getParameter("seq");
+  String writer = "";
+  String subject = "";
+  String content = "";
+  String email1 = "";
+  String email2 = "";
+  String filename = "";
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select * from pds_board where seq = ?";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    rs = pstmt.executeQuery();
+    
+    if(rs.next()){
+      writer = rs.getString("writer");
+      subject = rs.getString("subject");
+      content = rs.getString("content");
+      String[] emailArr = null;
+      if(rs.getString("mail").equals("")){
+        emailArr = new String[]{"", ""};
+      }else{
+        emailArr = rs.getString("mail").split("@");
+        email1 = emailArr[0];
+        email2 = emailArr[1];
+      }
+      filename = rs.getString("filename") == null? "" : rs.getString("filename");
+      // 업로드한 파일이 없는 경우 파일이름이 null로 표시되기 때문에 위와 같은 작업을 해줘야 한다
+    }
+    
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6225,80 +6606,80 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById('mbtn').onclick = function() {
-			if(document.mfrm.subject.value.trim() == ''){
-				alert('제목을 입력해주세요');
-				return false;
-			}
-			if(document.mfrm.password.value.trim() == ''){
-				alert('비밀번호를 입력해주세요');
-				return false;
-			}
-			document.mfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById('mbtn').onclick = function() {
+      if(document.mfrm.subject.value.trim() == ''){
+        alert('제목을 입력해주세요');
+        return false;
+      }
+      if(document.mfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.mfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_modify1_ok.jsp?seq=<%= seq %>" method="post" name="mfrm" encType="multipart/form-data">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top">
-						<input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/>
-					</td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" /></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td><textarea name="content" class="board_editor_area"><%= content %></textarea></td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td>
-						<input type="text" name="mail1" value="<%= email1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= email2 %>" class="board_view_input_mail"/>
-					</td>
-				</tr>
-				<tr>
-					<th>첨부파일</th>
-					<td>
-						기존 파일명 : <%= filename %><br /><br />
-						<input type="file" name="upload" value="" class="board_view_input" />
-					</td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_modify1_ok.jsp?seq=<%= seq %>" method="post" name="mfrm" encType="multipart/form-data">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top">
+            <input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/>
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"><%= content %></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>
+            <input type="text" name="mail1" value="<%= email1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= email2 %>" class="board_view_input_mail"/>
+          </td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td>
+            기존 파일명 : <%= filename %><br /><br />
+            <input type="file" name="upload" value="" class="board_view_input" />
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6328,121 +6709,121 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 <%@ page import="java.io.File" %>
 
 <%
-	String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
-	int maxFileSize = 4 * 1024 * 1024;
-	String encType = "utf-8";
-	
-	MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-	
-	String seq = multi.getParameter("seq");
-	String subject = multi.getParameter("subject");
-	String mail = "";
-	if(!multi.getParameter("mail1").equals("") && !multi.getParameter("mail2").equals("")){
-		mail = multi.getParameter("mail1") + "@" + multi.getParameter("mail2");
-	}
-	String inputPassword = multi.getParameter("password");
-	String content = multi.getParameter("content");
-	
-	String password= "";
-	String filename = null;
-	long filesize = 0;
+  String uploadPath = "C:/Java/jsp_workspace/BoardEx01/src/main/webapp/upload";
+  int maxFileSize = 4 * 1024 * 1024;
+  String encType = "utf-8";
+  
+  MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+  
+  String seq = multi.getParameter("seq");
+  String subject = multi.getParameter("subject");
+  String mail = "";
+  if(!multi.getParameter("mail1").equals("") && !multi.getParameter("mail2").equals("")){
+    mail = multi.getParameter("mail1") + "@" + multi.getParameter("mail2");
+  }
+  String inputPassword = multi.getParameter("password");
+  String content = multi.getParameter("content");
+  
+  String password= "";
+  String filename = null;
+  long filesize = 0;
 
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
 
-	int flag = 2;
-	
-	try{
-		Context initCtx = (Context)new InitialContext();
-		Context envCtx = (Context)initCtx.lookup("java:comp/env");
-		DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
-		
-		conn = dataSource.getConnection();
-		
-		String sql = "select filename, filesize, password from pds_board where seq = ?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, seq);
-		rs= pstmt.executeQuery();
-		
-		if(rs.next()){
-			filename = rs.getString("filename");
-			filesize = rs.getLong("filesize");
-			password = rs.getString("password");
-			System.out.println(password);
-			System.out.println(inputPassword);
-		}
-		
-		if(!password.equals(inputPassword)){
+  int flag = 2;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb3");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select filename, filesize, password from pds_board where seq = ?";
+    
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    rs= pstmt.executeQuery();
+    
+    if(rs.next()){
+      filename = rs.getString("filename");
+      filesize = rs.getLong("filesize");
+      password = rs.getString("password");
+      System.out.println(password);
+      System.out.println(inputPassword);
+    }
+    
+    if(!password.equals(inputPassword)){
     // 비밀번호가 다른 경우 
       if(multi.getFile("upload") != null){
       // 새로운 파일을 업로드 한다면
-			File file = new File(uploadPath, multi.getFilesystemName("upload"))
+      File file = new File(uploadPath, multi.getFilesystemName("upload"))
       file.delete();
       // 그 파일을 삭제한다
       }
       
       flag = 1;
-		}else{
+    }else{
     // 비밀번호가 같고,
-			if(filesize != 0){
+      if(filesize != 0){
       // 기존에 파일을 업로드 했고,
-				if(multi.getFile("upload") != null){
+        if(multi.getFile("upload") != null){
         // 새로운 파일을 업로드 하는 경우,
-					File file = new File(uploadPath, filename);
-					file.delete();
-					System.out.println("파일 삭제 성공");
-					// 기존의 파일을 삭제하고
-					filename = multi.getFilesystemName("upload");
-					filesize = multi.getFile("upload").length();
+          File file = new File(uploadPath, filename);
+          file.delete();
+          System.out.println("파일 삭제 성공");
+          // 기존의 파일을 삭제하고
+          filename = multi.getFilesystemName("upload");
+          filesize = multi.getFile("upload").length();
           // 새로운 파일로 대체한다
-				}
-			}else{
+        }
+      }else{
       // 기존에 파일을 업로드 하지 않았고,
-				if(multi.getFile("upload") != null){
+        if(multi.getFile("upload") != null){
         // 새로운 파일을 업로드 하는 경우
-					filename = multi.getFilesystemName("upload");
-					filesize = multi.getFile("upload").length();
+          filename = multi.getFilesystemName("upload");
+          filesize = multi.getFile("upload").length();
           // 기존의 파일 삭제 없이 새로운 파일을 업로드 한다
-				}
-			}
-			
-			sql = "update pds_board set subject= ?, content= ?, filename = ?, filesize = ? where seq= ? and password= ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, subject);
-			pstmt.setString(2, content);
-			pstmt.setString(3, filename);
-			pstmt.setLong(4, filesize);
-			pstmt.setString(5, seq);
-			pstmt.setString(6, inputPassword);
-			
-			int result = pstmt.executeUpdate();
-			flag = 0;
-		}
-		
-	}catch(NamingException e){
-		
-	}catch(SQLException e){
-		System.out.print("에러 : " + e.getMessage()); 
-	}finally{
-		if(pstmt != null) pstmt.close();
-		if(conn != null) conn.close();
-	}
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글 수정 성공');");
-		out.println("location.href='board_view1.jsp?seq=" + seq + "';");
-	}else if(flag == 1){
-		out.println("alert('비밀번호 오류');");
-		out.println("history.back();");
-	}else{
-		out.println("alert('글 수정에 실패');");
-		out.println("history.back();");
-	}
-	out.println("</script>");
+        }
+      }
+      
+      sql = "update pds_board set subject= ?, content= ?, filename = ?, filesize = ? where seq= ? and password= ?";
+      
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, subject);
+      pstmt.setString(2, content);
+      pstmt.setString(3, filename);
+      pstmt.setLong(4, filesize);
+      pstmt.setString(5, seq);
+      pstmt.setString(6, inputPassword);
+      
+      int result = pstmt.executeUpdate();
+      flag = 0;
+    }
+    
+  }catch(NamingException e){
+    
+  }catch(SQLException e){
+    System.out.print("에러 : " + e.getMessage()); 
+  }finally{
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 수정 성공');");
+    out.println("location.href='board_view1.jsp?seq=" + seq + "';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호 오류');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 수정에 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
 %>
 <!DOCTYPE html>
 <html>
@@ -6455,4 +6836,1335 @@ insert into pds_board values(0, '제목', '이름', 'test@test.com', '1234', '�
 </body>
 </html>
 ```
+##### 이미지 게시판 만들기
+- 기본 구성
 
+- album_board 테이블 생성 구문
+
+```sql
+create table album_board(
+  seq int not null primary key auto_increment,
+  subject varchar(150) not null,
+  writer varchar(12) not null,
+  mail varchar(50),
+  password varchar(12) not null,
+  content varchar(2000),
+  filename varchar(50),
+  filesize int,
+  hit int not null,
+  wip varchar(15) not null,
+  wdate datetime not null
+);
+```
+- album_board insert 구문
+
+```sql
+insert into album_board values(0, '제목', '이름', 'test@test.com', '1234', '내용', 'text.txt', 0, 0, '000.000.000.000', now());
+```
+
+- 구현하기
+```jsp
+<!-- board_write.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board_write.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById( 'wbtn' ).onclick = function() {
+      if( document.wfrm.info.checked == false ) {
+        alert( '동의하셔야 합니다.' );
+        return false;
+      }
+      if( document.wfrm.writer.value.trim() == '' ) {
+        alert( '글쓴이를 입력하셔야 합니다.' );
+        return false;
+      }
+      if( document.wfrm.subject.value.trim() == '' ) {
+        alert( '제목을 입력하셔야 합니다.' );
+        return false;
+      }
+      if( document.wfrm.password.value.trim() == '' ) {
+        alert( '비밀번호를 입력하셔야 합니다.' );
+        return false;
+      }
+      if(document.wfrm.upload.value.trim() == ''){
+        alert('이미지파일을 입력하세요');
+        return false;
+      }else{
+        const ext = document.wfrm.upload.value.trim().split('.');
+        if(ext[ext.length-1] != 'jpg' && ext[ext.length-1] != 'png' && ext[ext.length-1] != 'PNG' && ext[ext.length-1] != 'gif'){
+          alert('이미지파일을 입력하세요');
+          return false;
+        }
+      }
+      document.wfrm.submit();
+    };
+  };
+</script>
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="contents1"> 
+  <div class="con_title"> 
+    <p style="margin: 0px; text-align: right">
+      <img style="vertical-align: middle" alt="" src="../../images/home_icon.gif" /> &gt; 커뮤니티 &gt; <strong>여행지리뷰</strong>
+    </p>
+  </div> 
+
+  <form action="board_write1_ok.jsp" method="post" name="wfrm" enctype="multipart/form-data">
+    <div class="contents_sub">
+    <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top" colspan="3"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td colspan="3"><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td colspan="3">
+            <textarea name="content" class="board_editor_area"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>이미지</th>
+          <td colspan="3">
+            <input type="file" name="upload" value="" class="board_view_input" /><br /><br />
+          </td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td colspan="3"><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+        
+        <table>	
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;"> 
+                 1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                 2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                 3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                 4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+
+      <div class="btn_area">
+        <div class="align_left">			
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+        </div>
+        <div class="align_right">			
+          <input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />					
+        </div>	
+      </div>	
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+```
+```jsp
+<!-- board_write1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="java.io.File" %>
+
+<%
+  String uploadPath = "C:/Java/jsp_workspace/AlbumEx01/src/main/webapp/upload";
+  int maxFileSize = 2 * 1024 * 1024;
+  String encType = "utf-8";
+  
+  MultipartRequest multi
+  = new MultipartRequest( request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+  
+  //
+  String subject = multi.getParameter( "subject" );
+  String writer = multi.getParameter( "writer" );
+  
+  String mail = "";
+  if( !multi.getParameter("mail1").equals("") 
+      && !multi.getParameter("mail2").equals("") ) {
+    mail = multi.getParameter( "mail1" ) + "@" + multi.getParameter( "mail2" );	
+  }
+  
+  String password = multi.getParameter( "password" );
+  String content = multi.getParameter( "content" );
+  
+  String wip = request.getRemoteAddr();
+  
+  //
+  String filename = multi.getFilesystemName( "upload" );
+  long filesize = 0;
+  if( multi.getFile( "upload" ) != null ) {
+    filesize = multi.getFile( "upload" ).length();
+  }
+  
+  //
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  
+  int flag = 1;
+  
+  try {
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+    DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "insert into album_board values ( 0, ?, ?, ?, ?, ?, ?, ?, 0, ?, now() );";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, subject );
+    pstmt.setString( 2, writer );
+    pstmt.setString( 3, mail );
+    pstmt.setString( 4, password );
+    pstmt.setString( 5, content );
+    pstmt.setString( 6, filename );
+    pstmt.setLong( 7, filesize );
+    pstmt.setString( 8, wip );
+    
+    int result = pstmt.executeUpdate();
+    if( result == 1 ) {
+      flag = 0;
+    }
+  } catch( NamingException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } catch( SQLException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } finally {
+    if( pstmt != null ) pstmt.close();
+    if( conn != null ) conn.close();
+  }
+  
+  out.println( "<script type='text/javascript'>" );
+  if( flag == 0 ) {
+    out.println( "alert('글쓰기에 성공');" );
+    out.println( "location.href='board_list1.jsp';" );
+  } else {
+    out.println( "alert('글쓰기에 실패');" );
+    out.println( "history.back();" );
+  }
+  out.println( "</script>" );
+%>
+
+```
+```jsp
+<!-- board_list1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%
+  String seq = null;
+  String subject = null;
+  String writer = null;
+  String wdate = null;
+  String hit = null;
+  String filename = null;
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  StringBuilder sbHtml = new StringBuilder();
+  
+  int totalRecord = 0;
+  int recordPerLine = 5;
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, datediff(wdate, now()) wgap, filename, hit from album_board";
+    pstmt = conn.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    
+    rs.last();
+    totalRecord = rs.getRow();
+    rs.beforeFirst();
+    
+    int count = 0;
+    while(rs.next()){
+      count++;
+      seq = rs.getString("seq");
+      subject = rs.getString("subject");
+      writer = rs.getString("writer");
+      wdate = rs.getString("wdate");
+      int wgap = Integer.parseInt(rs.getString("wgap"));
+      hit = rs.getString("hit");
+      filename = rs.getString("filename");
+      
+      if((count % (recordPerLine + 1)) == 0){
+        sbHtml.append("<tr>");
+      }
+      sbHtml.append("<td width='20%' class='last2'>");
+      sbHtml.append("<div class='board'>");
+      sbHtml.append("<table class='boardT'>");
+      sbHtml.append("<tr>");
+      sbHtml.append("<td class='boardThumbWrap'>");
+      sbHtml.append("<div class='boardThumb'>");
+      sbHtml.append("<a href='board_view1.jsp?seq=" + seq + "'><img src='../../upload/" + filename + "' border='0' width='100%' /></a>");
+      sbHtml.append("</div>");
+      sbHtml.append("</td>");
+      sbHtml.append("</tr>");
+      sbHtml.append("<tr>");
+      sbHtml.append("<td>");
+      sbHtml.append("<div class='boardItem'>");	
+      sbHtml.append("<strong>" + subject + "</strong>");
+      if(wgap == 0){
+      sbHtml.append("<img src='../../images/icon_new.gif' alt='NEW'>");
+      }
+      sbHtml.append("</div>");
+      sbHtml.append("</td>");
+      sbHtml.append("</tr>");
+      sbHtml.append("<tr>");
+      sbHtml.append("<td><div class='boardItem'><span class='bold_blue'>" + writer + "</span></div></td>");
+      sbHtml.append("</tr>");
+      sbHtml.append("<tr>");
+      sbHtml.append("<td><div class='boardItem'>" + wdate + " <font>|</font> Hit " + hit + "</div></td>");
+      sbHtml.append("</tr>");
+      sbHtml.append("</table>");
+      sbHtml.append("</div>");
+      sbHtml.append("</td>");
+      
+      if((count % (recordPerLine + 1)) == recordPerLine){
+        sbHtml.append("</tr>");
+      }
+    }
+    if((totalRecord % (recordPerLine + 1)) != recordPerLine){
+      sbHtml.append("</tr>");
+    }
+    
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board_list.css">
+<style type="text/css">
+<!--
+  .board_pagetab { text-align: center; }
+  .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+  .board_pagetab a:hover { text-decoration: underline; background-color:#f2f2f2; }
+  .on a { font-weight: bold; }
+-->
+</style>
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="contents1"> 
+  <div class="con_title"> 
+    <p style="margin: 0px; text-align: right">
+      <img style="vertical-align: middle" alt="" src="../../images/home_icon.gif" /> &gt; 커뮤니티 &gt; <strong>여행지리뷰</strong>
+    </p>
+  </div> 
+  <div class="contents_sub">	
+    <div class="board_top">
+      <div class="bold">
+        <p>총 <span class="txt_orange">1</span>건</p>
+      </div>
+    </div>	
+    
+    <!--게시판-->
+    <table class="board_list">
+    <%= sbHtml %>
+    </table>
+
+    <div class="btn_area">
+      <div class="align_right">		
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
+    <!--//게시판-->			
+    </div>
+</div>
+<!--//하단 디자인 -->
+
+</body>
+</html>
+
+```
+```jsp
+<!-- board_view1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%
+  request.setCharacterEncoding( "utf-8" );
+
+  String seq = request.getParameter( "seq" );
+  
+  String subject = "";
+  String writer = "";
+  String mail = "";
+  String wip = "";
+  String wdate = "";
+  String hit = "";
+  String content = "";
+  String filename = "";
+  long filesize = 0;
+  String file = "";
+  
+  String pseq = "";
+  String psubject = "";
+  int pFlag = 1;
+  
+  String nseq = "";
+  String nsubject = "";
+  int nFlag = 1;
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try {
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+    DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "update album_board set hit=hit+1 where seq=?";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, seq );
+    
+    pstmt.executeUpdate();
+    
+    sql = "select subject, writer, mail, wip, wdate, hit, content, filename, filesize from album_board where seq=?";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, seq );
+    
+    rs = pstmt.executeQuery();
+    
+    if( rs.next() ) {
+      subject = rs.getString( "subject" );
+      writer = rs.getString( "writer" );
+      mail = rs.getString( "mail" );
+      wip = rs.getString( "wip" );
+      wdate = rs.getString( "wdate" );
+      hit = rs.getString( "hit" );
+      content = rs.getString( "content" ).replaceAll( "\n", "<br />" );
+      filename = rs.getString( "filename" );
+      filesize = rs.getLong( "filesize" );
+      if( filesize != 0 ) {
+        file = "<a href='../../upload/" + filename + "'><img src='../../upload/" + filename + "' width='70%' /></a>";
+      }
+    }
+    
+    sql = "select * from album_board where seq = (select max(seq) from album_board where seq < ?);";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    
+    rs = pstmt.executeQuery();
+    if(rs.next()){
+      pseq = rs.getString("seq");
+      psubject = rs.getString("subject"); 
+      pFlag = 0;
+    }
+    
+    sql = "select * from album_board where seq = (select min(seq) from album_board where seq > ?);";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    
+    rs = pstmt.executeQuery();
+    if(rs.next()){
+      nseq = rs.getString("seq");
+      nsubject = rs.getString("seq");
+      nFlag = 0;
+    }
+    
+  } catch( NamingException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } catch( SQLException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } finally {
+    if( rs != null ) rs.close();
+    if( pstmt != null ) pstmt.close();
+    if( conn != null ) conn.close();
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board_view.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="contents1"> 
+  <div class="con_title"> 
+    <p style="margin: 0px; text-align: right">
+      <img style="vertical-align: middle" alt="" src="../../images/home_icon.gif" /> &gt; 커뮤니티 &gt; <strong>여행지리뷰</strong>
+    </p>
+  </div>
+
+  <div class="contents_sub">	
+  <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%"><%=subject %>(<%=wip %>)</td>
+        <th width="10%">등록일</th>
+        <td width="20%"><%=wdate %></td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td><%=writer %></td>
+        <th>조회</th>
+        <td><%=hit %></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding:20px; line-height:160%">
+          <div id="bbs_file_wrap">
+            <div>
+              <%=file %><br />
+            </div>
+          </div>
+          <%=content %>
+        </td>
+      </tr>			
+      </table>
+    </div>
+    <div class="btn_area">
+      <div class="align_left">			
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%=seq %>'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%=seq %>'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>	
+    </div>
+    <!--//게시판-->
+    
+    <!-- 이전글 / 다음글 -->
+    <div class="next_data_area">
+    <%
+      if(nFlag == 1){
+        out.println("<span class='b'>다음글 | </span>다음글이 없습니다.");
+      }else{
+        out.println("<span class='b'>다음글 | </span><a href='board_view1.jsp?seq=" + nseq + "'>" + nsubject + "</a>");
+      }
+    %>
+    </div>
+    <div class="prev_data_area">
+    <%
+      if(pFlag == 1){
+        out.println("<span class='b'>이전글 | </span>이전글이 없습니다.");
+      }else{
+        out.println("<span class='b'>이전글 | </span><a href='board_view1.jsp?seq=" + pseq + "'>" + psubject + "</a>");
+      }
+    %>
+    </div>
+    <!-- //이전글 / 다음글 -->
+  </div>
+<!-- 하단 디자인 -->
+</div>
+
+</body>
+</html>
+
+```
+
+```jsp
+<!-- board_delete1.jsp -->
+
+```
+
+```jsp
+<!-- board_delete1_ok.jsp -->
+
+```
+
+```jsp
+<!-- board_modify1.jsp -->
+
+```
+
+```jsp
+<!-- board_modify1_ok.jsp -->
+
+```
+## 배포 (Deployment)
+
+- 배포할 때, jdk, apache-tomcat의 버전은 서비스 환경에 맞춰야 한다.
+
+  - 개발 환경 : window + jdk + apache-tomcat + IDE
+
+  - 서비스 환경 : window - jdk - apache-tomcat
+  
+  <small> !! 이클립스에서 jdk 버전 바꾸기 <br>
+  1. 프로젝트 안의 java Library의 버전을 바꾼다
+
+  2. 프로젝트 Properties의 Project Facet에서도 java 버전을 바꿔준다 </small>
+
+- 웹 앱 기본 실행 루트(document root)
+```java
+C:\Java\apache-tomcat-9.0.74\webapps\ROOT\*.jsp
+// 기본 실행 루트에 있는 *.jsp 파일
+```
+### 새로운 웹 앱 배포시키기(수동)
+- 새로운 웹 앱 만들기 순서
+
+  1<sub>st</sub> . 웹 앱 디렉터리를 webapps 디렉터리 안에 생성
+
+  ```java
+  C:\Java\apache-tomcat-9.0.74\webapps\new_directory
+  C:\Java\apache-tomcat-9.0.74\webapps\new_directory\WEB-INF
+  // 새로운 웹 앱 디렉터리에는 WEB-INF 디렉터리가 있어야 톰캣이 웹 앱으로 인식한다
+  C:\Java\apache-tomcat-9.0.74\webapps\new_directory\*.jsp
+  ```
+
+  2<sub>nd</sub> . 라이브러리 옮기기
+
+  3<sub>rd</sub> . 설정파일 옮기기 : META-INF 디렉터리 옮긴다
+
+  4<sub>th</sub> . beans 옮기기 : WEB-INF 디렉터리에 classes 디렉터리를 생성한 후 클래스 패키지를 모두 옮긴다
+
+  <small> !! 이클립스에서 만든 프로젝트의 클래스 패키지는 프로젝트의 src 디렉터리에 있는 java 디렉터리 안에 디렉터리 형태로 있다</small>
+
+
+  <small> !! 옮기기 전 jdk의 버전을 실행환경에 맞추고 옮겨야 에러가 나지 않는다</small>
+
+  5<sub>th</sub> . 이미지 / css / js 파일 옮기기
+
+  6<sub>th</sub> . jsp 옮기기
+
+
+- 새로운 웹앱 실행시키기
+```html
+http://localhost:8080/website2/mariadb/design_pds1/board_list1.jsp
+<!-- webapps 디렉터리에 website2 웹앱의 문서 board_list1.jsp 실행 -->
+```
+
+- 톰캣 디렉터리안에 있는 webapps 디렉터리가 아닌 외부 디렉터리에 새로운 웹앱을 만드는 경우는 수동으로 배포시키는 것만 가능하다
+
+  <small>!! c:\website\에 website1 웹 앱을 생성한 경우
+
+  - 톰캣 디렉터리 &rarr; conf &rarr; Catalina &rarr; localhost 디렉터리 내부에 xml 파일을 생성해야 톰캣이 웹 앱을 실행시킬 수 있다
+
+  ```xml
+  <!-- website1.xml -->
+  <!-- xml 파일의 이름은 보통 웹앱의 이름과 같게 만든다 -->
+  <?xml version="1.0" encoding="utf-8" ?>
+  <Context path="/website1" docBase="c:\website\website1" reloadable="true">
+      <Resource name="jdbc/mariadb1"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="org.mariadb.jdbc.Driver"
+        url="jdbc:mariadb://localhost:3306/sample"
+        username="root"
+        password="123456"/>
+  <Resource name="jdbc/mariadb2"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="org.mariadb.jdbc.Driver"
+        url="jdbc:mariadb://localhost:3306/project"
+        username="project"
+        password="1234"/>
+  <Resource name="jdbc/mariadb3"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="org.mariadb.jdbc.Driver"
+        url="jdbc:mariadb://localhost:3306/board"
+        username="root"
+        password="123456"/>
+  <!-- 만약 website1 웹 앱에서 쓰는 xml 파일이 있다면 그 안의 내용을 이 파일에 복사해줘야 톰캣이 읽을 수 있게 한다 -->
+  </Context>
+  ```
+  </small>
+
+
+
+### 새로운 웹 앱 배포시키기 (자동)
+- 이클립스의 Export를 이용한다
+
+  - WAR 파일을 이용한다
+
+  - WAR 파일 배포 순서
+
+    1. 이클립스에서 배포하고 싶은 프로젝트 클릭 후 Export &rarr; WAR file 클릭
+
+    2. webapps를 경로로 지정해 주고 실행 톰캣 버전 지정 후 배포
+
+  - WAR 파일을 webapps 디렉터리에 배포 후 톰캣을 실행하면 WAR 파일의 압축이 자동으로 풀리고 사용할 수 있게 된다
+
+# Sevlet
+
+<small> !! 이클립스 기준  </small>
+
+## Sevlet 기본
+
+- 서블릿 프로젝트 생성 : Dynamic Web Project 생성할 때, web.xml 파일 생성을 반드시 체크해야한다
+
+- 서블릿 클래스 생성 : java 클래스를 이용해 직접 작성하는 방법과, 처음부터 서블릿을 생성하는 방법이 있다
+
+  <small> !! 서블릿을 생성하는 경우는 web.xml에 따로 작업을 해 줄 필요가 없다</small>
+
+- java 클래스를 이용해 서블릿 작성
+```java
+// FirstServlet.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class FirstServlet extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("Hello Servlet !!");
+  }
+  
+}
+```
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <!-- 서블릿 클래스 생성 후 프로젝트 생성에서 생성된 web.xml에 서블릿 클래스에 맞게 아래의 코드 작업을 해줘야 정상 작동한다 -->
+  <servlet>
+    <servlet-name>first</servlet-name>
+    <servlet-class>servlet.FirstServlet</servlet-class>
+    <!-- 반드시 패키지 명과 같이 적어야 한다 -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>first</servlet-name>
+    <url-pattern>/first</url-pattern>
+  <!-- url에 표시되는 이름이다 -->
+  </servlet-mapping>
+</web-app>
+```
+- html 문서를 출력하는 서블릿 생성
+
+```java
+package servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class FirstServlet extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    resp.setContentType("text/html;charset=utf-8"); 
+    // html 문서를 출력한다고 설정한다
+    
+    PrintWriter out = resp.getWriter();
+    
+    out.println("<!doctype html>");
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta charset='utf-8'>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("Hello Servlet !!");
+    out.println("</body>");
+    out.println("</html>");
+    
+    out.close();
+  }
+  
+}
+```
+```java
+// SecondServlet.java
+package servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class SecondServlet extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setContentType("text/html;charset=utf-8");
+    
+    StringBuilder sbHtml = new StringBuilder();
+    
+    sbHtml.append("<!doctype html>");
+    sbHtml.append("<html>");
+    sbHtml.append("<head>");
+    sbHtml.append("<meta charset='utf-8'>");
+    sbHtml.append("</head>");
+    sbHtml.append("<body>");
+    sbHtml.append("Hello SecondServlet !!");
+    sbHtml.append("</body>");
+    sbHtml.append("</html>");
+    
+    PrintWriter out = resp.getWriter();
+    
+    out.println(sbHtml);
+    
+    out.close();
+  }
+
+}
+
+```
+
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>first</servlet-name>
+    <servlet-class>servlet.FirstServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>first</servlet-name>
+    <url-pattern>/first</url-pattern>
+  </servlet-mapping>
+  <!-- 아래의 작업을 해줘야 SecondServlet.java가 잘 작동한다 -->
+  <servlet>
+    <servlet-name>second</servlet-name>
+    <servlet-class>servlet.SecondServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>second</servlet-name>
+    <url-pattern>/second</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+<hr>
+
+```java
+// ServletEx01.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletEx01 extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("Hello Servlet !! ");
+  }
+}
+
+// ServletEx02.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletEx02 extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("Hello Servlet !! ");
+  }
+}
+
+```
+
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletEx02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>ex01</servlet-name>
+    <servlet-class>servlet.ServletEx01</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ex01</servlet-name>
+    <url-pattern>/ex01</url-pattern>
+    <url-pattern>/ex02</url-pattern>
+    <url-pattern>/ex03</url-pattern>
+    <url-pattern>/ex03/dir1</url-pattern>
+    <!-- 실제 dir1디렉터리가 있는 게 아니지만 실행된다 -->
+    <!-- 가상 경로 -->
+    <url-pattern>/ex03/*</url-pattern>
+    <!-- * 자리에 어떤 내용이 오던지 ex01에 해당하는 서블릿이 실행된다 -->
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>servlet02</servlet-name>
+    <servlet-class>servlet.ServletEx02</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>servlet02</servlet-name>
+    <url-pattern>*.daum</url-pattern>
+    <!-- .daum 다음으로 끝나는 내용이면 servlet02에 매핑되는 서블릿이 실행된다 -->
+  </servlet-mapping>
+</web-app>
+```
+- 데이터 전송 방식
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletEx02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+
+  <servlet>
+   <servlet-name>servletForm</servlet-name> 
+   <servlet-class>servlet.FormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>servletForm</servlet-name>
+    <url-pattern>/form.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+   <servlet-name>servletOk</servlet-name> 
+   <servlet-class>servlet.FormOkServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>servletOk</servlet-name>
+    <url-pattern>/form_ok.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="form_ok.do" method="get">
+  데이터:<input type="text" name="data">
+  <input type="submit" value="get 전송">
+</form>
+<hr>
+<form action="form_ok.do" method="post">
+  데이터:<input type="text" name="data">
+  <input type="submit" value="post 전송">
+</form>
+</body>
+</html>
+```
+
+```java
+// FormOkServlet.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class FormOkServlet extends HttpServlet {
+  /*
+   * @Override protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { 
+   * service 메서드는 get, post 방식 구분없이 항상 작동한다 }
+   */
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("post 방식");
+    // post 방식에만 작동한다
+    
+    req.setCharacterEncoding("utf-8");
+    // post 방식으로 다국어 처리를 하기 위해서 위의 코드를 적는다
+    System.out.println(req.getParameter("data"));
+  }
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("get 방식");
+    // get 방식에만 작동한다
+    System.out.println(req.getParameter("data"));
+  }
+}
+```
+- 애노테이션을 이용한 서블릿
+
+  <small>!! 클래스가 아니고 바로 서블릿을 생성하면 바로 애노테이션이 추가 된 코드가 나온다</small>
+```java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(urlPatterns = {"/servlet01", "/sevlet02"})
+// web.xml 파일을 생성해서 따로 작업하는 과정이 없어도 된다
+public class ServletEx01 extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("Hello Servlet");
+  }
+}
+
+```
+```java
+// Servlet02.java
+package servlet;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Servlet02
+ */
+@WebServlet("/Servlet02")
+public class Servlet02 extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.println("Hello Servlet");
+  }
+
+}
+
+```
+- 보통 doGet(), doPost() 메서드를 각각 작성하지 않고 임의의 메서드인 doProcess()를 작성하고 이를 이용한다
+```java
+package servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.jasper.tagplugins.jstl.core.Out;
+
+/**
+ * Servlet implementation class ServletEx03
+ */
+@WebServlet("/servlet")
+public class ServletEx03 extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    this.doProcess(request, response);
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    this.doProcess(request, response);
+  }
+  
+  protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+    try {
+      request.setCharacterEncoding("utf-8");
+      response.setContentType("text/html;charset=utf-8");
+      
+      StringBuilder sbHtml = new StringBuilder();
+      sbHtml.append("<!doctype html>");
+      sbHtml.append("<html>");
+      sbHtml.append("<head>");
+      sbHtml.append("<meta charset='utf-8'>");
+      sbHtml.append("</head>");
+      sbHtml.append("<body>");
+      sbHtml.append("doProcess 호출");
+      sbHtml.append("</body>");
+      sbHtml.append("</html>");
+      
+      PrintWriter out = response.getWriter();
+      out.println(sbHtml);
+      out.close();
+    } catch (UnsupportedEncodingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+    
+  }
+
+}
+
+```
+서블릿을 이용한 구구단 출력
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>Gugudan</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>gugudanServlet</servlet-name>
+    <servlet-class>gugudan.GugudanServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gugudanServlet</servlet-name>
+    <url-pattern>/gugudan.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+```java
+// GugudanServlet.java
+package gugudan;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class GugudanServlet extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp){
+    try {
+      resp.setContentType("text/html;charset=utf-8");
+      PrintWriter out = resp.getWriter();
+      StringBuilder sbHtml = new StringBuilder();
+      
+      sbHtml.append("<!DOCTYPE html>");
+      sbHtml.append("<html>");
+      sbHtml.append("<head>");
+      sbHtml.append("<meta charset='UTF-8'>");
+      sbHtml.append("</head>");
+      sbHtml.append("<body>");
+      sbHtml.append("<form action='gugudan_ok.do' method='get'>");
+      sbHtml.append("시작단 : <input type='text' name='start'>");
+      sbHtml.append("끝단 : <input type='text' name='end'>");
+      sbHtml.append("<input type='submit' value='구구단 출력'>");
+      sbHtml.append("</form>");
+      sbHtml.append("</body>");
+      sbHtml.append("</html>");
+      
+      out.println(sbHtml);
+      
+      out.close();
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+}
+
+// GugudanOkServlet.java
+package gugudan;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class GugudanOkServlet
+ */
+@WebServlet("/gugudan_ok.do")
+public class GugudanOkServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doGet(HttpServletRequest request, HttpServletResponse response){
+    this.doProcess(request, response);
+  }
+
+  /**
+   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+   */
+  protected void doPost(HttpServletRequest request, HttpServletResponse response){
+    this.doProcess(request, response);
+  }
+
+  protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+    try {
+      request.setCharacterEncoding("utf-8");
+      
+      int startDan = Integer.parseInt(request.getParameter("start"));
+      int endDan = Integer.parseInt(request.getParameter("end"));
+      
+      response.setContentType("text/html;charset=utf-8");
+      PrintWriter out = response.getWriter();
+      StringBuilder sbHtml = new StringBuilder();
+      
+      sbHtml.append("<!doctype html>");
+      sbHtml.append("<html>");
+      sbHtml.append("<head>");
+      sbHtml.append("<meta charset='utf-8'>");
+      sbHtml.append("</head>");
+      sbHtml.append("<body>");
+      for(int i = startDan; i <= endDan; i++) {
+        for(int j = 1; j <= 9; j++) {
+          sbHtml.append(String.format("%d X %d = %d<br>", i, j, i*j));
+        }
+      }
+      sbHtml.append("</body>");
+      sbHtml.append("</html>");
+      
+      out.print(sbHtml);
+      out.close();
+    } catch (NumberFormatException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (UnsupportedEncodingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+}
+
+```
