@@ -5016,6 +5016,7 @@ Hello forward.jsp
 ## MVC(Model View Controller)
 
 - 구분
+
   - 하드코딩 : jsp로만 만든 웹페이지
 
   - (mvc) model1 : jsp + class로 만든 웹페이지
@@ -5023,7 +5024,7 @@ Hello forward.jsp
           
 
 
-  - (mvc) model2 
+  - (mvc) model2 : servlet을 이용해 만든 웹페이지
 
 ### model1
 - 흐름
@@ -7450,21 +7451,524 @@ insert into album_board values(0, '제목', '이름', 'test@test.com', '1234', '
 
 ```jsp
 <!-- board_delete1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%
+  request.setCharacterEncoding( "utf-8" );
+
+  String seq = request.getParameter( "seq" );
+  
+  String subject = "";
+  String writer = "";
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try {
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+    DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select subject, writer from album_board where seq=?";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, seq );
+    
+    rs = pstmt.executeQuery();
+    
+    if( rs.next() ) {
+      subject = rs.getString( "subject" );
+      writer = rs.getString( "writer" );
+    }
+    
+  } catch( NamingException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } catch( SQLException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } finally {
+    if( rs != null ) rs.close();
+    if( pstmt != null ) pstmt.close();
+    if( conn != null ) conn.close();
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board_write.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById( 'dbtn' ).onclick = function() {
+      if( document.dfrm.password.value.trim() == '' ) {
+        alert( '비밀번호를 입력하셔야 합니다.' );
+        return false;
+      }
+      document.dfrm.submit();
+    };
+  };
+</script>
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="contents1"> 
+  <div class="con_title"> 
+    <p style="margin: 0px; text-align: right">
+      <img style="vertical-align: middle" alt="" src="../../images/home_icon.gif" /> &gt; 커뮤니티 &gt; <strong>여행지리뷰</strong>
+    </p>
+  </div> 
+
+  <form action="board_delete1_ok.jsp" method="post" name="dfrm">
+    <input type="hidden" name="seq" value="<%=seq %>" />
+    <div class="contents_sub">
+    <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top" colspan="3"><input type="text" name="writer" value="<%=writer %>" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" name="subject" value="<%=subject %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td colspan="3"><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+
+      <div class="btn_area">
+        <div class="align_left">			
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp?seq=<%=seq %>'" />
+        </div>
+        <div class="align_right">			
+          <input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />					
+        </div>	
+      </div>	
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
 
 ```
 
 ```jsp
 <!-- board_delete1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
 
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%@ page import="java.io.File" %>
+<%
+  String seq = request.getParameter("seq");
+  String password = request.getParameter("password");
+  String filename = null;
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  int flag = 2;
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select filename from album_board where seq = ?";
+    
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    rs = pstmt.executeQuery();
+    if(rs.next()){
+      filename = rs.getString("filename");
+    }
+    
+    sql = "delete from album_board where seq = ? and password = ?";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, seq);
+    pstmt.setString(2, password);
+    
+    int result = pstmt.executeUpdate();
+    if(result == 1){
+      flag = 0;
+      
+      File file = new File("C://Java//jsp_workspace//AlbumEx01//src//main//webapp//upload", filename);
+      file.delete();
+      System.out.println(filename + " 삭제 성공");
+    }else {
+      flag = 1;
+    }
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('삭제 성공');");
+    out.println("location.href='board_list1.jsp'");
+  }else if(flag == 1){
+    out.println("alert('비밀번호가 틀렸습니다');");
+    out.println("hisry.back();");
+  }else{
+    out.println("alert('삭제 실패');");
+    out.println("hisry.back();");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
 ```
 
 ```jsp
 <!-- board_modify1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%
+  request.setCharacterEncoding( "utf-8" );
+
+  String seq = request.getParameter( "seq" );
+  
+  String subject = "";
+  String writer = "";
+  String[] mail = null;
+  String content = "";
+  String filename = "";
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  try {
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+    DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select subject, writer, mail, content, filename from album_board where seq=?";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, seq );
+    
+    rs = pstmt.executeQuery();
+    
+    if( rs.next() ) {
+      subject = rs.getString( "subject" );
+      writer = rs.getString( "writer" );
+
+      if( rs.getString( "mail").equals("") ) {
+        mail = new String[] { "", "" };	
+      } else {
+        mail = rs.getString( "mail" ).split( "@" );
+      }
+
+      content = rs.getString( "content" );
+      filename = rs.getString( "filename" ) == null ? "" : rs.getString( "filename" ) ;
+    }
+    
+  } catch( NamingException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } catch( SQLException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } finally {
+    if( rs != null ) rs.close();
+    if( pstmt != null ) pstmt.close();
+    if( conn != null ) conn.close();
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../css/board_write.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById( 'mbtn' ).onclick = function() {
+      if( document.mfrm.subject.value.trim() == '' ) {
+        alert( '제목을 입력하셔야 합니다.' );
+        return false;
+      }
+      if( document.mfrm.password.value.trim() == '' ) {
+        alert( '비밀번호를 입력하셔야 합니다.' );
+        return false;
+      }
+      if(document.wfrm.upload.value.trim() != ''){
+        const ext = document.wfrm.upload.value.trim().split('.');
+        if(ext[ext.length-1] != 'jpg' && ext[ext.length-1] != 'png' && ext[ext.length-1] != 'PNG' && ext[ext.length-1] != 'gif'){
+          alert('이미지파일을 입력하세요');
+          return false;
+        }
+      }
+      document.wfrm.submit();	
+    };
+  };
+</script>
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="contents1"> 
+  <div class="con_title"> 
+    <p style="margin: 0px; text-align: right">
+      <img style="vertical-align: middle" alt="" src="../../images/home_icon.gif" /> &gt; 커뮤니티 &gt; <strong>여행지리뷰</strong>
+    </p>
+  </div> 
+
+  <form action="board_modify1_ok.jsp" method="post" name="mfrm" enctype="multipart/form-data">
+    <input type="hidden" name="seq" value="<%=seq %>" />
+    <div class="contents_sub">
+    <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top" colspan="3"><input type="text" name="writer" value="<%=writer %>" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" name="subject" value="<%=subject %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td colspan="3"><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td colspan="3">
+            <textarea name="content" class="board_editor_area"><%=subject %></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>이미지</th>
+          <td colspan="3">
+            기존 이미지 : <%=filename %><br /><br />
+            <input type="file" name="upload" value="" class="board_view_input" /><br /><br />
+          </td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td colspan="3"><input type="text" name="mail1" value="<%=mail[0] %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%=mail[1] %>" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+
+      <div class="btn_area">
+        <div class="align_left">			
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보가" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp?seq=<%=seq %>'" />
+        </div>
+        <div class="align_right">			
+          <input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>	
+      </div>	
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
 
 ```
 
 ```jsp
 <!-- board_modify1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
+
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="java.io.File" %>
+
+<%
+  String uploadPath = "C:/Java/jsp-workspace/AlbumEx01/src/main/webapp/upload";
+  int maxFileSize = 2 * 1024 * 1024;
+  String encType = "utf-8";
+
+  MultipartRequest multi
+  = new MultipartRequest( request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+
+  //
+  String seq = multi.getParameter( "seq" );
+  
+  //
+  String subject = multi.getParameter( "subject" );
+  
+  String mail = "";
+  if( !multi.getParameter("mail1").equals("") 
+      && !multi.getParameter("mail2").equals("") ) {
+    mail = multi.getParameter( "mail1" ) + "@" + multi.getParameter( "mail2" );	
+  }
+  
+  String password = multi.getParameter( "password" );
+  String content = multi.getParameter( "content" );
+  
+  //
+  String filename = multi.getFilesystemName( "upload" );
+  long filesize = 0;
+  if( multi.getFile( "upload" ) != null ) {
+    filesize = multi.getFile( "upload" ).length();
+  }
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  int flag = 2;
+  
+  try {
+    Context initCtx = new InitialContext();
+    Context envCtx = (Context)initCtx.lookup( "java:comp/env" );
+    DataSource dataSource = (DataSource)envCtx.lookup( "jdbc/mariadb1" );
+    
+    conn = dataSource.getConnection();
+
+    String sql = "select filename from album_board where seq=?";
+    pstmt = conn.prepareStatement( sql );
+    pstmt.setString( 1, seq );
+    
+    rs = pstmt.executeQuery();
+    
+    String oldFilename = null;
+    if( rs.next() ) {
+      oldFilename = rs.getString( "filename" );
+    }
+    
+    if( filename != null ) {
+      sql = "update album_board set subject=?, mail=?, content=?, filename=?, filesize=? where seq=? and password=?";
+      pstmt = conn.prepareStatement( sql );
+      pstmt.setString( 1, subject );
+      pstmt.setString( 2, mail );
+      pstmt.setString( 3, content );
+      pstmt.setString( 4, filename);
+      pstmt.setLong( 5, filesize );
+      pstmt.setString( 6, seq );
+      pstmt.setString( 7, password );			
+    } else {
+      sql = "update album_board set subject=?, mail=?, content=? where seq=? and password=?";
+      pstmt = conn.prepareStatement( sql );
+      pstmt.setString( 1, subject );
+      pstmt.setString( 2, mail );
+      pstmt.setString( 3, content );
+      pstmt.setString( 4, seq );
+      pstmt.setString( 5, password );
+    }
+    
+    int result = pstmt.executeUpdate();
+    if( result == 1 ) {
+      flag = 0;
+      
+      if( filename != null && oldFilename != null ) {
+        // 기존 파일 삭제
+        File file = new File( uploadPath, oldFilename ); 
+        file.delete();
+      }
+      
+    } else if( result == 0 ) {
+      flag = 1;
+      
+      if( filename != null ) {
+        // 비밀번호가 잘못됐을 경우 
+        File file = new File( uploadPath, filename ); 
+        file.delete();
+      }
+    }
+    
+  } catch( NamingException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } catch( SQLException e ) {
+    System.out.println( "[에러] " + e.getMessage() );
+  } finally {
+    if( rs != null ) rs.close();
+    if( pstmt != null ) pstmt.close();
+    if( conn != null ) conn.close();
+  }
+  
+  out.println( "<script type='text/javascript'>" );
+  if( flag == 0 ) {
+    out.println( "alert('글수정에 성공');" );
+    out.println( "location.href='board_view1.jsp?seq=" + seq + "';" );
+  } else if( flag == 1 ) {
+    out.println( "alert('비밀번호 오류');" );
+    out.println( "history.back();" );
+  } else {
+    out.println( "alert('글수정에 실패');" );
+    out.println( "history.back();" );
+  }
+  out.println( "</script>" );
+%>
 
 ```
 ## 배포 (Deployment)
@@ -7473,7 +7977,7 @@ insert into album_board values(0, '제목', '이름', 'test@test.com', '1234', '
 
   - 개발 환경 : window + jdk + apache-tomcat + IDE
 
-  - 서비스 환경 : window - jdk - apache-tomcat
+  - 서비스 환경 : window + jdk + apache-tomcat
   
   <small> !! 이클립스에서 jdk 버전 바꾸기 <br>
   1. 프로젝트 안의 java Library의 버전을 바꾼다
@@ -7516,7 +8020,7 @@ C:\Java\apache-tomcat-9.0.74\webapps\ROOT\*.jsp
 - 새로운 웹앱 실행시키기
 ```html
 http://localhost:8080/website2/mariadb/design_pds1/board_list1.jsp
-<!-- webapps 디렉터리에 website2 웹앱의 문서 board_list1.jsp 실행 -->
+<!-- webapps 디렉터리에 website2 웹 앱의 문서 board_list1.jsp 실행 -->
 ```
 
 - 톰캣 디렉터리안에 있는 webapps 디렉터리가 아닌 외부 디렉터리에 새로운 웹앱을 만드는 경우는 수동으로 배포시키는 것만 가능하다
@@ -7530,6 +8034,7 @@ http://localhost:8080/website2/mariadb/design_pds1/board_list1.jsp
   <!-- xml 파일의 이름은 보통 웹앱의 이름과 같게 만든다 -->
   <?xml version="1.0" encoding="utf-8" ?>
   <Context path="/website1" docBase="c:\website\website1" reloadable="true">
+  <!-- URI가 /website1로 시작하는 경우 기본 실행 경로가 아닌 "c:\website\website1"를 실행 경로로 한다 -->
       <Resource name="jdbc/mariadb1"
         auth="Container"
         type="javax.sql.DataSource"
@@ -7575,7 +8080,7 @@ http://localhost:8080/website2/mariadb/design_pds1/board_list1.jsp
 
 <small> !! 이클립스 기준  </small>
 
-## Sevlet 기본
+## Servlet 기본
 
 - 서블릿 프로젝트 생성 : Dynamic Web Project 생성할 때, web.xml 파일 생성을 반드시 체크해야한다
 
@@ -7625,7 +8130,7 @@ public class FirstServlet extends HttpServlet {
   <servlet-mapping>
     <servlet-name>first</servlet-name>
     <url-pattern>/first</url-pattern>
-  <!-- url에 표시되는 이름이다 -->
+    <!-- url에 표시되는 이름이다 -->
   </servlet-mapping>
 </web-app>
 ```
@@ -8167,4 +8672,1229 @@ public class GugudanOkServlet extends HttpServlet {
   }
 }
 
+```
+
+<small>
+
+!! 프로젝트를 복사하는 경우 프로젝트 이름이 다르더라도 path가 같아서 에러가 생긴다
+- 해결방법은 두가지가 있다
+  - servers에서 톰캣 설정 &rarr; modules &rarr; path 수정
+
+  - 프로젝트 properties &rarr; web project settings &rarr; conext root 수정
+
+  </small>
+
+### 콜백 함수
+- 컨테이너(시스템)에 의해 자동으로 호출되어 실행되는 메서드를 콜백 메서드라고 한다
+
+- 종류
+  - init() : 서블릿 객체 생성 후 한번만 실행되며 객체의 초기화 작업을 한다
+
+  - service() : 요청이 생길 때마다 서블릿 객체가 처리해야 하는 작업을 한다
+ 
+  - destroy() : 웹 앱이 종료될 때 서블릿 객체에 할당된 자원을 해제하는 작업을 한다
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>InitServletEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>ex01</servlet-name>
+    <servlet-class>servlet.ServletEx01</servlet-class>
+    
+    <init-param>
+      <param-name>id</param-name>
+      <param-value>tester</param-value>
+    </init-param>
+    <!-- 변수 id의 값을 초기화 -->
+    <init-param>
+      <param-name>password</param-name>
+      <param-value>123456</param-value>
+    </init-param>
+    <!-- 변수 password의 값을 초기화 -->
+    
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ex01</servlet-name>
+    <url-pattern>/ex01</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+```java
+// ServletEx01.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletEx01 extends HttpServlet {
+  private String id;
+  private String password;
+  
+  @Override
+  public void init() throws ServletException {
+    System.out.println("ServletEx01 init() 호출");
+    
+    id = getInitParameter("id");
+    // web.xml에서 변수 id의 초기화 설정값을 가져온다
+    password = getInitParameter("password");
+    // web.xml에서 변수 password의 초기화 설정값을 가져온다
+  }
+  
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("ServletEx01 service() 호출");
+    System.out.println("id : " + id);
+    System.out.println("password : " + password);
+  }
+
+}
+```
+<hr>
+
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>InitServletEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>ex01</servlet-name>
+    <servlet-class>servlet.ServletEx01</servlet-class>
+    
+    <init-param>
+      <param-name>id</param-name>
+      <param-value>tester</param-value>
+    </init-param>
+    <init-param>
+      <param-name>password</param-name>
+      <param-value>123456</param-value>
+    </init-param>
+    
+    <load-on-startup>1</load-on-startup>
+    <!-- 클라이언트가 따로 요청하지 않더라도 톰캣이 실행될 때 객체가 생성되면서 init() 메서드가 호출된다 -->
+    <!-- 1은 컨테이너에 객체가 로드되는 순서를 의미한다 -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ex01</servlet-name>
+    <url-pattern>/ex01</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ex02</servlet-name>
+    <servlet-class>servlet.ServletEx02</servlet-class>  
+    
+    <load-on-startup>2</load-on-startup>	
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ex02</servlet-name>
+    <url-pattern>/ex02</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+```java
+// ServletEx01.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletEx01 extends HttpServlet {
+  private String id;
+  private String password;
+  
+  @Override
+  public void init() throws ServletException {
+    System.out.println("ServletEx01 init() 호출");
+    
+    id = getInitParameter("id");
+    password = getInitParameter("password");
+  }
+  
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("ServletEx01 service() 호출");
+    System.out.println("id : " + id);
+    System.out.println("password : " + password);
+  }
+
+}
+
+// ServletEx02.java
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletEx02 extends HttpServlet {
+  private String id;
+  private String password;
+  
+  @Override
+  public void init() throws ServletException {
+    System.out.println("ServletEx02 init() 호출");
+  }
+  
+  @Override
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    System.out.println("ServletEx02 service() 호출");
+  }
+  
+}
+
+```
+### 필터(Filter)
+- javax.servlet.Filter 인터페이스를 구현한 클래스로 서블릿 수행 전과 후에 수행되어 필터링한다
+
+- 서블릿과 마찬가지로 web.xml을 수정해야 정상 작동한다
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>FilterEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+    <filter-name>ex01</filter-name>
+    <filter-class>filter.FilterEx01</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ex01</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+    <!-- jsp 파일을 요청하는 경우 필터가 사용된다 -->
+  </filter-mapping>
+</web-app>
+```
+
+```java
+// FilterEx01.java
+package filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class FilterEx01 implements Filter {
+
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    System.out.println("Filter01 init() 호출");
+  }
+  
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    // 전처리 구간
+    System.out.println("전처리");
+    chain.doFilter(request, response);
+    // chain.doFilter()는 반드시 쓰여야 한다
+    // 후처리 구간
+    System.out.println("후처리");
+  }
+
+}
+```
+<hr>
+
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>FilterEx01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+    <filter-name>ex01</filter-name>
+    <filter-class>filter.FilterEx01</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ex01</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+    <filter-name>ex02</filter-name>
+    <filter-class>filter.FilterEx02</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ex02</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+</web-app>
+```
+```java
+// FilterEx01.java
+package filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class FilterEx01 implements Filter {
+
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    System.out.println("filter01 init() 호출");
+  }
+  
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    System.out.println("전처리");
+    chain.doFilter(request, response);
+    System.out.println("후처리");
+  }
+
+}
+
+// FilterEx02.java
+package filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class FilterEx02 implements Filter {
+
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+    System.out.println("Filter02 init() 호출");
+  }
+  
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    System.out.println("Filter02 전처리");
+    chain.doFilter(request, response);
+    System.out.println("Filter02 후처리");
+  }
+
+}
+```
+<hr>
+
+```jsp
+<!-- form.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="form_ok.jsp" method="get">
+  데이터 : <input type="text" name="data">
+  <input type="submit" value="전송">
+</form>
+<hr>
+<form action="form_ok.jsp" method="post">
+  데이터 : <input type="text" name="data">
+  <input type="submit" value="전송">
+</form>
+</body>
+</html>
+
+<!-- form_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  String data = request.getParameter("data");
+  out.println("data : " + data);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+```
+```java
+// EncodingFilter.java
+package filter;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class EncodingFilter implements Filter {
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    
+    if(request.getCharacterEncoding() == null) {
+      request.setCharacterEncoding("utf-8");
+    }
+    chain.doFilter(request, response);
+    
+  }
+
+}
+
+```
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>FilterEx02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+    <filter-name>encoding</filter-name>
+    <filter-class>filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>encoding</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+</web-app>
+```
+
+## MVC(Model View Controller)
+### model2
+- 서블릿을 이용해 만든 웹 앱
+- 뷰 역할을 하는 jsp 파일을 직접 요청하지 않는다
+  <small> !! 컨트롤러에 의한 호출에 의해서만 jsp파일을 불러오며, jsp 파일을 직접 요청하지 못하도록 WEB-INF 디렉터리에 jsp 파일을 저장한다</small>
+
+- front Controller 
+  - 서블릿으로 클라이언트는 컨트롤러를 통해 뷰에 접근한다
+
+  - Parameter를 이용한 방식
+
+  ```java
+  controller?action=view1 // view1.jsp 실행
+  controller?action=view2 // view2.jsp 실행
+  ```
+  ```jsp
+  <!-- /WEB-INF/views/view1.jsp -->
+  <!-- view1이 직접 실행될 수 없게 view1 파일은 /WEB-INF/views에 생성한다 -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view1.jsp
+  </body>
+  </html>
+
+  <!-- /WEB-INF/views/view2.jsp -->
+  <!-- view2가 직접 실행될 수 없게  view2 파일은 /WEB-INF/views에 생성한다 -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view2.jsp
+  </body>
+  </html>
+  ```
+
+  ```java
+  package controller;
+
+  import java.io.IOException;
+  import java.io.UnsupportedEncodingException;
+
+  import javax.servlet.RequestDispatcher;
+  import javax.servlet.ServletException;
+  import javax.servlet.annotation.WebServlet;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  /**
+   * Servlet implementation class ControllerEx01
+   */
+  @WebServlet("/controller")
+  public class ControllerEx01 extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+  
+    protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+      try {
+        request.setCharacterEncoding("utf-8");
+  
+        String action = request.getParameter("action");
+        String url = "/WEB-INF/views/error.jsp";
+        if(action == null || action.equals("") || action.equals("view1")) {
+          url = "/WEB-INF/views/view1.jsp";
+        }else if(action.equals("view2")) {
+          url = "/WEB-INF/views/view2.jsp";
+        }
+        // 보여줄 페이지 설정
+  
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+        // 설정한 페이지를 보여준다
+      } catch (UnsupportedEncodingException e) {
+        System.out.println("에러 : " + e.getMessage()); 
+      } catch (ServletException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    }
+  
+  }
+
+  ```
+
+  ```java
+  // ControllerEx01.java
+  package controller;
+
+  import java.io.IOException;
+  import java.io.UnsupportedEncodingException;
+
+  import javax.servlet.RequestDispatcher;
+  import javax.servlet.ServletException;
+  import javax.servlet.annotation.WebServlet;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  /**
+   * Servlet implementation class ControllerEx01
+   */
+  @WebServlet("/controller")
+  public class ControllerEx01 extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+  
+    protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+      try {
+        request.setCharacterEncoding("utf-8");
+  
+        String action = request.getParameter("action");
+        String url = "/WEB-INF/views/error.jsp";
+        if(action == null || action.equals("") || action.equals("form")) {
+          url = "/WEB-INF/views/form.jsp";
+        }else if(action.equals("form_ok")) {
+          url = "/WEB-INF/views/form_ok.jsp";
+        }
+  
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+      } catch (UnsupportedEncodingException e) {
+        System.out.println("에러 : " + e.getMessage()); 
+      } catch (ServletException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    }
+  
+  }
+
+  ```
+
+  ```jsp
+  <!-- form.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  <form action="controller" method="get">
+  <input type="hidden" name="action" value="form_ok">
+    데이터 : <input type="text" name="data">
+    <input type="submit" value="전송">
+  </form>
+
+  <form action="controller" method="post">
+  <input type="hidden" name="action" value="form_ok">
+    데이터 : <input type="text" name="data">
+    <input type="submit" value="전송">
+  </form>
+  <!-- post방식으로 데이터를 보낼 때 따로 처리하지 않아도 한글이 깨지지 않는 이유는 서블릿에서 이미 다국어 처리를 했기 때문이다 -->
+  </body>
+  </html>
+
+  <!-- form_ok.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  <%
+    String data = request.getParameter("data");
+    out.println("data : " + data);
+  %>
+  </body>
+  </html>
+  ```
+  
+  - URL 패턴 지정을 이용한 방식
+  ```java
+  view1.do // view1.jsp 실행
+  view2.do // view2.jsp 실행
+  ```
+  
+  
+  - 모델 호출해서 데이터 처리하기
+  ```java
+  // ViewAction.java
+  package model2;
+
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  public interface ViewAction {
+    // 보통은 인터페이스를 먼저 만들고 이를 구현하도록 한다
+    public abstract void execute(HttpServletRequest request, HttpServletResponse response);
+  }
+
+  // View1Action.java
+  package model2;
+
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  public class View1Action implements ViewAction{
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
+      System.out.println("View1Action 호출");
+    }
+  }
+
+  // View2Action.java
+  package model2;
+
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  public class View2Action implements ViewAction{
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
+      System.out.println("View2Action 호출");
+    }
+  }
+
+  // ControllerEx01.java
+  package controller;
+
+  import java.io.IOException;
+  import java.io.UnsupportedEncodingException;
+
+  import javax.servlet.RequestDispatcher;
+  import javax.servlet.ServletException;
+  import javax.servlet.annotation.WebServlet;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  import model2.View1Action;
+  import model2.View2Action;
+
+  /**
+   * Servlet implementation class ControllerEx01
+   */
+  @WebServlet("/controller")
+  public class ControllerEx01 extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      doProcess(request, response);
+    }
+  
+    protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+      try {
+        request.setCharacterEncoding("utf-8");
+  
+        String action = request.getParameter("action");
+        String url = "/WEB-INF/views/error.jsp";
+
+        ViewAction model = null;
+
+        if(action == null || action.equals("") || action.equals("form")) {
+          model = new View1Action();
+          model.execute(request, response);
+          // View1Action 모델 객체를 생성해서 데이터 처리
+  
+          url = "/WEB-INF/views/form.jsp";
+        }else if(action.equals("form_ok")) {
+          model = new View2Action();
+          model.execute(request, response);
+          // View2Action 모델 객체를 생성해서 데이터 처리
+  
+          url = "/WEB-INF/views/form_ok.jsp";
+        }
+  
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+      } catch (UnsupportedEncodingException e) {
+        System.out.println("에러 : " + e.getMessage()); 
+      } catch (ServletException e) {
+        System.out.println("에러 : " + e.getMessage());
+      } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage());
+      }
+    }
+  
+  }
+  
+  ```
+  - 모델에서의 데이터를 view로 가져오기
+  ```java
+  package controller;
+
+  import java.io.IOException;
+  import java.io.UnsupportedEncodingException;
+
+  import javax.servlet.RequestDispatcher;
+  import javax.servlet.ServletException;
+  import javax.servlet.annotation.WebServlet;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  import model2.FormAction;
+  import model2.FormOkAction;
+  import model2.Action;
+
+  /**
+   * Servlet implementation class ContollerEx01
+   */
+  @WebServlet("/controller")
+  public class ContollerEx01 extends HttpServlet {
+  	private static final long serialVersionUID = 1L;
+
+  	/**
+  	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  	 */
+  	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  		// TODO Auto-generated method stub
+  		doProcess(request, response);
+  	}
+
+  	/**
+  	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  	 */
+  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  		// TODO Auto-generated method stub
+  		doProcess(request, response);
+  	}
+  
+  	protected void doProcess(HttpServletRequest request, HttpServletResponse response) {
+  		// TODO Auto-generated method stub
+  
+  		try {
+  			request.setCharacterEncoding( "utf-8" );
+  
+  			String path = request.getParameter( "path" );
+  
+  			String url = "/WEB-INF/views/error.jsp";
+  
+  			Action action = null;
+  
+  			if( path == null || path.equals( "" ) || path.equals( "form" ) ) {
+        
+  				action = new FormAction();
+  				action.execute(request, response);
+  
+  				url = "/WEB-INF/views/form.jsp";
+  			} else if( path.equals( "form_ok" ) ) {
+        
+  				action = new FormOkAction();
+  				action.execute(request, response);
+  
+  				url = "/WEB-INF/views/form_ok.jsp";
+  
+  			}
+  
+  			RequestDispatcher dispatcher = request.getRequestDispatcher( url );
+  			dispatcher.forward(request, response);
+  		} catch (UnsupportedEncodingException e) {
+  			// TODO Auto-generated catch block
+  			System.out.println( "[에러] " + e.getMessage() );
+  		} catch (ServletException e) {
+  			// TODO Auto-generated catch block
+  			System.out.println( "[에러] " + e.getMessage() );
+  		} catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			System.out.println( "[에러] " + e.getMessage() );
+  		}
+  	}
+
+  }
+
+  // FormOkAction.java 
+  package model2;
+
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  public class FormOkAction implements Action {
+
+  	@Override
+  	public void execute(HttpServletRequest request, HttpServletResponse response) {
+  		// TODO Auto-generated method stub
+  		System.out.println( "FormOkAction 호출" );
+  
+  		String data = request.getParameter("data");
+  		System.out.println("데이터 : " + data);
+  
+  		request.setAttribute("data", data);
+  		// request 안에 있는 임시 저장소(HashMap)에 접근해 데이터를 저장한다
+  	}
+  
+  }
+
+  ```
+  ```jsp
+  <!-- form.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello form.jsp<br /><br />
+  <form action="controller" method="post">
+  	<input type="hidden" name="path" value="form_ok">
+  	데이터 : <input type="text" name="data">
+  	<input type="submit" value="전송">
+  </form>
+  </body>
+  </html>
+
+  <!-- form_ok.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello form_ok.jsp<br/><br/>
+
+  <%
+  	String data = (String)request.getAttribute("data");
+    // FormOKAction 모델에서 저장한 data의 값을 할당한다
+  	out.println("data : "+ data);
+  %>
+
+  </body>
+  </html>
+  ```
+<hr>
+model2를 이용해 우편번호 검색기 만들기
+
+<small> !! mariadb 라이브러리, context.xml은 갖춰져 있어야 한다</small>
+
+```java
+// ZipcodeController.java
+package controller;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model2.Action;
+import model2.ZipcodeAction;
+import model2.ZipcodeOKAction;
+
+/**
+ * Servlet implementation class Controller
+ */
+@WebServlet("/controller")
+public class ZipcodeController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("utf-8");
+			
+			String url = "/WEB-INF/views/error.jsp";
+			String path = request.getParameter("path");
+			
+			Action model = null;
+			
+			if(path == null || path.equals("") || path.equals("zipcode")) {
+				model = new ZipcodeAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/zipcode.jsp";
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+				dispatcher.forward(request, response);
+			}else if(path.equals("zipcode_ok")) {
+				model = new ZipcodeOKAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/zipcode_ok.jsp";
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+				dispatcher.forward(request, response);
+			}
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (ServletException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class ZipcodeDAO {
+	private DataSource dataSource;
+	Connection conn = null;
+	
+	public ZipcodeDAO() {
+		try {
+			Context initCtx = (Context)new InitialContext();
+			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+			dataSource = (DataSource)envCtx.lookup("jdbc/mariadb2");
+			
+			conn = dataSource.getConnection();
+		}catch(NamingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}catch(SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public List<ZipcodeTO> listZipcode(String strDong){
+		List<ZipcodeTO> datas = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select * from zipcode where dong like ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, strDong + "%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ZipcodeTO to = new ZipcodeTO();
+				
+				to.setBunji(rs.getString("bunji"));
+				to.setDong(rs.getString("dong"));
+				to.setGugun(rs.getString("gugun"));
+				to.setRi(rs.getString("ri"));
+				to.setSido(rs.getString("sido"));
+				to.setZipcode(rs.getString("zipcode"));
+				
+				datas.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return datas;
+	}
+	
+}
+
+// ZipcodeTO.java
+package model1;
+
+public class ZipcodeTO {
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getSido() {
+		return sido;
+	}
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+	public String getGugun() {
+		return gugun;
+	}
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
+	}
+	public String getDong() {
+		return dong;
+	}
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+	public String getRi() {
+		return ri;
+	}
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+	public String getBunji() {
+		return bunji;
+	}
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
+	}
+
+}
+
+
+// ZipcodeOKAction.java
+package model2;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.ZipcodeDAO;
+import model1.ZipcodeTO;
+
+public class ZipcodeOKAction implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String strDong = request.getParameter("dong");
+		
+		ZipcodeDAO dao = new ZipcodeDAO();
+		List<ZipcodeTO> datas = dao.listZipcode(strDong);
+		
+		System.out.println("갯수 : " + datas.size());
+		
+		request.setAttribute("datas", datas);
+	}
+
+}
+
+```
+```jsp
+<!-- zipcode.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form action="controller" method="post">
+	<input type="hidden" name="path" value="zipcode_ok">
+	동이름 : <input type="text" name="dong">
+	<input type="submit" value="동이름 검색">
+</form>
+</body>
+</html>
+
+<!-- zipcode_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="model1.ZipcodeTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+	List<ZipcodeTO> datas = (ArrayList)request.getAttribute("datas");
+
+	StringBuilder sbHtml = new StringBuilder();
+	
+	sbHtml.append("<table width='800' border='1'>");
+	for(ZipcodeTO to : datas){
+		sbHtml.append("<tr>");
+		sbHtml.append("<td>[" + to.getZipcode() + "]</td>");
+		sbHtml.append("<td>" + to.getSido() + "</td>");
+		sbHtml.append("<td>" + to.getGugun() + "</td>");
+		sbHtml.append("<td>" + to.getDong() + "</td>");
+		sbHtml.append("<td>" + to.getRi() + "</td>");
+		sbHtml.append("<td>" + to.getBunji() + "</td>");
+		sbHtml.append("<tr>");
+	}
+	sbHtml.append("</table>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+zipcode_ok
+<%= sbHtml %>
+</body>
+</html>
 ```
