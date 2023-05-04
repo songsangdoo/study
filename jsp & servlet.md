@@ -9347,7 +9347,143 @@ public class EncodingFilter implements Filter {
   view1.do // view1.jsp 실행
   view2.do // view2.jsp 실행
   ```
+  ```java
+  // Controller.java
+  package controller;
+
+  import java.io.IOException;
+  import java.io.UnsupportedEncodingException;
+
+  import javax.servlet.RequestDispatcher;
+  import javax.servlet.ServletException;
+  import javax.servlet.annotation.WebServlet;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  /**
+   * Servlet implementation class Controller
+   */
+  @WebServlet("*.do")
+  public class Controller extends HttpServlet {
+  	private static final long serialVersionUID = 1L;
+
+  	/**
+  	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+  	 */
+  	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  		doProcess(request, response);
+  	}
+
+  	/**
+  	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+  	 */
+  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  		doProcess(request, response);
+  	}
   
+  	protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+  		try {
+  			request.setCharacterEncoding("utf-8");
+  
+  			System.out.println(request.getRequestURI()); // /URLEx/*.do
+  			System.out.println(request.getContextPath()); // /URLEx
+  
+  			String path = request.getRequestURI().replaceAll(request.getContextPath(), "");
+  			System.out.println(path); // /*.do
+  
+  			String url = "/WEB-INF/views/error.jsp";
+  
+  			if(path.equals("/") || path.equals("/*.do") || path.equals("/view1.do")) {
+        
+  				url = "/WEB-INF/views/view1.jsp"; 
+  			}else if(path.equals("/view2.do")) {
+        
+  				url = "/WEB-INF/views/view2.jsp";
+  			}else if(path.equals("/board/view3.do")) {
+        // 실존하는 디렉터리가 아닌 가상 디렉터리를 설정할 수도 있다
+  				url = "/WEB-INF/views/view3.jsp";
+          // 단, 불러오는 파일의 경로는 실존해야 한다
+  			}else if(path.equals("/board/view4.do")) {
+        
+  				url = "/WEB-INF/views/view4.jsp";
+  			}
+  
+  			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+  			dispatcher.forward(request, response);
+  		} catch (UnsupportedEncodingException e) {
+  			System.out.println("에러 : " + e.getMessage());
+  		} catch (ServletException e) {
+  			System.out.println("에러 : " + e.getMessage());
+  		} catch (IOException e) {
+  			System.out.println("에러 : " + e.getMessage());
+  		}
+
+  	}
+
+  }
+
+  ```
+  ```jsp
+  <!-- view1.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view1
+  </body>
+  </html>
+
+  <!-- view2.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view2
+  </body>
+  </html>
+
+  <!-- view3.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view3
+  </body>
+  </html>
+
+  <!-- view4.jsp -->
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  </head>
+  <body>
+  Hello view4
+  </body>
+  </html>
+  ```
+
+
+
   
   - 모델 호출해서 데이터 처리하기
   ```java
@@ -9615,6 +9751,7 @@ model2를 이용해 우편번호 검색기 만들기
 
 <small> !! mariadb 라이브러리, context.xml은 갖춰져 있어야 한다</small>
 
+- Parameter 
 ```java
 // ZipcodeController.java
 package controller;
@@ -9895,6 +10032,1446 @@ public class ZipcodeOKAction implements Action {
 <body>
 zipcode_ok
 <%= sbHtml %>
+</body>
+</html>
+```
+
+- URL 패턴
+```java
+package controller;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model2.Action;
+import model2.ZipcodeAction;
+import model2.ZipcodeOKAction;
+
+/**
+ * Servlet implementation class Controller
+ */
+@WebServlet("*.do")
+public class ZipcodeController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("utf-8");
+			
+			String url = "/WEB-INF/views/error.jsp";
+			String path = request.getRequestURI().replaceAll(request.getContextPath(), "");
+			System.out.println(path);
+			
+			Action model = null;
+			
+			if(path.equals("/") || path.equals("/*.do") || path.equals("/zipcode.do")) {
+				model = new ZipcodeAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/zipcode.jsp";
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+				dispatcher.forward(request, response);
+			}else if(path.equals("/zipcode_ok.do")) {
+				model = new ZipcodeOKAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/zipcode_ok.jsp";
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+				dispatcher.forward(request, response);
+			}
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (ServletException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class ZipcodeDAO {
+	private DataSource dataSource;
+	Connection conn = null;
+	
+	public ZipcodeDAO() {
+		try {
+			Context initCtx = (Context)new InitialContext();
+			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+			dataSource = (DataSource)envCtx.lookup("jdbc/mariadb2");
+			
+			conn = dataSource.getConnection();
+		}catch(NamingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}catch(SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public List<ZipcodeTO> listZipcode(String strDong){
+		List<ZipcodeTO> datas = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select * from zipcode where dong like ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, strDong + "%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ZipcodeTO to = new ZipcodeTO();
+				
+				to.setBunji(rs.getString("bunji"));
+				to.setDong(rs.getString("dong"));
+				to.setGugun(rs.getString("gugun"));
+				to.setRi(rs.getString("ri"));
+				to.setSido(rs.getString("sido"));
+				to.setZipcode(rs.getString("zipcode"));
+				
+				datas.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return datas;
+	}
+	
+}
+
+// ZipcodeTO.java
+package model1;
+
+public class ZipcodeTO {
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getSido() {
+		return sido;
+	}
+	public void setSido(String sido) {
+		this.sido = sido;
+	}
+	public String getGugun() {
+		return gugun;
+	}
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
+	}
+	public String getDong() {
+		return dong;
+	}
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+	public String getRi() {
+		return ri;
+	}
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+	public String getBunji() {
+		return bunji;
+	}
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
+	}
+
+}
+
+
+// ZipcodeOKAction.java
+package model2;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.ZipcodeDAO;
+import model1.ZipcodeTO;
+
+public class ZipcodeOKAction implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String strDong = request.getParameter("dong");
+		
+		ZipcodeDAO dao = new ZipcodeDAO();
+		List<ZipcodeTO> datas = dao.listZipcode(strDong);
+		
+		System.out.println("갯수 : " + datas.size());
+		
+		request.setAttribute("datas", datas);
+	}
+
+}
+
+
+```
+```jsp
+<!-- zipcode.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form action="zipcode_ok.do" method="post">
+	동이름 : <input type="text" name="dong">
+	<input type="submit" value="동이름 검색">
+</form>
+</body>
+</html>
+
+<!-- zipcode_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="model1.ZipcodeTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+	List<ZipcodeTO> datas = (ArrayList)request.getAttribute("datas");
+
+	StringBuilder sbHtml = new StringBuilder();
+	
+	sbHtml.append("<table width='800' border='1'>");
+	for(ZipcodeTO to : datas){
+		sbHtml.append("<tr>");
+		sbHtml.append("<td>[" + to.getZipcode() + "]</td>");
+		sbHtml.append("<td>" + to.getSido() + "</td>");
+		sbHtml.append("<td>" + to.getGugun() + "</td>");
+		sbHtml.append("<td>" + to.getDong() + "</td>");
+		sbHtml.append("<td>" + to.getRi() + "</td>");
+		sbHtml.append("<td>" + to.getBunji() + "</td>");
+		sbHtml.append("<tr>");
+	}
+	sbHtml.append("</table>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+zipcode_ok
+<%= sbHtml %>
+</body>
+</html>
+```
+<hr>
+(model2) URL 패턴을 이용한 게시판 만들기
+
+```java
+// Controller.java
+package controller;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model2.BoardAction;
+import model2.DeleteAction;
+import model2.DeleteOKAction;
+import model2.ListAction;
+import model2.ModifyAction;
+import model2.ModifyOKAction;
+import model2.ViewAction;
+import model2.WriteOKAction;
+
+/**
+ * Servlet implementation class Controller
+ */
+@WebServlet("*.do")
+public class Controller extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response){
+		try {
+			request.setCharacterEncoding("utf-8");
+			
+			String url = "/WEB-INF/views/error.jsp";
+			String path = request.getRequestURI().replaceAll(request.getContextPath(), "");
+			
+			BoardAction model = null;
+			
+			if(path.equals("/") || path.equals("/*.do") || path.equals("/list.do")) {
+				model = new ListAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_list1.jsp";
+			}else if(path.equals("/write.do")) {
+				url = "/WEB-INF/views/board_write1.jsp";
+			}else if(path.equals("/write_ok.do")) {
+				model = new WriteOKAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_write1_ok.jsp";
+			}else if(path.equals("/view.do")) {
+				model = new ViewAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_view1.jsp";
+			}else if(path.equals("/delete.do")) {
+				model = new DeleteAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_delete1.jsp";
+			}else if(path.equals("/delete_ok.do")) {
+				model = new DeleteOKAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_delete1_ok.jsp";
+			}else if(path.equals("/modify.do")) {
+				System.out.println("modify");
+				model = new ModifyAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_modify1.jsp";
+			}else if(path.equals("/modify_ok.do")) {
+				model = new ModifyOKAction();
+				model.execute(request, response);
+				
+				url = "/WEB-INF/views/board_modify1_ok.jsp";
+			}
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+			dispatcher.forward(request, response);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("에러: " + e.getMessage());
+		} catch (ServletException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+
+}
+
+// BoardTO.java
+package model1;
+
+public class BoardTO {
+	private String seq;
+	private String subject;
+	private String writer;
+	private String password;
+	private String content;
+	private String mail;
+	private String hit;
+	private String wdate;
+	private String wip;
+	
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public String getHit() {
+		return hit;
+	}
+	public void setHit(String hit) {
+		this.hit = hit;
+	}
+	public String getWdate() {
+		return wdate;
+	}
+	public void setWdate(String wdate) {
+		this.wdate = wdate;
+	}
+	public String getWip() {
+		return wip;
+	}
+	public void setWip(String wip) {
+		this.wip = wip;
+	}
+	
+	
+}
+
+// BoardDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class BoardDAO {
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	public BoardDAO() {
+		try {
+			Context initCtx = (Context)new InitialContext();
+			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+			DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb1");
+			
+			conn = dataSource.getConnection();
+			System.out.println("연결");
+		} catch (NamingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public int boardWrite(String subject, String writer, String password, String content, String mail, String wip) {
+		int flag = 1;
+		
+		String sql = "insert into board1 values(0, ?, ?, ?, ?, ?, 0, now(), ?)";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, subject);
+			pstmt.setString(2, writer);
+			pstmt.setString(3, password);
+			pstmt.setString(4, content);
+			pstmt.setString(5, mail);
+			pstmt.setString(6, wip);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return flag;
+	}
+	
+	public List<BoardTO> boardList(){
+		List<BoardTO> datas = new ArrayList<>();
+		
+		try {
+			String sql = "select seq, writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board1 order by seq desc";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardTO to = new BoardTO();
+				
+				to.setSeq(rs.getString("seq"));
+				to.setWriter(rs.getString("writer"));
+				to.setSubject(rs.getString("subject"));
+				to.setWdate(rs.getString("wdate"));
+				to.setHit(rs.getString("hit"));
+				
+				datas.add(to);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return datas;
+	}
+	
+	public BoardTO boardView(String seq) {
+		BoardTO data = new BoardTO();
+		
+		try {
+			String sql = "update board1 set hit = hit + 1 where seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seq);
+			pstmt.executeUpdate();
+			
+			sql = "select * from board1 where seq = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seq);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				data.setSeq(seq);
+				data.setSubject(rs.getString("subject"));
+				data.setWriter(rs.getString("writer"));
+				data.setHit(rs.getString("hit"));
+				data.setContent(rs.getString("content"));
+				data.setMail(rs.getString("email"));
+				data.setWdate(rs.getString("wdate"));
+				data.setWip(rs.getString("wip"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return data;
+	}
+	
+	public BoardTO boardDelete(String seq) {
+		BoardTO data = new BoardTO();
+		
+		try {
+			String sql = "select * from board1 where seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seq);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				data.setSeq(seq);
+				data.setWriter(rs.getString("writer"));
+				data.setSubject(rs.getString("subject"));
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return data;
+	}
+	
+	public int deleteOK(String seq, String password) {
+		int flag = 2;
+		
+		try {
+			String sql = "delete from board1 where seq = ? and password = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seq);
+			pstmt.setString(2, password);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}else {
+				flag = 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return flag;
+	}
+	
+	public BoardTO boardModify(String seq) {
+		BoardTO data = new BoardTO();
+		
+		try {
+			String sql = "select * from board1 where seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, seq);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				data.setSeq(seq);
+				data.setContent(rs.getString("content"));
+				data.setMail(rs.getString("email"));
+				data.setSubject(rs.getString("subject"));
+				data.setWdate(rs.getString("wdate"));
+				data.setWriter(rs.getString("writer"));
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return data;
+	}
+	
+	public int modifyOK(String subject, String content, String mail, String seq, String password) {
+		int flag = 2;
+		
+		try {
+			String sql = "update board1 set subject = ?, content = ?, email = ? where seq = ? and password = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, subject);
+			pstmt.setString(2, content);
+			pstmt.setString(3, mail);
+			pstmt.setString(4, seq);
+			pstmt.setString(5, password);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}else {
+				flag = 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return flag;
+	}
+}
+
+// BoardAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public interface BoardAction {
+	public abstract void execute(HttpServletRequest request, HttpServletResponse response);
+}
+
+// ListAction.java
+package model2;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class ListAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		BoardDAO dao = new BoardDAO();
+		
+		List<BoardTO> datas = dao.boardList();
+		
+		request.setAttribute("datas", datas);
+	}
+
+}
+
+// WriteOKAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+
+public class WriteOKAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String writer = request.getParameter("writer");
+		String subject = request.getParameter("subject");
+		String password = request.getParameter("password");
+		
+		String content = "";
+		if(request.getParameter("content") != null && !request.getParameter("content").equals("")) {
+			content = request.getParameter("content").replaceAll("\n", "<br>");
+		}
+		
+		String mail = "";
+		if(!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")) {
+			mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+		}
+		String wip = request.getRemoteAddr();
+		
+		BoardDAO dao = new BoardDAO();
+		int flag = dao.boardWrite(subject, writer, password, content, mail, wip);
+		
+		request.setAttribute("flag", flag);
+	}
+
+}
+
+// ViewAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class ViewAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String seq = request.getParameter("seq");
+
+		BoardDAO dao = new BoardDAO();
+		
+		BoardTO data = dao.boardView(seq);
+		
+		request.setAttribute("data", data);
+		System.out.println(data);
+	}
+
+}
+
+// DeleteAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class DeleteAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String seq = request.getParameter("seq");
+		
+		BoardDAO dao = new BoardDAO();
+		BoardTO data = dao.boardDelete(seq);
+		
+		request.setAttribute("data", data);
+	}
+
+}
+
+// DeleteOKAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+
+public class DeleteOKAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String seq = request.getParameter("seq");
+		String password = request.getParameter("password");
+		
+		BoardDAO dao = new BoardDAO();
+		int flag = dao.deleteOK(seq, password);
+		
+		System.out.println("flag");
+		request.setAttribute("flag", flag);
+	}
+
+}
+
+// ModifyAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class ModifyAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String seq = request.getParameter("seq");
+		
+		BoardDAO dao = new BoardDAO();
+		BoardTO data = dao.boardModify(seq);
+		
+		request.setAttribute("data", data);
+	}
+
+}
+
+// ModifyOKAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model1.BoardDAO;
+
+public class ModifyOKAction implements BoardAction {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) {
+		String seq = request.getParameter("seq");
+		String password = request.getParameter("password");
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		String mail = "";
+		if(!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+			mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+		}
+		
+		BoardDAO dao = new BoardDAO();
+		int flag = dao.modifyOK(subject, content, mail, seq, password);
+		
+		request.setAttribute("flag", flag);
+	}
+
+}
+
+```
+```jsp
+<!-- board_list1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.BoardTO"%>
+    
+<%
+	List<BoardTO> datas = (ArrayList)request.getAttribute("datas");
+
+	int totalRecord = datas.size();
+			
+	StringBuilder sbHtml = new StringBuilder();
+	
+	for(BoardTO to : datas){
+		sbHtml.append("<tr>");
+		sbHtml.append("<td width='3%'>&nbsp;</td>");
+		sbHtml.append("<td width='5%'>" + to.getSeq() + "</td>");
+		sbHtml.append("<td><a href='view.do?seq=" + to.getSeq() + "'>" + to.getSubject() + "</a></td>");
+		sbHtml.append("<td width='10%'>" + to.getWriter() + "</td>");
+		sbHtml.append("<td width='17%'>" + to.getWdate() + "</td>");
+		sbHtml.append("<td width='5%'>" + to.getHit() + "</td>");
+		sbHtml.append("<td width='3%'>&nbsp;</td>");
+		sbHtml.append("</tr>");
+	}
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+	<h3>게시판</h3>
+	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+	<div class="contents_sub">
+		<div class="board_top">
+			<div class="bold">총 <span class="txt_orange"><%= totalRecord %></span>건</div>
+		</div>
+
+		<!--게시판-->
+		<div class="board">
+			<table>
+			<tr>
+				<th width="3%">&nbsp;</th>
+				<th width="5%">번호</th>
+				<th>제목</th>
+				<th width="10%">글쓴이</th>
+				<th width="17%">등록일</th>
+				<th width="5%">조회</th>
+				<th width="3%">&nbsp;</th>
+			</tr>
+			<%= sbHtml %>
+			</table>
+		</div>	
+
+		<div class="btn_area">
+			<div class="align_right">
+				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+			</div>
+		</div>
+		<!--//게시판-->
+	</div>
+</div>
+<!--//하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('wbtn').onclick = function() {
+			// alert('click');
+			if(document.wfrm.info.checked == false){
+				alert("개인정보 이용에 동의해주세요");
+				return false;
+			}
+			if(document.wfrm.writer.value.trim() == ''){
+				alert("글쓴이를 입력해주세요");
+				return false;
+			}
+			if(document.wfrm.subject.value.trim() == ''){
+				alert("제목을 입력해주세요");
+				return false;
+			}
+			if(document.wfrm.password.value.trim() == ''){
+				alert("비밀번호를 입력해주세요");
+				return false;
+			}
+			document.wfrm.submit();
+		};
+	};
+</script>
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+	<h3>게시판</h3>
+	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_menu"></div>
+<div class="con_txt">
+	<form action="write_ok.do" method="post" name="wfrm">
+		<div class="contents_sub">	
+			<!--게시판-->
+			<div class="board_write">
+				<table>
+				<tr>
+					<th class="top">글쓴이</th>
+					<td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="subject" value="" class="board_view_input" /></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td><textarea name="content" class="board_editor_area"></textarea></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+				</tr>
+				</table>
+				
+				<table>
+				<tr>
+					<br />
+					<td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+						<div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+						<div style="padding-left:10px;">
+							<div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+								1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+								2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+								3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+								4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+							</div>
+						</div>
+						<div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+							<input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+						</div>
+					</td>
+				</tr>
+				</table>
+			</div>
+			
+			<div class="btn_area">
+				<div class="align_left">
+					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+				</div>
+				<div class="align_right">
+					<input type="button" id='wbtn' value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+				</div>
+			</div>
+			<!--//게시판-->
+		</div>
+	</form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ page import="javax.naming.Context" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.naming.NamingException" %>
+
+<%@ page import="javax.sql.DataSource" %>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.SQLException" %>
+
+<% 
+	int flag = (Integer)request.getAttribute("flag");
+	out.println("<script type='text/javascript'>");
+	if(flag == 0){
+		out.println("alert('글쓰기 성공');");
+		out.println("location.href='list.do';");
+	}else{
+		out.println("alert('글쓰기 실패')");
+		out.println("history.back();");
+	}
+	out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_view1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%
+	BoardTO data = (BoardTO)request.getAttribute("data");
+
+	String seq = data.getSeq();
+	String subject = data.getSubject();
+	String wdate = data.getWdate();
+	String writer = data.getWriter();
+	String mail = data.getMail();
+	String wip = data.getWip();
+	String hit = data.getHit();
+	String content = data.getContent();
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+	<h3>게시판</h3>
+	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+	<div class="contents_sub">
+		<!--게시판-->
+		<div class="board_view">
+			<table>
+			<tr>
+				<th width="10%">제목</th>
+				<td width="60%"><%= subject %></td>
+				<th width="10%">등록일</th>
+				<td width="20%"><%= wdate %></td>
+			</tr>
+			<tr>
+				<th>글쓴이</th>
+				<td><%= String.format("%s(%s)(%s)", writer, mail, wip) %></td>
+				<th>조회</th>
+				<td><%= hit %></td>
+			</tr>
+			<tr>
+				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= content %></td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="btn_area">
+			<div class="align_left">
+				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+			</div>
+			<div class="align_right">
+				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='modify.do?seq=<%= seq %>'" />
+				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='delete.do?seq=<%= seq %>'" />
+				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+			</div>
+		</div>	
+		<!--//게시판-->
+	</div>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_delete1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="model1.BoardTO"%>
+
+<% 
+	BoardTO data = (BoardTO)request.getAttribute("data");
+
+	String seq = data.getSeq();
+	String writer = data.getWriter();
+	String subject = data.getSubject();
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById("dbtn").onclick = function() {
+			if(document.dfrm.password.value.trim() == ''){
+				alert("비밀번호를 입력하셔야 합니다");
+				return false;
+			}
+			document.dfrm.submit();
+		}
+	}
+</script>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+	<h3>게시판</h3>
+	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+	<form action="delete_ok.do" method="post" name="dfrm">
+		<input type='hidden' name="seq" value="<%= seq %>">
+		<div class="contents_sub">	
+			<!--게시판-->
+			<div class="board_write">
+				<table>
+				<tr>
+					<th class="top">글쓴이</th>
+					<td class="top"><input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" readonly/></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+				</tr>
+				</table>
+			</div>
+			
+			<div class="btn_area">
+				<div class="align_left">
+					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= seq %>'" />
+				</div>
+				<div class="align_right">
+					<input type="button" id='dbtn' value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+				</div>
+			</div>
+			<!--//게시판-->
+		</div>
+	</form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_delete1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+	int flag = (Integer)request.getAttribute("flag");
+
+	out.println("<script type='text/javascript'>");
+	if(flag == 0){
+		out.println("alert('글삭제 성공');");
+		out.println("location.href='list.do';");
+	}else if(flag == 1){
+		out.println("alert('비밀번호 오류');");
+		out.println("history.back();");
+	}else{
+		out.println("alert('글삭제에 실패');");
+		out.println("history.back();");
+	}
+	out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_modify1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	
+<%@page import="model1.BoardTO"%>
+
+<%
+	BoardTO data = (BoardTO)request.getAttribute("data");
+	
+	String seq = data.getSeq();
+	String writer = data.getWriter();
+	String subject = data.getSubject();
+	String content = data.getContent();
+	String mail1 = "";
+	String mail2 = "";
+	if(!data.getMail().equals("")){
+		String[] mailArr = data.getMail().split("@");
+		mail1 = mailArr[0];
+		mail2 = mailArr[1];
+	}
+	
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('mbtn').onclick = function() {
+			if(document.mfrm.subject.value.trim() == ''){
+				alert('제목을 입력해주세요');
+				return false;
+			}
+			if(document.mfrm.password.value.trim() == ''){
+				alert('비밀번호를 입력해주세요');
+				return false;
+			}
+			document.mfrm.submit();
+		};
+	};
+</script>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+	<h3>게시판</h3>
+	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+	<form action="modify_ok.do" method="post" name="mfrm">
+		<input type='hidden' name='seq' value='<%= seq %>'>
+		<div class="contents_sub">	
+			<!--게시판-->
+			<div class="board_write">
+				<table>
+				<tr>
+					<th class="top">글쓴이</th>
+					<td class="top"><input type="text" name="writer" value="<%= writer %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td><input type="text" name="subject" value="<%= subject %>" class="board_view_input" /></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td><textarea name="content" class="board_editor_area"><%= content %></textarea></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
+				</tr>
+				</table>
+			</div>
+			
+			<div class="btn_area">
+				<div class="align_left">
+					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= seq %>'" />
+				</div>
+				<div class="align_right">
+					<input type="button" id='mbtn' value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+				</div>
+			</div>
+			<!--//게시판-->
+		</div>
+	</form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_modify1_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	String seq = request.getParameter("seq");
+	int flag = (Integer)request.getAttribute("flag");
+	
+	out.println("<script type='text/javascript'>");
+	if(flag == 0){
+		out.println("alert('글 수정 성공');");
+		out.println("location.href='view.do?seq=" + seq + "';");
+	}else if(flag == 1){
+		out.println("alert('비밀번호 오류');");
+		out.println("history.back();");
+	}else{
+		out.println("alert('글 수정에 실패');");
+		out.println("history.back();");
+	}
+	out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
 </body>
 </html>
 ```
