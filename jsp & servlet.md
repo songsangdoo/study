@@ -11475,8 +11475,8 @@ public class ModifyOKAction implements BoardAction {
 </body>
 </html>
 ```
-## 회원 관리
-- 상태(값) 유지에 관한 것으로 로그인과 연관된다
+## 상태 유지
+- 값에 관한 것으로 로그인, 회원 관리와 연관된다
 
 - 회원에 대한 정보 유지
   - ~ 로그아웃 전까지
@@ -11500,7 +11500,9 @@ public class ModifyOKAction implements BoardAction {
 
 - setAttribute("키", 값) : HashMap 구조로 데이터를 저장한다
 
-- getAttribute("키")
+- getAttribute("키") : 저장한 데이터를 반환한다
+
+- removeAttribute("키") : 저장한 데이터를 삭제한다
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11589,6 +11591,8 @@ data3 : <%= request.getAttribute("data3") %>
 ```
 <hr>
 
+- session은 로그인 검사, 장바구니처럼 임시로 저장할 장소로써 사용된다
+
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11601,7 +11605,7 @@ data3 : <%= request.getAttribute("data3") %>
 <body>
 <%
   out.println(session.getId() + "<br>"); 
-  // 세션은 브라우저마다 다른 아이디를 갖는다
+  // session은 브라우저마다 다른 아이디를 갖는다
   // 같은 브라우저라도 브라우저를 완전히 종료 후 다시 실행하면 다른 아이디를 갖는다
 %>
 </body>
@@ -11627,7 +11631,7 @@ session01.jsp
   java.util.Date date = new java.util.Date(session.getCreationTime());
   out.println(date.toString()); // Mon May 08 10:20:46 KST 2023
   out.println(session.getMaxInactiveInterval() + "<br>"); // 1800
-  // 세션의 유효시간을 초단위로 반환한다
+  // session의 유효시간을 초단위로 반환한다
   session.setAttribute("data1", "value1");
   session.setAttribute("data2", "value2");
 %>
@@ -11677,6 +11681,41 @@ session01.jsp
 ```
 
 ### 로그인 페이지 만들기
+
+- 회원 관리 흐름도
+
+  - 로그인 전
+    - 회원가입 
+
+      - 아이디 중복검사
+
+      - 회원가입 인증 (sms / email)
+
+
+  - 로그인 
+    - 자체 로그인
+
+      - 데이터베이스에서 검사 후 로그인
+
+      - 아이디, 비밀번호 검사
+
+    - 소셜 로그인
+
+      - 구글, 카카오를 이용한 로그인
+
+  - 로그인 후 : session, Cookie를 이용한다
+    - 로그아웃
+
+    - 회원 정보 수정(비밀번호 포함)
+
+    - 주기적 비밀번호 변경 유도
+
+    - 회원탈퇴
+
+    - 관리자 기능 : 특정 로그인 아이디, 패스워드를 사용하면 관리자 기능을 사용할 수 있게 한다
+
+      <small> !! 아이디가 해킹될 수도 있기 때문에 아예 포트 변경을 하기도 한다</small>
+
 - 로그인 페이지 흐름도
 
    로그인 폼 (id, password, 회원등급 , ...) <br><br>
@@ -12008,7 +12047,10 @@ insert into member1 values(0, 'tester', '1234', '이름', 'test@test.com', 'A', 
 </html>
 ```
 ### 쿠키 (Cookie)
+
 - session과 달리 서버가 아닌 클라이언트(브라우저) 쪽에 필요한 데이터를 저장한다
+
+  <small> !! session과 비교하면서 보자</small>
 
 - 클라이언트 쪽에 데이터를 저장하기 때문에 필요에 따라서 쿠키의 유지 시간을 지정할 수 있다
 
@@ -12383,8 +12425,15 @@ insert into member1 values(0, 'tester', '1234', '이름', 'test@test.com', 'A', 
 
 
 ## EL (Expression Language)
-- 문자열 출력을 위해 사용된다
+- java와 html을 이용한 것보다 좀 더 쉽게 문자열 출력을 위해 사용된다
 
+- jsp의 request.getParameter()처럼 EL의 기본객체인 parma을 이용해 폼에서 전달되는 데이터를 받아올 수도 있다
+```jsp
+<% request.getParameter("param1");%>
+${ param.param1 }
+```
+
+- 기본 표현
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12401,13 +12450,14 @@ insert into member1 values(0, 'tester', '1234', '이름', 'test@test.com', 'A', 
 <%= "2" %><br>
 ${2}<br>
 ${"2"}<br>
-${test}<br> <!-- 변수로 인식해서 값이 할당되어 있지 않다면 출력되지 않는다 -->
+${test}<br> <!-- 변수로 인식해서 값이 할당되어 있지 않다면 공백문자를 출력한다 -->
 ${"test"}<br>
 ${'test'}<br> <!-- 단일 따옴표로도 문자열을 표현할 수 있다 -->
 \${'test'} <!-- '\'를 앞에 붙히면 EL표현이 아닌 "${'test'}"가 그대로 출력된다 -->
 </body>
 </html>
 ``` 
+- 사칙 연산
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12437,6 +12487,7 @@ ${"일"} + ${5}<br>
 </body>
 </html>
 ```
+- 논리 연산
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12459,6 +12510,7 @@ ${ (2 < 3) ? "작다" : "크다" }<br>
 </body>
 </html>
 ```
+- scriptlet의 데이터 사용하기
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12478,8 +12530,8 @@ ${ (2 < 3) ? "작다" : "크다" }<br>
 ${ pageScope.name1 }<br>
 ${ pageScope['name1'] }<br>
 ${ name1 }<br>
-<!-- 스크립틀릿에서 선언한 변수를 직접 사용할 수 없기 때문에 
-직접 사용하기 위해서는 따로 데이터 값을 설정해줘야 한다 -->
+<!-- scriptlet에서 선언한 변수를 직접 사용할 수 없기 때문에 
+직접 사용하기 위해서는 기본 객체를 이용해 데이터 값을 설정해줘야 한다 -->
 </body>
 </html>
 ```
@@ -12588,7 +12640,7 @@ ${ to.writer }<br> <!-- 작성자 -->
 ${ lists[0].subject }<br> <!-- 제목1 -->
 ${ lists[1].subject }<br> <!-- 제목2 -->
 ${ lists[2].subject } 
-<!-- 원래는 따로 지정하지 않았기 때문에 에러가 나야하지만 공백문자를 출력한다 -->
+<!-- 원래는 에러가 나야하지만 공백문자를 출력한다 -->
 </body>
 </html>
 ```
@@ -12700,10 +12752,16 @@ ${ pageContext.request.remoteAddr }<br>	<!-- 0:0:0:0:0:0:0:1 -->
 ```
 
 ## JSTL (Java Server Pages Standard Tag Library)
+- EL과 마찬가지로 좀 더 쉽게 view-page를 구현하기 위해서 사용된다
 
 - jsp에서의 공통된 태그 라이브러리를 사용하기 위해 정해진 표준
+
+- jstl 라이브러리와 taglib 디렉티브가 필요하다
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+```
 ### Core
-- <c:out>
+#### <c:out>
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12724,13 +12782,12 @@ ${ "browser" }<br>
 EL : ${ data }<br>
 JSTL : <c:out value="${ data }"></c:out>
 JSTL : <c:out value="${ data1 }"></c:out>
-<!-- data1은 
-선언이 안되어 있어서 공백문자가 출력되야 하지만 default 값이 정해져 있기 때문에 default 값이 출력된다 -->
+<!-- data1은 값 저장이 안돼 있어서 공백문자가 출력되야 하지만 default 값이 정해져 있기 때문에 default 값이 출력된다 -->
 </body>
 </html>
 ```
 
-- <c:set>
+#### <c:set>
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12757,6 +12814,1083 @@ data3 : <c:out value="${ data3 }"></c:out><br>
 ${pageScope.data }<br>
 ${requestScope.data }<br>
 ${sessionScope.data }<br>
+</body>
+</html>
+```
+<hr>
+
+- 클래스 객체에 변수 값 지정하기
+```java
+// BoardTO.java
+package model1;
+
+public class BoardTO {
+  private String subject;
+  private String writer;
+  
+  public String getSubject() {
+    return subject;
+  }
+  public void setSubject(String subject) {
+    System.out.println("setSubject 호출");
+    this.subject = subject;
+  }
+  public String getWriter() {
+    return writer;
+  }
+  public void setWriter(String writer) {
+    System.out.println("setWriter 호출");
+    this.writer = writer;
+  }
+
+}
+
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="to" value="<%= new model1.BoardTO() %>" scope="page"></c:set>
+<c:set target="${ to }" property="subject" value="제목"></c:set>
+<c:set target="${ to }" property="writer" value="작성자"></c:set>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+제목 : ${ to.subject }<br>
+작성자 : ${ to.writer }
+</body>
+</html>
+```
+
+
+#### <c:if>
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+시작 <br>
+
+<c:if test="true">
+  무조건 실행<br>
+</c:if>
+
+<c:set var="country" value="korea" scope="page"></c:set>
+
+<c:if test="${ country == 'korea' }">
+  대한민국 입니다 <br>
+</c:if>
+
+<c:if test="${ country != null }">
+  국가명 : <c:out value="${ country }"></c:out><br>
+</c:if>
+
+끝 <br>
+</body>
+</html>
+```
+
+#### <c:choose>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+시작 <br>
+
+<c:set var="country" value="korea" scope="page"></c:set>
+
+<c:choose>
+  <c:when test="${ country == 'korea' }">
+    <c:out value="${ country }"></c:out>는 춥다<br>
+  </c:when>
+  <c:when test="${ country == 'cananda' }">
+    <c:out value="${ country }"></c:out>는 더 춥다
+  </c:when>
+  <c:otherwise>
+    안 춥다
+  </c:otherwise>
+</c:choose>
+
+끝 <br>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="num" value="${ 95 }"></c:set>
+점수 <c:out value="${ num }"></c:out>은 
+<c:if test="${ num > 60 }">
+  합격입니다
+</c:if> 
+
+<br>
+
+점수 <c:out value="${ num }"></c:out>은 
+<c:choose>
+  <c:when test="${ num >= 90 }">A 학점입니다</c:when>
+  <c:when test="${ num >= 80 }">B 학점입니다</c:when>
+  <c:when test="${ num >= 70 }">C 학점입니다</c:when>
+  <c:when test="${ num >= 60 }">D 학점입니다</c:when>
+  <c:otherwise>F학점 입니다</c:otherwise>
+</c:choose>
+</body>
+</html>
+```
+
+#### <c:forEach>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+시작 <br>
+
+<c:forEach var="i" begin="1" end="5" step="2">
+  Hello JSTL : ${ i }<br>
+</c:forEach>
+
+<c:forEach var="i" begin="1" end="3">
+  <c:forEach var="j" begin="1" end="3">
+    ${ i } : ${ j } <br>
+  </c:forEach>
+</c:forEach>
+
+끝 <br>
+</body>
+</html>
+```
+구구단 출력하기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table width='900' border='1'>
+
+  <tr>
+    <th></th>
+    <c:forEach var="i" begin="1" end="9">
+      <th>
+      X ${ i }
+      </th>
+    </c:forEach>
+  </tr>
+  <c:forEach var="i" begin="1" end="9">
+    <tr>
+    <td><c:out value="${ i }"></c:out>단</td>
+    <c:forEach var="j" begin="1" end="9">
+      <td>
+      ${ i } X ${ j } = <c:out value="${ i * j }"></c:out>
+      </td>
+    </c:forEach>
+    </tr>
+  </c:forEach>
+</table>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table width = '800' border='1'>
+  <c:forEach var="row" begin="0" end="9">
+    <tr>
+      <c:forEach var="col" begin="0" end="9">
+        <c:choose>
+          <c:when test="${ row == 0 && col == 0 }">
+            <th></th>
+          </c:when>
+          <c:when test="${ row  == 0 }">
+            <th>X ${ col }</th>
+          </c:when>
+          <c:when test="${ col == 0 }">
+            <th>${ row } 단</th>
+          </c:when>
+          <c:otherwise>
+            <td>${ row } X ${ col } = ${ row * col }</td>
+          </c:otherwise>
+        </c:choose>
+      </c:forEach>
+    </tr>		
+  </c:forEach>
+  </tr>
+</table>
+</body>
+</html>
+```
+<hr>
+
+- 변수에 배열을 값으로 주기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<c:set var="intArr" value="<%= new int[]{1, 2, 3, 4, 5} %>"></c:set>
+<c:out value="${ intArr[0] }"></c:out><br>
+<c:out value="${ intArr[1] }"></c:out><br>
+
+<hr>
+
+<c:forEach var="data" items="${ intArr }" begin="2" end="4" varStatus="status">
+<!-- 인덱스는 0부터 시작한다 -->
+  <c:out value="${ data }"></c:out><br>
+  <!-- ${ data }만 써도 같은 결과가 나온다 -->
+
+  ${ data } - ${ status.index }<br>
+  <!-- 값의 인덱스까지 출력한다 -->
+</c:forEach>
+
+<hr>
+
+<c:set var="strArr" value='<%= new String[]{"11", "22", "33", "44", "55", "66"} %>'></c:set>
+<!-- 큰따옴표를 사용할 때 충돌이 나는 경우가 있어서 작은따옴표 사용할 때가 있다는 것을 잊지말자 -->
+<c:forEach var="data" items="${ strArr }">
+  ${ data }<br>
+</c:forEach>
+
+<hr>
+
+<c:set var="hm1" value="<%= new java.util.HashMap() %>"></c:set>
+<c:set target="${ hm1 }" property="name" value="홍길동"></c:set>
+<c:set target="${ hm1 }" property="today" value="<%= new java.util.Date() %>"></c:set>
+
+<c:forEach var="data" items="${ hm1 }">
+  ${ data.key } - ${ data.value }<br>
+</c:forEach>
+
+</body>
+</html>
+```
+#### <c:forTokens>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<c:forTokens var="token" items="1, 2, 3, 4, 5" delims=",">
+  ${ token } <br>
+</c:forTokens>
+
+<hr>
+
+<c:forTokens var="token" items="홍길동, 고길동, 김길동" delims=",">
+  ${ token } <br>
+</c:forTokens>
+
+</body>
+</html>
+```
+
+#### <c:redirect>
+- <c:param>과 같이 쓰여 데이터를 다른 페이지에 전달할 수 있다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%-- <c:redirect url="https://www.daum.net"></c:redirect> --%>
+<!-- 다음 홈페이지가 열린다 -->
+
+<c:redirect url="https://search.daum.net/search">
+  <c:param name="w" value="tot"></c:param>
+  <!-- 다음에서 검색을 하기위해 필요한 키와 값 -->
+  <c:param name="q" value="카타르월드컵"></c:param>
+  <!-- 실제로 검색하는 키와 값 -->
+</c:redirect>
+</body>
+</html>
+```
+
+#### <c:url>
+- <c:param>과 쓰여서 url로 쓰일 문자열을 지정한다
+```jsp
+<!-- jstl08.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<c:url var="url1" value="./list.do"></c:url>
+${ url1 }<br>
+
+<c:url var="url2" value="https://search.daum.net/search">
+  <c:param name="w" value="tot"></c:param>
+  <c:param name="q" value="카타르월드컵"></c:param>
+</c:url>
+
+${ url2 }<br>
+
+</body>
+</html>
+```
+
+#### <c:import>
+```jsp
+<!-- jstl09.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+
+시작<br>
+
+<c:import url="./jstl08.jsp"></c:import>
+<!-- jstl09.jsp에서 jstl08.jsp를 보여준다 -->
+
+끝<br>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+
+<c:import var="htmlData" url="https://m.daum.net" charEncoding="utf-8"></c:import>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<textarea rows="50" cols="800">
+${ htmlData }
+<!-- htmlData에 저장된 url의 원본소스를 보여준다 -->
+</textarea>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+
+<!-- 
+<c:import var="htmlData" url="http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101">
+-->
+
+<c:url var="url" value="http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml">
+  <c:param name="key" value="f5eef3421c602c6cb7ea224104795888"></c:param>
+  <c:param name="targetDt" value="20120101"></c:param>
+</c:url>
+
+<c:import var="htmlData" url="${ url }" charEncoding="utf-8"></c:import>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<textarea rows="50" cols="800">
+${ htmlData }
+</textarea>
+
+</body>
+</html>
+```
+
+<hr>
+
+### 데이터베이스 관련 라이브러리
+#### \<sql:update>
+- 데이터베이스의 내용을 바꿀 때 사용한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<sql:setDataSource 
+  var="ds"
+  url="jdbc:mariadb://localhost:3306/sample"
+  driver="org.mariadb.jdbc.Driver"
+  user="root"
+  password="123456"
+  scope="page"
+></sql:setDataSource>
+
+${ ds }<br> 
+<!-- org.apache.taglibs.standard.tag.common.sql.DataSourceWrapper@d30e065 -->
+<!-- 데이터소스에 관한 내용이 출력된다 -->
+
+<sql:update var="result" dataSource="${ ds }" sql="insert into dept2 values (10, '개발부', '부산')"></sql:update>
+
+<!-- 
+<sql:update var="result" dataSource="${ ds }">
+  insert into dept2 values (20, '연구부', '서울')
+</sql:update>  
+-->
+
+<!-- 
+<sql:update var="result" dataSource="${ ds }">
+  insert into dept2 values (?, ?, ?)
+  <sql:param value="30"></sql:param>
+  <sql:param value="영업부"></sql:param>
+  <sql:param value="경기"></sql:param>
+</sql:update>  
+-->
+
+${ result }<br> <!-- 1 -->
+<!-- 데이터베이스에서 변경된 데이터의 개수가 출력된다 -->
+```
+##### \<sql:query>
+- 데이터베이스의 값을 가져올 때 사용한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<sql:setDataSource 
+  var="ds"
+  url="jdbc:mariadb://localhost:3306/sample"
+  driver="org.mariadb.jdbc.Driver"
+  user="root"
+  password="123456"
+  scope="page"
+></sql:setDataSource>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="${ ds }">
+  select deptno, dname, loc from dept2
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.deptno }</td>
+    <td>${ row["dname"] }</td>
+    <td>${ row.loc }</td>
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<sql:setDataSource 
+  var="ds"
+  url="jdbc:mariadb://localhost:3306/sample"
+  driver="org.mariadb.jdbc.Driver"
+  user="root"
+  password="123456"
+  scope="page"
+></sql:setDataSource>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="${ ds }">
+  select deptno as 부서번호, dname as 부서명, loc as 부서위치 from dept2
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.deptno }</td>
+    <td>${ row["dname"] }</td>
+    <td>${ row["loc"] }</td>
+    <%-- <td>${ row["부서위치"] }</td> --%>
+    <!-- 별칭으로 값을 출력할 수는 없다 -->
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+- 풀링을 사용해 데이터베이스와 연결시킬 수도 있다
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource
+    name="jdbc/mariadb1"
+    auth="Container"
+    type="javax.sql.DataSource"	
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/sample"
+    username="root"
+    password="123456"
+  ></Resource>
+</Context>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<sql:setDataSource 
+  var="ds"
+  dataSource="jdbc/mariadb1"
+  scope="page"
+></sql:setDataSource>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="${ ds }">
+  select deptno, dname, loc from dept2
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.deptno }</td>
+    <td>${ row["dname"] }</td>
+    <td>${ row.loc }</td>
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<%-- 
+<sql:setDataSource 
+  var="ds"
+  dataSource="jdbc/mariadb1"
+  scope="page"
+></sql:setDataSource> 
+--%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="jdbc/mariadb1">
+<!-- dataSource 속성의 값으로 context.xml에서 지정한 풀 이름을 사용할 수 있다 -->
+  select deptno, dname, loc from dept2
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.deptno }</td>
+    <td>${ row["dname"] }</td>
+    <td>${ row.loc }</td>
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+- \<sql:param>과 쓰여 조건을 줄 수도 있다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<%-- 
+<sql:setDataSource 
+  var="ds"
+  dataSource="jdbc/mariadb1"
+  scope="page"
+></sql:setDataSource> 
+--%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="jdbc/mariadb1">
+  select deptno, dname, loc from dept2 where deptno = ?
+  <sql:param value="10"></sql:param>
+  <!-- 특정 부서만 출력 -->
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.deptno }</td>
+    <td>${ row["dname"] }</td>
+    <td>${ row.loc }</td>
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<sql:query var="rs" dataSource="jdbc/mariadb1">
+  select * from emp where ename like ?
+  <sql:param value="s%"></sql:param>
+  <!-- 이름이 s로 시작하는 사원의 정보 출력 -->
+</sql:query>
+
+<table width='600' border='1'>
+<tr>
+  <c:forEach var="columnName" items="${ rs.columnNames }">
+    <td>${ columnName }</td>
+  </c:forEach>
+</tr>
+<c:forEach var="row" items="${ rs.rows }">
+  <tr>
+    <td>${ row.empno }</td>
+    <td>${ row.ename }</td>
+    <td>${ row.job }</td>
+    <td>${ row.mgr }</td>
+    <td>${ row.hiredate }</td>
+    <td>${ row.sal }</td>
+    <td>${ row.comm }</td>
+    <td>${ row.deptno }</td>
+  </tr>
+</c:forEach>
+</table>
+</body>
+</html>
+```
+EL, JSTL을 이용해 우편번호 검색기 만들기
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource
+    name="jdbc/mariadb_project"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/project"
+    username="root"
+    password="123456"
+    />
+</Context>
+```
+
+```jsp
+<!-- zipcode_form.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="zipcode_ok.jsp" method="post" name="frm">
+ 동이름 : <input type="text" name="dong">
+ <input type="submit" value="검색">
+</form>
+</body>
+</html>
+
+<!-- zipcode_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%
+  request.setCharacterEncoding("utf-8");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="dong" value='${ param.dong }'></c:set>
+<sql:query var="rs" dataSource="jdbc/mariadb_project">
+  select * from zipcode where dong like ?
+  <sql:param value="${ dong }%"></sql:param>
+</sql:query>
+<table width="900" border="1">
+  <tr>
+    <c:forEach var="colName" items="${ rs.columnNames }">
+      <td>${ colName }</td>
+    </c:forEach>
+  </tr>
+  <c:forEach var="data" items="${ rs.rows }">
+    <tr>
+      <td>[${ data.zipcode }]</td>
+      <td>${ data.sido }</td>
+      <td>${ data.gugun }</td>
+      <td>${ data.dong }</td>
+      <td>${ data.ri }</td>
+      <td>${ data.bunji }</td>
+      <td>${ data.seq }</td>
+    </tr>
+  </c:forEach>
+
+</table>
+</body>
+</html>
+```
+한페이지에서 처리하는 우편번호 검색기 만들기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<% 
+  request.setCharacterEncoding("utf-8");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="zipcode_form.jsp" method="post" name="frm">
+ 동이름 : <input type="text" name="dong">
+ <input type="submit" value="검색하기">
+</form>
+
+<hr>
+<c:if test="${ !empty(param.dong) }">
+<sql:query var="rs" dataSource="jdbc/mariadb_project">
+  select * from zipcode where dong like ?
+  <sql:param value="${ param.dong }%"></sql:param>
+</sql:query>
+<table width="900" border="1">
+  <tr>
+    <c:forEach var="colName" items="${ rs.columnNames }">
+      <td>${ colName }</td>
+    </c:forEach>
+  </tr>
+  <c:forEach var="data" items="${ rs.rows }">
+    <tr>
+      <td>[${ data.zipcode }]</td>
+      <td>${ data.sido }</td>
+      <td>${ data.gugun }</td>
+      <td>${ data.dong }</td>
+      <td>${ data.ri }</td>
+      <td>${ data.bunji }</td>
+      <td>${ data.seq }</td>
+    </tr>
+  </c:forEach>
+</table>
+</c:if>
+
+</body>
+</html>
+```
+
+### 문자열 관련 라이브러리
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<c:set var="str1" value="    Hello JSTL, Hello JSTL    "></c:set>
+문자열 길이 : ${ fn:length(str1) }<br> 
+문자열 추출 : ${ fn:substring(str1, 3, 6) }<br>
+여백 제거 : ${ fn:length(fn:trim(str1)) }<br>
+치환 : ${ fn:replace(str1, " ", "-") } <br>
+검색 : ${ fn:indexOf(str1, "JS") }<br>
+특정 문자열 시작 확인 : ${ fn:startsWith(str1, " ")}<br>
+특정 문자열 시작 확인 : ${ fn:startsWith(str1, "He")}<br>
+대문자 : ${ fn:toUpperCase(str1) }<br>
+소문자 : ${ fn:toLowerCase(str1) }<br>
+</body>
+</html>
+```
+## Maven Project
+
+- 생성 방법
+
+  - 이클립스에 만들어 놓은 Maven project를 생성
+
+  - Dynamic Web Project 생성후 직접 Maven Project를 생성
+
+- 주로 Dynamic Web Project를 이용해 직접 Maven Project를 만든다
+
+- Maven Project의 사용법은 java와 같다
+
+- Dynamic Web Project로 Maven Project 만들기 순서
+
+  1<sub>st </sub> Dynamic Web Project 생성
+
+  2<sub>nd </sub> 프로젝트 오른쪽 클릭후 Configure 클릭
+
+  3<sub>rd </sub> Convert to Mavaen Project 클릭
+
+  4<sub>th </sub> 필요한 라이브러리에 따라 pom.xml 파일 수정
+
+
+Maven Project를 이용해 우편번호 검색기 만들기
+```xml
+<!-- pom.xml -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.exam</groupId>
+  <artifactId>webapp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <dependencies>
+  <!-- 라이브러리 설정을 먼저 해야한다 -->
+    <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <!--
+    https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <version>3.1.4</version>
+    </dependency>
+
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+
+<!-- context.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource
+    name="jdbc/mariadb_project"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/project"
+    username="root"
+    password="123456"
+    />
+</Context>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<% 
+  request.setCharacterEncoding("utf-8");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="zipcode_form.jsp" method="post" name="frm">
+ 동이름 : <input type="text" name="dong">
+ <input type="submit" value="검색하기">
+</form>
+
+<hr>
+<c:if test="${ !empty(param.dong) }">
+<sql:query var="rs" dataSource="jdbc/mariadb_project">
+  select * from zipcode where dong like ?
+  <sql:param value="${ param.dong }%"></sql:param>
+</sql:query>
+<table width="900" border="1">
+  <tr>
+    <c:forEach var="colName" items="${ rs.columnNames }">
+      <th>${ colName }</th>
+    </c:forEach>
+  </tr>
+  <c:forEach var="data" items="${ rs.rows }">
+    <tr>
+      <td>[${ data.zipcode }]</td>
+      <td>${ data.sido }</td>
+      <td>${ data.gugun }</td>
+      <td>${ data.dong }</td>
+      <td>${ data.ri }</td>
+      <td>${ data.bunji }</td>
+      <td>${ data.seq }</td>
+    </tr>
+  </c:forEach>
+</table>
+</c:if>
+
 </body>
 </html>
 ```
