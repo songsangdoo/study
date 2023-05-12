@@ -5483,4 +5483,811 @@ window.onload = function () {
 ```
 
 
----------------
+# Http 통신
+
+## 자료
+
+- 종류
+  - csv : ','를 구분자로 가지는 데이터 파일
+
+    jsp로 csv파일 출력하기
+  ```jsp
+  <%@ page language="java" contentType="text/plain; charset=UTF-8"
+      pageEncoding="UTF-8" trimDirectiveWhitespaces="false" %>
+  // contentType 속성의 'text/plain;charset=UTF-8'은 평문으로 출력한다는 뜻이다
+  HTML5 + CSS 입문, 삼국미디어, 유비, 3000원
+  Javascript + JQuery 입문, 삼국미디어 , 관우, 32000원
+  Node.js 프로그래밍, 삼국미디어, 장비, 22000원
+  HTML% 프로그래밍, 삼국미디어, 조조, 50000원
+  ```
+
+  - xml : 태그를 직접 만들어 트리모양으로 데이터를 전달한다 
+  
+    <small> !! https://www.tcpschool.com/xml/xml_basic_syntax 참조</small>
+
+    <small> !! html과 다르게 문법에 엄격하다</small>
+
+
+  - json
+
+### XML
+<small> !! https://www.tcpschool.com/xml/xml_basic_syntax 참조</small>
+
+```xml
+  <?xml version="1.0" encoding="utf-8" ?>
+  <books>
+    <book>
+      <name>Html + Css3 입문</name>
+      <publisher>삼국미디어</publisher>
+      <author>유비</author>
+      <price>3000원</price>
+    </book>
+    <book>
+      <name>Javascript 입문</name>
+      <publisher>삼국미디어</publisher>
+      <author>관우</author>
+      <price>32000원</price>
+    </book>
+  </books>
+  ```
+  jsp 파일로 xml 출력하기
+  ```jsp
+  <%@ page language="java" contentType="text/xml; charset=UTF-8"
+      pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+  <books>
+    <book>
+      <name>Html + Css3 입문</name>
+      <publisher>삼국미디어</publisher>
+      <author>유비</author>
+      <price>3000원</price>
+    </book>
+    <book>
+      <name>Javascript 입문</name>
+      <publisher>삼국미디어</publisher>
+      <author>관우</author>
+      <price>32000원</price>
+    </book>
+    <book>
+      <name>Node.js 프로그래밍</name>
+      <publisher>삼국미디어</publisher>
+      <author>장비</author>
+      <price>15000원</price>
+    </book>
+    <book>
+      <name>html 프로그래밍</name>
+      <publisher>삼국미디어</publisher>
+      <author>조조</author>
+      <price>50000원</price>
+    </book>
+  </books>
+
+  ```
+  데이터베이스의 데이터를 xml 형식으로 출력하기
+  ```jsp
+  <%@ page language="java" contentType="text/xml; charset=UTF-8"
+      pageEncoding="UTF-8"%>
+  <%@page import="java.sql.SQLException"%>
+  <%@page import="java.sql.DriverManager"%>
+  <%@page import="java.sql.ResultSet"%>
+  <%@page import="java.sql.PreparedStatement"%>
+  <%@page import="java.sql.Connection"%>
+  <%
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "root";
+    String password = "123456";
+  
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+  
+    StringBuilder sbXml = new StringBuilder();
+  
+    try{
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+  
+      String sql = "select * from books";
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+  
+      sbXml.append("<books>");
+      while(rs.next()){
+        sbXml.append("<book>");
+        sbXml.append("<name>" + rs.getString("name") + "</name>");
+        sbXml.append("<publisher>" + rs.getString("publisher") + "</publisher>");
+        sbXml.append("<author>" + rs.getString("author") + "</author>");
+        sbXml.append("<price>" + rs.getString("price") + "</price>");
+        sbXml.append("</book>");
+      }
+      sbXml.append("</books>");
+    }catch(SQLException e){
+      System.out.println("에러 : " + e.getMessage());
+    }finally{
+      if(rs != null) rs.close();
+      if(pstmt != null) pstmt.close();
+      if(conn != null) conn.close();
+    }
+  
+    out.println(sbXml);
+  %>
+
+  ```
+## JSON
+```jsp
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="javax.naming.NamingException"%>
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  StringBuilder sbJson = new StringBuilder();
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb_book");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select * from books";
+    pstmt = conn.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    
+    int totalRecord = 0;
+    rs.last();
+    totalRecord = rs.getRow();
+    rs.beforeFirst();
+    
+    sbJson.append("[");
+    for(int i = 0; i < totalRecord && rs.next(); i++){
+      sbJson.append("{");
+      sbJson.append("\"name\" : \"" + rs.getString("name") + "\",");
+      sbJson.append("\"publisher\" : \"" + rs.getString("publisher") + "\",");
+      sbJson.append("\"author\" : \"" + rs.getString("author") + "\",");
+      sbJson.append("\"price\" : \"" + rs.getString("price") + "\"");
+      sbJson.append("}");
+      if(i != totalRecord - 1){
+        sbJson.append(",");
+      }
+    }
+    sbJson.append("]");
+
+    /*
+    sbJson.append("[");
+    while(rs.next()){
+      sbJson.append("{");
+      sbJson.append("\"name\" : \"" + rs.getString("name") + "\",");
+      sbJson.append("\"publisher\" : \"" + rs.getString("publisher") + "\",");
+      sbJson.append("\"author\" : \"" + rs.getString("author") + "\",");
+      sbJson.append("\"price\" : \"" + rs.getString("price") + "\"");
+      sbJson.append("}");
+      sbJson.append(",");
+    }
+    sbJson.append("]");
+
+    sbJson.deleteCharAt(sbJson.lastIndexOf(","));
+    */
+
+  } catch(NamingException e){
+    System.out.println("에러 :" + e.getMessage());
+  } catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  } finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println(sbJson);
+%>
+
+```
+JSON 라이브러리를 사용해 쉽게 JSON 파일을 출력할 수 있다 
+
+<small> !! java.md 참고</small>
+
+```jsp
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
+
+<%
+  JSONArray arr = new JSONArray();
+  for(int i = 1 ; i <= 3; i++){
+    JSONObject obj = new JSONObject();
+    obj.put("name", "책이름" + i);
+    obj.put("publisher", "출판사" + i);
+    obj.put("author", "저자" + i);
+    obj.put("price", "가격" + i);
+    
+    arr.add(obj);
+  }
+  out.println(arr);
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ page import="java.sql.SQLException"%>
+<%@ page import="javax.naming.NamingException"%>
+<%@ page import="javax.naming.InitialContext"%>
+<%@ page import="javax.sql.DataSource"%>
+<%@ page import="javax.naming.Context"%>
+<%@ page import="java.sql.ResultSet"%>
+<%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.Connection"%>
+<%@ page import="org.json.simple.JSONArray" %>
+<%@ page import="org.json.simple.JSONObject" %>
+
+<%
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  JSONArray arr = new JSONArray();
+  
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb_book");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select * from books";
+    pstmt = conn.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    
+    int totalRecord = 0;
+    rs.last();
+    totalRecord = rs.getRow();
+    rs.beforeFirst();
+    
+    for(int i = 0; i < totalRecord && rs.next(); i++){
+      JSONObject obj = new JSONObject();
+      obj.put("name", rs.getString("name"));
+      obj.put("publisher", rs.getString("publisher"));
+      obj.put("author", rs.getString("author"));
+      obj.put("price", rs.getString("price"));
+      
+      arr.add(obj);
+    }
+    
+  } catch(NamingException e){
+    System.out.println("에러 :" + e.getMessage());
+  } catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  } finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println(arr);
+%>
+```
+## AJAX (Asynchronous Javascript And XML)
+
+- 전통적인 http통신 : MPA 기법으로 여러개의 html로 구성된다
+
+  <img src="https://poiemaweb.com/img/traditional-webpage-lifecycle.png" width=500>
+
+- AJAX : SPA 기법으로 한개의 html로 구성된다
+
+  <img src="https://poiemaweb.com/img/ajax-webpage-lifecycle.png" width=500>
+
+  <small>!! MPA (Multi Page Application) : 브라우저에서 요청하면 서버에서 요청에 해당되는 html 문서를 보내주는 방식</small>
+
+  <small>!! SPA (Single Page Application) : 전통적인 방식과 달리 서버에서 하는 대부분의 작업을 브라우저에서 처리하는 웹앱 기법</small>
+
+- AJAX를 이용해 데이터 요청하기
+  
+  <small> !! AJAX를 이용해 데이터를 요청한 것은 브라우저에 출력되지 않기 때문에 개발자 도구에 들어가 봐야한다</small>
+
+```jsp
+<!-- csv1.jsp -->
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="false" %>
+<%
+  System.out.println("csv1.jsp 출력");
+%>
+HTML5 + CSS 입문, 삼국미디어, 유비, 3000원
+Javascript + JQuery 입문, 삼국미디어 , 관우, 32000원
+Node.js 프로그래밍, 삼국미디어, 장비, 22000원
+HTML% 프로그래밍, 삼국미디어, 조조, 50000원
+
+<!-- ajax.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn1").onclick = function() {
+      const request = new XMLHttpRequest();
+      request.open('get', 'csv1.jsp', false);
+      // false는 동기식 데이터 처리, true는 비동기처리를 의미한다 
+      // 비동기식 데이터 처리는 스레드를 이용한다는 것을 잊지말자
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn1">요청하기</button>
+</body>
+</html>
+
+```
+
+```jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn1").onclick = function() {
+      const request = new XMLHttpRequest();
+      request.open('get', 'csv1.jsp', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+    
+    document.getElementById("btn2").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      console.log('1');
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ // 요청한 데이터를 받은 상태
+          if(request.status == 200){ // 서버에서 데이터를 받는 것을 성공했을 때
+            console.log('2');
+            console.log(request.responseText);
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'csv1.jsp', true);
+      request.send();
+      console.log('3');
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn1">요청하기1</button>
+<button id="btn2">요청하기2</button>
+</body>
+</html>
+```
+<hr>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ 
+          if(request.status == 200){ 
+            document.getElementById("ta").value = request.responseText;						
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'csv1.jsp', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn">요청하기</button>
+<br><hr><br>
+<textarea id="ta" rows="4" cols="100"></textarea>
+</body>
+</html>
+
+```
+csv 데이터 가져오기 (csv 파일은 엔터키, 쉼표를 기준으로 구분한다)
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ 
+          if(request.status == 200){ 
+            const data = request.responseText.trim();
+            const rowdatas = data.split('\n');
+            
+            let result = '<table bordeor="1">';
+            for(let i = 0; i < rowdatas.length; i++){
+              let coldatas = rowdatas[i].split(',');
+              result += '<tr>';
+              result += '<td>' + coldatas[0] + '</td>';
+              result += '<td>' + coldatas[1] + '</td>';
+              result += '<td>' + coldatas[2] + '</td>';
+              result += '<td>' + coldatas[3] + '</td>';
+              result += '</tr>';
+            }
+            result += '</table>';
+            
+            document.getElementById('result').innerHTML = result;
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'csv1.jsp', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn">요청하기</button>
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+
+```
+```jsp
+<!-- xml2.jsp -->
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%
+  String url = "jdbc:mariadb://localhost:3306/project";
+  String user = "root";
+  String password = "123456";
+  
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  StringBuilder sbXml = new StringBuilder();
+  
+  try{
+    Class.forName("org.mariadb.jdbc.Driver");
+    conn = DriverManager.getConnection(url, user, password);
+    
+    String sql = "select * from books";
+    pstmt = conn.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    
+    sbXml.append("<books>");
+    while(rs.next()){
+      sbXml.append("<book>");
+      sbXml.append("<name>" + rs.getString("name") + "</name>");
+      sbXml.append("<publisher>" + rs.getString("publisher") + "</publisher>");
+      sbXml.append("<author>" + rs.getString("author") + "</author>");
+      sbXml.append("<price>" + rs.getString("price") + "</price>");
+      sbXml.append("</book>");
+    }
+    sbXml.append("</books>");
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) rs.close();
+    if(pstmt != null) pstmt.close();
+    if(conn != null) conn.close();
+  }
+  
+  out.println(sbXml);
+%>
+
+<!-- ajax02.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ 
+          if(request.status == 200){ 
+            const xmlData = request.responseXML;
+            
+            const names = xmlData.getElementsByTagName('name');
+            const publishers = xmlData.getElementsByTagName('publisher');
+            const authors = xmlData.getElementsByTagName('author');
+            const prices = xmlData.getElementsByTagName('price');
+            
+            let result = '<table border="1">'; 
+            for(let i = 0; i < names.length; i++){
+              result += '<tr>';
+              result += '<td>' + names[i].innerHTML + '</td>';
+              result += '<td>' + publishers[i].innerHTML + '</td>';
+              result += '<td>' + authors[i].innerHTML + '</td>';
+              result += '<td>' + prices[i].innerHTML + '</td>';
+              result += '</tr>';
+            }
+            result += '</table>';
+            
+            document.getElementById('result').innerHTML = result;
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'xml2.jsp', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn">요청하기</button>
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+
+```
+<hr>
+
+kobis에서 제공하는 데이터로 주간 영화 순위 출력하기
+
+<small>!! https://www.kobis.or.kr/kobisopenapi/homepg/main/main.do</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ 
+          if(request.status == 200){ 
+            const xmlData = request.responseXML;
+            
+            const rankes = xmlData.getElementsByTagName('rank');
+            const movieNms = xmlData.getElementsByTagName('movieNm');
+            const openDts = xmlData.getElementsByTagName('openDt');
+            
+            let result = '<table border="1">';
+            result += '<tr>';
+            result += '<th>순위</th>';
+            result += '<th>영화이름</th>';
+            result += '<th>개봉일자</th>';
+            result += '</tr>';
+            for(let i = 0; i < rankes.length; i++){
+              result += '<tr>';
+              result += '<td>' + rankes[i].innerHTML + '</td>'
+              result += '<td>' + movieNms[i].innerHTML + '</td>'
+              result += '<td>' + openDts[i].innerHTML + '</td>'
+              result += '</tr>';
+            }
+            result += '</table>';
+            
+            document.getElementById('result').innerHTML = result;
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn">요청하기</button>
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("btn").onclick = function() {
+      const request = new XMLHttpRequest();
+      
+      request.onreadystatechange = function() {
+        if(request.readyState == 4){ 
+          if(request.status == 200){ 
+            const xmlData = request.responseXML;
+            
+            const weeklyBoxOffices = xmlData.getElementsByTagName('weeklyBoxOffice');
+            for(let i = 0; i < weeklyBoxOffices.length; i++){
+              for(let j = 0; j < weeklyBoxOffices[i].childNodes.length; j++){
+                console.log(weeklyBoxOffices[i].childNodes[j].nodeName + " : " + weeklyBoxOffices[i].childNodes[j].innerHTML);	
+              }
+            }
+          }else{
+            alert('페이지 오류');
+          }
+        }
+      };
+      request.open('get', 'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.xml?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101', true);
+      request.send();
+      
+      console.log(request.responseText);
+    };
+  };
+</script>
+</head>
+<body>
+<button id="btn">요청하기</button>
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+
+```
+<hr>
+
+동기식
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('btn').onclick = function() {
+			const request = new XMLHttpRequest();
+			
+			request.open('get', 'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101' , false)
+			request.send();
+			
+			const datas = request.responseText.trim();
+			const jsonData = JSON.parse(datas).boxOfficeResult.weeklyBoxOfficeList;
+			console.log(jsonData);
+			let result = '<table border="1">';
+			for(let i = 0; i < jsonData.length; i++){
+				result += '<tr>';
+				result += '<td>' + jsonData[i].rank + '</td>';
+				result += '<td>' + jsonData[i].movieNm + '</td>';
+				result += '<td>' + jsonData[i].openDt + '</td>';
+				result += '</tr>';
+			}
+			result += '</table>';
+			
+			document.getElementById('result').innerHTML = result;
+		};
+	};
+</script>
+</head>
+<body>
+<button id='btn'>요청하기</button>
+<div id='result'></div>
+</body>
+</html>
+```
+비동기식
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('btn').onclick = function() {
+			const request = new XMLHttpRequest();
+			
+			request.onreadystatechange = function() {
+				if(request.readyState == 4){ 
+					if(request.status == 200){ 
+						const datas = request.responseText.trim();
+						const jsonData = JSON.parse(datas).boxOfficeResult.weeklyBoxOfficeList;
+						let result = '<table border="1">';
+						for(let i = 0; i < jsonData.length; i++){
+							result += '<tr>';
+							result += '<td>' + jsonData[i].rank + '</td>';
+							result += '<td>' + jsonData[i].movieNm + '</td>';
+							result += '<td>' + jsonData[i].openDt + '</td>';
+							result += '</tr>';
+						}
+						result += '</table>';
+						
+						document.getElementById('result').innerHTML = result;
+					}else{
+						alert('페이지 오류');
+					}
+				}
+			};
+			request.open('get', 'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=20120101' , false)
+			request.send();
+			
+			console.log(request.responseText);
+		};
+	};
+</script>
+</head>
+<body>
+<button id='btn'>요청하기</button>
+<div id='result'></div>
+</body>
+</html>
+```

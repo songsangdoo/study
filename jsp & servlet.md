@@ -5990,78 +5990,78 @@ model1으로 검색 기능이 있는 게시판 만들기
 package model1;
 
 public class SearchBoardTO {
-	private String seq;
-	private String subject;
-	private String writer;
-	private String password;
-	private String content;
-	private String email;
-	private String hit;
-	private String wdate;
-	private String wip;
-	private String wgap;
-	
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getHit() {
-		return hit;
-	}
-	public void setHit(String hit) {
-		this.hit = hit;
-	}
-	public String getWdate() {
-		return wdate;
-	}
-	public void setWdate(String wdate) {
-		this.wdate = wdate;
-	}
-	public String getWip() {
-		return wip;
-	}
-	public void setWip(String wip) {
-		this.wip = wip;
-	}
-	public String getWgap() {
-		return wgap;
-	}
-	public void setWgap(String wgap) {
-		this.wgap = wgap;
-	}
-	
+  private String seq;
+  private String subject;
+  private String writer;
+  private String password;
+  private String content;
+  private String email;
+  private String hit;
+  private String wdate;
+  private String wip;
+  private String wgap;
+  
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getSubject() {
+    return subject;
+  }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+  public String getWriter() {
+    return writer;
+  }
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getHit() {
+    return hit;
+  }
+  public void setHit(String hit) {
+    this.hit = hit;
+  }
+  public String getWdate() {
+    return wdate;
+  }
+  public void setWdate(String wdate) {
+    this.wdate = wdate;
+  }
+  public String getWip() {
+    return wip;
+  }
+  public void setWip(String wip) {
+    this.wip = wip;
+  }
+  public String getWgap() {
+    return wgap;
+  }
+  public void setWgap(String wgap) {
+    this.wgap = wgap;
+  }
+  
 }
 
 // SearchBoardDAO.java
@@ -6080,226 +6080,226 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class SearchBoardDAO {
-	private Connection conn = null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
-	
-	public SearchBoardDAO() {
-		
-		try {
-			Context initCtx = (Context)new InitialContext();
-			Context envCtx = (Context)initCtx.lookup("java:comp/env");
-			DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb_search_board");
-			
-			conn = dataSource.getConnection();
-		} catch (NamingException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		
-	}
-	
-	public List<SearchBoardTO> boardList(String searchKey, String searchWord) {
-		List<SearchBoardTO> datas = new ArrayList<>();
-		String sql = null;
-		try {
-			if(searchKey != null) {
-				sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, datediff(wdate, now()) wgap, hit from board1 where " + searchKey + " like ? order by seq desc";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, "%" + searchWord + "%");
-				rs = pstmt.executeQuery();
-			}else {
-				sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, datediff(wdate, now()) wgap, hit from board1 order by seq desc";
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-			}
-			while(rs.next()) {
-				SearchBoardTO data = new SearchBoardTO();
-				data.setSeq(rs.getString("seq"));
-				data.setSubject(rs.getString("subject"));
-				data.setWriter(rs.getString("writer"));
-				data.setWdate(rs.getString("wdate"));
-				data.setWgap(rs.getString("wgap"));
-				data.setHit(rs.getString("hit"));
-				
-				datas.add(data);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return datas;
-	}
-	
-	public int boardWriteOk(SearchBoardTO data) {
-		int flag = 1;
-		
-		try {
-			String sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, now(), ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSubject());
-			pstmt.setString(2, data.getWriter());
-			pstmt.setString(3, data.getPassword());
-			pstmt.setString(4, data.getContent());
-			pstmt.setString(5, data.getEmail());
-			pstmt.setString(6, data.getWip());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return flag;
-	}
-	
-	public SearchBoardTO boardView(SearchBoardTO data) {
-		
-		try {
-			String sql = "update board1 set hit = hit + 1 where seq = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSeq());
-			pstmt.executeUpdate();
-			
-			sql = "select * from board1 where seq = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSeq());
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				data.setSubject(rs.getString("subject"));
-				data.setWriter(rs.getString("writer"));
-				data.setEmail(rs.getString("email"));
-				data.setWip(rs.getString("wip"));
-				data.setWdate(rs.getString("wdate"));
-				data.setHit(rs.getString("hit"));
-				data.setContent(rs.getString("content"));
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return data;
-	}
-	
-	public SearchBoardTO boardDelete(SearchBoardTO data) {
-		
-		try {
-			String sql = "select subject, writer from board1 where seq = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSeq());
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				data.setSubject(rs.getString("subject"));
-				data.setWriter(rs.getString("writer"));
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return data;
-	}
-	
-	public int boardDeleteOK(SearchBoardTO data) {
-		int flag = 2;
-		
-		try {
-			String sql = "delete from board1 where seq = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSeq());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}else {
-				flag = 1;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-			
-		return flag;
-	}
-	
-	public SearchBoardTO boardModify(SearchBoardTO data) {
-		
-		try {
-			String sql = "select * from board1 where seq = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSeq());
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				data.setSubject(rs.getString("subject"));
-				data.setWriter(rs.getString("writer"));
-				data.setContent(rs.getString("content"));
-				data.setEmail(rs.getString("email"));
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return data;
-	}
-	
-	public int boardModifyOK(SearchBoardTO data) {
-		
-		int flag = 2;
-		
-		try {
-			String sql = "update board1 set subject = ?, content = ?, email = ? where seq = ? and password = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getSubject());
-			pstmt.setString(2, data.getContent());
-			pstmt.setString(3, data.getEmail());
-			pstmt.setString(4, data.getSeq());
-			pstmt.setString(5, data.getPassword());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}else {
-				flag = 1;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return flag;
-	}
+  private Connection conn = null;
+  private PreparedStatement pstmt = null;
+  private ResultSet rs = null;
+  
+  public SearchBoardDAO() {
+    
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadb_search_board");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+    
+  }
+  
+  public List<SearchBoardTO> boardList(String searchKey, String searchWord) {
+    List<SearchBoardTO> datas = new ArrayList<>();
+    String sql = null;
+    try {
+      if(searchKey != null) {
+        sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, datediff(wdate, now()) wgap, hit from board1 where " + searchKey + " like ? order by seq desc";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, "%" + searchWord + "%");
+        rs = pstmt.executeQuery();
+      }else {
+        sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, datediff(wdate, now()) wgap, hit from board1 order by seq desc";
+        pstmt = conn.prepareStatement(sql);
+        rs = pstmt.executeQuery();
+      }
+      while(rs.next()) {
+        SearchBoardTO data = new SearchBoardTO();
+        data.setSeq(rs.getString("seq"));
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+        data.setWdate(rs.getString("wdate"));
+        data.setWgap(rs.getString("wgap"));
+        data.setHit(rs.getString("hit"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public int boardWriteOk(SearchBoardTO data) {
+    int flag = 1;
+    
+    try {
+      String sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, now(), ?)";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSubject());
+      pstmt.setString(2, data.getWriter());
+      pstmt.setString(3, data.getPassword());
+      pstmt.setString(4, data.getContent());
+      pstmt.setString(5, data.getEmail());
+      pstmt.setString(6, data.getWip());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public SearchBoardTO boardView(SearchBoardTO data) {
+    
+    try {
+      String sql = "update board1 set hit = hit + 1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSeq());
+      pstmt.executeUpdate();
+      
+      sql = "select * from board1 where seq = ?";
+      
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSeq());
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+        data.setEmail(rs.getString("email"));
+        data.setWip(rs.getString("wip"));
+        data.setWdate(rs.getString("wdate"));
+        data.setHit(rs.getString("hit"));
+        data.setContent(rs.getString("content"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return data;
+  }
+  
+  public SearchBoardTO boardDelete(SearchBoardTO data) {
+    
+    try {
+      String sql = "select subject, writer from board1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSeq());
+      
+      rs = pstmt.executeQuery();
+      if(rs.next()) {
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return data;
+  }
+  
+  public int boardDeleteOK(SearchBoardTO data) {
+    int flag = 2;
+    
+    try {
+      String sql = "delete from board1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSeq());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+      
+    return flag;
+  }
+  
+  public SearchBoardTO boardModify(SearchBoardTO data) {
+    
+    try {
+      String sql = "select * from board1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSeq());
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+        data.setContent(rs.getString("content"));
+        data.setEmail(rs.getString("email"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return data;
+  }
+  
+  public int boardModifyOK(SearchBoardTO data) {
+    
+    int flag = 2;
+    
+    try {
+      String sql = "update board1 set subject = ?, content = ?, email = ? where seq = ? and password = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, data.getSubject());
+      pstmt.setString(2, data.getContent());
+      pstmt.setString(3, data.getEmail());
+      pstmt.setString(4, data.getSeq());
+      pstmt.setString(5, data.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
 }
 
 ```
@@ -6309,38 +6309,38 @@ public class SearchBoardDAO {
 <%@page import="java.util.List"%>
 <%@page import="model1.SearchBoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	String searchKey = request.getParameter("searchKey");
-	String searchWord = request.getParameter("searchWord");
+  request.setCharacterEncoding("utf-8");
+  String searchKey = request.getParameter("searchKey");
+  String searchWord = request.getParameter("searchWord");
 
- 	SearchBoardDAO dao = new SearchBoardDAO();
- 	List<SearchBoardTO> datas = dao.boardList(searchKey, searchWord);
-	StringBuilder sbhtml = new StringBuilder(); 
-	
- 	for(SearchBoardTO data : datas){
-		sbhtml.append("<tr>");
-		sbhtml.append("<td>&nbsp;</td>");
-		sbhtml.append("<td>" + data.getSeq() + "</td>");
-		if(searchKey != null && searchKey.equals("subject")){
-			sbhtml.append("<td class='left'><a href='board_view1.jsp?seq=" + data.getSeq() + "&searchKey=" + searchKey + "&searchWord=" + searchWord +"'>" + data.getSubject().replaceAll(searchWord, "<span style='color:red'><b>" + searchWord + "</b></span>") + "</a>&nbsp;");
-		}else{
-			sbhtml.append("<td class='left'><a href='board_view1.jsp?seq=" + data.getSeq() + "&searchKey=" + searchKey + "&searchWord=" + searchWord +"'>" + data.getSubject() + "</a>&nbsp;");
-		}
-		if(data.getWgap().equals("0")){
-			sbhtml.append("<img src='../../images/icon_new.gif' alt='NEW'></td>");
-		}
-		if(searchKey != null && searchKey.equals("writer")){
-			sbhtml.append("<td>" + data.getWriter().replaceAll(searchWord, "<span style='color:red'><b>" + searchWord + "</b></span>") + "</td>");
-		}else{
-			sbhtml.append("<td>" + data.getWriter() + "</td>");
-		}
-		sbhtml.append("<td>" + data.getWdate() + "</td>");
-		sbhtml.append("<td>" + data.getHit() + "</td>");
-		sbhtml.append("<td>&nbsp;</td>");
-		sbhtml.append("</tr>");
-	} 
+   SearchBoardDAO dao = new SearchBoardDAO();
+   List<SearchBoardTO> datas = dao.boardList(searchKey, searchWord);
+  StringBuilder sbhtml = new StringBuilder(); 
+  
+   for(SearchBoardTO data : datas){
+    sbhtml.append("<tr>");
+    sbhtml.append("<td>&nbsp;</td>");
+    sbhtml.append("<td>" + data.getSeq() + "</td>");
+    if(searchKey != null && searchKey.equals("subject")){
+      sbhtml.append("<td class='left'><a href='board_view1.jsp?seq=" + data.getSeq() + "&searchKey=" + searchKey + "&searchWord=" + searchWord +"'>" + data.getSubject().replaceAll(searchWord, "<span style='color:red'><b>" + searchWord + "</b></span>") + "</a>&nbsp;");
+    }else{
+      sbhtml.append("<td class='left'><a href='board_view1.jsp?seq=" + data.getSeq() + "&searchKey=" + searchKey + "&searchWord=" + searchWord +"'>" + data.getSubject() + "</a>&nbsp;");
+    }
+    if(data.getWgap().equals("0")){
+      sbhtml.append("<img src='../../images/icon_new.gif' alt='NEW'></td>");
+    }
+    if(searchKey != null && searchKey.equals("writer")){
+      sbhtml.append("<td>" + data.getWriter().replaceAll(searchWord, "<span style='color:red'><b>" + searchWord + "</b></span>") + "</td>");
+    }else{
+      sbhtml.append("<td>" + data.getWriter() + "</td>");
+    }
+    sbhtml.append("<td>" + data.getWdate() + "</td>");
+    sbhtml.append("<td>" + data.getHit() + "</td>");
+    sbhtml.append("<td>&nbsp;</td>");
+    sbhtml.append("</tr>");
+  } 
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6351,66 +6351,66 @@ public class SearchBoardDAO {
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById("sbtn").onclick = function() {
-			if(document.sfrm.searchWord.value.trim() == ''){
-				alert('검색어를 입력해주세요');
-				return false;
-			}
-			document.sfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById("sbtn").onclick = function() {
+      if(document.sfrm.searchWord.value.trim() == ''){
+        alert('검색어를 입력해주세요');
+        return false;
+      }
+      document.sfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<div class="contents_sub">
-		<!-- 검색 시작 -->
-		<form action="board_list1.jsp" method="post" name="sfrm">
-			<div class="board_top">
-				<div class="bold">총 <span class="txt_orange"><%= datas.size() %></span>건</div>
-				<div class="f_search">
-					<select name="searchKey">
-						<option value="subject">제목</option>
-						<option value="content">내용</option>
-						<option value="writer">이름</option>
-					</select>
-					<input type="text" name="searchWord" value="" class="board_view_input_mail" />
-					<input type='button' id="sbtn" value="검색" class="btn_write btn_txt01" />
-				</div>
-			</div>
-		</form>
-		<!-- 검색 끝 -->
-		
-		<!--게시판-->
-		<div class="board">
-			<table>
-			<tr>
-				<th width="3%">&nbsp;</th>
-				<th width="5%">번호</th>
-				<th>제목</th>
-				<th width="10%">글쓴이</th>
-				<th width="17%">등록일</th>
-				<th width="5%">조회</th>
-				<th width="3%">&nbsp;</th>
-			</tr>
-			<%= sbhtml %>
-			</table>
-		</div>
-		
-		<div class="btn_area">
-			<div class="align_right">
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
-			</div>
-		</div>
-		<!--//게시판-->
-	</div>
+  <div class="contents_sub">
+    <!-- 검색 시작 -->
+    <form action="board_list1.jsp" method="post" name="sfrm">
+      <div class="board_top">
+        <div class="bold">총 <span class="txt_orange"><%= datas.size() %></span>건</div>
+        <div class="f_search">
+          <select name="searchKey">
+            <option value="subject">제목</option>
+            <option value="content">내용</option>
+            <option value="writer">이름</option>
+          </select>
+          <input type="text" name="searchWord" value="" class="board_view_input_mail" />
+          <input type='button' id="sbtn" value="검색" class="btn_write btn_txt01" />
+        </div>
+      </div>
+    </form>
+    <!-- 검색 끝 -->
+    
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
+      <%= sbhtml %>
+      </table>
+    </div>
+    
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
 </div>
 <!--//하단 디자인 -->
 
@@ -6419,12 +6419,12 @@ public class SearchBoardDAO {
 
 <!-- board_write1.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	String searchKey = request.getParameter("searchKey");
-	String searchWord = request.getParameter("searchWord");
+  request.setCharacterEncoding("utf-8");
+  
+  String searchKey = request.getParameter("searchKey");
+  String searchWord = request.getParameter("searchWord");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6435,96 +6435,96 @@ public class SearchBoardDAO {
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById("wbtn").onclick = function() {
-			if(document.wfrm.info.checked == false){
-				alert('개인정보이용에 동의해주세요');
-				return false;
-			}
-			if(document.wfrm.writer.value.trim() == ''){
-				alert('글쓴이를 입력해주세요');
-				return false;
-			}
-			if(document.wfrm.subject.value.trim() == ''){
-				alert('제목을 입력해주세요');
-				return false;
-			}
-			if(document.wfrm.password.value.trim() == ''){
-				alert('비밀번호를 입력해주세요');
-				return false;
-			}
-			document.wfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById("wbtn").onclick = function() {
+      if(document.wfrm.info.checked == false){
+        alert('개인정보이용에 동의해주세요');
+        return false;
+      }
+      if(document.wfrm.writer.value.trim() == ''){
+        alert('글쓴이를 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.subject.value.trim() == ''){
+        alert('제목을 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.wfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_write1_ok.jsp" method="post" name="wfrm">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="" class="board_view_input" /></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td><textarea name="content" class="board_editor_area"></textarea></td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
-				</tr>
-				</table>
-				
-				<table>
-				<tr>
-					<br />
-					<td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
-						<div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
-						<div style="padding-left:10px;">
-							<div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
-								1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
-								2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
-								3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
-								4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
-							</div>
-						</div>
-						<div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
-							<input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
-						</div>
-					</td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_write1_ok.jsp" method="post" name="wfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+        
+        <table>
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+                1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6537,33 +6537,33 @@ public class SearchBoardDAO {
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
+  request.setCharacterEncoding("utf-8");
 
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSubject(request.getParameter("subject"));
-	data.setWriter(request.getParameter("writer"));
-	data.setPassword(request.getParameter("password"));
-	data.setContent(request.getParameter("content").replaceAll("\n", "<br>"));
-	data.setWip(request.getRemoteAddr());
-	if(!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
-		data.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
-	}else{
-		data.setEmail("");
-	}
-	
-	SearchBoardDAO dao = new SearchBoardDAO();
-	
-	int flag = dao.boardWriteOk(data);
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글쓰기 성공');");
-		out.println("location.href='board_list1.jsp';");
-	}else{
-		out.println("alert('글쓰기 실패');");
-		out.println("history.back();");
-	}
-	out.println("</script>");
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSubject(request.getParameter("subject"));
+  data.setWriter(request.getParameter("writer"));
+  data.setPassword(request.getParameter("password"));
+  data.setContent(request.getParameter("content").replaceAll("\n", "<br>"));
+  data.setWip(request.getRemoteAddr());
+  if(!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+    data.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
+  }else{
+    data.setEmail("");
+  }
+  
+  SearchBoardDAO dao = new SearchBoardDAO();
+  
+  int flag = dao.boardWriteOk(data);
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글쓰기 성공');");
+    out.println("location.href='board_list1.jsp';");
+  }else{
+    out.println("alert('글쓰기 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
 %>
 <!DOCTYPE html>
 <html>
@@ -6580,18 +6580,18 @@ public class SearchBoardDAO {
 <%@page import="model1.SearchBoardTO"%>
 <%@page import="model1.SearchBoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
+  request.setCharacterEncoding("utf-8");
 
-	String searchKey = request.getParameter("searchKey");
-	String searchWord = request.getParameter("searchWord");
+  String searchKey = request.getParameter("searchKey");
+  String searchWord = request.getParameter("searchWord");
 
-	SearchBoardDAO dao = new SearchBoardDAO();
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSeq(request.getParameter("seq"));
-	
-	data = dao.boardView(data);
+  SearchBoardDAO dao = new SearchBoardDAO();
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSeq(request.getParameter("seq"));
+  
+  data = dao.boardView(data);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6606,53 +6606,53 @@ public class SearchBoardDAO {
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<div class="contents_sub">
-		<!--게시판-->
-		<div class="board_view">
-			<table>
-			<tr>
-				<th width="10%">제목</th>
-				<td width="60%"><%= data.getSubject() %></td>
-				<th width="10%">등록일</th>
-				<td width="20%"><%= data.getWdate() %></td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td><%= data.getWriter() %>(<%= data.getEmail() %>)(<%= data.getWip() %>)</td>
-				<th>조회</th>
-				<td><%= data.getHit() %></td>
-			</tr>
-			<tr>
-				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= data.getContent() %></td>
-			</tr>
-			</table>
-		</div>
+  <div class="contents_sub">
+    <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%"><%= data.getSubject() %></td>
+        <th width="10%">등록일</th>
+        <td width="20%"><%= data.getWdate() %></td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td><%= data.getWriter() %>(<%= data.getEmail() %>)(<%= data.getWip() %>)</td>
+        <th>조회</th>
+        <td><%= data.getHit() %></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= data.getContent() %></td>
+      </tr>
+      </table>
+    </div>
 
-		<div class="btn_area">
-			<div class="align_left">
-				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
-			</div>
-			<div class="align_right">
-				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%= data.getSeq() %>'" />
-				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%= data.getSeq() %>'" />
-				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
-			</div>
-		</div>
+    <div class="btn_area">
+      <div class="align_left">
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?seq=<%= data.getSeq() %>'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?seq=<%= data.getSeq() %>'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp'" />
+      </div>
+    </div>
 
-		<!-- 이전글 / 다음글 -->
-		<div class="next_data_area">
-			<span class="b">다음글 | </span> <a href="board_view1.jsp">다음글이 없습니다.</a>
-		</div>
-		<div class="prev_data_area">
-			<span class="b">이전글 | </span> <a href="board_view1.jsp">이전글이 없습니다.</a>
-		</div>
-		<!-- //이전글 / 다음글 -->
-		<!--//게시판-->
-	</div>
+    <!-- 이전글 / 다음글 -->
+    <div class="next_data_area">
+      <span class="b">다음글 | </span> <a href="board_view1.jsp">다음글이 없습니다.</a>
+    </div>
+    <div class="prev_data_area">
+      <span class="b">이전글 | </span> <a href="board_view1.jsp">이전글이 없습니다.</a>
+    </div>
+    <!-- //이전글 / 다음글 -->
+    <!--//게시판-->
+  </div>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6663,17 +6663,17 @@ public class SearchBoardDAO {
 <%@page import="model1.SearchBoardDAO"%>
 <%@page import="model1.SearchBoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	String searchKey = request.getParameter("searchKey");
-	String searchWord = request.getParameter("searchWord");
+  request.setCharacterEncoding("utf-8");
+  String searchKey = request.getParameter("searchKey");
+  String searchWord = request.getParameter("searchWord");
 
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSeq(request.getParameter("seq"));
-	SearchBoardDAO dao = new SearchBoardDAO();
-	
-	data = dao.boardView(data);
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSeq(request.getParameter("seq"));
+  SearchBoardDAO dao = new SearchBoardDAO();
+  
+  data = dao.boardView(data);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6684,58 +6684,58 @@ public class SearchBoardDAO {
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById("dbtn").onclick = function() {
-			if(document.dfrm.password.value.trim() == ''){
-				alert('비밀번호를 입력하세요');
-				return false;
-			}
-			document.dfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById("dbtn").onclick = function() {
+      if(document.dfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력하세요');
+        return false;
+      }
+      document.dfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_delete1_ok.jsp" method="post" name="dfrm">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" readonly/></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
-					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
-					<input type="hidden" name="seq" value="<%= data.getSeq() %>">
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_delete1_ok.jsp" method="post" name="dfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" readonly/></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?searchKey=<%= searchKey %>&searchWord=<%= searchWord %>'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6748,26 +6748,26 @@ public class SearchBoardDAO {
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSeq(request.getParameter("seq"));
-	SearchBoardDAO dao = new SearchBoardDAO();
-	
-	int flag = dao.boardDeleteOK(data);
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글 삭제 성공');");
-		out.println("location.href='board_list1.jsp';");
-	}else if(flag == 1){
-		out.println("alert('비밀번호를 확인해주세요');");
-		out.println("history.back()");
-	}else{
-		out.println("alert('글 삭제 실패');");
-		out.println("history.back()");
-	}
-	out.println("</script>");
+  request.setCharacterEncoding("utf-8");
+  
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSeq(request.getParameter("seq"));
+  SearchBoardDAO dao = new SearchBoardDAO();
+  
+  int flag = dao.boardDeleteOK(data);
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 삭제 성공');");
+    out.println("location.href='board_list1.jsp';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호를 확인해주세요');");
+    out.println("history.back()");
+  }else{
+    out.println("alert('글 삭제 실패');");
+    out.println("history.back()");
+  }
+  out.println("</script>");
 %>
 <!DOCTYPE html>
 <html>
@@ -6784,23 +6784,23 @@ public class SearchBoardDAO {
 <%@page import="model1.SearchBoardDAO"%>
 <%@page import="model1.SearchBoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSeq(request.getParameter("seq"));
-	SearchBoardDAO dao = new SearchBoardDAO();
-	
-	data = dao.boardModify(data);
-	String mail1 = "";
-	String mail2 = "";
-	if(!data.getEmail().equals("")){
-		String[] mailArr = data.getEmail().split("@");
-		mail1 = mailArr[0];
-		mail2 = mailArr[1];
-	}
-	
+  request.setCharacterEncoding("utf-8");
+  
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSeq(request.getParameter("seq"));
+  SearchBoardDAO dao = new SearchBoardDAO();
+  
+  data = dao.boardModify(data);
+  String mail1 = "";
+  String mail2 = "";
+  if(!data.getEmail().equals("")){
+    String[] mailArr = data.getEmail().split("@");
+    mail1 = mailArr[0];
+    mail2 = mailArr[1];
+  }
+  
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -6811,66 +6811,66 @@ public class SearchBoardDAO {
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/board.css">
 <script type="text/javascript">
-	window.onload = function() {
-		document.getElementById("mbtn").onclick = function() {
-			if(document.mfrm.password.value.trim() == ''){
-				alert('비밀번호를 입력해주세요');
-				return false;
-			}
-			document.mfrm.submit();
-		};
-	};
+  window.onload = function() {
+    document.getElementById("mbtn").onclick = function() {
+      if(document.mfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.mfrm.submit();
+    };
+  };
 </script>
 </head>
 
 <body>
 <!-- 상단 디자인 -->
 <div class="con_title">
-	<h3>게시판</h3>
-	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="board_modify1_ok.jsp" method="post" name="mfrm">
-		<div class="contents_sub">	
-			<!--게시판-->
-			<div class="board_write">
-				<table>
-				<tr>
-					<th class="top">글쓴이</th>
-					<td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" /></td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td><textarea name="content" class="board_editor_area"><%= data.getContent() %></textarea></td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
-				</tr>
-				</table>
-			</div>
-			
-			<div class="btn_area">
-				<div class="align_left">
-					<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
-					<input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp?seq=<%= data.getSeq() %>'" />
-				</div>
-				<div class="align_right">
-					<input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
-					<input type="hidden" name="seq" value="<%= data.getSeq() %>">
-				</div>
-			</div>
-			<!--//게시판-->
-		</div>
-	</form>
+  <form action="board_modify1_ok.jsp" method="post" name="mfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"><%= data.getContent() %></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_view1.jsp?seq=<%= data.getSeq() %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
 </div>
 <!-- 하단 디자인 -->
 
@@ -6883,35 +6883,35 @@ public class SearchBoardDAO {
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	
-	SearchBoardTO data = new SearchBoardTO();
-	data.setSeq(request.getParameter("seq"));
-	data.setSubject(request.getParameter("subject"));
-	data.setContent(request.getParameter("content"));
-	data.setPassword(request.getParameter("password"));
-	System.out.println(data.getPassword());
-	System.out.println(data.getSeq());
-	data.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
+  request.setCharacterEncoding("utf-8");
+  
+  SearchBoardTO data = new SearchBoardTO();
+  data.setSeq(request.getParameter("seq"));
+  data.setSubject(request.getParameter("subject"));
+  data.setContent(request.getParameter("content"));
+  data.setPassword(request.getParameter("password"));
+  System.out.println(data.getPassword());
+  System.out.println(data.getSeq());
+  data.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
 
-	SearchBoardDAO dao = new SearchBoardDAO();
-	
-	int flag = dao.boardModifyOK(data);
-	
-	out.println("<script type='text/javascript'>");
-	if(flag == 0){
-		out.println("alert('글 수정 성공');");
-		out.println("location.href='board_view1.jsp?seq=" + data.getSeq() + "';");
-	}else if(flag == 1){
-		out.println("alert('비밀번호를 확인해주세요');");
-		out.println("history.back();");
-	}else{
-		out.println("alert('글 수정 실패');");
-		out.println("history.back();");
-	}
-	out.println("</script>");
-	
-	
+  SearchBoardDAO dao = new SearchBoardDAO();
+  
+  int flag = dao.boardModifyOK(data);
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 수정 성공');");
+    out.println("location.href='board_view1.jsp?seq=" + data.getSeq() + "';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호를 확인해주세요');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 수정 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
+  
+  
 %>
 <!DOCTYPE html>
 <html>

@@ -16652,7 +16652,7 @@ public class NewsMain extends JFrame {
 
     - JSON(Javascript Objetct Notation) : javascript에서의 객체 표기법
 
-      <sup> https://jsonlint.com/ - JSON을 보기 쉽게 문서 구조를 바꿔준다</sup>
+      <sup> https://jsonlint.com/ - JSON을 보기 쉽게 문서 구조를 바꿔주고 이용가능한 JSON인지 검사해준다</sup>
 
   - Library(API)
 
