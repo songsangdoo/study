@@ -17043,10 +17043,14 @@ mapper 설정 파일에서 겹치는 부분은 따로 지정해서 간단히 사
 
 #### POJO (Plain Old Java Object)
 
+<small> !! 알아두기 <br>
+jsp에서의 null값 체크 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=whdals0&logNo=110176977641 참조 </small>
+
 ```java
 package mapper;
 
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 import model1.DeptTO;
 
@@ -17060,8 +17064,12 @@ public interface SqlMapperInter {
   public List<DeptTO> selectList();
 
   @Select("select deptno, dname, loc from dept where deptno = #{deptno}")
+  // 인수로 받은 값을 sql에 대입하는 것은 작은따옴표가 들어가는 '#{}'을 사용한다
+  // 테이블명을 인수로 받은 값으로 처리하고 싶다면 작은따옴표가 들어가지 않는 '${}'을 사용한다
+  // 인수를 sql에 대입하지 못하는 에러가 생길 경우 '@Param("")'을 사용해 인수를 sql에 대입하는 값으로 사용한다고 각각 지정해준다
   public List<DeptTO> selectListByDeptno(String deptno);
   // public List<DeptTO> selectListByDeptno(DeptTO to);
+  // public List<DeptTO> selectListByDeptno(@Param("deptno")DeptTO to);
 }
 ```
 ```jsp

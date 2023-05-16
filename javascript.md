@@ -4167,7 +4167,7 @@ let person = JSON.parse(json);
 
   <img src="https://poiemaweb.com/img/traditional-webpage-lifecycle.png" width=500>
 
-- AJAX : SPA 기법으로 한개의 html로 구성된다
+- AJAX : SPA 기법으로 한개의 html로 구성된다 (요청마다 문서 전체를 불러오는 것이 아닌 일부의 데이터만 가져와서 현재 페이지를 다시 구성한다)
 
   <img src="https://poiemaweb.com/img/ajax-webpage-lifecycle.png" width=500>
 
@@ -5061,8 +5061,7 @@ public class ZipcodeDAO {
 ```
 
 #### 크로스 도메인 해결 방법
-##### jsp, jsptl
-- import 구문을 사용한다
+- jstl의 import 구문을 사용한다
 
   <small> !! 내 아이피로 경유지를 만든다고 생각하자</small>
 ```jsp
@@ -5160,14 +5159,16 @@ ${ jsondata }
 
 <small> !! https://jquery.com/ 참조</small>
 
-- HTML(DOM)에 대한 접근을 편하게 하기 위해서 만든 javascript 라이브러리
+<small> !! https://www.w3schools.com/jquery/ 참조</small>
+
+- HTML(DOM)에 대한 접근을 편하게 하기 위해서 만든 javascript로 만든 javascript 라이브러리
 
 -  'https://jquery.com/' 에서 jquery 라이브러리를 다운받을 때, 압축 버전과 압축 해제 버전이 있는데, 서비스를 제공할 때는 압축 버전을 사용하고 개발할 때는 직관적으로 알아보기 쉬운 압축 해제 버전을 사용한다
 
-### jQuer 기본
+### jQuery 기본
 - $가 있으면 jQuery로 해석한다
 
-- jQuery를 여러개 사용해도 상관없지만, 보통 한개만 사용해 복잡하지 않게 한다
+- jQuery를 여러개 사용해도 상관없지만, 보통 한개만 사용해서 복잡하지 않게 한다
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5179,8 +5180,7 @@ ${ jsondata }
 <title>Insert title here</title>
 <script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-    // jQuery 시작
+  $(document).ready(function(){ // jQuery 시작
     console.log('Hello jQuery1');
   });
   $(document).ready(function(){
@@ -5199,6 +5199,9 @@ Hello jQuery !!
 </html>
 ```
 - 특정 기업에서 제공하는 CDN 라이브러리를 통해 라이브러리를 따로 다운받지 않더라도 jQuery를 사용할 수 있다
+
+  <small>!! CDN (Content Delivery Network) :
+웹사이트의 접속자가 콘텐츠를 다운로드할 때 자동으로 가장 가까운 서버에서 다운로드할 수 있도록 하는 기술 </small>
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5258,13 +5261,14 @@ Hello jQuery !!
 </body>
 </html>
 ```
-- css에서 selector를 사용하는 것처럼 html문서에 접근한다
+### jQuery API
 
-  <small> !! 알아두기 <br>
-css('color', 'red') : 글자색 바꾸기
-css('background', 'red') : 배경색 바꾸기
-</small>
+- css에서 사용하는 selector를 이용해서 html문서에 접근한다
 
+- API는 https://api.jquery.com/ 를 참조하는 게 가장 정확하다
+
+#### css()
+- html 문서의 특정 요소에 css 효과를 준다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5368,9 +5372,9 @@ css('background', 'red') : 배경색 바꾸기
     $('.c1').css('color', 'red');
     
     $('h2.c2').css('color', 'blue');
-
+    // h2 태그 중 c2 클래스인 것에 css 효과를 준다
     $('.c1.c2').css('color', 'green');
-    // c1, c2 클래스가 같이 지정된 태그에 효과를 준다
+    // c1, c2 클래스가 같이 지정된 태그에 css 효과를 준다
   });
 </script>
 </head>
@@ -5445,30 +5449,6 @@ css('background', 'red') : 배경색 바꾸기
 </body>
 </html>
 ```
-
-```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('input[data="text1"]').val('Hello jQuery');
-    // 특정 속성의 값을 가진 input 태그의 값을 설정한다
-  });
-</script>
-</head>
-<body>
-<input type="text" data="text1"><br><br>
-<input type="password" data="text2"><br><br>
-</body>
-</html>
-```
-
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5544,6 +5524,7 @@ css('background', 'red') : 배경색 바꾸기
 </body>
 </html>
 ```
+##### eq(), first(), last()
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5605,6 +5586,7 @@ css('background', 'red') : 배경색 바꾸기
 </body>
 </html>
 ```
+##### parent(), children(), prev(), next(), sibling()
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5616,10 +5598,6 @@ css('background', 'red') : 배경색 바꾸기
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    // parent(), children()
-    // prev(), next()
-    // sibling()
-    
     $('#l1').css('color', 'red');
     // $('#l1').parent().css('color', 'blue');
     
@@ -5653,7 +5631,8 @@ css('background', 'red') : 배경색 바꾸기
 </body>
 </html>
 ```
-
+#### val()
+- html 문서의 특정 요소의 value 속성의 값을 가져오거나 값을 설정한다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5664,32 +5643,57 @@ css('background', 'red') : 배경색 바꾸기
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		const arr = [
-			{name : 'daum', link : 'https://www.daum.net'},
-			{name : 'naver', link : 'https://www.naver.com'},
-			{name : 'google', link : 'https://www.google.com'}
-		];
-		
-		for(let i = 0; i < arr.length; i++){
-			console.log(arr[i].name);
-			console.log(arr[i].link);
-		}
-		
-		for(let i = 0; i < arr.length; i++){
-			for(key in arr[i]){
-				console.log(key, ':', arr[i][key]);
-			}
-		}
-			
-		arr.forEach(function (item) {
-			console.log(item.name, ':', item.link)
-		});
-		
-		$.each(arr, function(index, item) {
-			console.log(index, '.', item.name, ':', item.link);
-		})
-	});
+  $(document).ready(function(){
+    $('input[data="text1"]').val('Hello jQuery');
+    // 특정 속성의 값을 가진 input 태그의 값을 설정한다
+  });
+</script>
+</head>
+<body>
+<input type="text" data="text1"><br><br>
+<input type="password" data="text2"><br><br>
+</body>
+</html>
+```
+
+#### 배열 관련 메서드
+##### each()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    const arr = [
+      {name : 'daum', link : 'https://www.daum.net'},
+      {name : 'naver', link : 'https://www.naver.com'},
+      {name : 'google', link : 'https://www.google.com'}
+    ];
+    
+    for(let i = 0; i < arr.length; i++){
+      console.log(arr[i].name);
+      console.log(arr[i].link);
+    }
+    
+    for(let i = 0; i < arr.length; i++){
+      for(key in arr[i]){
+        console.log(key, ':', arr[i][key]);
+      }
+    }
+      
+    arr.forEach(function (item) {
+      console.log(item.name, ':', item.link)
+    });
+    
+    $.each(arr, function(index, item) {
+      console.log(index, '.', item.name, ':', item.link);
+    })
+  });
 </script>
 </head>
 <body>
@@ -5730,6 +5734,7 @@ css('background', 'red') : 배경색 바꾸기
 </body>
 </html>
 ```
+- 객체에 정의된 키값과 그 값을 이용하기 위해 사용할 수도 있다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5774,7 +5779,8 @@ css('background', 'red') : 배경색 바꾸기
       // 위의 코드와 같이 데이터만 출력한다
       
       // this.innerHTML = 'New Text : ' + index;
-      // 태그 안의 데이터 내용을 바꿀 수 있다
+      // 태그 안의 데이터 내용을 바꿀 수도 있다
+      // 데이터 내용 바꾸는 것은 map()을 이용할 수도 있다
     });
   });
 </script>
@@ -5785,6 +5791,1194 @@ css('background', 'red') : 배경색 바꾸기
 <h1>Header3</h1>
 <h1>Header4</h1>
 <h1>Header5</h1>
+</body>
+</html>
+```
+##### filter()
+- 선택된 요소들 중 어떤 조건을 만족하는 요소를 선택한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // $('h1:even').css('color', 'red');
+    $('h1').filter(':even').css('color', 'red');
+    // 위의 코드를 이렇게 쓰는 것도 가능하다
+    
+    $('h1').filter(':odd').css({
+      color : 'blue',
+      backgroundColor : 'yellow'
+    });
+    // css()에 '{}'를 사용해서 여러개의 css 효과를 줄 수 있다
+
+    // $('h1:nth-child(2n+1)').css('color', 'yellow');
+    $('h1').filter(':nth-child(2n+1)').css('color', 'yellow');
+  });
+</script>
+</head>
+<body>
+<h1>Header1</h1>
+<h1>Header2</h1>
+<h1>Header3</h1>
+<h1>Header4</h1>
+<h1>Header5</h1>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    const h1 = $('h1'); 
+    console.log(h1);
+    // 해당되는 태그가 배열의 형태로 출력된다
+    // html collection
+    
+    h1.filter(':even').css('color', 'green');
+  });
+</script>
+</head>
+<body>
+<h1>Header1</h1>
+<h1>Header2</h1>
+<h1>Header3</h1>
+<h1>Header4</h1>
+<h1>Header5</h1>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('h1').filter(function(index) {
+      return index % 2 == 0;
+      // filter의 내용을 직접 만들 수 있다
+    }).css('color', 'blue'); // true를 반환하는 짝수인 인덱스에만 css 효과를 준다
+  });
+</script>
+</head>
+<body>
+<h1>Header1</h1>
+<h1>Header2</h1>
+<h1>Header3</h1>
+<h1>Header4</h1>
+<h1>Header5</h1>
+</body>
+</html>
+```
+###### end()
+- 선택된 요소에 filter로 조건을 준 것을 취소시킨다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('h1').css('background-color', 'orange');
+    $('h1').filter(':even').css('color', 'red');
+    $('h1').filter(':odd').css('color', 'white');
+
+    $('h1').css('background-color', 'orange')
+      .filter(':even').css('color', 'red')
+      .end()
+      .filter(':odd').css('color', 'white')
+  });
+</script>
+</head>
+<body>
+<h1>Header1</h1>
+<h1>Header2</h1>
+<h1>Header3</h1>
+<h1>Header4</h1>
+<h1>Header5</h1>
+</body>
+</html>
+```
+###### add()
+- 선택된 요소 이외의 새로운 요소를 선택해 각각 작업을 할 수 있게 한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    // $('h1').css('background-color', 'orange');
+    // $('h1, h2').css('color', 'red');
+    $('h1').css('background-color', 'orange').add('h2').css('color', 'red');
+  });
+</script>
+</head>
+<body>
+<h1>Header1</h1>
+<h2>Header2</h2>
+<h1>Header3</h1>
+<h2>Header4</h2>
+<h1>Header5</h1>
+</body>
+</html>
+```
+##### find()
+- 주로 jQuery로 문서 자체를 선택했을 때, 그 하위 요소를 선택하기 위해 사용된다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    console.log($(document).find('h2'));
+    
+    $(document).find('h2').each(function(index, item) {
+      console.log(index, ':', item.innerHTML)
+      // console.log(index, ':', this.innerHTML)
+    });
+    
+    $(document).find('.c').each(function() {
+      console.log(index, ':', this.innerHTML);
+    });
+  });
+</script>
+</head>
+<body>
+<h2 class="c">Header1</h2>
+<h2>Header2</h2>
+<h2 class="c">Header3</h2>
+<h2>Header4</h2>
+<h2 class="c">Header5</h2>
+</body>
+</html>
+```
+##### parseXML()
+- 문자열을 xml 데이터로 구문 분석해서 반환한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  const xml = `<friends>
+    <friend>
+      <name>tester1</name>
+      <language>javascript</language>
+    </friend>
+    <friend>
+      <name>tester2</name>
+      <language>java</language>
+    </friend>
+    <friend>
+      <name>tester3</name>
+      <language>html</language>
+    </friend>
+    </friends>`
+
+  $(document).ready(function(){
+    console.log(typeof xml);
+    
+    const xmlDoc = $.parseXML(xml);
+    console.log(typeof xmlDoc);
+    
+    $(xmlDoc).find('friend').each(function(index, item) {
+      console.log(index);
+      console.log(item.innerHTML);
+      console.log($(item).find('name')[0].innerHTML);
+      console.log($(item).find('language')[0].innerHTML);
+    });
+  });
+</script>
+</head>
+<body>
+</body>
+</html>
+```
+##### is()
+- 특정 요소가 존재하는지 확인해서 true, false를 반환한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('h2').each(function() {
+      if($(this).is('.c')){ 
+        $(this).css('color', 'orange');
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<h2 class="c">Header1</h2>
+<h2>Header2</h2>
+<h2 class="c">Header3</h2>
+<h2>Header4</h2>
+<h2 class="c">Header5</h2>
+</body>
+</html>
+```
+##### extend()
+- 동적으로 객체에 프로퍼티를 추가시킨다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    let obj = {name : '홍길동'};
+    console.log(obj);
+    
+    obj.region1 = '서울시 종로구';
+    obj.part1 = '리더';
+    // 동적으로 프로퍼티 추가
+    console.log(obj);
+    
+    $.extend(obj, {region2 : '서울시 강남구', part2 : '베이스'},
+        {region3 : '서울시 서초구', part3 : '세컨드'});
+    // 객체에 대한 확장이 가능하다
+  });
+</script>
+</head>
+<body>
+
+</body>
+</html>
+```
+##### noConflict()
+- '\$' 사용으로 충돌이 생길 수 있는 상황을 막기 위해 jQuery를 이용하기 위한 '$'를 사용하면 에러가 생기게 한다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $.noConflict();
+
+  const J = jQuery;
+  
+  // $(document).ready(function(){
+  // 에러가 생긴다
+
+  // jQuery(document).ready(function(){
+  J(document).ready(function(){
+    let obj = {name : '홍길동'};
+    
+    J.extend(obj, {region2 : '서울시 강남구', part2 : '베이스'},
+        {region3 : '서울시 서초구', part3 : '세컨드'}
+    );
+  });
+</script>
+</head>
+<body>
+</body>
+</html>
+```
+##### html(), text()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById('btn1').onclick = function() {
+      const html = document.getElementById('result');
+      console.log(html.innerHTML);
+      console.log(html.textContent);
+      // 기존의 javascript 방식		
+      
+      console.log($('#result').html());
+      console.log($('#result').text());
+      // jQuery 방식
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      // const html = document.getElementById('result');
+      // html.innerHTML = '<i>새로운 결과</i>';
+      // html.textContent = '<i>새로운 결과</i>';
+      
+      // $('#result').html('<i>새로운 결과</i>');
+      $('#result').text('<i>새로운 결과</i>');
+    };
+  });
+</script>
+</head>
+<body>
+
+<button id="btn1">내용 확인</button>
+<button id="btn2">내용 수정</button>
+<br><hr><br>
+<div id="result"><b>출력내용</b></div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById('btn1').onclick = function() {
+      $('div').html(function(index) {
+        return '<i>새로운 결과' + index + '</i>';
+      });
+    };
+  });
+</script>
+</head>
+<body>
+
+<button id="btn1">내용 확인</button>
+<br><hr><br>
+<div><b>출력내용1</b></div>
+<div><b>출력내용2</b></div>
+<div><b>출력내용3</b></div>
+</body>
+</html>
+```
+jQuery로 구구단 출력하기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.getElementById('btn').onclick = function() {
+      const startDan = $('#startDan').val();
+      const endDan = $('#endDan').val();
+      
+      let result = '<table border="1">';
+      for(let i = startDan; i <= endDan; i++){
+        result += '<tr>';
+        result += '<td>' + i + '단</td>';
+        for(let j = 1; j <= 9; j++){
+          result += '<td>' + i + ' X ' + j + ' = ' + (i * j) + '</td>'; 
+        }
+        result += '</tr>';
+      }
+      result += '</table>';
+      
+      $('#result').html(result);
+    };
+  });
+</script>
+</head>
+<body>
+시작단 <input type="text" id="startDan">
+~
+끝단 <input type="text" id="endDan">
+<button id="btn">구구단 출력</button>
+
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+```
+##### empty(), remove()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById('btn1').onclick = function() {
+      $('#d').html('');
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      $('#d').empty();
+      // empty()는 태그 안의 내용만 삭제시킨다
+    };
+    
+    document.getElementById('btn3').onclick = function() {
+      $('#d').remove();
+      // remove()는 태그 자체를 삭제시킨다
+    };
+    
+    document.getElementById('btn4').onclick = function() {
+      $('p').first().remove();
+      // p 태그 중 첫번째 태그만 삭제
+    };
+  });
+</script>
+</head>
+<body>
+<button id="btn1">내용 삭제</button>
+<button id="btn2">내용 삭제</button>
+<button id="btn3">내용 삭제</button>
+<button id="btn4">내용 삭제</button>
+<br><hr><br>
+<div id="d">
+  <p>내용 1</p>
+  <p>내용 2</p>
+</div>
+</body>
+</html>
+```
+##### appendTo(), prependTo(), insertAfter(), insertBefore()
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    document.getElementById('btn1').onclick = function() {
+      $('<i>Hello jQuery</i>').appendTo('#result');
+      // $('<i></i>').html('Hello jQuery').appendTo('#result');
+      // jQuery에 선택자가 아닌 html 내용을 사용한다면 그 html의 내용 자체를 생성한다
+      // $('<i>Hello jQuery</i>').prependTo('#result');
+      // $('<i>Hello jQuery</i>').insertAfter('#result');
+      // $('<i>Hello jQuery</i>').insertBefore('#result');
+    };
+  });
+</script>
+</head>
+<body>
+
+<button id="btn1">내용 추가</button>
+<br><hr><br>
+<div id="result"><b>출력내용1</b></div>
+</body>
+</html>
+```
+##### attr(), removeAttr()
+- 선택된 요소의 특정 속성 값의 사용, 수정, 삭제에 이용된다
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.getElementById('btn1').onclick = function() {
+      // console.log($('img').attr('src'));
+      // 에러가 나지 않고 제일 처음 태그의 속성만 출력된다
+      
+      $('img').each(function(index, item) {
+        console.log($(item).attr('data'));
+      });
+      $('img').attr('src', function(index, item) {
+        console.log(item);
+      });
+      // 선택된 태그 전부의 속성 값을 모두 출력한다
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      // $('img').attr('width', 100);
+      // 모든 img 태그의 width 속성 값을 바꾼다
+      
+      // $('img').attr('width', function(index) {
+      //   return (index + 1) * 100;
+      // });
+      // img 태그마다 다른 속성 값을 줄 수도 있다
+      
+      $('img').attr({
+        width : function(index) {
+          return (index + 1) * 100;
+        },
+        height : 200
+      })
+    };
+    
+    document.getElementById('btn3').onclick = function() {
+      $('img').removeAttr('height');
+      // 특정 속성의 값으로 준 것을 없앤다
+    };
+  });
+</script>
+</head>
+<body>
+<button id="btn1">속성 내용</button>
+<button id="btn2">속성 수정</button>
+<button id="btn3">속성 제거</button>
+<br><hr><br>
+<img src="./images1/Chrysanthemum.jpg" width="150" data="1">
+<!-- html에서는 개발자 임의로 속성을 만들고 값을 줄 수 있다 -->
+<img src="./images1/Desert.jpg" width="150" data="2">
+<img src="./images1/Hydrangeas.jpg" width="150" data="3"> 
+<img src="./images1/Jellyfish.jpg" width="150" data="4">
+</body>
+</html>
+```
+#### html 문서 안의 데이터 사용하기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.getElementById('btn1').onclick = function() {
+      // console.log(document.frm.data.value);
+      // 기존의 javascript 방식
+      
+      console.log($('#data').val());
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      $('#data').val('새로운 데이터');
+    };
+    
+    document.getElementById('btn3').onclick = function() {
+      $('input:checkbox:checked').each(function() {
+        console.log($(this).val());
+      });
+    };
+    
+    document.getElementById('btn4').onclick = function() {
+      console.log($('#sel option:selected').val());
+    };
+  });
+</script>
+</head>
+<body>
+<button id="btn1">내용</button>
+<button id="btn2">내용 넣기</button>
+<button id="btn3">체크된 값 확인하기</button>
+<button id="btn4">선택된 값 확인하기</button>
+<br><hr><br>
+<form action="" name="frm">
+데이터 <input type="text" name="data" id="data">
+
+<input type="checkbox" id="ch1" name="ch" value="사과">사과<br>
+<input type="checkbox" id="ch1" name="ch" value="수박">수박<br>
+<input type="checkbox" id="ch1" name="ch" value="딸기">딸기<br>
+<input type="checkbox" id="ch1" name="ch" value="참외">참외<br>
+
+<select id="sel">
+  <option value="사과">사과</option> 
+  <option value="수박">수박</option> 
+  <option value="참외">참외</option> 
+  <option value="딸기">딸기</option> 
+</select>
+</form>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c1{ color : red;}
+  .c2{ color : green;}
+  .c3{ color : blue;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.getElementById('btn1').onclick = function() {
+      // console.log($('h2').css('color'));
+      // 첫번째 태그의 속성만 출력된다
+      
+      $('h2').css('color', function(index, item) {
+        console.log(item);
+      });
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      // $('h2').css('color', 'orange');	
+      const colors = ['purple', 'black', 'cyan'];
+      $('h2').css('color', function(index, item) {
+        return colors[index];
+      });
+    };
+  });
+</script>
+</head>
+<body>
+<button id="btn1">내용</button>
+<button id="btn2">변경</button>
+<br><hr><br>
+<h2 class="c1">header 1</h2>
+<h2 class="c2">header 2</h2>
+<h2 class="c3">header 3</h2>
+</form>
+</body>
+</html>
+```
+##### addClass(), removeClass(), toggleClass()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    document.getElementById('btn1').onclick = function() {
+      $('h2').addClass('c');
+    };
+    
+    document.getElementById('btn2').onclick = function() {
+      $('h2').removeClass('c');
+    };
+    
+    document.getElementById('btn3').onclick = function() {
+      $('h2').toggleClass('c');
+    };
+  });
+</script>
+</head>
+<body>
+<button id="btn1">클래스 추가</button>
+<button id="btn2">클래스 삭제</button>
+<button id="btn3">클래스 추가/삭제</button>
+<br><hr><br>
+<h2>header 1</h2>
+<h2>header 2</h2>
+<h2>header 3</h2>
+</form>
+</body>
+</html>
+```
+### jQuery 이벤트
+```jsp
+$(선택자).이벤트메서드(function(){
+  처리
+});
+
+$(선택자).on('이벤트이름', function(){
+  처리
+});
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn1').click(function() {
+      alert('btn1 click');
+    });
+    
+    $('#btn1').mouseover(function() {
+      alert('btn1 over');
+    });
+    
+    $('#btn2').click(function() {
+      alert('btn2 click');
+    });
+    
+    $('#btn3').click(function() {
+      alert('btn3 click');
+    });
+  });
+</script>
+</head>
+<body>
+<input type="button" id="btn1" value="버튼1"><br><br>
+<button id="btn2">버튼2</button><br><br>
+<div id="btn3" style="width:100px;height:20px;border:1px solid black">버튼3</div>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn1').on('click', function() {
+      alert('btn1 click');
+    });
+    
+    $('#btn2').on('click', function() {
+      alert('btn2 click');
+    });
+    
+    $('#btn3').on('click', function() {
+      alert('btn3 click');
+    });
+  });
+</script>
+</head>
+<body>
+<input type="button" id="btn1" value="버튼1"><br><br>
+<button id="btn2">버튼2</button><br><br>
+<div id="btn3" style="width:100px;height:20px;border:1px solid black">버튼3</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn1').on('click mouseover mouseleave', function() {
+      // 공백을 이용해 여러개 이벤트에 대한 내용을 지정할 수 있다
+      console.log('btn1 mouse event');
+    });
+    
+    $('#btn2').on({
+      'click' : function() {
+        console.log('click');	
+      },
+      'mouseover' : function() {
+        console.log('mouseover');	
+      },
+      'mouseleave' : function() {
+        console.log('mouseleave');	
+      }
+    });
+    
+  });
+</script>
+</head>
+<body>
+<input type="button" id="btn1" value="버튼1"><br><br>
+<button id="btn2">버튼2</button><br><br>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('button').on('click', function() {
+      alert('button click : ' + $(this).attr('id'));
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">버튼1</button><br><br>
+<button id="btn2">버튼2</button><br><br>
+<button id="btn3">버튼3</button><br><br>
+</body>
+</html>
+```
+
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn').on('click', function() {
+      $.ajax({
+        // url : './data/csv1.jsp',
+        // url : './data/xml1.jsp',
+        url : './data/json1.jsp',
+        type : 'get',
+        datatype : 'json',
+        // datatype은 따로 지정하지 않아도 자동으로 정해지지만, 되도록이면 확실하게 정해주도록 하자
+        success : function(csvData) {
+          console.log('성공 : ', typeof csvData);
+          console.log(csvData);
+        },
+        error : function(err) {
+          console.log('실패', err.status);
+          console.log('실패', err.responseText);
+        }
+      })
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn">버튼1</button><br><br>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  .c{ color : red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn').on('click', function() {
+      $.ajax({
+        url : './data/xml1.jsp',
+        type : 'get',
+        datatype : 'xml',
+        success : function(xmlData) {
+          let html = '<table border="1">';
+          $(xmlData).find('book').each(function() {
+            html += '<tr>';
+            html += '<td>' + $(this).find('name').text() + '</td>';
+            html += '<td>' + $(this).find('publisher').text() + '</td>';
+            html += '<td>' + $(this).find('author').text() + '</td>';
+            html += '<td>' + $(this).find('price').text() + '</td>';
+            html += '</tr>';
+          }) 
+          html += '</table>';
+          $('#result').html(html);
+        },
+        error : function(err) {
+          console.log('실패', err.status);
+          console.log('실패', err.responseText);
+        }
+      });
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn">버튼1</button><br><br>
+<hr><br>
+<div id='result'></div>
+
+</body>
+</html>
+```
+
+jQuery로 우편번호 검색기 만들기
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource
+    name="jdbc/mariadbProject"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/project"
+    username="root"
+    password="123456"
+  />
+</Context>
+```
+```java
+// ZipcodeTO.java
+package model1;
+
+public class ZipcodeTO {
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+  
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
+  public String getSido() {
+    return sido;
+  }
+  public void setSido(String sido) {
+    this.sido = sido;
+  }
+  public String getGugun() {
+    return gugun;
+  }
+  public void setGugun(String gugun) {
+    this.gugun = gugun;
+  }
+  public String getDong() {
+    return dong;
+  }
+  public void setDong(String dong) {
+    this.dong = dong;
+  }
+  public String getRi() {
+    return ri;
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class ZipcodeDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public ZipcodeDAO() {
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<ZipcodeTO> searchZipcode(String dong){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select * from zipcode where dong like ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, dong + "%");
+      
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        data.setZipcode(rs.getString("zipcode"));
+        data.setSido(rs.getString("sido"));
+        data.setGugun(rs.getString("gugun"));
+        data.setDong(rs.getString("dong"));
+        data.setRi(rs.getString("ri"));
+        data.setBunji(rs.getString("bunji"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try{rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try{pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try{conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+}
+```
+```jsp
+<!-- zipcodeXml.jsps -->
+<%@page import="model1.ZipcodeTO"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.ZipcodeDAO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  String strDong = request.getParameter("dong");
+
+  ZipcodeDAO dao = new ZipcodeDAO();
+  List<ZipcodeTO> datas = dao.searchZipcode(strDong);
+  
+  StringBuilder sbXML = new StringBuilder();
+  sbXML.append("<addresses>");
+  for(int i = 0; i < datas.size(); i++){
+    sbXML.append("<address>");
+    sbXML.append("<zipcode>" + datas.get(i).getZipcode() + "</zipcode>");
+    sbXML.append("<sido>" + datas.get(i).getSido() + "</sido>");
+    sbXML.append("<gugun>" + datas.get(i).getGugun() + "</gugun>");
+    sbXML.append("<dong>" + datas.get(i).getDong() + "</dong>");
+    sbXML.append("<ri>" + datas.get(i).getRi() + "</ri>");
+    sbXML.append("<bunji>" + datas.get(i).getBunji() + "</bunji>");
+    sbXML.append("</address>");
+  }
+  sbXML.append("</addresses>");
+%>
+<%= sbXML %>
+
+<!-- zipcode.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn').on('click', function() {
+      $.ajax({
+        url : './data/zipcodeXml.jsp?dong=' + $('#strDong').val(),
+        type : 'get',
+        datatype : 'xml',
+        success : function(xmlData) {
+          let html = '<table border="1">';
+          $(xmlData).find('address').each(function() {
+            html += '<tr>';
+            html += '<td>' + $(this).find('zipcode').text() + '</td>';
+            html += '<td>' + $(this).find('sido').text() + '</td>';
+            html += '<td>' + $(this).find('gugun').text() + '</td>';
+            html += '<td>' + $(this).find('dong').text() + '</td>';
+            html += '<td>' + $(this).find('ri').text() + '</td>';
+            html += '<td>' + $(this).find('bunji').text() + '</td>';
+            html += '</tr>';
+          });
+          html += '</table>';
+          $('#result').html(html);
+        },
+        error : function(err) {
+          console.log('실패', err.status);
+          console.log('실패', err.responseText);
+      });
+    });
+  });
+</script>
+</head>
+<body>
+동이름 : <input type="text" id="strDong" name="strDong"><input type="button" id="btn" value="주소 검색">
+<div id="result"></div>
 </body>
 </html>
 ```
