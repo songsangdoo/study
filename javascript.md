@@ -6681,7 +6681,7 @@ $(선택자).on('이벤트이름', function(){
 </html>
 ```
 
-
+#### ajax()
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6979,6 +6979,945 @@ public class ZipcodeDAO {
 <body>
 동이름 : <input type="text" id="strDong" name="strDong"><input type="button" id="btn" value="주소 검색">
 <div id="result"></div>
+</body>
+</html>
+```
+### jQuery UI
+<small>!! https://jqueryui.com/ widget 참고</small>
+
+- 라이브러리 다운로드
+
+  https://jqueryui.com/ &rarr; download &rarr; stable, theme 다운로드
+
+  <small> !! stable 은 js 파일로 jQuery UI 라이브러리에 해당된다</small>
+
+  <small> !! theme 은 css 파일들의 집합으로 jQuery UI css 효과를 준다</small>
+
+  <small> !! stable, theme 가 모두 있어야 문서의 요소에 jQuery UI를 줄 수 있다</small>
+
+#### 요소에 jQuery UI 디자인 주기
+
+##### button()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/base/jquery-ui.css">
+<style type="text/css">
+  /* 사용자 스타일 */
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    console.log('Hello jQuery UI !!');
+    
+    $('#btn1').button(); 
+    $('input[type="button"]').button();
+    $('a').button();
+    $('#btn2').button();
+    // 버튼과 관련이 없는 태그더라도 button 디자인을 줄 수 있다
+  });
+</script>
+</head>
+<body>
+<input type="button" value="버튼 1"><br><br>
+<input type="submit" value="버튼 2"><br><br>
+<button>버튼 3</button><br><br>
+
+<button id="btn1">버튼 4</button><br><br>
+
+<a href="https://www.daum.net">다음 바로가기</a><br><br>
+
+<div id="btn2">버튼 5</div>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/base/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn1').button().on('click', function() {
+      alert('btn1 클릭');
+    });
+    
+    $('#btn2').button().on('click', function() {
+      alert('btn2 클릭');
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">버튼 1</button><br><br>
+<div id="btn2">버튼 2</div>
+</body>
+</html>
+```
+###### icon 주기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/base/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn1').button({
+      icon : 'ui-icon-gear',
+      iconPosition : 'end'
+      // top, bottom, end, 없음
+    });
+    
+    $('#btn2').button({
+      icon : 'ui-icon-flag',
+      showLabel : false
+      // 버튼 안의 내용을 보여주지 않는다
+    }).on('click', function() {
+      alert('btn2 클릭');
+    });
+    // javascript는 메서드 체이닝을 주로 사용한다
+  });
+</script>
+</head>
+<body>
+<button id="btn1">버튼 1</button><br><br>
+<div id="btn2">버튼 2</div>
+</body>
+</html>
+```
+##### checkboxradio()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/base/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('input[type="checkbox"]').checkboxradio();
+  });
+</script>
+</head>
+<body>
+<fieldset>
+  <legend>Hotel Ratings</legend>
+  <label for="cb1">2 Star</label><input type="checkbox" id="cb1">
+  <label for="cb2">3 Star</label><input type="checkbox" id="cb2">
+  <label for="cb3">4 Star</label><input type="checkbox" id="cb3">
+  <label for="cb4">5 Star</label><input type="checkbox" id="cb4">
+</fieldset>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/base/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('input[type="radio"]').checkboxradio({
+      icon : false
+      // toggle button 형태로 만든다
+    }).on('change', function() { // 선택의 변화가 생겼을 때의 이벤트
+      console.log('radio change')
+    });
+  });
+</script>
+</head>
+<body>
+<fieldset>
+  <legend>Hotel Ratings</legend>
+  <label for="cb1">2 Star</label><input type="radio" id="cb1" name="radio">
+  <!-- name 속성의 값을 줘야 다중선택이 되지 않는다 -->
+  <label for="cb2">3 Star</label><input type="radio" id="cb2" name="radio">
+  <label for="cb3">4 Star</label><input type="radio" id="cb3" name="radio">
+  <label for="cb4">5 Star</label><input type="radio" id="cb4" name="radio">
+</fieldset>
+</body>
+</html>
+```
+##### progressbar()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#progressbar').progressbar({
+      value : 10
+      // 단위는 %
+      // 초깃값은 반드시 이렇게 설정해줘야 한다
+    });
+    
+    $('#btn1').button().on('click', function() {
+      const value = $('#progressbar').progressbar('value');
+      console.log(value);
+      
+      $('#progressbar').progressbar('value', 50);
+      // 초깃값을 집어넣은 상태여야 이와 같은 방식으로 값 변경을 시킬 수 있다
+    });
+    
+    $('#btn2').button().on('click', function() {
+      
+      $('#progressbar').progressbar('value', $('#progressbar').progressbar('value') + 10);
+    });
+    $('#btn3').button().on('click', function() {
+      
+      $('#progressbar').progressbar('value', $('#progressbar').progressbar('value') - 10);
+    });
+  });
+</script>
+</head>
+<body>
+
+<div id="progressbar"></div>
+<br><hr><br>
+<button id="btn1">값(50)</button>
+<button id="btn2">증가</button>
+<button id="btn3">감소</button>
+
+</body>
+</html>
+```
+
+##### slider()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#slider').slider({
+      // orientaion : 'vertical'
+      // 수직모양 슬라이더
+      value : 50,
+      min : 0,
+      max : 200,
+      step : 20,
+      slide : function(event, ui) {
+        console.log('slide : ' , $(this).slider('value'));
+        console.log('slide : ' , ui.value);
+      }
+    });
+    
+    $('#btn').button().on('click', function() {
+      const value = $('#slider').slider('value');
+      console.log(value);
+    });
+  });
+</script>
+</head>
+<body>
+
+<div id="slider"></div>
+<br><hr><br>
+<button id="btn">값 확인</button>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#slider').slider({
+      range : true,
+      min : 0,
+      max : 500,
+      values : [75, 300],
+      slide : function(event, ui) {
+        // console.log(ui.values[0], '/', ui.values[1]);
+        console.log($(this).slider('values', 0), '/', $(this).slider('values', 1));
+      }
+    });
+    
+    $('#btn').button().on('click', function() {
+      const value = $('#slider').slider('value');
+      console.log(value);
+    });
+  });
+</script>
+</head>
+<body>
+
+<div id="slider"></div>
+<br><hr><br>
+<button id="btn">값 확인</button>
+
+</body>
+</html>
+```
+slider color-picker
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<title>Insert title here</title>
+<script type="text/javascript">
+  $(document).ready(function() {
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+    
+    $('#red, #green, #blue').slider({
+      mit : 0,
+      max : 255,
+      step : 1
+    });
+    
+    $('#red').slider({
+      slide : function() {
+        red = $(this).slider('value');
+        $('#color').css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')')
+      }
+    })
+    
+    $('#green').slider({
+      slide : function() {
+        green = $(this).slider('value');
+        $('#color').css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')')
+      }
+    })
+    
+    $('#blue').slider({
+      slide : function() {
+        blue = $(this).slider('value');
+        $('#color').css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')')
+      }
+    })
+    
+  });
+</script>
+</head>
+<body>
+Red<br><br>
+<div id="red"></div><br><br>
+Green<br><br>
+<div id="green"></div><br><br>
+Blue<br><br>
+<div id="blue"></div><br><br>
+
+<br><hr><br>
+
+<div id="color" style="width:500px;height:300px"></div>
+</body>
+</html>
+```
+##### spinner()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#spinner').spinner({
+      min : 5,
+      max : 250,
+      step : 25,
+      spin : function() {
+        console.log($(this).spinner('value'));
+      }
+    });
+    
+    $('#btn').button().on('click', function() {
+      console.log($('#spinner').spinner('value'));
+    });
+  });
+</script>
+</head>
+<body>
+
+<div>
+  <label for="spinner">데이터</label>
+  <input type="text" id="spinner" value="50" readonly>
+</div>
+<br><hr><br>
+<button id="btn">값 확인</button>
+</body>
+</html>
+```
+
+##### selectmenu()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#files').selectmenu({
+      width : 500,
+      change : function() {
+        let value = $(this).val();
+        console.log($('option[value=' + value +']');
+        // 값 나오게 하기
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<select id="files">
+  <option disabled="disabled" selected>선택하세요</option>
+  <optgroup label="classA">
+    <option value="jquery">jQuery.js</option>
+    <option value="jqueryui">jQueryui.js</option>
+  </optgroup>
+  <optgroup label="classB">
+    <option value="jquery">jQuery.js</option>
+    <option value="jqueryui">jQueryui.js</option>
+  </optgroup>
+  <optgroup label="classC">
+    <option value="jquery">jQuery.js</option>
+    <option value="jqueryui">jQueryui.js</option>
+  </optgroup>
+</select>
+</body>
+</html>
+```
+jQuery UI 우편번호 검색기
+```java
+// ZipcodeTO.java
+package model1;
+
+public class ZipcodeTO {
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+  
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
+  public String getSido() {
+    return sido;
+  }
+  public void setSido(String sido) {
+    this.sido = sido;
+  }
+  public String getGugun() {
+    return gugun;
+  }
+  public void setGugun(String gugun) {
+    this.gugun = gugun;
+  }
+  public String getDong() {
+    return dong;
+  }
+  public void setDong(String dong) {
+    this.dong = dong;
+  }
+  public String getRi() {
+    return ri;
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
+  
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class ZipcodeDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public ZipcodeDAO() {
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<ZipcodeTO> sidos(){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select distinct sido from zipcode";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        data.setSido(rs.getString("sido"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally { 	
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public List<ZipcodeTO> guguns(ZipcodeTO input){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select distinct gugun from zipcode where sido = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSido());
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        data.setGugun(rs.getString("gugun"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt!= null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public List<ZipcodeTO> dongs(ZipcodeTO input){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select distinct dong from zipcode where sido = ? and gugun = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSido());
+      pstmt.setString(2, input.getGugun());
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        data.setDong(rs.getString("dong"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public List<ZipcodeTO> addresses(ZipcodeTO input){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select * from zipcode where sido = ? and gugun = ? and dong = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSido());
+      pstmt.setString(2, input.getGugun());
+      pstmt.setString(3, input.getDong());
+      
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        data.setZipcode(rs.getString("zipcode"));
+        data.setSido(rs.getString("sido"));
+        data.setGugun(rs.getString("gugun"));
+        data.setDong(rs.getString("dong"));
+        data.setRi(rs.getString("ri"));
+        data.setBunji(rs.getString("bunji"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+}
+```
+```jsp
+<!-- sido.jsp -->
+<%@page import="java.util.List"%>
+<%@page import="model1.ZipcodeDAO"%>
+<%@page import="model1.ZipcodeTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  ZipcodeDAO dao = new ZipcodeDAO();
+  List<ZipcodeTO> sidos = dao.sidos();
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<address>");
+  for(int i = 0; i < sidos.size(); i++){
+    sbXml.append("<sido>" + sidos.get(i).getSido() + "</sido>");
+  }
+  sbXml.append("</address>");
+%>
+<%= sbXml %>
+
+<!-- gugun.jsp -->
+<%@page import="java.util.List"%>
+<%@page import="model1.ZipcodeDAO"%>
+<%@page import="model1.ZipcodeTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  ZipcodeTO input = new ZipcodeTO();
+  input.setSido(request.getParameter("sido"));
+  
+  ZipcodeDAO dao = new ZipcodeDAO();
+  List<ZipcodeTO> guguns = dao.guguns(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<address>");
+  for(int i = 0; i < guguns.size(); i++){
+    sbXml.append("<gugun>" + guguns.get(i).getGugun() + "</gugun>");
+  }
+  sbXml.append("</address>");
+%>
+<%= sbXml %>
+
+<!-- dong.jsp -->
+<%@page import="java.util.List"%>
+<%@page import="model1.ZipcodeDAO"%>
+<%@page import="model1.ZipcodeTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  ZipcodeTO input = new ZipcodeTO();
+  input.setSido(request.getParameter("sido"));
+  input.setGugun(request.getParameter("gugun"));
+  
+  ZipcodeDAO dao = new ZipcodeDAO();
+  List<ZipcodeTO> dongs = dao.dongs(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<address>");
+  for(int i = 0; i < dongs.size(); i++){
+    sbXml.append("<dong>" + dongs.get(i).getDong() + "</dong>");
+  }
+  sbXml.append("</address>");
+%>
+<%= sbXml %>
+```
+```jsp
+<!-- zipcode.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#sido, #gugun, #dong').selectmenu({
+      width : 150
+    });
+    
+    $.ajax({
+      url : './data/sido.jsp',
+      type : 'get',
+      datatype : 'xml',
+      success : function(xmlData) {
+        let opts = '';
+        $(xmlData).find('sido').each(function() {
+          opts += '<option value=' + $(this).text() + '>' + $(this).text() + '</option>';
+        });
+        $(opts).appendTo('#sido');
+      },
+      error : function(e) {
+        console.log('에러 : ' + e.status)
+      }
+    });
+    
+    $('#sido').selectmenu({
+      change : function() {
+        $.ajax({
+          // url : './data/gugun.jsp?sido=' + $('#sido').val(),
+          url : './data/gugun.jsp', 
+          type : 'get',
+          data : {
+            sido : $('#sido').val()
+          },
+          datatype : 'xml',
+          success : function(xmlData) {
+            $('#gugun').empty();
+            
+            let opts = '';
+            $(xmlData).find('gugun').each(function() {
+              opts += '<option value=' + $(this).text() + '>' + $(this).text() + '</option>';
+            });
+            $(opts).appendTo('#gugun');
+            
+            $('#gugun').selectmenu('refresh');
+          },
+          error : function(e) {
+            console.log('에러 : ' + e.status)
+          }
+        });
+      }
+    });
+    
+    $('#gugun').selectmenu({
+      change : function() {
+        $.ajax({
+          // url : './data/dong.jsp?sido=' + $('#sido').val() + '&gugun=' + $('#gugun').val(),
+          url : './data/dong.jsp',
+          type : 'get',
+          data : {
+            sido : $('#sido').val(),
+            gugun : $('#gugun').val()
+          },
+          datatype : 'xml',
+          success : function(xmlData) {
+            $('#dong').empty();
+            
+            let opts = '';
+            $(xmlData).find('dong').each(function() {
+              opts += '<option value=' + $(this).text() + '>' + $(this).text() + '</option>';
+            });
+            $(opts).appendTo('#dong');
+            
+            $('#dong').selectmenu('refresh');
+          },
+          error : function(e) {
+            console.log('에러 : ' + e.status)
+          }
+        });
+      }
+    });
+    
+    $('#btn').button().on('click', function() {
+      $.ajax({
+        // url : './data/address.jsp?sido=' + $('#sido').val() + '&gugun=' + $('#gugun').val() + '&dong=' + $('#dong').val(),
+        url : './data/address.jsp',
+        type : 'get',
+        data : {
+          sido : $('#sido').val(),
+          gugun : $('#gugun').val(),
+          dong : $('#dong').val()
+        },
+        datatype : 'xml',
+        success : function(xmlData) {
+          $('table').empty();
+          
+          let trs = '';
+          $(xmlData).find('address').each(function() {
+            trs += '<tr>';
+            trs += '<td>' + $(this).find('zipcode').text() + '</td>';
+            trs += '<td>' + $(this).find('sido').text() + '</td>';
+            trs += '<td>' + $(this).find('gugun').text() + '</td>';
+            trs += '<td>' + $(this).find('dong').text() + '</td>';
+            trs += '<td>' + $(this).find('ri').text() + '</td>';
+            trs += '<td>' + $(this).find('bunji').text() + '</td>';
+            trs += '</tr>';
+          });
+          
+          $(trs).appendTo('table');
+        },
+        error : function(e) {
+          console.log('에러 : ' + e.status)
+        }
+      });
+    })
+
+  });
+</script>
+</head>
+<body>
+<fieldset>
+  <legend>우편번호 검색</legend>
+  <label for="sido">시도</label>
+  <select id="sido">
+    <option disabled selected>시도 선택</option>
+  </select>
+  <label for="gugun">구군</label>
+  <select id="gugun">
+    <option disabled selected>구군 선택</option>
+  </select>
+  <label for="dong">동</label>
+  <select id="dong">
+    <option disabled selected>동 선택</option>
+  </select>
+  
+  <button id="btn">주소 검색</button>
+</fieldset>
+<br><hr><br>
+<div>
+  <table border="1" width="800">
+    <tr>
+      <th>우편번호</th>
+      <th>시도</th>
+      <th>구군</th>
+      <th>동</th>
+      <th>리</th>
+      <th>번지</th>
+    </tr>
+  </table>
+</div>
 </body>
 </html>
 ```
