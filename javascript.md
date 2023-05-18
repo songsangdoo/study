@@ -5645,7 +5645,7 @@ Hello jQuery !!
 <script type="text/javascript">
   $(document).ready(function(){
     $('input[data="text1"]').val('Hello jQuery');
-    // 특정 속성의 값을 가진 input 태그의 값을 설정한다
+    // 특정 속성의 값을 가진 input 태그의 value 속성 값을 설정한다
   });
 </script>
 </head>
@@ -6061,7 +6061,7 @@ Hello jQuery !!
 </html>
 ```
 ##### extend()
-- 동적으로 객체에 프로퍼티를 추가시킨다
+- 동적으로 선택한 객체에 프로퍼티를 추가시킨다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6078,7 +6078,7 @@ Hello jQuery !!
     
     obj.region1 = '서울시 종로구';
     obj.part1 = '리더';
-    // 동적으로 프로퍼티 추가
+    // 기존 javascript 방식을 이용해 동적으로 프로퍼티 추가
     console.log(obj);
     
     $.extend(obj, {region2 : '서울시 강남구', part2 : '베이스'},
@@ -6092,7 +6092,7 @@ Hello jQuery !!
 </body>
 </html>
 ```
-##### noConflict()
+##### $.noConflict()
 - '\$' 사용으로 충돌이 생길 수 있는 상황을 막기 위해 jQuery를 이용하기 위한 '$'를 사용하면 에러가 생기게 한다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -6111,8 +6111,8 @@ Hello jQuery !!
   // $(document).ready(function(){
   // 에러가 생긴다
 
-  // jQuery(document).ready(function(){
   J(document).ready(function(){
+  // jQuery(document).ready(function(){
     let obj = {name : '홍길동'};
     
     J.extend(obj, {region2 : '서울시 강남구', part2 : '베이스'},
@@ -6702,8 +6702,8 @@ $(선택자).on('이벤트이름', function(){
         // url : './data/xml1.jsp',
         url : './data/json1.jsp',
         type : 'get',
-        datatype : 'json',
-        // datatype은 따로 지정하지 않아도 자동으로 정해지지만, 되도록이면 확실하게 정해주도록 하자
+        dataType : 'json',
+        // dataType은 따로 지정하지 않아도 자동으로 정해지지만, 되도록이면 확실하게 정해주도록 하자
         success : function(csvData) {
           console.log('성공 : ', typeof csvData);
           console.log(csvData);
@@ -6741,7 +6741,7 @@ $(선택자).on('이벤트이름', function(){
       $.ajax({
         url : './data/xml1.jsp',
         type : 'get',
-        datatype : 'xml',
+        dataType : 'xml',
         success : function(xmlData) {
           let html = '<table border="1">';
           $(xmlData).find('book').each(function() {
@@ -6952,7 +6952,7 @@ public class ZipcodeDAO {
       $.ajax({
         url : './data/zipcodeXml.jsp?dong=' + $('#strDong').val(),
         type : 'get',
-        datatype : 'xml',
+        dataType : 'xml',
         success : function(xmlData) {
           let html = '<table border="1">';
           $(xmlData).find('address').each(function() {
@@ -6985,6 +6985,8 @@ public class ZipcodeDAO {
 ### jQuery UI
 <small>!! https://jqueryui.com/ widget 참고</small>
 
+- jQuery Core에 속하고 DOM에 css 요소를 준다
+
 - 라이브러리 다운로드
 
   https://jqueryui.com/ &rarr; download &rarr; stable, theme 다운로드
@@ -6995,7 +6997,7 @@ public class ZipcodeDAO {
 
   <small> !! stable, theme 가 모두 있어야 문서의 요소에 jQuery UI를 줄 수 있다</small>
 
-#### 요소에 jQuery UI 디자인 주기
+#### jQuery UI 디자인 주기
 
 ##### button()
 ```jsp
@@ -7780,7 +7782,7 @@ public class ZipcodeDAO {
     $.ajax({
       url : './data/sido.jsp',
       type : 'get',
-      datatype : 'xml',
+      dataType : 'xml',
       success : function(xmlData) {
         let opts = '';
         $(xmlData).find('sido').each(function() {
@@ -7802,7 +7804,7 @@ public class ZipcodeDAO {
           data : {
             sido : $('#sido').val()
           },
-          datatype : 'xml',
+          dataType : 'xml',
           success : function(xmlData) {
             $('#gugun').empty();
             
@@ -7831,7 +7833,7 @@ public class ZipcodeDAO {
             sido : $('#sido').val(),
             gugun : $('#gugun').val()
           },
-          datatype : 'xml',
+          dataType : 'xml',
           success : function(xmlData) {
             $('#dong').empty();
             
@@ -7860,7 +7862,7 @@ public class ZipcodeDAO {
           gugun : $('#gugun').val(),
           dong : $('#dong').val()
         },
-        datatype : 'xml',
+        dataType : 'xml',
         success : function(xmlData) {
           $('table').empty();
           
@@ -7921,3 +7923,1513 @@ public class ZipcodeDAO {
 </body>
 </html>
 ```
+##### autocomplete()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    const availableTags = [
+          "ActionScript",
+          "AppleScript",
+          "Asp",
+          "BASIC",
+          "C",
+          "C++",
+          "Clojure",
+          "COBOL",
+          "ColdFusion",
+          "Erlang",
+          "Fortran",
+          "Groovy",
+          "Haskell",
+          "Java",
+          "JavaScript",
+          "Lisp",
+          "Perl",
+          "PHP",
+          "Python",
+          "Ruby",
+          "Scala",
+          "Scheme"
+        ];
+    $('#tags').autocomplete({
+      source : availableTags
+    });
+  });
+</script>
+</head>
+<body>
+
+<div>
+  <label for="tags">program language</label>
+  <input type="text" id="tags">
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $.ajax({
+      url : './data/json.jsp',
+      type : 'get',
+      dataType : 'json',
+      success : function(json) {
+        $('#tags').autocomplete({
+          source : json.data
+        });
+      },
+      error : function(e) {
+        alert('에러 : ' + e.status);
+      }
+    });
+    
+  });
+</script>
+</head>
+<body>
+
+<div>
+  <label for="tags">program language</label>
+  <input type="text" id="tags">
+</div>
+
+</body>
+</html>
+```
+##### accordion()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#accordion').accordion();
+  });
+</script>
+</head>
+<body>
+
+<div id="accordion">
+  <h3>Section 1</h3>
+  <div>
+    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sitamet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo utodio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+  </div>
+  <h3>Section 2</h3>
+  <div>
+    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit ametpurus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitorvelit, faucibus interdum tellus libero ac justo. Vivamus non quam. Insuscipit faucibus urna.</p>
+  </div>
+  <h3>Section 3</h3>
+  <div>
+    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac liberoac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quislacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</p>
+    <ul>
+      <li>List item one</li>
+      <li>List item two</li>
+      <li>List item three</li>
+    </ul>
+  </div>
+  <h3>Section 4</h3>
+  <div>
+    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netuset malesuada fames ac turpis egestas. Vestibulum ante ipsum primis infaucibus orci luctus et ultrices posuere cubilia Curae; Aenean laciniamauris vel est.</p>
+    <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.Class aptent taciti sociosqu ad litora torquent per conubia nostra, perinceptos himenaeos.</p>
+  </div>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#accordion').accordion();
+    
+    $('#btn1').button().on('click', function() {
+      let html = '';
+      html += '<h3>Section 5</h3>';
+      html += '<div>';
+      html += '<p>가나다라마바사아자차카타파</p>';
+      html += '</div>'
+      
+      $('#accordion').append(html);
+      $('#accordion').accordion('refresh');
+      // refresho 옵션을 주지 않으면 ui 적용은 되지 않고, 내용만 추가된다
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">데이터 추가</button>
+
+<br><hr><br>
+
+<div id="accordion">
+  <h3>Section 1</h3>
+  <div>
+    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sitamet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo utodio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+  </div>
+  <h3>Section 2</h3>
+  <div>
+    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit ametpurus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitorvelit, faucibus interdum tellus libero ac justo. Vivamus non quam. Insuscipit faucibus urna.</p>
+  </div>
+  <h3>Section 3</h3>
+  <div>
+    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac liberoac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quislacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</p>
+    <ul>
+      <li>List item one</li>
+      <li>List item two</li>
+      <li>List item three</li>
+    </ul>
+  </div>
+  <h3>Section 4</h3>
+  <div>
+    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netuset malesuada fames ac turpis egestas. Vestibulum ante ipsum primis infaucibus orci luctus et ultrices posuere cubilia Curae; Aenean laciniamauris vel est.</p>
+    <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.Class aptent taciti sociosqu ad litora torquent per conubia nostra, perinceptos himenaeos.</p>
+  </div>
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#accordion').accordion();
+    
+    $('#btn1').button().on('click', function() {
+      let html = '';
+      html += '<h3>Section 5</h3>';
+      html += '<div>';
+      html += '<p>가나다라마바사아자차카타파</p>';
+      html += '</div>'
+      
+      $('#accordion').append(html);
+      $('#accordion').accordion('refresh');
+    });
+    
+    $('#btn2').button().on('click', function() {
+      // console.log($('#accordion').accordion('option', 'active'));
+      // 선택된 옵션의 인덱스를 출력한다
+      
+      $('#accordion').accordion('option', 'active', 2);
+      // 2번 인덱스의 옵션을 선택하게 한다 
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">데이터 추가</button>
+<button id="btn2">데이터 선택</button>
+
+<br><hr><br>
+
+<div id="accordion">
+  <h3>Section 1</h3>
+  <div>
+    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sitamet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo utodio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+  </div>
+  <h3>Section 2</h3>
+  <div>
+    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit ametpurus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitorvelit, faucibus interdum tellus libero ac justo. Vivamus non quam. Insuscipit faucibus urna.</p>
+  </div>
+  <h3>Section 3</h3>
+  <div>
+    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac liberoac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quislacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</p>
+    <ul>
+      <li>List item one</li>
+      <li>List item two</li>
+      <li>List item three</li>
+    </ul>
+  </div>
+  <h3>Section 4</h3>
+  <div>
+    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netuset malesuada fames ac turpis egestas. Vestibulum ante ipsum primis infaucibus orci luctus et ultrices posuere cubilia Curae; Aenean laciniamauris vel est.</p>
+    <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.Class aptent taciti sociosqu ad litora torquent per conubia nostra, perinceptos himenaeos.</p>
+  </div>
+</div>
+</body>
+</html>
+```
+accordion 구구단 출력
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#result').accordion();
+    // 반드시 accordion() 생성을 먼저 해주자
+    $('#start').spinner({
+      min : 1,
+      max : 8,
+      spin : function() {
+      }
+    });
+    $('#end').spinner({
+      min : 2,
+      max : 9,
+      spin : function() {
+      }
+    });
+    $('#btn').button().on('click', function() {
+      $('#result').accordion().empty();
+      let startDan = $('#start').spinner('value');
+      let endDan = $('#end').spinner('value');
+      
+      let html = '';
+      for(let i = startDan; i <= endDan; i++){
+        html += '<h3>' + i + '단</h3>';
+        html += '<div>';
+        html += '<ul>';
+        for(let j = 1; j <= 9; j++){
+          html += '<li>';
+          html += i + ' X ' + j + ' = ' + (i * j);
+          if(j == 9){
+            html += '</li>';
+          }
+        }			
+        html += '</ul>';
+        html += '</div>';
+      }
+      $('#result').accordion().append(html);
+      $('#result').accordion('refresh');
+    });
+  });
+</script>
+</head>
+<body>
+
+<fieldset>
+  <legend>구구단 출력</legend>
+  <label for="start">시작단</label>
+  <input type="text" id="start" value="1" readonly>
+  ~
+  <label for="end">끝단</label>
+  <input type="text" id="end" value="2" readonly>
+  <button id="btn">구구단 출력</button>
+</fieldset>
+<br><hr><br>
+<div id="result"></div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  
+  #accordion-resizer {
+    padding: 10px;
+    width: 350px;
+    height: 200px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#accordion').accordion({
+      heightStyle : 'fill'
+    });
+    
+    $('#accordion-resizer').resizable({
+      minHeight: 140,
+        minWidth: 200,
+        resize: function() {
+          $( "#accordion" ).accordion( "refresh" );
+        }
+    });
+    
+    $('#btn1').button().on('click', function() {
+      let html = '';
+      html += '<h3>Section 5</h3>';
+      html += '<div id="accordion-resizer">';
+      html += '<p>가나다라마바사아자차카타파</p>';
+      html += '</div>'
+      
+      $('#accordion').append(html);
+      $('#accordion').accordion('refresh');
+    });
+    
+    $('#btn2').button().on('click', function() {
+      
+      $('#accordion').accordion('option', 'active', 2);
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">데이터 추가</button>
+<button id="btn2">데이터 선택</button>
+
+<br><hr><br>
+<div id="accordion-resizer">
+<div id="accordion">
+  <h3>Section 1</h3>
+  <div>
+    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sitamet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo utodio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+  </div>
+  <h3>Section 2</h3>
+  <div>
+    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit ametpurus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitorvelit, faucibus interdum tellus libero ac justo. Vivamus non quam. Insuscipit faucibus urna.</p>
+  </div>
+  <h3>Section 3</h3>
+  <div>
+    <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac liberoac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quislacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.</p>
+    <ul>
+      <li>List item one</li>
+      <li>List item two</li>
+      <li>List item three</li>
+    </ul>
+  </div>
+  <h3>Section 4</h3>
+  <div>
+    <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netuset malesuada fames ac turpis egestas. Vestibulum ante ipsum primis infaucibus orci luctus et ultrices posuere cubilia Curae; Aenean laciniamauris vel est.</p>
+    <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.Class aptent taciti sociosqu ad litora torquent per conubia nostra, perinceptos himenaeos.</p>
+  </div>
+</div>
+</div>
+</body>
+</html>
+```
+##### datepicker()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datepicker1').datepicker();
+  });
+</script>
+</head>
+<body>
+<div>
+  Date : <input type="date">
+  // html 태그 자체에도 달력을 보여주는 기능이 있다
+</div>
+
+<div>
+  Date : <input type="text" id="datepicker1" readonly>
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datepicker1').datepicker();
+    
+    $('#datepicker2').datepicker();
+  });
+</script>
+</head>
+<body>
+
+<div>
+  Date : <input type="text" id="datepicker1" readonly>
+</div>
+
+<div>
+  Date : <div id="datepicker2"></div>
+  // 달력이 바로 보인다
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datepicker').datepicker();
+    
+    $('#anim').on('change', function() {
+      $('#datepicker').datepicker('option', 'showAnim', $(this).val())
+    });
+  });
+</script>
+</head>
+<body>
+
+<p>Date: <input type="text" id="datepicker" size="30"></p>
+ 
+<p>Animations:<br>
+  <select id="anim">
+    <option value="show">Show (default)</option>
+    <option value="slideDown">Slide down</option>
+    <option value="fadeIn">Fade in</option>
+    <option value="blind">Blind (UI Effect)</option>
+    <option value="bounce">Bounce (UI Effect)</option>
+    <option value="clip">Clip (UI Effect)</option>
+    <option value="drop">Drop (UI Effect)</option>
+    <option value="fold">Fold (UI Effect)</option>
+    <option value="slide">Slide (UI Effect)</option>
+    <option value>None</option>
+  </select>
+</p>
+ 
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript" src="./js/datepicker-ko.js"></script>
+<!-- 달력을 한국어로 사용하기 위한 js 라이브러리를 사용한다 -->
+<!-- ui -> i18n -> datepicker-ko.js  -->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datepicker').datepicker({
+      showOtherMonths : true,
+      selectOtherMonths : true,
+      showButtonPanel : true,
+      changeMonth : true,
+      changeYear : true,
+      numberOfMonths : 3,
+      dateFormat : 'yy-mm-dd'
+    });
+  });
+</script>
+</head>
+<body>
+
+<div>
+  Date : <input type="text" id="datepicker" readonly>
+</div>
+ 
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript" src="./js/datepicker-ko.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#datepicker').datepicker({
+      onClose : function(data) {
+      // 날짜를 선택하면 발생하는 이벤트
+        console.log(data);
+      }
+    });
+    
+    $('#btn').button().on('click', function() {
+      console.log($('#datepicker').val());
+      // 선택된 날짜가 출력된다
+      console.log($('#datepicker').datepicker('getDate'));
+      // 자세한 날짜, 시간이 출력된다
+    });
+  });
+</script>
+</head>
+<body>
+
+<div>
+  Date : <input type="text" id="datepicker" readonly>
+</div>
+<br><hr><br>
+<button id="btn">읽기</button>
+</body>
+</html>
+```
+##### dialog()
+- 새창 열기
+
+  - widow.open : mpa 방식으로 새로운 페이지를 열어 새창을 보여준다
+
+  - jQuery_dialog : spa 방식으로 현재 페이지의 요소를 이용해 새창을 보여준다
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    
+    $('#btn1').button().on('click', function() {
+      open('https://m.daum.net', 'winopen', 'width=640, height=960');
+    });
+    // window.open 방식
+    
+    // $('#dialog').dialog();
+    // jquery dialog 방식
+
+    $('#dialog').dialog({
+      autoOpen : false,
+      modal : true,
+      
+      width : 500,
+      height : 300,
+      resizable : false,
+      
+      buttons : {
+        '취소' : function() {
+          alert('취소');
+          $(this).dialog('close');
+        },
+        '확인' : function() {
+          alert('확인');
+          $(this).dialog('close');
+        }
+      },
+    
+      show : {
+        effect : 'blind',
+        duration : 1000
+      },
+      hide : {
+        effect : 'explode',
+        duration : 1000
+      }
+    })
+    
+    $('#btn2').button().on('click', function() {
+      $('#dialog').dialog('open');
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">새창 열기</button>
+
+<br><hr><br>
+
+<div id="dialog" title="jQuery 다이얼로그">
+  <h1>Hello 다이얼로그</h1>
+</div>
+<button id="btn2">다이얼로그 열기</button>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 700px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#dialog-form').dialog({
+      autoOpen : false,
+      modal : true,
+      width : 350,
+      height : 400,
+      resizable : false,
+      buttons : {
+        '취소' : function() {
+          $(this).dialog('close');
+        },
+        '추가' : function() {
+          let seq = parseInt($('#users tbody').find('tr').last().find('td').first().text());
+          let html = '<tr>';
+          html += '<td>' + (seq + 1) + '</td>';
+          html += '<td>' + $('#name').val() + '</td>';
+          html += '<td>' + $('#email').val() + '</td>';
+          html += '<td>' + $('#password').val() + '</td>';
+          html += '</tr>'
+          
+          $('#users tbody').append(html);
+          $(this).dialog('close');
+        }
+      }
+    });
+    $('#btn1').button().on('click', function() {
+      $('#dialog-form').dialog('open');
+    });
+  });
+</script>
+</head>
+<body>
+<button id="btn1">새창 열기</button>
+
+<br><hr><br>
+
+<div id="users-contain" class="ui-widget">
+  <h1>Existing Users:</h1>
+  <table id="users" class="ui-widget ui-widget-content">
+    <thead>
+      <tr class="ui-widget-header ">
+        <th>Seq</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>John Doe</td>
+        <td>john.doe@example.com</td>
+        <td>johndoe1</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="dialog-form" title="Create new user">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+</body>
+</html>
+```
+###### dialog() 회원관리 시스템
+
+- 테이블 생성 구문
+```sql
+create table users (
+seq int primary key auto_increment,
+name varchar(20) not null,
+password varchar(20) not null,
+email varchar(100),
+address varchar(150),
+wdate datetime not null
+);
+```
+- 데이터 삽입 구문
+```sql
+insert into users values (0, '홍길동', '1234', 'test@test.com', '서울시 강남구', now());
+```
+
+- protocol
+
+기능|페이지|보내는 데이터|받는 데이터|
+|:--:|:--:|:--:|:--:|
+|회원목록|user_list.jsp|X|seq, name, email, address|
+|회원추가|user_write.jsp|name, password, email, address|flag|
+|회원삭제|user_delete.jsp|seq, password|flag|
+|회원수정|user_modify.jsp|seq, password, email, address|flag|
+
+- 흐름도
+
+  - 회원 추가 : 화면 &rarr; 추가 &rarr; user_write.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+
+  - 회원 삭제 : 화면 &rarr; 삭제 &rarr; user_delete.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+
+  - 회원 수정 : 화면 &rarr; 수정 &rarr; user_modify.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+
+- 구현하기
+```java
+// MemberTO.java
+package model1;
+
+public class MemberTO {
+	private String seq;
+	private String name;
+	private String password;
+	private String email;
+	private String address;
+	private String wdate;
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getWdate() {
+		return wdate;
+	}
+	public void setWdate(String wdate) {
+		this.wdate = wdate;
+	}
+	
+}
+
+// MemberDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class MemberDAO {
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	public MemberDAO() {
+		try {
+			Context initCtx = (Context)new InitialContext();
+			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+			DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+			
+			conn = dataSource.getConnection();
+		} catch (NamingException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}
+	}
+	
+	public List<MemberTO> userList(){
+		List<MemberTO> datas = new ArrayList<>();
+		
+		String sql = "select * from users";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberTO data = new MemberTO();
+				data.setSeq(rs.getString("seq"));
+				data.setName(rs.getString("name"));
+				data.setEmail(rs.getString("email"));
+				data.setAddress(rs.getString("address"));
+				data.setWdate(rs.getString("wdate"));
+				
+				datas.add(data);
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		}finally {
+			if(rs != null) try {rs.close();} catch(SQLException e) {}
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return datas;
+	}
+	
+	public int userWrite(MemberTO input) {
+		int flag = 1;
+		
+		String sql = "insert into users value (0, ?, ?, ?, ?, now())";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, input.getName());
+			pstmt.setString(2, input.getPassword());
+			pstmt.setString(3, input.getEmail());
+			pstmt.setString(4, input.getAddress());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage()); 
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return flag;
+	}
+	
+	public int userDelete(MemberTO input) {
+		int flag = 2;
+		
+		String sql = "delete from users where seq = ? and password = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, input.getSeq());
+			pstmt.setString(2, input.getPassword());
+			System.out.println(input.getPassword());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}else {
+				flag = 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null)try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null)try {conn.close();} catch(SQLException e) {}
+		}
+	
+		return flag;
+	}
+	
+	public int userModify(MemberTO input) {
+		int flag = 2;
+		
+		String sql = "update users set name = ?, email = ?, address = ? where seq = ? and password = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, input.getName());
+			pstmt.setString(2, input.getEmail());
+			pstmt.setString(3, input.getAddress());
+			pstmt.setString(4, input.getSeq());
+			pstmt.setString(5, input.getPassword());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				flag = 0;
+			}else {
+				flag = 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+			if(conn != null) try {conn.close();} catch(SQLException e) {}
+		}
+		
+		return flag;
+	}
+}
+
+```
+```jsp
+<!-- user_list.jsp -->
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.MemberDAO"%>
+<%@page import="model1.MemberTO"%>
+<% 
+	request.setCharacterEncoding("utf-8");
+
+	MemberDAO dao = new MemberDAO();
+	List<MemberTO> datas = dao.userList();
+	
+	StringBuilder sbXml = new StringBuilder();
+	
+	sbXml.append("<users>");
+	for(MemberTO data : datas){
+		sbXml.append("<user>");
+		sbXml.append("<seq>" + data.getSeq() + "</seq>");
+		sbXml.append("<name>" + data.getName() + "</name>");
+		sbXml.append("<email>" + data.getEmail() + "</email>");
+		sbXml.append("<address>" + data.getAddress() + "</address>");
+		sbXml.append("<wdate>" + data.getWdate() + "</wdate>");
+		sbXml.append("</user>");
+	}
+	sbXml.append("</users>");
+%>
+<%= sbXml %>
+
+<!-- user_write.jsp -->
+<%@page import="model1.MemberTO"%>
+<%@page import="model1.MemberDAO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+	request.setCharacterEncoding("utf-8");
+	MemberTO input = new MemberTO();
+	input.setSeq(request.getParameter("seq"));
+	input.setName(request.getParameter("name"));
+	input.setPassword(request.getParameter("password"));
+	input.setEmail(request.getParameter("email"));
+	input.setAddress(request.getParameter("address"));
+
+	MemberDAO dao = new MemberDAO();
+	int flag = dao.userWrite(input);
+	
+	StringBuilder sbXml = new StringBuilder();
+	sbXml.append("<flag>");
+	sbXml.append(flag);
+	sbXml.append("</flag>");
+%>
+<%= sbXml%>
+
+<!-- user_delete.jsp -->
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@page import="model1.MemberDAO"%>
+<%@page import="model1.MemberTO"%>
+<%
+	request.setCharacterEncoding("utf-8");
+	MemberTO input = new MemberTO();
+	input.setSeq(request.getParameter("seq"));
+	input.setPassword(request.getParameter("password"));
+	
+	MemberDAO dao = new MemberDAO();
+	int flag = dao.userDelete(input);
+	
+	StringBuilder sbXml = new StringBuilder();
+	sbXml.append("<flag>");
+	sbXml.append(flag);
+	sbXml.append("</flag>");
+%>
+<%= sbXml %>
+
+<!-- user_modify.jsp -->
+<%@page import="model1.MemberDAO"%>
+<%@page import="model1.MemberTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+	request.setCharacterEncoding("utf-8");
+
+	MemberTO input = new MemberTO();
+	input.setSeq(request.getParameter("seq"));
+	input.setName(request.getParameter("name"));
+	input.setPassword(request.getParameter("password"));
+	input.setEmail(request.getParameter("email"));
+	input.setAddress(request.getParameter("address"));
+	
+	MemberDAO dao = new MemberDAO();
+	int flag = dao.userModify(input);
+	
+	StringBuilder sbXml = new StringBuilder();
+	sbXml.append("<flag>");
+	sbXml.append(flag);
+	sbXml.append("</flag>");
+%>
+<%= sbXml %>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<title>Insert title here</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/cupertino/jquery-ui.css">
+<style type="text/css">
+	body { font-size: 80%; }
+	
+	label, input { display:block; }
+	input.text { margin-bottom:12px; width:95%; padding: .4em; }
+	fieldset { padding:0; border:0; margin-top:25px; }
+	h1 { font-size: 1.2em; margin: .6em 0; }
+	div#users-contain { width: 700px; margin: 20px 0; }
+	div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+	div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+	.ui-dialog .ui-state-error { padding: .3em; }
+	.validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript">
+	$( document ).ready( function() {
+		
+		listServer();
+		
+		$( '#write-form' ).dialog({
+			autoOpen: false,
+			modal: true,
+			width: 350,
+			height: 400,
+			resizable: false,
+			buttons: {
+				'취소': function() {
+					$( this ).dialog( 'close' );
+					$('#w_name').val('');
+					$('#w_password').val('');
+					$('#w_email').val('');
+					$('#w_address').val('');
+				},
+				'추가': function() {
+					writeServer();
+				}
+			}
+		});
+		
+		$( '#btn1' ).button().on( 'click', function() {
+			$( '#write-form' ).dialog( 'open' ); 
+		});
+		
+		$('#delete-form').dialog({
+			autoOpen : false,
+			modal : true,
+			width : 300,
+			height : 350,
+			resizable : false,
+			buttons : {
+				'취소' : function() {
+					$(this).dialog('close');
+					$('#d_password').val('');
+				},
+				'삭제' : function() {
+					deleteServer();
+				}
+			}
+		});
+		
+		$('#modify-form').dialog({
+			autoOpen : false,
+			modal : true,
+			width : 400,
+			height : 500,
+			resizable : false,
+			buttons : {
+				'취소' : function() {
+					$(this).dialog('close');
+					$('#m_password').val('');
+				},
+				'수정' : function() {
+					modifyServer();
+				}
+			}
+		});
+		
+	});
+	
+	$()
+	const listServer = function() {
+		$.ajax({
+			url : './data/user_list.jsp',
+			type : 'get',
+			dataType : 'xml',
+			success : function(xml) {
+				// $('#users tbody').empty()
+				// append()를 이용해 리스트를 출력하는 경우 비워줘야 한다
+				let html = '';
+				$(xml).find('user').each(function() {
+					html += '<tr>';
+					html += '<td>' + $(this).find('seq').text() + '</td>';
+					html += '<td>' + $(this).find('name').text() + '</td>';
+					html += '<td>' + $(this).find('email').text() + '</td>';
+					html += '<td>' + $(this).find('address').text() + '</td>';
+					html += '<td>';
+					html += '<button onclick="modifyBtn(' + $(this).find('seq').text() + ', \'' + $(this).find('name').text() + '\', \'' + $(this).find('email').text() + '\', \'' + $(this).find('address').text() + '\')">수정</button>'
+					html += '<button onclick="deleteBtn(' + $(this).find('seq').text() + ')">삭제</button>'
+					html += '</td>';
+					html += '</tr>';
+				});
+				
+				// $('#users tbody').append(html);
+				$('#users tbody').html(html);
+				// html
+			},
+			error : function(err) {
+				alert('에러 : ' + err.message)
+			}
+		});
+	};
+	
+	const writeServer = function() {
+		$.ajax({
+			url : './data/user_write.jsp',
+			type : 'get',
+			data : {
+				name : $('#w_name').val(),
+				password : $('#w_password').val(),
+				email : $('#w_email').val(),
+				address : $('#w_address').val()
+			},
+			dataType : 'xml',
+			success : function(xml) {
+				if($('#w_name').val() == '' || $('#w_password').val() == '' || $('#w_email').val() == '' || $('#w_address').val() == ''){
+					alert('입력하지 않은 영역이 있습니다');
+					return;
+				}
+				
+				const flag = $(xml).find('flag').text();
+				if(flag == 0){
+					alert('회원 등록 성공');
+					listServer();
+					
+					$('#w_name').val('');
+					$('#w_password').val('');
+					$('#w_email').val('');
+					$('#w_address').val('');
+					
+					$('#write-form').dialog('close');
+				}else{
+					alert('회원 등록 실패');
+				}
+			},
+			error : function(err) {
+				alert('에러 : ' + err.message);							
+			}
+		});
+	};
+	
+	const deleteBtn = function(seq) {
+		$('#d_seq').val(seq);
+		
+		$('#delete-form').dialog('open');
+	};
+	
+	const modifyBtn = function(seq, name, email, address) {
+		$('#m_seq').val(seq);
+		$('#m_name').val(name);
+		$('#m_email').val(email);
+		$('#m_address').val(address);
+		
+		$('#modify-form').dialog('open');
+	};
+	
+	const deleteServer = function() {
+		$.ajax({
+			url : './data/user_delete.jsp',
+			type : 'get',
+			data : {
+				seq : $('#d_seq').val(),
+				password : $('#d_password').val()
+			},
+			dataType : 'xml',
+			success : function(xml) {
+				if($('#d_password').val() == ''){
+					alert('비밀번호를 입력해주세요');
+					return;
+				}
+				const flag = $(xml).find('flag').text();
+				if(flag == 0){
+					alert('회원 삭제 성공');
+					listServer();
+					$('#delete-form').dialog('close');
+				}else if(flag == 1){
+					alert('비밀번호 오류');
+					$('#d_password').val('');
+				}else{
+					alert('회원 삭제 실패');
+					$('#d_password').val('');
+				}
+			},
+			error : function(err) {
+				alert('에러 : ' + err.status);
+			}
+		})
+	};
+	
+	const modifyServer = function() {
+		$.ajax({
+			url : './data/user_modify.jsp',
+			type : 'get',
+			data : {
+				seq : $('#m_seq').val(),
+				name : $('#m_name').val(),
+				password : $('#m_password').val(),
+				email : $('#m_email').val(),
+				address : $('#m_address').val()
+			},
+			success : function(xml) {
+				if($('#m_password').val() == ''){
+					alert('비밀번호를 입력해주세요');
+					return;
+				}
+				const flag = $(xml).find('flag').text();
+				if(flag == 0){
+					alert('수정 성공');
+					listServer();
+					$('#m_password').val('');
+					$('#modify-form').dialog('close');
+				}else if(flag == 1){
+					alert('비밀번호 오류');
+					$('#m_password').val('');
+				}else{
+					alert('정보 수정 실패');
+					$('#m_password').val('');
+				}
+			},
+			error : function(err) {
+				alert('에러 : ' + err.status)
+			}
+		})
+	};
+	
+	
+</script>
+</head>
+<body>
+
+<button id="btn1">사용자 추가</button>
+
+<br /><hr /><br />
+
+<div id="users-contain" class="ui-widget">
+	<h1>Existing Users:</h1>
+	<table id="users" class="ui-widget ui-widget-content">
+	<thead>
+		<tr class="ui-widget-header ">
+			<th>Seq</th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Address</th>
+			<th>비고</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+	</table>
+</div>
+
+<div id="write-form" title="Insert new user">
+	<p class="validateTips">All form fields are required.</p>
+ 	<form>
+		<fieldset>
+			<label for="w_name">Name</label>
+			<input type="text" id="w_name" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="w_password">Password</label>
+			<input type="password" id="w_password" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="w_email">Email</label>
+			<input type="text" id="w_email" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="w_address">Address</label>
+			<input type="text" id="w_address" value="" class="text ui-widget-content ui-corner-all" />
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+		</fieldset>
+	</form>
+</div>
+
+<div id="delete-form" title="Delete user">
+ 	<form>
+		<fieldset>
+			<label for="d_seq">Seq</label>
+			<input type="text" id="d_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+			<label for="d_password">Password</label>
+			<input type="password" id="d_password" class="text ui-widget-content ui-corner-all" />
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+		</fieldset>
+	</form>
+</div>
+
+<div id="modify-form" title="Modify user">
+ 	<form>
+		<fieldset>
+			<label for="m_seq">Seq</label>
+			<input type="text" id="m_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+			<label for="m_name">Name</label>
+			<input type="text" id="m_name" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+			<label for="m_password">Password</label>
+			<input type="password" id="m_password" class="text ui-widget-content ui-corner-all" />
+			<label for="m_email">Email</label>
+			<input type="text" id="m_email" class="text ui-widget-content ui-corner-all" />
+			<label for="m_address">Address</label>
+			<input type="text" id="m_address" class="text ui-widget-content ui-corner-all" />
+			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+		</fieldset>
+	</form>
+</div>
+
+
+</body>
+</html>
+```
+
