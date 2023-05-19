@@ -5950,7 +5950,7 @@ Hello jQuery !!
 </html>
 ```
 ##### find()
-- 주로 jQuery로 문서 자체를 선택했을 때, 그 하위 요소를 선택하기 위해 사용된다
+- filter()와 달리 선택한 요소가 아닌 그 하위 요소 중 조건을 만족하는 요소를 선택할 때 사용한다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -7983,6 +7983,37 @@ public class ZipcodeDAO {
 </html>
 ```
 ```jsp
+<!-- json.jsp -->
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+{
+  "data" : [ 
+        "ActionScript",
+          "AppleScript",
+          "Asp",
+          "BASIC",
+          "C",
+          "C++",
+          "Clojure",
+          "COBOL",
+          "ColdFusion",
+          "Erlang",
+          "Fortran",
+          "Groovy",
+          "Haskell",
+          "Java",
+          "JavaScript",
+          "Lisp",
+          "Perl",
+          "PHP",
+          "Python",
+          "Ruby",
+          "Scala",
+          "Scheme"
+        ]
+}
+
+<!-- autocomplete.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8109,7 +8140,7 @@ public class ZipcodeDAO {
       
       $('#accordion').append(html);
       $('#accordion').accordion('refresh');
-      // refresho 옵션을 주지 않으면 ui 적용은 되지 않고, 내용만 추가된다
+      // refresh 옵션을 주지 않으면 ui 적용은 되지 않고, 내용만 추가된다
     });
   });
 </script>
@@ -8179,10 +8210,10 @@ public class ZipcodeDAO {
     
     $('#btn2').button().on('click', function() {
       // console.log($('#accordion').accordion('option', 'active'));
-      // 선택된 옵션의 인덱스를 출력한다
+      // active 상태인 옵션의 인덱스 값을 출력한다
       
       $('#accordion').accordion('option', 'active', 2);
-      // 2번 인덱스의 옵션을 선택하게 한다 
+      // 2번 인덱스의 옵션을 active 상태로 만든다
     });
   });
 </script>
@@ -8240,7 +8271,7 @@ accordion 구구단 출력
 <script type="text/javascript">
   $(document).ready(function() {
     $('#result').accordion();
-    // 반드시 accordion() 생성을 먼저 해주자
+    // 되도록이면 accordion() 생성을 먼저 해주자
     $('#start').spinner({
       min : 1,
       max : 8,
@@ -8409,7 +8440,7 @@ accordion 구구단 출력
 <body>
 <div>
   Date : <input type="date">
-  // html 태그 자체에도 달력을 보여주는 기능이 있다
+  // input 태그 자체에도 달력을 보여주는 기능이 있다
 </div>
 
 <div>
@@ -8522,7 +8553,7 @@ accordion 구구단 출력
 <script type="text/javascript" src="./js/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/datepicker-ko.js"></script>
 <!-- 달력을 한국어로 사용하기 위한 js 라이브러리를 사용한다 -->
-<!-- ui -> i18n -> datepicker-ko.js  -->
+<!-- 경로 : /ui/i18n/datepicker-ko.js  -->
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -8635,6 +8666,7 @@ accordion 구구단 출력
       resizable : false,
       
       buttons : {
+      // dialog 내부의 버튼은 객체 형식으로 값을 준다
         '취소' : function() {
           alert('취소');
           $(this).dialog('close');
@@ -8797,13 +8829,16 @@ insert into users values (0, '홍길동', '1234', 'test@test.com', '서울시 �
 ```
 
 - protocol
+  - 데이터 형식 : xml
 
-기능|페이지|보내는 데이터|받는 데이터|
-|:--:|:--:|:--:|:--:|
-|회원목록|user_list.jsp|X|seq, name, email, address|
-|회원추가|user_write.jsp|name, password, email, address|flag|
-|회원삭제|user_delete.jsp|seq, password|flag|
-|회원수정|user_modify.jsp|seq, password, email, address|flag|
+  - 표
+
+    기능|페이지|보내는 데이터|받는 데이터|데이터 형식|
+    |:--:|:--:|:--:|:--:|:--:|
+    |회원목록|user_list.jsp|X|seq<br>name<br>email<br>address|\<users>\<user>\<seq>...\</seq>\<name>...\</name>...|
+    |회원추가|user_write.jsp|name<br>password<br>email<br>address|flag|\<flag>\</flag>|
+    |회원삭제|user_delete.jsp|seq<br>password|flag|\<flag>\</flag>|
+    |회원수정|user_modify.jsp|seq<br>password<br>email<br>address|flag|\<flag>\</flag>|
 
 - 흐름도
 
@@ -8819,49 +8854,49 @@ insert into users values (0, '홍길동', '1234', 'test@test.com', '서울시 �
 package model1;
 
 public class MemberTO {
-	private String seq;
-	private String name;
-	private String password;
-	private String email;
-	private String address;
-	private String wdate;
-	public String getSeq() {
-		return seq;
-	}
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getWdate() {
-		return wdate;
-	}
-	public void setWdate(String wdate) {
-		this.wdate = wdate;
-	}
-	
+  private String seq;
+  private String name;
+  private String password;
+  private String email;
+  private String address;
+  private String wdate;
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getAddress() {
+    return address;
+  }
+  public void setAddress(String address) {
+    this.address = address;
+  }
+  public String getWdate() {
+    return wdate;
+  }
+  public void setWdate(String wdate) {
+    this.wdate = wdate;
+  }
+  
 }
 
 // MemberDAO.java
@@ -8880,133 +8915,133 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class MemberDAO {
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	public MemberDAO() {
-		try {
-			Context initCtx = (Context)new InitialContext();
-			Context envCtx = (Context)initCtx.lookup("java:comp/env");
-			DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
-			
-			conn = dataSource.getConnection();
-		} catch (NamingException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-	}
-	
-	public List<MemberTO> userList(){
-		List<MemberTO> datas = new ArrayList<>();
-		
-		String sql = "select * from users";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				MemberTO data = new MemberTO();
-				data.setSeq(rs.getString("seq"));
-				data.setName(rs.getString("name"));
-				data.setEmail(rs.getString("email"));
-				data.setAddress(rs.getString("address"));
-				data.setWdate(rs.getString("wdate"));
-				
-				datas.add(data);
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}finally {
-			if(rs != null) try {rs.close();} catch(SQLException e) {}
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return datas;
-	}
-	
-	public int userWrite(MemberTO input) {
-		int flag = 1;
-		
-		String sql = "insert into users value (0, ?, ?, ?, ?, now())";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, input.getName());
-			pstmt.setString(2, input.getPassword());
-			pstmt.setString(3, input.getEmail());
-			pstmt.setString(4, input.getAddress());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage()); 
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return flag;
-	}
-	
-	public int userDelete(MemberTO input) {
-		int flag = 2;
-		
-		String sql = "delete from users where seq = ? and password = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, input.getSeq());
-			pstmt.setString(2, input.getPassword());
-			System.out.println(input.getPassword());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}else {
-				flag = 1;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null)try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null)try {conn.close();} catch(SQLException e) {}
-		}
-	
-		return flag;
-	}
-	
-	public int userModify(MemberTO input) {
-		int flag = 2;
-		
-		String sql = "update users set name = ?, email = ?, address = ? where seq = ? and password = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, input.getName());
-			pstmt.setString(2, input.getEmail());
-			pstmt.setString(3, input.getAddress());
-			pstmt.setString(4, input.getSeq());
-			pstmt.setString(5, input.getPassword());
-			
-			int result = pstmt.executeUpdate();
-			
-			if(result == 1) {
-				flag = 0;
-			}else {
-				flag = 1;
-			}
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
-			if(conn != null) try {conn.close();} catch(SQLException e) {}
-		}
-		
-		return flag;
-	}
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public MemberDAO() {
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<MemberTO> userList(){
+    List<MemberTO> datas = new ArrayList<>();
+    
+    String sql = "select * from users";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        MemberTO data = new MemberTO();
+        data.setSeq(rs.getString("seq"));
+        data.setName(rs.getString("name"));
+        data.setEmail(rs.getString("email"));
+        data.setAddress(rs.getString("address"));
+        data.setWdate(rs.getString("wdate"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public int userWrite(MemberTO input) {
+    int flag = 1;
+    
+    String sql = "insert into users value (0, ?, ?, ?, ?, now())";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getName());
+      pstmt.setString(2, input.getPassword());
+      pstmt.setString(3, input.getEmail());
+      pstmt.setString(4, input.getAddress());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage()); 
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public int userDelete(MemberTO input) {
+    int flag = 2;
+    
+    String sql = "delete from users where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSeq());
+      pstmt.setString(2, input.getPassword());
+      System.out.println(input.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null)try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null)try {conn.close();} catch(SQLException e) {}
+    }
+  
+    return flag;
+  }
+  
+  public int userModify(MemberTO input) {
+    int flag = 2;
+    
+    String sql = "update users set name = ?, email = ?, address = ? where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getName());
+      pstmt.setString(2, input.getEmail());
+      pstmt.setString(3, input.getAddress());
+      pstmt.setString(4, input.getSeq());
+      pstmt.setString(5, input.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
 }
 
 ```
@@ -9019,24 +9054,24 @@ public class MemberDAO {
 <%@page import="model1.MemberDAO"%>
 <%@page import="model1.MemberTO"%>
 <% 
-	request.setCharacterEncoding("utf-8");
+  request.setCharacterEncoding("utf-8");
 
-	MemberDAO dao = new MemberDAO();
-	List<MemberTO> datas = dao.userList();
-	
-	StringBuilder sbXml = new StringBuilder();
-	
-	sbXml.append("<users>");
-	for(MemberTO data : datas){
-		sbXml.append("<user>");
-		sbXml.append("<seq>" + data.getSeq() + "</seq>");
-		sbXml.append("<name>" + data.getName() + "</name>");
-		sbXml.append("<email>" + data.getEmail() + "</email>");
-		sbXml.append("<address>" + data.getAddress() + "</address>");
-		sbXml.append("<wdate>" + data.getWdate() + "</wdate>");
-		sbXml.append("</user>");
-	}
-	sbXml.append("</users>");
+  MemberDAO dao = new MemberDAO();
+  List<MemberTO> datas = dao.userList();
+  
+  StringBuilder sbXml = new StringBuilder();
+  
+  sbXml.append("<users>");
+  for(MemberTO data : datas){
+    sbXml.append("<user>");
+    sbXml.append("<seq>" + data.getSeq() + "</seq>");
+    sbXml.append("<name>" + data.getName() + "</name>");
+    sbXml.append("<email>" + data.getEmail() + "</email>");
+    sbXml.append("<address>" + data.getAddress() + "</address>");
+    sbXml.append("<wdate>" + data.getWdate() + "</wdate>");
+    sbXml.append("</user>");
+  }
+  sbXml.append("</users>");
 %>
 <%= sbXml %>
 
@@ -9046,21 +9081,21 @@ public class MemberDAO {
 <%@ page language="java" contentType="text/xml; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	MemberTO input = new MemberTO();
-	input.setSeq(request.getParameter("seq"));
-	input.setName(request.getParameter("name"));
-	input.setPassword(request.getParameter("password"));
-	input.setEmail(request.getParameter("email"));
-	input.setAddress(request.getParameter("address"));
+  request.setCharacterEncoding("utf-8");
+  MemberTO input = new MemberTO();
+  input.setSeq(request.getParameter("seq"));
+  input.setName(request.getParameter("name"));
+  input.setPassword(request.getParameter("password"));
+  input.setEmail(request.getParameter("email"));
+  input.setAddress(request.getParameter("address"));
 
-	MemberDAO dao = new MemberDAO();
-	int flag = dao.userWrite(input);
-	
-	StringBuilder sbXml = new StringBuilder();
-	sbXml.append("<flag>");
-	sbXml.append(flag);
-	sbXml.append("</flag>");
+  MemberDAO dao = new MemberDAO();
+  int flag = dao.userWrite(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
 %>
 <%= sbXml%>
 
@@ -9070,18 +9105,18 @@ public class MemberDAO {
 <%@page import="model1.MemberDAO"%>
 <%@page import="model1.MemberTO"%>
 <%
-	request.setCharacterEncoding("utf-8");
-	MemberTO input = new MemberTO();
-	input.setSeq(request.getParameter("seq"));
-	input.setPassword(request.getParameter("password"));
-	
-	MemberDAO dao = new MemberDAO();
-	int flag = dao.userDelete(input);
-	
-	StringBuilder sbXml = new StringBuilder();
-	sbXml.append("<flag>");
-	sbXml.append(flag);
-	sbXml.append("</flag>");
+  request.setCharacterEncoding("utf-8");
+  MemberTO input = new MemberTO();
+  input.setSeq(request.getParameter("seq"));
+  input.setPassword(request.getParameter("password"));
+  
+  MemberDAO dao = new MemberDAO();
+  int flag = dao.userDelete(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
 %>
 <%= sbXml %>
 
@@ -9091,22 +9126,22 @@ public class MemberDAO {
 <%@ page language="java" contentType="text/xml; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%
-	request.setCharacterEncoding("utf-8");
+  request.setCharacterEncoding("utf-8");
 
-	MemberTO input = new MemberTO();
-	input.setSeq(request.getParameter("seq"));
-	input.setName(request.getParameter("name"));
-	input.setPassword(request.getParameter("password"));
-	input.setEmail(request.getParameter("email"));
-	input.setAddress(request.getParameter("address"));
-	
-	MemberDAO dao = new MemberDAO();
-	int flag = dao.userModify(input);
-	
-	StringBuilder sbXml = new StringBuilder();
-	sbXml.append("<flag>");
-	sbXml.append(flag);
-	sbXml.append("</flag>");
+  MemberTO input = new MemberTO();
+  input.setSeq(request.getParameter("seq"));
+  input.setName(request.getParameter("name"));
+  input.setPassword(request.getParameter("password"));
+  input.setEmail(request.getParameter("email"));
+  input.setAddress(request.getParameter("address"));
+  
+  MemberDAO dao = new MemberDAO();
+  int flag = dao.userModify(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
 %>
 <%= sbXml %>
 ```
@@ -9121,241 +9156,257 @@ public class MemberDAO {
 <title>Insert title here</title>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/cupertino/jquery-ui.css">
 <style type="text/css">
-	body { font-size: 80%; }
-	
-	label, input { display:block; }
-	input.text { margin-bottom:12px; width:95%; padding: .4em; }
-	fieldset { padding:0; border:0; margin-top:25px; }
-	h1 { font-size: 1.2em; margin: .6em 0; }
-	div#users-contain { width: 700px; margin: 20px 0; }
-	div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-	div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-	.ui-dialog .ui-state-error { padding: .3em; }
-	.validateTips { border: 1px solid transparent; padding: 0.3em; }
+  body { font-size: 80%; }
+  
+  label, input { display:block; }
+  input.text { margin-bottom:12px; width:95%; padding: .4em; }
+  fieldset { padding:0; border:0; margin-top:25px; }
+  h1 { font-size: 1.2em; margin: .6em 0; }
+  div#users-contain { width: 700px; margin: 20px 0; }
+  div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+  div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+  .ui-dialog .ui-state-error { padding: .3em; }
+  .validateTips { border: 1px solid transparent; padding: 0.3em; }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
-	$( document ).ready( function() {
-		
-		listServer();
-		
-		$( '#write-form' ).dialog({
-			autoOpen: false,
-			modal: true,
-			width: 350,
-			height: 400,
-			resizable: false,
-			buttons: {
-				'취소': function() {
-					$( this ).dialog( 'close' );
-					$('#w_name').val('');
-					$('#w_password').val('');
-					$('#w_email').val('');
-					$('#w_address').val('');
-				},
-				'추가': function() {
-					writeServer();
-				}
-			}
-		});
-		
-		$( '#btn1' ).button().on( 'click', function() {
-			$( '#write-form' ).dialog( 'open' ); 
-		});
-		
-		$('#delete-form').dialog({
-			autoOpen : false,
-			modal : true,
-			width : 300,
-			height : 350,
-			resizable : false,
-			buttons : {
-				'취소' : function() {
-					$(this).dialog('close');
-					$('#d_password').val('');
-				},
-				'삭제' : function() {
-					deleteServer();
-				}
-			}
-		});
-		
-		$('#modify-form').dialog({
-			autoOpen : false,
-			modal : true,
-			width : 400,
-			height : 500,
-			resizable : false,
-			buttons : {
-				'취소' : function() {
-					$(this).dialog('close');
-					$('#m_password').val('');
-				},
-				'수정' : function() {
-					modifyServer();
-				}
-			}
-		});
-		
-	});
-	
-	$()
-	const listServer = function() {
-		$.ajax({
-			url : './data/user_list.jsp',
-			type : 'get',
-			dataType : 'xml',
-			success : function(xml) {
-				// $('#users tbody').empty()
-				// append()를 이용해 리스트를 출력하는 경우 비워줘야 한다
-				let html = '';
-				$(xml).find('user').each(function() {
-					html += '<tr>';
-					html += '<td>' + $(this).find('seq').text() + '</td>';
-					html += '<td>' + $(this).find('name').text() + '</td>';
-					html += '<td>' + $(this).find('email').text() + '</td>';
-					html += '<td>' + $(this).find('address').text() + '</td>';
-					html += '<td>';
-					html += '<button onclick="modifyBtn(' + $(this).find('seq').text() + ', \'' + $(this).find('name').text() + '\', \'' + $(this).find('email').text() + '\', \'' + $(this).find('address').text() + '\')">수정</button>'
-					html += '<button onclick="deleteBtn(' + $(this).find('seq').text() + ')">삭제</button>'
-					html += '</td>';
-					html += '</tr>';
-				});
-				
-				// $('#users tbody').append(html);
-				$('#users tbody').html(html);
-				// html
-			},
-			error : function(err) {
-				alert('에러 : ' + err.message)
-			}
-		});
-	};
-	
-	const writeServer = function() {
-		$.ajax({
-			url : './data/user_write.jsp',
-			type : 'get',
-			data : {
-				name : $('#w_name').val(),
-				password : $('#w_password').val(),
-				email : $('#w_email').val(),
-				address : $('#w_address').val()
-			},
-			dataType : 'xml',
-			success : function(xml) {
-				if($('#w_name').val() == '' || $('#w_password').val() == '' || $('#w_email').val() == '' || $('#w_address').val() == ''){
-					alert('입력하지 않은 영역이 있습니다');
-					return;
-				}
-				
-				const flag = $(xml).find('flag').text();
-				if(flag == 0){
-					alert('회원 등록 성공');
-					listServer();
-					
-					$('#w_name').val('');
-					$('#w_password').val('');
-					$('#w_email').val('');
-					$('#w_address').val('');
-					
-					$('#write-form').dialog('close');
-				}else{
-					alert('회원 등록 실패');
-				}
-			},
-			error : function(err) {
-				alert('에러 : ' + err.message);							
-			}
-		});
-	};
-	
-	const deleteBtn = function(seq) {
-		$('#d_seq').val(seq);
-		
-		$('#delete-form').dialog('open');
-	};
-	
-	const modifyBtn = function(seq, name, email, address) {
-		$('#m_seq').val(seq);
-		$('#m_name').val(name);
-		$('#m_email').val(email);
-		$('#m_address').val(address);
-		
-		$('#modify-form').dialog('open');
-	};
-	
-	const deleteServer = function() {
-		$.ajax({
-			url : './data/user_delete.jsp',
-			type : 'get',
-			data : {
-				seq : $('#d_seq').val(),
-				password : $('#d_password').val()
-			},
-			dataType : 'xml',
-			success : function(xml) {
-				if($('#d_password').val() == ''){
-					alert('비밀번호를 입력해주세요');
-					return;
-				}
-				const flag = $(xml).find('flag').text();
-				if(flag == 0){
-					alert('회원 삭제 성공');
-					listServer();
-					$('#delete-form').dialog('close');
-				}else if(flag == 1){
-					alert('비밀번호 오류');
-					$('#d_password').val('');
-				}else{
-					alert('회원 삭제 실패');
-					$('#d_password').val('');
-				}
-			},
-			error : function(err) {
-				alert('에러 : ' + err.status);
-			}
-		})
-	};
-	
-	const modifyServer = function() {
-		$.ajax({
-			url : './data/user_modify.jsp',
-			type : 'get',
-			data : {
-				seq : $('#m_seq').val(),
-				name : $('#m_name').val(),
-				password : $('#m_password').val(),
-				email : $('#m_email').val(),
-				address : $('#m_address').val()
-			},
-			success : function(xml) {
-				if($('#m_password').val() == ''){
-					alert('비밀번호를 입력해주세요');
-					return;
-				}
-				const flag = $(xml).find('flag').text();
-				if(flag == 0){
-					alert('수정 성공');
-					listServer();
-					$('#m_password').val('');
-					$('#modify-form').dialog('close');
-				}else if(flag == 1){
-					alert('비밀번호 오류');
-					$('#m_password').val('');
-				}else{
-					alert('정보 수정 실패');
-					$('#m_password').val('');
-				}
-			},
-			error : function(err) {
-				alert('에러 : ' + err.status)
-			}
-		})
-	};
-	
-	
+  $( document ).ready( function() {
+    
+    listServer();
+    
+    $( '#write-form' ).dialog({
+      autoOpen: false,
+      modal: true,
+      width: 350,
+      height: 400,
+      resizable: false,
+      buttons: {
+        '취소': function() {
+          $( this ).dialog( 'close' );
+          $('#w_name').val('');
+          $('#w_password').val('');
+          $('#w_email').val('');
+          $('#w_address').val('');
+        },
+        '추가': function() {
+          writeServer();
+        }
+      }
+    });
+    
+    $( '#btn1' ).button().on( 'click', function() {
+      $( '#write-form' ).dialog( 'open' ); 
+    });
+    
+    $('#delete-form').dialog({
+      autoOpen : false,
+      modal : true,
+      width : 300,
+      height : 350,
+      resizable : false,
+      buttons : {
+        '취소' : function() {
+          $(this).dialog('close');
+          $('#d_password').val('');
+        },
+        '삭제' : function() {
+          deleteServer();
+        }
+      }
+    });
+    
+    $('#modify-form').dialog({
+      autoOpen : false,
+      modal : true,
+      width : 400,
+      height : 500,
+      resizable : false,
+      buttons : {
+        '취소' : function() {
+          $(this).dialog('close');
+          $('#m_password').val('');
+        },
+        '수정' : function() {
+          modifyServer();
+        }
+      }
+    });
+    
+  });
+  
+  const listServer = function() {
+    $.ajax({
+      url : './data/user_list.jsp',
+      type : 'get',
+      dataType : 'xml',
+      success : function(xml) {
+        // $('#users tbody').empty()
+        // append()를 이용해 리스트를 출력하는 경우 비워줘야 한다
+        let html = '';
+        $(xml).find('user').each(function() {
+          // html += '<tr seq="' + $(this).find('seq').text() + '">';
+          // 데이터를 쉽게 찾기 위해 특정 속성을 추가시키기도 한다
+          html += '<tr>';
+          html += '<td>' + $(this).find('seq').text() + '</td>';
+          html += '<td>' + $(this).find('name').text() + '</td>';
+          html += '<td>' + $(this).find('email').text() + '</td>';
+          html += '<td>' + $(this).find('address').text() + '</td>';
+          html += '<td>';
+          html += '<button onclick="modifyBtn(' + $(this).find('seq').text() + ', \'' + $(this).find('name').text() + '\', \'' + $(this).find('email').text() + '\', \'' + $(this).find('address').text() + '\')">수정</button>'
+
+          // html += '<button onclick="modifyBtn1(' + $(this).find('seq').text() + ')">수정</button>'
+
+          html += '<button onclick="deleteBtn(' + $(this).find('seq').text() + ')">삭제</button>'
+          html += '</td>';
+          html += '</tr>';
+        });
+        
+        // $('#users tbody').append(html);
+        $('#users tbody').html(html);
+
+        $('button').button();
+      },
+      error : function(err) {
+        alert('에러 : ' + err.message)
+      }
+    });
+  };
+  
+  const writeServer = function() {
+    $.ajax({
+      url : './data/user_write.jsp',
+      type : 'get',
+      data : {
+        name : $('#w_name').val(),
+        password : $('#w_password').val(),
+        email : $('#w_email').val(),
+        address : $('#w_address').val()
+      },
+      dataType : 'xml',
+      success : function(xml) {
+        if($('#w_name').val() == '' || $('#w_password').val() == '' || $('#w_email').val() == '' || $('#w_address').val() == ''){
+          alert('입력하지 않은 영역이 있습니다');
+          return;
+        }
+        
+        const flag = $(xml).find('flag').text();
+        if(flag == 0){
+          alert('회원 등록 성공');
+          listServer();
+          
+          $('#w_name').val('');
+          $('#w_password').val('');
+          $('#w_email').val('');
+          $('#w_address').val('');
+          
+          $('#write-form').dialog('close');
+        }else{
+          alert('회원 등록 실패');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.message);							
+      }
+    });
+  };
+  
+  const deleteBtn = function(seq) {
+    $('#d_seq').val(seq);
+    
+    $('#delete-form').dialog('open');
+  };
+  
+  const modifyBtn = function(seq, name, email, address) {
+    $('#m_seq').val(seq);
+    $('#m_name').val(name);
+    $('#m_email').val(email);
+    $('#m_address').val(address);
+    
+    $('#modify-form').dialog('open');
+  };
+
+  <!-- html 파싱을 통해 값을 얻어오는 방법
+  const modifyBtn1 = function(seq) {
+    $('#m_seq').val(seq);
+    $('#m_name').val($('tbody > tr > td:contains('+ seq +')').parent().children().eq(1).text());
+    $('#m_email').val($('tbody > tr > td:contains('+ seq +')').parent().children().eq(2).text());
+    $('#m_address').val($('tbody > tr > td:contains('+ seq +')').parent().children().eq(3).text());
+    
+    $('#modify-form').dialog('open');
+  }; 
+  -->
+  
+  const deleteServer = function() {
+    $.ajax({
+      url : './data/user_delete.jsp',
+      type : 'get',
+      data : {
+        seq : $('#d_seq').val(),
+        password : $('#d_password').val()
+      },
+      dataType : 'xml',
+      success : function(xml) {
+        if($('#d_password').val() == ''){
+          alert('비밀번호를 입력해주세요');
+          return;
+        }
+        const flag = $(xml).find('flag').text();
+        if(flag == 0){
+          alert('회원 삭제 성공');
+          listServer();
+          $('#delete-form').dialog('close');
+        }else if(flag == 1){
+          alert('비밀번호 오류');
+          $('#d_password').val('');
+        }else{
+          alert('회원 삭제 실패');
+          $('#d_password').val('');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status);
+      }
+    })
+  };
+  
+  const modifyServer = function() {
+    $.ajax({
+      url : './data/user_modify.jsp',
+      type : 'get',
+      data : {
+        seq : $('#m_seq').val(),
+        name : $('#m_name').val(),
+        password : $('#m_password').val(),
+        email : $('#m_email').val(),
+        address : $('#m_address').val()
+      },
+      success : function(xml) {
+        if($('#m_password').val() == ''){
+          alert('비밀번호를 입력해주세요');
+          return;
+        }
+        const flag = $(xml).find('flag').text();
+        if(flag == 0){
+          alert('수정 성공');
+          listServer();
+          $('#m_password').val('');
+          $('#modify-form').dialog('close');
+        }else if(flag == 1){
+          alert('비밀번호 오류');
+          $('#m_password').val('');
+        }else{
+          alert('정보 수정 실패');
+          $('#m_password').val('');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status)
+      }
+    })
+  };
+  
+  
 </script>
 </head>
 <body>
@@ -9365,71 +9416,1219 @@ public class MemberDAO {
 <br /><hr /><br />
 
 <div id="users-contain" class="ui-widget">
-	<h1>Existing Users:</h1>
-	<table id="users" class="ui-widget ui-widget-content">
-	<thead>
-		<tr class="ui-widget-header ">
-			<th>Seq</th>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Address</th>
-			<th>비고</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-	</table>
+  <h1>Existing Users:</h1>
+  <table id="users" class="ui-widget ui-widget-content">
+  <thead>
+    <tr class="ui-widget-header ">
+      <th>Seq</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>비고</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
 </div>
 
 <div id="write-form" title="Insert new user">
-	<p class="validateTips">All form fields are required.</p>
- 	<form>
-		<fieldset>
-			<label for="w_name">Name</label>
-			<input type="text" id="w_name" value="" class="text ui-widget-content ui-corner-all" />
-			<label for="w_password">Password</label>
-			<input type="password" id="w_password" value="" class="text ui-widget-content ui-corner-all" />
-			<label for="w_email">Email</label>
-			<input type="text" id="w_email" value="" class="text ui-widget-content ui-corner-all" />
-			<label for="w_address">Address</label>
-			<input type="text" id="w_address" value="" class="text ui-widget-content ui-corner-all" />
-			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
-		</fieldset>
-	</form>
+  <p class="validateTips">All form fields are required.</p>
+   <form>
+    <fieldset>
+      <label for="w_name">Name</label>
+      <input type="text" id="w_name" value="" class="text ui-widget-content ui-corner-all" />
+      <label for="w_password">Password</label>
+      <input type="password" id="w_password" value="" class="text ui-widget-content ui-corner-all" />
+      <label for="w_email">Email</label>
+      <input type="text" id="w_email" value="" class="text ui-widget-content ui-corner-all" />
+      <label for="w_address">Address</label>
+      <input type="text" id="w_address" value="" class="text ui-widget-content ui-corner-all" />
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+    </fieldset>
+  </form>
 </div>
 
 <div id="delete-form" title="Delete user">
- 	<form>
-		<fieldset>
-			<label for="d_seq">Seq</label>
-			<input type="text" id="d_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
-			<label for="d_password">Password</label>
-			<input type="password" id="d_password" class="text ui-widget-content ui-corner-all" />
-			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
-		</fieldset>
-	</form>
+   <form>
+    <fieldset>
+      <label for="d_seq">Seq</label>
+      <input type="text" id="d_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+      <label for="d_password">Password</label>
+      <input type="password" id="d_password" class="text ui-widget-content ui-corner-all" />
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+    </fieldset>
+  </form>
 </div>
 
 <div id="modify-form" title="Modify user">
- 	<form>
-		<fieldset>
-			<label for="m_seq">Seq</label>
-			<input type="text" id="m_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
-			<label for="m_name">Name</label>
-			<input type="text" id="m_name" class="text ui-widget-content ui-corner-all" readonly="readonly" />
-			<label for="m_password">Password</label>
-			<input type="password" id="m_password" class="text ui-widget-content ui-corner-all" />
-			<label for="m_email">Email</label>
-			<input type="text" id="m_email" class="text ui-widget-content ui-corner-all" />
-			<label for="m_address">Address</label>
-			<input type="text" id="m_address" class="text ui-widget-content ui-corner-all" />
-			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
-		</fieldset>
-	</form>
+   <form>
+    <fieldset>
+      <label for="m_seq">Seq</label>
+      <input type="text" id="m_seq" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+      <label for="m_name">Name</label>
+      <input type="text" id="m_name" class="text ui-widget-content ui-corner-all" readonly="readonly" />
+      <label for="m_password">Password</label>
+      <input type="password" id="m_password" class="text ui-widget-content ui-corner-all" />
+      <label for="m_email">Email</label>
+      <input type="text" id="m_email" class="text ui-widget-content ui-corner-all" />
+      <label for="m_address">Address</label>
+      <input type="text" id="m_address" class="text ui-widget-content ui-corner-all" />
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px" />
+    </fieldset>
+  </form>
 </div>
-
 
 </body>
 </html>
 ```
 
+##### menu()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  .ui-menu{
+    width : 200px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#menu').menu({
+      select : function() {
+        console.log($('select'));
+      }
+    });
+  });
+</script>
+</head>
+<body>
+
+<ul id="menu">
+  <li class="ui-state-disabled"><div>Toys (n/a)</div></li>
+  <li><div>Books</div></li>
+  <li><div>Clothing</div></li>
+  <li><div>Electronics</div>
+    <ul>
+      <li class="ui-state-disabled"><div>Home Entertainment</div></li>
+      <li><div>Car Hifi</div></li>
+      <li><div>Utilities</div></li>
+    </ul>
+  </li>
+  <li><div>Movies</div></li>
+  <li><div>Music</div>
+    <ul>
+      <li><div>Rock</div>
+        <ul>
+          <li><div>Alternative</div></li>
+          <li><div>Classic</div></li>
+        </ul>
+      </li>
+      <li><div>Jazz</div>
+        <ul>
+          <li><div>Freejazz</div></li>
+          <li><div>Big Band</div></li>
+          <li><div>Modern</div></li>
+        </ul>
+      </li>
+      <li><div>Pop</div></li>
+    </ul>
+  </li>
+  <li class="ui-state-disabled"><div>Specials (n/a)</div></li>
+</ul>
+
+</body>
+</html>
+```
+###### category 추가
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  .ui-menu{
+    width : 200px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#menu').menu({
+      items : '> :not(.ui-widget-header)',
+      select : function() {
+        console.log('select');
+      }
+    });
+  });
+</script>
+</head>
+<body>
+
+<ul id="menu">
+  <li class="ui-widget-header"><div>category 1</div></li>
+  <li class="ui-state-disabled"><div>Toys (n/a)</div></li>
+  <li><div>Books</div></li>
+  <li><div>Clothing</div></li>
+  <li><div>Electronics</div>
+    <ul>
+      <li class="ui-state-disabled"><div>Home Entertainment</div></li>
+      <li><div>Car Hifi</div></li>
+      <li><div>Utilities</div></li>
+    </ul>
+  </li>
+  <li class="ui-widget-header"><div>category 2</div></li>
+  <li><div>Movies</div></li>
+  <li><div>Music</div>
+    <ul>
+      <li><div>Rock</div>
+        <ul>
+          <li><div>Alternative</div></li>
+          <li><div>Classic</div></li>
+        </ul>
+      </li>
+      <li><div>Jazz</div>
+        <ul>
+          <li><div>Freejazz</div></li>
+          <li><div>Big Band</div></li>
+          <li><div>Modern</div></li>
+        </ul>
+      </li>
+      <li><div>Pop</div></li>
+    </ul>
+  </li>
+  <li class="ui-state-disabled"><div>Specials (n/a)</div></li>
+</ul>
+
+</body>
+</html>
+```
+###### icon 주기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  .ui-menu{
+    width : 150px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#menu').menu({
+      items : '> :not(.ui-widget-header)',
+      select : function() {
+        console.log('select');
+      }
+    });
+  });
+</script>
+</head>
+<body>
+
+<ul id="menu">
+  <li>
+    <div><span class="ui-icon ui-icon-disk"></span>Save</div>
+  </li>
+  <li>
+    <div><span class="ui-icon ui-icon-zoomin"></span>Zoom In</div>
+  </li>
+  <li>
+    <div><span class="ui-icon ui-icon-zoomout"></span>Zoom Out</div>
+  </li>
+  <li class="ui-state-disabled">
+    <div><span class="ui-icon ui-icon-print"></span>Print...</div>
+  </li>
+  <li>
+    <div>Playback</div>
+    <ul>
+      <li>
+        <div><span class="ui-icon ui-icon-seek-start"></span>Prev</div>
+      </li>
+      <li>
+        <div><span class="ui-icon ui-icon-stop"></span>Stop</div>
+      </li>
+      <li>
+        <div><span class="ui-icon ui-icon-play"></span>Play</div>
+      </li>
+      <li>
+        <div><span class="ui-icon ui-icon-seek-end"></span>Next</div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <div>Learn more about this menu</div>
+  </li>
+</ul>
+
+</body>
+</html>
+```
+##### tabs()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  
+  .ui-tabs{
+    width : 50%;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#tabs').tabs();
+    $('#btn').button().on('click', function() {
+      let html = '<li><a href="#tabs-4">추가</a></li>';
+      $('#tabs > ul').append(html);	
+      
+      html = '<div id="tabs-4"><p>추가내용1</p><p>추가내용2</p></div>';
+      $('#tabs').append(html);
+      
+      $('#tabs').tabs('refresh');
+    });
+  });
+</script>
+</head>
+<body>
+
+<button id="btn">추가</button>
+<br><hr><br>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Nunc tincidunt</a></li>
+    <li><a href="#tabs-2">Proin dolor</a></li>
+    <li><a href="#tabs-3">Aenean lacinia</a></li>
+  </ul>
+  <div id="tabs-1">
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+  </div>
+  <div id="tabs-2">
+    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+  </div>
+  <div id="tabs-3">
+    <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+    <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+  </div>
+</div>
+ 
+</body>
+</html>
+```
+##### tooltip()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/cupertino/jquery-ui.css">
+<style type="text/css">
+  body{
+    font-size : 80%;
+  }
+  
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).tooltip();
+  });
+</script>
+</head>
+<body>
+
+<p><a href="#" title="That&apos;s what this widget is">Tooltips</a> can be attached to any element. When you hover
+the element with your mouse, the title attribute is displayed in a little box next to the element, just like a native tooltip.</p>
+<p>But as it&apos;s not a native tooltip, it can be styled. Any themes built with
+<a href="http://jqueryui.com/themeroller/" title="ThemeRoller: jQuery UI&apos;s theme builder application">ThemeRoller</a>
+will also style tooltips accordingly.</p>
+<p>Tooltips are also useful for form elements, to show some additional information in the context of each field.</p>
+<p><label for="age">Your age:</label><input id="age" title="We ask for your age only for statistical purposes."></p>
+<p>Hover the field to see the tooltip.</p>
+ 
+</body>
+</html>
+```
+
+#### jQuery 게시판
+
+- 테이블 생성 구문
+
+```sql
+create table board (
+  seq int primary key auto_increment,
+  name varchar(20) not null,
+  password varchar(20) not null,
+  email varchar(50),
+  subject varchar(30) not null,
+  content varchar(2000),
+  wip varchar(15) not null,
+  wdate datetime not null
+);
+```
+
+- 데이터 삽입 구문
+```sql
+insert into board values (0, '홍길동', '1234', 'test@test.com', '제목', '내용', '000.000.000.000', now());
+```
+
+- protocol
+
+  - 데이터 형식 : xml
+
+  - 표
+
+    |기능|페이지|보내는 데이터|받는 데이터|데이터 형식|
+    |:--:|:--:|:--:|:--:|:--:|
+    |글 목록|board_list.jsp|X|seq<br>name<br>wip<br>wdate('%Y-%m-%d')<br>wgap<br>subject<br>content|\<posts>\<post>\<seq>...\</seq>\<name>...|
+    |글 쓰기|board_write.jsp|name<br>password<br>email(mail1, mail2)<br>subject<br>content|flag| \<flag>...\</flag>|
+    |글 삭제|board_delete.jsp|seq<br>password|flag| \<flag>...\</flag>|
+    |글 수정|board_modify.jsp|seq<br>password<br>email(mail1, mail2)<br>subject<br>content|flag| \<flag>...\</flag>|
+
+- 페이지 흐름도
+
+  - 게시글 추가 : 화면 &rarr; 글 쓰기 &rarr; board_write.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+
+  - 게시글 삭제 : 특정 게시글 활성화 &rarr; 삭제 &rarr; 비밀번호 입력 &rarr; board_delete.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+
+  - 게시글 수정 : 특정 게시글 활성화 &rarr; 수정 &rarr; 수정 내용 입력 &rarr; board_modify.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+
+- 구현하기
+```xml
+<!-- cotext.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource
+    name="jdbc/mariadbProject"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/project"
+    username="root"
+    password="123456"
+  />
+</Context>
+```
+```java
+// BoardTO.java
+package model1;
+
+public class BoardTO {
+  private String seq;
+  private String name;
+  private String password;
+  private String email;
+  private String subject;
+  private String content;
+  private String wip;
+  private String wdate;
+  private String wgap;
+  
+  public String getWgap() {
+    return wgap;
+  }
+  public void setWgap(String wgap) {
+    this.wgap = wgap;
+  }
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getSubject() {
+    return subject;
+  }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
+  }
+  public String getWip() {
+    return wip;
+  }
+  public void setWip(String wip) {
+    this.wip = wip;
+  }
+  public String getWdate() {
+    return wdate;
+  }
+  public void setWdate(String wdate) {
+    this.wdate = wdate;
+  }
+  
+}
+
+// BoardDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class BoardDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public BoardDAO() {
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<BoardTO> boardList(){
+    List<BoardTO> datas = new ArrayList<>();
+    
+    String sql = "select email, seq, name, wip, datediff(now(), wdate) wgap, date_format(wdate, '%Y-%m-%d') wdate, subject, content from board";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      
+      while(rs.next()) {
+        BoardTO data = new BoardTO();
+        data.setEmail(rs.getString("email"));
+        data.setSeq(rs.getString("seq"));
+        data.setName(rs.getString("name"));
+        data.setWip(rs.getString("wip"));
+        data.setWgap(rs.getString("wgap"));
+        data.setWdate(rs.getString("wdate"));
+        data.setSubject(rs.getString("subject"));
+        data.setContent(rs.getString("content"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+  public int boardWrite(BoardTO input) {
+    int flag = 1;
+    
+    String sql = "insert into board values (0, ?, ?, ?, ?, ?, ?, now())";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getName());
+      pstmt.setString(2, input.getPassword());
+      pstmt.setString(3, input.getEmail());
+      pstmt.setString(4, input.getSubject());
+      pstmt.setString(5, input.getContent());
+      pstmt.setString(6, input.getWip());
+
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public int boardDelete(BoardTO input) {
+    int flag = 2;
+    
+    String sql = "delete from board where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSeq());
+      pstmt.setString(2, input.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public int boardModify(BoardTO input) {
+    int flag = 2;
+    
+    String sql = "update board set subject = ?, name = ?, email = ?, content = ? where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getSubject());
+      pstmt.setString(2, input.getName());
+      pstmt.setString(3, input.getEmail());
+      pstmt.setString(4, input.getContent());
+      pstmt.setString(5, input.getSeq());
+      pstmt.setString(6, input.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+}
+
+```
+```jsp
+<!-- board_list.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardDAO dao = new BoardDAO();
+
+  List<BoardTO> datas = dao.boardList();
+  StringBuilder sbXml = new StringBuilder();
+  
+  sbXml.append("<posts>");
+  for(BoardTO data : datas){
+    sbXml.append("<post>");
+    sbXml.append("<email>" + data.getEmail() + "</email>");
+    sbXml.append("<seq>" + data.getSeq() + "</seq>");
+    sbXml.append("<name>" + data.getName() + "</name>");
+    sbXml.append("<wip>" + data.getWip() + "</wip>");
+    sbXml.append("<wdate>" + data.getWdate() + "</wdate>");
+    sbXml.append("<wgap>" + data.getWgap() + "</wgap>");
+    sbXml.append("<subject>" + data.getSubject() + "</subject>");
+    sbXml.append("<content>" + data.getContent() + "</content>");
+    sbXml.append("</post>");
+  }
+  sbXml.append("</posts>");
+%>
+<%= sbXml %>
+
+<!-- board_write.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  BoardTO	input = new BoardTO();
+  input.setName(request.getParameter("name"));
+  input.setPassword(request.getParameter("password"));
+  String email = "";
+  if(request.getParameter("mail1") != null && request.getParameter("mail2") != null && !request.getParameter("mail1").trim().equals("") && !request.getParameter("mail2").trim().equals("")){
+    email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+  }
+  input.setEmail(email);
+  input.setSubject(request.getParameter("subject"));
+  input.setContent(request.getParameter("content"));
+  input.setWip(request.getRemoteAddr());
+  
+  BoardDAO dao = new BoardDAO();
+  int flag = dao.boardWrite(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
+%>
+<%= sbXml %>
+
+<!-- board_delete.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardTO input = new BoardTO();
+  input.setSeq(request.getParameter("seq"));
+  input.setPassword(request.getParameter("password"));
+  
+  BoardDAO dao = new BoardDAO();
+  int flag = dao.boardDelete(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
+%>
+<%= sbXml %>
+
+<!-- board_modify.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  BoardTO input = new BoardTO();
+  input.setSeq(request.getParameter("seq"));
+  input.setSubject(request.getParameter("subject"));
+  input.setName(request.getParameter("name"));
+  input.setPassword(request.getParameter("password"));
+  input.setContent(request.getParameter("content"));
+  String email = "";
+  if(request.getParameter("mail1") != null && request.getParameter("mail2") != null && !request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")){
+    email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+  }
+  input.setEmail(email);
+  
+  BoardDAO dao = new BoardDAO();
+  int flag = dao.boardModify(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<flag>");
+  sbXml.append(flag);
+  sbXml.append("</flag>");
+%>
+<%= sbXml %> 
+
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/blitzer/jquery-ui.css" />
+<style type="text/css">
+  body { font-size: 80%; }
+  
+  #accordion > div > div:last-child { text-align: right; }
+  #accordion-resizer {
+    margin: 0 60px;
+    max-width: 1500px;
+  }
+  #btngroup {
+    text-align: right;
+  }
+  #btngroup button {
+  margin: 3px;
+    padding: 3px;
+    width: 100px;
+  }
+  label.header {
+    font-size: 10pt;
+    margin-right: 5px;
+  }
+  input.text {
+    width: 80%;
+    margin-bottom: 12px;
+    padding: 0.4em;
+  }
+  input.mail1 {
+    width: 45%;
+    margin-bottom: 12px;
+    padding: 0.4em;
+  }
+  input.mail2 {
+    width: 30%;
+    margin-bottom: 12px;
+    padding: 0.4em;
+  }
+  fieldset {
+    margin-left: 15px;
+    margin-top: 15px;
+    border: 0;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $( document ).ready(() => {
+    $( '#writeDialog' ).css( 'display', 'none' );
+    $( '#modifyDialog' ).css( 'display', 'none' );
+    $( '#deleteDialog' ).css( 'display', 'none' );
+    
+    const readServer = () => {
+      $( '#accordion' ).accordion({
+        collapsible: 'true',
+        heightStyle: 'content'
+      });
+      $( 'button.action' ).button();
+    };
+    
+    readServer();
+    
+    listServer();
+    // 페이지 처음 실행시 목록 출력
+    
+    $( document ).on( 'click', 'button.action', function() {
+      if( $( this ).attr( 'action' ) == 'write' ) {
+        $( '#writeDialog' ).dialog ({
+          width: 900,
+          height: 500,
+          modal: true,
+          buttons: {
+            '쓰기': function() {
+              if($('#w_subject').val().trim() == ''){
+                alert('제목을 입력하세요');
+                return false;
+              }
+              if($('#w_writer').val().trim() == ''){
+                alert('글쓴이를 입력하세요');
+                return false;
+              }
+              if($('#w_password').val().trim() == ''){
+                alert('비밀번호를 입력하세요');
+                return false;
+              }
+              // 필수요소 입력 확인
+              writeServer();
+            },
+            '취소': function() {
+              $('#w_writer').val('');
+              $('#w_password').val('');
+              $('#w_mail1').val('');
+              $('#w_mail2').val('');
+              $('#w_subject').val('');
+              $('#w_content').val('');
+              // 입력한 모든 값 초기화
+              
+              $( this ).dialog( 'close' );
+            }
+          }
+        });
+      } else if( $( this ).attr( 'action' ) == 'modify' ) {
+        $( '#modifyDialog' ).dialog({
+          width: 900,
+          height: 500,
+          modal: true,
+          buttons: {
+            '수정': function() {
+              if($('#m_password').val().trim() == ''){
+                alert('비밀번호를 입력하세요');
+                return false;
+              }
+              // 필수요소 입력 확인
+              modifyServer();
+            },
+            '취소': function() {
+              $('#m_password').val('');
+              // 입력한 값 초기화
+              $( this ).dialog( 'close' );
+            }
+          }
+        });
+      } else if( $( this ).attr( 'action' ) == 'delete' ) {
+        $( '#deleteDialog' ).dialog({
+          width: 900,
+          height: 240,
+          modal: true,
+          buttons: {
+            '삭제': function() {
+              if($('#d_password').val().trim() == ''){
+                alert('비밀번호를 입력하세요');
+                return false;
+              }
+              // 필수요소 입력 확인
+              deleteServer();
+            },
+            '취소': function() {
+              $('#d_password').val('');
+              // 입력한 값 초기화
+              $( this ).dialog( 'close' );
+            }
+          }
+        });
+      } else {
+      }
+    });
+  });
+  
+  const listServer = function() {
+    $.ajax({
+      url : './data/board_list.jsp',
+      type : 'get',
+      dataType : 'xml',
+      success : function(xml) {
+        let lists = '';
+        $(xml).find('post').each(function() {
+          lists += '<h3>' + $(this).find('seq').text() + ' : ' + $(this).find('name').text() + '(' + $(this).find('wip').text() + ')';
+          if($(this).find('wgap').text() == 0){
+            lists += '&nbsp;&nbsp;new !!';
+          }
+          lists += '</h3>';
+          lists += '<div seq=' + $(this).find('seq').text() + '>';
+          lists += '<input type="hidden" value="' +  $(this).find('email').text() + '">';
+          lists += '<input type="hidden" value="' +  $(this).find('name').text() + '">';
+          lists += '<div>' + $(this).find('wdate').text() + '</div>';
+          lists += '<div>' + $(this).find('subject').text() + '</div>';
+          lists += '<br />';
+          lists += '<hr noshade="noshade" />';
+          lists += '<div>' + $(this).find('content').text() + '</div>';
+          lists += '<br />';
+          lists += '<hr noshade="noshade" />';
+          lists += '<br />';
+          lists += '<div>';
+          lists += '<button idx="1" action="modify" class="action" onclick="modifyBtn(' + $(this).find('seq').text() + ')">수정</button>&nbsp;&nbsp;';
+          lists += '<button idx="1" action="delete" class="action" onclick="deleteBtn(\'' + $(this).find('subject').text() + '\',' + $(this).find('seq').text() + ')">삭제</button>';
+          lists += '</div>';       
+          lists += '</div>';
+        });
+        
+        $('#accordion').html(lists);
+        
+        $('#accordion').accordion('refresh');
+        
+        $('button').button();
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status)
+      }
+    });
+  };
+  
+  const deleteBtn = function(subject, seq) {
+    $('#d_subject').val(subject);
+    $('#d_seq').val(seq);
+  }
+  
+  const modifyBtn = function(seq) {
+    $('#m_seq').val(seq);
+    $('#m_subject').val($('#accordion > div').filter('[seq=' + seq + ']').find('div').eq(1).text());
+    $('#m_content').val($('#accordion > div').filter('[seq=' + seq + ']').find('div').eq(2).text());
+    $('#m_writer').val($('#accordion > div').filter('[seq=' + seq + ']').find('input').eq(1).val());
+    const email = $('#accordion > div').filter('[seq=' + seq + ']').find('input').eq(0).val().split('@');
+    $('#m_mail1').val(email[0]);
+    $('#m_mail2').val(email[1]);
+  }
+  
+  const writeServer = function() {
+    $.ajax({
+      url : './data/board_write.jsp',
+      type : 'get',
+      dataType : 'xml',
+      data : {
+        name : $('#w_writer').val(),
+        password : $('#w_password').val(),
+        mail1 : $('#w_mail1').val(),
+        mail2 : $('#w_mail2').val(),
+        subject : $('#w_subject').val(),
+        content : $('#w_content').val()
+      },
+      success : function(xml) {
+        const flag = $(xml).find('flag').text();
+        
+        if(flag == 0){
+          alert('글쓰기 성공');
+          
+          $('#w_writer').val('');
+          $('#w_password').val('');
+          $('#w_mail1').val('');
+          $('#w_mail2').val('');
+          $('#w_subject').val('');
+          $('#w_content').val('');
+          
+          $('#writeDialog').dialog( 'close' );
+          
+          listServer();
+          $('#accordion').accordion('refresh');
+        } else{
+          alert('글쓰기 실패');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status);	
+      }
+    });
+  };
+  
+  const deleteServer = function() {
+    $.ajax({
+      url : './data/board_delete.jsp',
+      type : 'get',
+      data : {
+        seq : $('#d_seq').val(),
+        password : $('#d_password').val()
+      },
+      dataType : 'xml',
+      success : function(xml) {
+        const flag =$(xml).find('flag').text()
+        
+        if(flag == 0){
+          alert('글 삭제 성공');
+          $('#d_password').val('');
+          $('#deleteDialog').dialog('close');	
+        
+          listServer();
+          $('#accordion').accordion('refresh');
+        }else if(flag == 1){
+          alert('비밀번호 오류');
+          $('#d_password').val('');
+        }else{
+          alert('글 삭제 실패');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status);
+      }
+    });
+  };
+  
+  const modifyServer = function() {
+    $.ajax({
+      url : './data/board_modify.jsp',
+      type : 'get',
+      data : {
+        seq : $('#m_seq').val(),
+        name : $('#m_writer').val(),
+        mail1 : $('#m_mail1').val(),
+        mail2 : $('#m_mail2').val(),
+        subject : $('#m_subject').val(),
+        password : $('#m_password').val(),
+        subject : $('#m_subject').val(),
+        content : $('#m_content').val()
+      },
+      dataType : 'xml',
+      success : function(xml) {
+        const flag = $(xml).find('flag').text();
+        
+        if(flag == 0){
+          alert('글 수정 성공');
+          $('#m_password').val('');
+          $('#modifyDialog').dialog('close');
+          
+          listServer();
+          $('#acccordion').accordion('fresh');
+          
+        }else if(flag == 1){
+          alert('비밀번호 오류');
+          $('#m_password').val('');
+        }else {
+          alert('글 수정 실패');
+          $('#m_password').val('');
+        }
+      },
+      error : function(err) {
+        alert('에러 : ' + err.status);
+      }
+    })
+  };
+</script>
+</head>
+<body>
+
+<div id="accordion-resizer">
+  <hr noshade="noshade" />
+  <div id="accordion">
+    <h3>1 : 글쓴이(0) new</h3>
+    <div>
+      <div>2016-02-01</div>
+      <div>제목 1</div>
+      <br />
+      <hr noshade="noshade" />
+      <div>내용 1</div>
+      <br />
+      <hr noshade="noshade" />
+      <br />
+      <div>
+        <button idx="1" action="modify" class="action">수정</button>
+        <button idx="1" action="delete" class="action">삭제</button>
+      </div>       
+    </div>
+    <h3>2 : 글쓴이(0) new</h3>
+    <div>
+      <div>2016-02-01</div>
+      <div>제목 2</div>
+      <br />
+      <hr noshade="noshade" />
+      <div>내용 2</div>
+      <br />
+      <hr noshade="noshade" />
+      <br />
+      <div>
+        <button idx="2" action="modify" class="action">수정</button>
+        <button idx="2" action="delete" class="action">삭제</button>
+      </div>       
+    </div>
+  </div>
+  <hr noshade="noshade" />
+  <div id="btngroup">
+    <button action="write" class="action">글쓰기</button>
+  </div>
+</div>
+<div id="writeDialog" title="글쓰기">   
+  <fieldset>
+    <div>
+      <label for="subject" class="header">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</label>
+      <input type="text" id="w_subject" class="text ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="writer" class="header">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</label>
+      <input type="text" id="w_writer" class="text ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="mail" class="header">메&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일</label>
+      <input type="text" id="w_mail1" class="mail1 ui-widget-content ui-corner-all"/>
+      @
+      <input type="text" id="w_mail2" class="mail2 ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="password" class="header">비밀&nbsp;번호</label>
+      <input type="password" id="w_password" class="text ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="content" class="header">본&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문</label>
+      <br /><br />
+      <textarea rows="15" cols="100" id="w_content" class="text ui-widget-content ui-corner-all"></textarea>
+    </div>
+  </fieldset>
+</div>
+<div id="modifyDialog" title="글수정">   
+  <fieldset>
+    <div>
+      <label for="subject" class="header">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</label>
+      <input type="text" id="m_subject" class="text ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="writer" class="header">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</label>
+      <input type="text" id="m_writer" class="text ui-widget-content ui-corner-all" readonly="readonly"/>
+    </div>
+    <div>
+      <label for="mail" class="header">메&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일</label>
+      <input type="text" id="m_mail1" class="mail1 ui-widget-content ui-corner-all"/>
+      @
+      <input type="text" id="m_mail2" class="mail2 ui-widget-content ui-corner-all"/>
+    </div>
+    <div>
+      <label for="password" class="header">비밀&nbsp;번호</label>
+      <input type="password" id="m_password" class="text ui-widget-content ui-corner-all"/>
+      <input type="hidden" id="m_seq">
+    </div>
+    <div>
+      <label for="content" class="header">본&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;문</label>
+      <br /><br />
+      <textarea rows="15" cols="100" id="m_content" class="text ui-widget-content ui-corner-all"></textarea>
+    </div>
+  </fieldset>
+</div>
+<div id="deleteDialog" title="글삭제">   
+  <fieldset>
+    <div>
+      <label for="subject" class="header">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</label>
+      <input type="text" id="d_subject" class="text ui-widget-content ui-corner-all" readonly="readonly"/>
+      <input type="hidden" id="d_seq">
+    </div>
+    <div>
+      <label for="password" class="header">비밀&nbsp;번호</label>
+      <input type="password" id="d_password" class="text ui-widget-content ui-corner-all"/>
+    </div>
+  </fieldset>
+</div>
+
+</body>
+</html>
+
+```
