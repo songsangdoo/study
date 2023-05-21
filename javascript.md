@@ -8835,10 +8835,10 @@ insert into users values (0, '홍길동', '1234', 'test@test.com', '서울시 �
 
     기능|페이지|보내는 데이터|받는 데이터|데이터 형식|
     |:--:|:--:|:--:|:--:|:--:|
-    |회원목록|user_list.jsp|X|seq<br>name<br>email<br>address|\<users>\<user>\<seq>...\</seq>\<name>...\</name>...|
-    |회원추가|user_write.jsp|name<br>password<br>email<br>address|flag|\<flag>\</flag>|
+    |회원목록|user_list.jsp|X|seq<br>name<br>email<br>wip<br>wdate('%Y-%m-%d')<br>wgap(date_diff(wdate, now()))<br>address|\<users>\<user>\<seq>...\</seq>\<name>...\</name>...|
+    |회원추가|user_write.jsp|name<br>password<br>email(mail1, mail2)<br>address|flag|\<flag>\</flag>|
     |회원삭제|user_delete.jsp|seq<br>password|flag|\<flag>\</flag>|
-    |회원수정|user_modify.jsp|seq<br>password<br>email<br>address|flag|\<flag>\</flag>|
+    |회원수정|user_modify.jsp|seq<br>password<br>email(mail1, mail2)<br>address|flag|\<flag>\</flag>|
 
 - 흐름도
 
@@ -9831,11 +9831,17 @@ insert into board values (0, '홍길동', '1234', 'test@test.com', '제목', '�
 
 - 페이지 흐름도
 
-  - 게시글 추가 : 화면 &rarr; 글 쓰기 &rarr; board_write.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+  - 게시글 추가 
+    
+    <b>화면 &rarr; 글 쓰기 &rarr; board_write.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력</b>
 
-  - 게시글 삭제 : 특정 게시글 활성화 &rarr; 삭제 &rarr; 비밀번호 입력 &rarr; board_delete.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+  - 게시글 삭제 
+  
+    <b>특정 게시글 활성화 &rarr; 삭제 &rarr; 비밀번호 입력 &rarr; board_delete.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력</b>
 
-  - 게시글 수정 : 특정 게시글 활성화 &rarr; 수정 &rarr; 수정 내용 입력 &rarr; board_modify.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력
+  - 게시글 수정 
+  
+    <b>특정 게시글 활성화 &rarr; 수정 &rarr; 수정 내용 입력 &rarr; board_modify.jsp &rarr; 성공 &rarr; board_list.jsp &rarr; 게시글 리스트 출력</b>
 
 - 구현하기
 ```xml
