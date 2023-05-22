@@ -5165,6 +5165,8 @@ ${ jsondata }
 
 -  'https://jquery.com/' 에서 jquery 라이브러리를 다운받을 때, 압축 버전과 압축 해제 버전이 있는데, 서비스를 제공할 때는 압축 버전을 사용하고 개발할 때는 직관적으로 알아보기 쉬운 압축 해제 버전을 사용한다
 
+    <small> !! 보통은 기업에서 제공하는 CDN 라이브러리를 사용한다</small>
+
 ### jQuery 기본
 - $가 있으면 jQuery로 해석한다
 
@@ -5399,9 +5401,11 @@ Hello jQuery !!
 <script type="text/javascript">
   $(document).ready(function(){
     $('div > *').css('color', 'red');
+    // 자손으로 있는 모든 태그에 css 효과를 준다
     // 자손인 ul 태그에만 css 효과가 적용되는 것을 확인
     
     // $('div *').css('color', 'red');
+    // 후손으로 있는 모든 태그에 css 효과를 준다
     // 후손인 ul, li 태그 모두 css 효과가 적용되는 것을 확인
   });
 </script>
@@ -5468,7 +5472,7 @@ Hello jQuery !!
       // 홀수 행에 css 효과를 준다
        $('tr:even').css('background-color', 'yellow');
       // $('tr:nth-child(2n)').css('background-color', 'blue');
-      // 0을 포함한 짝수 행에 css 효과를 준다
+      // 0을 포함한 짝수 인덱스 행에 css 효과를 준다
       // 행의 인덱스는 0부터 시작한다
       
       // $('tr:first').css('background-color', 'red');
@@ -5541,6 +5545,7 @@ Hello jQuery !!
     // eq로 특정 태그 중 특정 인덱스를 지정해 css 효과를 줄 수 있다 
     // $('tr').eq(-1).css('color', 'blue';)
     // 마지막 인덱스에 css 효과를 준다
+    // html 문서는 되도록이면 에러가 나지 않도록 설계되어 있다
     
     // $('tr').first().css('color','blue');
     // tr 태그 중 첫번째 태그에만 css 효과를 준다
@@ -5831,6 +5836,7 @@ Hello jQuery !!
 </body>
 </html>
 ```
+선택 요소를 변수에 할당하고 그 변수를 이용해 jQuery 구문을 사용할 수 있다
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -5874,8 +5880,9 @@ Hello jQuery !!
   $(document).ready(function(){
     $('h1').filter(function(index) {
       return index % 2 == 0;
+      // true를 반환하는 객체만 선택한다
       // filter의 내용을 직접 만들 수 있다
-    }).css('color', 'blue'); // true를 반환하는 짝수인 인덱스에만 css 효과를 준다
+    }).css('color', 'blue'); // true를 반환하는 짝수 인덱스에만 css 효과를 준다
   });
 </script>
 </head>
@@ -5996,7 +6003,8 @@ Hello jQuery !!
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
-  const xml = `<friends>
+  const xml = `
+  <friends>
     <friend>
       <name>tester1</name>
       <language>javascript</language>
@@ -6009,7 +6017,8 @@ Hello jQuery !!
       <name>tester3</name>
       <language>html</language>
     </friend>
-    </friends>`
+  </friends>
+  `
 
   $(document).ready(function(){
     console.log(typeof xml);
@@ -6111,8 +6120,8 @@ Hello jQuery !!
   // $(document).ready(function(){
   // 에러가 생긴다
 
-  J(document).ready(function(){
   // jQuery(document).ready(function(){
+  J(document).ready(function(){
     let obj = {name : '홍길동'};
     
     J.extend(obj, {region2 : '서울시 강남구', part2 : '베이스'},
@@ -6259,7 +6268,7 @@ jQuery로 구구단 출력하기
     
     document.getElementById('btn2').onclick = function() {
       $('#d').empty();
-      // empty()는 태그 안의 내용만 삭제시킨다
+      // empty()는 태그 안의 텍스트만 삭제시킨다
     };
     
     document.getElementById('btn3').onclick = function() {
@@ -6334,7 +6343,7 @@ jQuery로 구구단 출력하기
   $(document).ready(function() {
     document.getElementById('btn1').onclick = function() {
       // console.log($('img').attr('src'));
-      // 에러가 나지 않고 제일 처음 태그의 속성만 출력된다
+      // 선택된 객체가 여러 개지만, 에러가 나지 않고 제일 처음 객체에 해당하는 태그의 속성만 출력된다
       
       $('img').each(function(index, item) {
         console.log($(item).attr('data'));
@@ -6359,7 +6368,7 @@ jQuery로 구구단 출력하기
           return (index + 1) * 100;
         },
         height : 200
-      })
+      });
     };
     
     document.getElementById('btn3').onclick = function() {
@@ -6704,9 +6713,9 @@ $(선택자).on('이벤트이름', function(){
         type : 'get',
         dataType : 'json',
         // dataType은 따로 지정하지 않아도 자동으로 정해지지만, 되도록이면 확실하게 정해주도록 하자
-        success : function(csvData) {
-          console.log('성공 : ', typeof csvData);
-          console.log(csvData);
+        success : function(jsonData) {
+          console.log('성공 : ', typeof jsonData);
+          console.log(jsonData);
         },
         error : function(err) {
           console.log('실패', err.status);
@@ -6751,7 +6760,7 @@ $(선택자).on('이벤트이름', function(){
             html += '<td>' + $(this).find('author').text() + '</td>';
             html += '<td>' + $(this).find('price').text() + '</td>';
             html += '</tr>';
-          }) 
+          });
           html += '</table>';
           $('#result').html(html);
         },
@@ -6907,7 +6916,7 @@ public class ZipcodeDAO {
 }
 ```
 ```jsp
-<!-- zipcodeXml.jsps -->
+<!-- zipcodeXml.jsp -->
 <%@page import="model1.ZipcodeTO"%>
 <%@page import="java.util.List"%>
 <%@page import="model1.ZipcodeDAO"%>
@@ -6993,7 +7002,7 @@ public class ZipcodeDAO {
 
   <small> !! stable 은 js 파일로 jQuery UI 라이브러리에 해당된다</small>
 
-  <small> !! theme 은 css 파일들의 집합으로 jQuery UI css 효과를 준다</small>
+  <small> !! theme 은 css 파일들의 집합으로 jQuery UI 라이브러리와 연동되어 css 효과를 준다</small>
 
   <small> !! stable, theme 가 모두 있어야 문서의 요소에 jQuery UI를 줄 수 있다</small>
 
@@ -7109,7 +7118,7 @@ public class ZipcodeDAO {
     }).on('click', function() {
       alert('btn2 클릭');
     });
-    // javascript는 메서드 체이닝을 주로 사용한다
+    // javascript는 보통 메서드 체이닝으로 코딩한다
   });
 </script>
 </head>
@@ -7320,6 +7329,7 @@ public class ZipcodeDAO {
       min : 0,
       max : 500,
       values : [75, 300],
+      // 범위의 시작값과, 마지막 값이 배열의 형태를 가진다
       slide : function(event, ui) {
         // console.log(ui.values[0], '/', ui.values[1]);
         console.log($(this).slider('values', 0), '/', $(this).slider('values', 1));
@@ -7361,7 +7371,7 @@ slider color-picker
     let blue = 0;
     
     $('#red, #green, #blue').slider({
-      mit : 0,
+      min : 0,
       max : 255,
       step : 1
     });
@@ -7474,7 +7484,7 @@ Blue<br><br>
       change : function() {
         let value = $(this).val();
         console.log($('option[value=' + value +']');
-        // 값 나오게 하기
+        // 선택된 태그의 텍스트 출력하기
       }
     });
   });
@@ -7706,11 +7716,11 @@ public class ZipcodeDAO {
   List<ZipcodeTO> sidos = dao.sidos();
   
   StringBuilder sbXml = new StringBuilder();
-  sbXml.append("<address>");
+  sbXml.append("<sidos>");
   for(int i = 0; i < sidos.size(); i++){
     sbXml.append("<sido>" + sidos.get(i).getSido() + "</sido>");
   }
-  sbXml.append("</address>");
+  sbXml.append("</sidos>");
 %>
 <%= sbXml %>
 
@@ -7729,11 +7739,11 @@ public class ZipcodeDAO {
   List<ZipcodeTO> guguns = dao.guguns(input);
   
   StringBuilder sbXml = new StringBuilder();
-  sbXml.append("<address>");
+  sbXml.append("<guguns>");
   for(int i = 0; i < guguns.size(); i++){
     sbXml.append("<gugun>" + guguns.get(i).getGugun() + "</gugun>");
   }
-  sbXml.append("</address>");
+  sbXml.append("</guguns>");
 %>
 <%= sbXml %>
 
@@ -7753,11 +7763,11 @@ public class ZipcodeDAO {
   List<ZipcodeTO> dongs = dao.dongs(input);
   
   StringBuilder sbXml = new StringBuilder();
-  sbXml.append("<address>");
+  sbXml.append("<dongs>");
   for(int i = 0; i < dongs.size(); i++){
     sbXml.append("<dong>" + dongs.get(i).getDong() + "</dong>");
   }
-  sbXml.append("</address>");
+  sbXml.append("</dongs>");
 %>
 <%= sbXml %>
 ```
@@ -7815,6 +7825,7 @@ public class ZipcodeDAO {
             $(opts).appendTo('#gugun');
             
             $('#gugun').selectmenu('refresh');
+            // refresh를 해줘야 sido 값이 바뀔 때마다 새로운 guguns가 옵션이 된다
           },
           error : function(e) {
             console.log('에러 : ' + e.status)
@@ -7844,6 +7855,7 @@ public class ZipcodeDAO {
             $(opts).appendTo('#dong');
             
             $('#dong').selectmenu('refresh');
+            // refresh를 해줘야 gugun 값이 바뀔 때마다 새로운 dongs가 옵션이 된다
           },
           error : function(e) {
             console.log('에러 : ' + e.status)
@@ -8271,7 +8283,7 @@ accordion 구구단 출력
 <script type="text/javascript">
   $(document).ready(function() {
     $('#result').accordion();
-    // 되도록이면 accordion() 생성을 먼저 해주자
+    // 결과가 출력될 accordion()을 먼저 만들어 준다
     $('#start').spinner({
       min : 1,
       max : 8,
@@ -8481,7 +8493,7 @@ accordion 구구단 출력
 
 <div>
   Date : <div id="datepicker2"></div>
-  // 달력이 바로 보인다
+  // div태그에 datepicker ui를 적용하면 달력이 바로 보인다
 </div>
 </body>
 </html>
@@ -8628,7 +8640,7 @@ accordion 구구단 출력
 
   - widow.open : mpa 방식으로 새로운 페이지를 열어 새창을 보여준다
 
-  - jQuery_dialog : spa 방식으로 현재 페이지의 요소를 이용해 새창을 보여준다
+  - jQuery dialog : spa 방식으로 현재 페이지의 요소를 이용해 새창을 보여준다
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8656,7 +8668,6 @@ accordion 구구단 출력
     
     // $('#dialog').dialog();
     // jquery dialog 방식
-
     $('#dialog').dialog({
       autoOpen : false,
       modal : true,
@@ -8666,7 +8677,7 @@ accordion 구구단 출력
       resizable : false,
       
       buttons : {
-      // dialog 내부의 버튼은 객체 형식으로 값을 준다
+      // dialog 내부의 버튼은 객체 형식을 이용한다
         '취소' : function() {
           alert('취소');
           $(this).dialog('close');
@@ -8842,11 +8853,17 @@ insert into users values (0, '홍길동', '1234', 'test@test.com', '서울시 �
 
 - 흐름도
 
-  - 회원 추가 : 화면 &rarr; 추가 &rarr; user_write.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+  - 회원 추가 
+    
+    <b>화면 &rarr; 추가 &rarr; user_write.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력</b>
 
-  - 회원 삭제 : 화면 &rarr; 삭제 &rarr; user_delete.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+  - 회원 삭제 
+  
+    <b>화면 &rarr; 삭제 &rarr; user_delete.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력</b>
 
-  - 회원 수정 : 화면 &rarr; 수정 &rarr; user_modify.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력
+  - 회원 수정 
+  
+    <b>화면 &rarr; 수정 &rarr; user_modify.jsp &rarr; 정상 &rarr; user_list.jsp &rarr; 목록출력</b>
 
 - 구현하기
 ```java
@@ -9246,7 +9263,7 @@ public class MemberDAO {
         let html = '';
         $(xml).find('user').each(function() {
           // html += '<tr seq="' + $(this).find('seq').text() + '">';
-          // 데이터를 쉽게 찾기 위해 특정 속성을 추가시키기도 한다
+          // 데이터를 쉽게 찾기 위해 태그에 특정 속성을 추가시키기도 한다
           html += '<tr>';
           html += '<td>' + $(this).find('seq').text() + '</td>';
           html += '<td>' + $(this).find('name').text() + '</td>';
@@ -9623,6 +9640,7 @@ public class MemberDAO {
 </html>
 ```
 ###### icon 주기
+- class가 적용된 span 태그를 이용해 icon을 줄 수 있다 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -9824,7 +9842,7 @@ insert into board values (0, '홍길동', '1234', 'test@test.com', '제목', '�
 
     |기능|페이지|보내는 데이터|받는 데이터|데이터 형식|
     |:--:|:--:|:--:|:--:|:--:|
-    |글 목록|board_list.jsp|X|seq<br>name<br>wip<br>wdate('%Y-%m-%d')<br>wgap<br>subject<br>content|\<posts>\<post>\<seq>...\</seq>\<name>...|
+    |글 목록|board_list.jsp|X|seq<br>name<br>wip<br>wdate('%Y-%m-%d')<br>wgap(date_diff(wdate, now()))<br>subject<br>content|\<posts>\<post>\<seq>...\</seq>\<name>...|
     |글 쓰기|board_write.jsp|name<br>password<br>email(mail1, mail2)<br>subject<br>content|flag| \<flag>...\</flag>|
     |글 삭제|board_delete.jsp|seq<br>password|flag| \<flag>...\</flag>|
     |글 수정|board_modify.jsp|seq<br>password<br>email(mail1, mail2)<br>subject<br>content|flag| \<flag>...\</flag>|
@@ -10102,7 +10120,6 @@ public class BoardDAO {
   sbXml.append("<posts>");
   for(BoardTO data : datas){
     sbXml.append("<post>");
-    sbXml.append("<email>" + data.getEmail() + "</email>");
     sbXml.append("<seq>" + data.getSeq() + "</seq>");
     sbXml.append("<name>" + data.getName() + "</name>");
     sbXml.append("<wip>" + data.getWip() + "</wip>");
@@ -10110,6 +10127,7 @@ public class BoardDAO {
     sbXml.append("<wgap>" + data.getWgap() + "</wgap>");
     sbXml.append("<subject>" + data.getSubject() + "</subject>");
     sbXml.append("<content>" + data.getContent() + "</content>");
+    sbXml.append("<email>" + data.getEmail() + "</email>");
     sbXml.append("</post>");
   }
   sbXml.append("</posts>");
@@ -10199,6 +10217,7 @@ public class BoardDAO {
 
 ```
 ```jsp
+<!-- jQueryBoard.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -10638,3 +10657,909 @@ public class BoardDAO {
 </html>
 
 ```
+
+### w2ui
+<small>http://w2ui.com/web/ 참조</small>
+
+- jQuery를 이용해 DOM을 선택하고 css 효과를 줘서 ui를 만든다
+#### w2grid()
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/w2ui-2.0.min.css" />
+<style type="text/css">
+  #wrap {
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/w2ui-2.0.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    /*
+    const data = [
+      {recid: 1, title: '모던 웹을 위한 HTML + CSS 입문', author: '유비', publisher: '삼국미디어', price: 3000},
+      {recid: 2, title: '처음 해보는 servlet & jsp', author: '관우', publisher: '삼국미디어', price: 5000},
+      {recid: 3, title: '이것이 자바다', author: '장비', publisher: '삼국미디어', price: 6000}
+    ];
+    */ 
+    // recid(Record Identification)를 객체의 키로 줘야 하는 것을 잊지말자
+    
+    $('#wrap').w2grid({
+      name: 'grid',
+      columns: [
+        {field: 'title', text: '도서명', size: '40%', editable: {type: 'text'}},
+        {field: 'author', text: '저자', size: '30%', editable: {type: 'text'}},
+        {field: 'publisher', text: '출판사', size: '20%', editable: {type: 'text'}},
+        {field: 'price', text: '가격', size: '10%', editable: {type: 'text'}}
+      ],
+      records: [
+        {recid: 1, title: '모던 웹을 위한 HTML + CSS 입문', author: '유비', publisher: '삼국미디어', price: 3000},
+        {recid: 2, title: '처음 해보는 servlet & jsp', author: '관우', publisher: '삼국미디어', price: 5000},
+        {recid: 3, title: '이것이 자바다', author: '장비', publisher: '삼국미디어', price: 6000}
+      ]
+      // records: data
+      // 미리 선언한 데이터를 사용할 수 있다
+    });
+  });
+</script>
+</head>
+<body>
+<div id="wrap">
+</div>
+</body>
+</html>
+```
+만들어져 있는 헤더 사용하기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/w2ui-2.0.min.css" />
+<style type="text/css">
+  #wrap {
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/w2ui-2.0.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    const data = [
+      {recid: 1, title: '모던 웹을 위한 HTML + CSS 입문', author: '유비', publisher: '삼국미디어', price: 3000},
+      {recid: 2, title: '처음 해보는 servlet & jsp', author: '관우', publisher: '삼국미디어', price: 5000},
+      {recid: 3, title: '이것이 자바다', author: '장비', publisher: '삼국미디어', price: 6000}
+    ];
+    
+    $('#wrap').w2grid({
+      name: 'grid',
+      show: {
+        header: true,
+        toolbar: true,
+        footer: true,
+        
+        columnHeaders: true,
+        lineNumbers: true,
+        
+        toolbarAdd: true,
+        toolbarDelete: true,
+        toolbarSave: true
+      }, // 기본적으로 사용할 수 있는 헤더가 이미 만들어져 있다
+      columns: [
+        {field: 'title', text: '도서명', size: '40%'},
+        {field: 'author', text: '저자', size: '30%'},
+        {field: 'publisher', text: '출판사', size: '20%'},
+        {field: 'price', text: '가격', size: '10%'}
+      ],
+      records: data
+    });
+  });
+</script>
+</head>
+<body>
+<div id="wrap">
+</div>
+</body>
+</html>
+```
+이벤트 주기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/w2ui-2.0.min.css" />
+<style type="text/css">
+  #wrap {
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/w2ui-2.0.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    const data = [
+      {recid: 1, title: '모던 웹을 위한 HTML + CSS 입문', author: '유비', publisher: '삼국미디어', price: 3000},
+      {recid: 2, title: '처음 해보는 servlet & jsp', author: '관우', publisher: '삼국미디어', price: 5000},
+      {recid: 3, title: '이것이 자바다', author: '장비', publisher: '삼국미디어', price: 6000}
+    ];
+    
+    $('#wrap').w2grid({
+      name: 'grid',
+      show: {
+        header: true,
+        toolbar: true,
+        footer: true,
+        
+        columnHeaders: true,
+        lineNumbers: true,
+        
+        toolbarAdd: true,
+        toolbarDelete: true,
+        toolbarSave: true,
+        
+        // toolbarSearch: false, 
+        // 기본값은 true
+        // toolbarReload: false 
+        // 기본값은 true
+      },
+      columns: [
+        {field: 'title', text: '도서명', size: '40%'},
+        {field: 'author', text: '저자', size: '30%'},
+        {field: 'publisher', text: '출판사', size: '20%'},
+        {field: 'price', text: '가격', size: '10%'}
+      ],
+      records: data,
+      onAdd: function(target, event) {
+        // console.log('Add click');
+        
+        // console.log(this.total);
+        // 데이터 개수 출력
+        this.add(
+          {recid: this.total+1, title: '스위프트 프로그래밍', author: '조조', publisher: '삼국미디어', price: 9000}
+        );
+      },
+      onDelete: function(target, event) {
+        console.log('delete click');
+        
+        console.log(this.getSelection());
+        // 삭제하려고 선택한 데이터의 recid 값이 출력된다
+        event.preventDefault();
+        // 기본 기능을 없앤다
+      },
+      onSearch: function(target, event) {
+        // console.log('Search click');
+
+        event.preventDefault();
+      },
+      onReload: function(target, event) {
+        console.log('Reload click');
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<div id="wrap">
+</div>
+</body>
+</html>
+```
+emp 테이블 데이터 불러오기
+```jsp
+<!-- empJson.jsp -->
+<%@page import="java.sql.SQLException"%>
+<%@page import="javax.naming.NamingException"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
+<%@page import="org.apache.catalina.valves.JsonAccessLogValve"%>
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  JSONArray arr = new JSONArray();
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbSample");
+    
+    conn = dataSource.getConnection();
+    
+    String sql = "select * from emp";
+    
+    pstmt = conn.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    
+    while(rs.next()){
+      JSONObject obj = new JSONObject();
+      obj.put("empno", rs.getString("empno"));
+      obj.put("ename", rs.getString("ename"));
+      obj.put("job", rs.getString("job"));
+      obj.put("mgr", rs.getString("mgr"));
+      obj.put("hiredate", rs.getString("hiredate"));
+      obj.put("sal", rs.getString("sal"));
+      obj.put("comm", rs.getString("comm"));
+      obj.put("deptno", rs.getString("deptno"));
+      
+      arr.add(obj);
+    }
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) try{rs.close();} catch(SQLException e){}
+    if(pstmt != null) try{pstmt.close();} catch(SQLException e){}
+    if(conn != null) try{conn.close();} catch(SQLException e){}
+  }
+  
+  out.print(arr);
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/w2ui-2.0.min.css" />
+<style type="text/css">
+  #wrap {
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/w2ui-2.0.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    
+    $('#wrap').w2grid({
+      name: 'grid',
+      show: {
+        header: true,
+        toolbar: true,
+        footer: true,
+        
+        columnHeaders: true,
+        lineNumbers: true,
+        
+        toolbarAdd: true,
+        toolbarDelete: true,
+        toolbarSave: true,
+      },
+      url: './data/empJson.jsp',
+      // 외부의 json 데이터를 설정 없이 바로 사용할 수 있다
+      columns: [
+        {field: 'empno', text: '사원번호'},
+        {field: 'ename', text: '사원이름'},
+        {field: 'job', text: '직종'},
+        {field: 'mgr', text: '관리자번호'},
+        {field: 'hiredate', text: '입사일자'},
+        {field: 'sal', text: '급여'},
+        {field: 'comm', text: '보너스'},
+        {field: 'deptno', text: '부서명'},
+      ],
+      onRender: function(event) { // ajax로 데이터를 처리할 경우 사용한다 
+        console.log('Render 호출');
+      },
+      onLoad: function(event) {
+        // 데이터 호출 후 발생하는 이벤트
+        console.log('Load 호출');
+      },
+      onSearch: function(event) {
+        console.log('Search 호출');
+        
+        console.log(event.detail.searchValue);
+        // 검색을 위해 입력한 값을 출력한다
+        
+        this.clear();
+        // 데이터를 모두 삭제 시킨다
+        
+        this.add({recid: this.total + 1, "ename":"SMITH","comm":null,"mgr":"7902","empno":"7369","job":"CLERK","hiredate":"2010-12-17","deptno":"20","sal":"800.00"});
+        this.add({recid: this.total + 1, "ename":"SMITH","comm":null,"mgr":"7902","empno":"7369","job":"CLERK","hiredate":"2010-12-17","deptno":"20","sal":"800.00"});
+        this.add({recid: this.total + 1, "ename":"SMITH","comm":null,"mgr":"7902","empno":"7369","job":"CLERK","hiredate":"2010-12-17","deptno":"20","sal":"800.00"});
+        // 데이터를 추가 시킨다
+        
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<div id="wrap">
+</div>
+</body>
+</html>
+```
+사원이름으로 데이터 검색하기
+```jsp
+<!-- empJson.jsp -->
+<%@page import="java.sql.SQLException"%>
+<%@page import="javax.naming.NamingException"%>
+<%@page import="org.json.simple.JSONObject"%>
+<%@page import="org.json.simple.JSONArray"%>
+<%@page import="org.apache.catalina.valves.JsonAccessLogValve"%>
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/plain; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  String searchWord = request.getParameter("searchWord");
+
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  JSONArray arr = new JSONArray();
+  try{
+    Context initCtx = (Context)new InitialContext();
+    Context envCtx = (Context)initCtx.lookup("java:comp/env");
+    DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbSample");
+    
+    conn = dataSource.getConnection();
+    
+    if(searchWord == null || searchWord.equals("")){
+      String sql = "select * from emp";
+      pstmt = conn.prepareStatement(sql);
+    }else {
+      String sql = "select * from emp where ename like ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, searchWord + "%");
+    }
+    
+    rs = pstmt.executeQuery();
+    while(rs.next()){
+      JSONObject obj = new JSONObject();
+      obj.put("empno", rs.getString("empno"));
+      obj.put("ename", rs.getString("ename"));
+      obj.put("job", rs.getString("job"));
+      obj.put("mgr", rs.getString("mgr"));
+      obj.put("hiredate", rs.getString("hiredate"));
+      obj.put("sal", rs.getString("sal"));
+      obj.put("comm", rs.getString("comm"));
+      obj.put("deptno", rs.getString("deptno"));
+      
+      arr.add(obj);
+    }
+  }catch(NamingException e){
+    System.out.println("에러 : " + e.getMessage());
+  }catch(SQLException e){
+    System.out.println("에러 : " + e.getMessage());
+  }finally{
+    if(rs != null) try{rs.close();} catch(SQLException e){}
+    if(pstmt != null) try{pstmt.close();} catch(SQLException e){}
+    if(conn != null) try{conn.close();} catch(SQLException e){}
+  }
+  
+  out.print(arr);
+%>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="./css/w2ui-2.0.min.css" />
+<style type="text/css">
+  #wrap {
+    margin: 0 auto;
+    width: 960px;
+    height: 500px;
+  }
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/w2ui-2.0.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    
+    $('#wrap').w2grid({
+      name: 'grid',
+      show: {
+        header: true,
+        toolbar: true,
+        footer: true,
+        
+        columnHeaders: true,
+        lineNumbers: true,
+        
+        toolbarAdd: true,
+        toolbarDelete: true,
+        toolbarSave: true,
+      },
+      url: './data/empJson.jsp',
+      columns: [
+        {field: 'empno', text: '사원번호'},
+        {field: 'ename', text: '사원이름'},
+        {field: 'job', text: '직종'},
+        {field: 'mgr', text: '관리자번호'},
+        {field: 'hiredate', text: '입사일자'},
+        {field: 'sal', text: '급여'},
+        {field: 'comm', text: '보너스'},
+        {field: 'deptno', text: '부서명'},
+      ],
+      onSearch: function(event) {
+        const searchValue = event.detail.searchValue;
+        let grid = this;
+        
+        $.ajax({
+          url: './data/empJson.jsp',
+          type: 'get',
+          data: {
+            searchWord: searchValue
+          },
+          dataType: 'json',
+          success: function(json) {
+            grid.clear();
+            
+            $(json).each(function(key, value) {
+              let num = 1;
+              grid.add({
+                recid: num++,
+                "empno": this.empno,
+                "ename": this.ename,
+                "job": this.job,
+                "mgr": this.mgr,
+                "hiredate": this.hiredate,
+                "sal": this.sal,
+                "comm": this.comm,
+                "deptno": this.deptno
+              });
+            });
+          },
+          error: function(err) {
+            alert('에러 : ' + err.status)
+          }
+        });
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<div id="wrap">
+</div>
+</body>
+</html>
+```
+
+### carousel
+
+<small>https://swiperjs.com/ 참조</small>
+
+### alert
+
+<small> https://sweetalert2.github.io</small>
+
+### chart
+
+<small> https://highcharts.com/</small>
+
+## Bootstrap
+
+<small> https://getbootstrap.com/ 참조</small>
+
+<small> https://getbootstrap.kr/ 참조</small>
+
+- 반응형웹 : 모니터(해상도)에 최적화 되도록 화면을 출력하는 웹앱
+
+- 반응형 웹의 단점 
+
+  - 디자인이 까다롭다
+
+  - 트래픽 분산을 위해 대규모 웹페이지에서는 활용되지 않는다
+
+- DOM을 선택할 때 jQuery가 아닌 querySelector, querySelectAll을 사용한다
+
+- 유료, 무료의 디자인 템플릿을 제공하는 사이트가 많다
+  
+  <small>https://html5up.net/ 참조</small>
+
+  <small>https://startbootstrap.com/templates 참조</small>
+
+  <small>https://themes.getbootstrap.com/ 참조</small>
+
+
+### Bootstrap 기본
+
+<small> https://www.w3schools.com/bootstrap5/ 참조 </small>
+
+#### grid
+
+- Bootstrap은 보통 grid를 이용해 반응성을 만든다
+
+  <small> !! 12개 의 구조로 나누는 방식을 사용한다</small>
+  
+  <small>https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php 참조</small>
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <!-- 크기가 안 정해졌으므로 균등분할 된 행 -->
+    <!-- <div style="background-color: lavender;">color</div> -->
+    <!-- <div style="background-color: lavender;">color</div> -->
+    <!-- <div style="background-color: lavender;">color</div> -->
+    
+    <!-- 크기가 정해진 열 -->
+    <!-- class 이름을 이용해 행, 열 크기를 정한다 -->
+    <div class="col-4" style="background-color: lavender;">color</div>
+    <div class="col-2" style="background-color: orange;">color</div>
+    <div class="col-6" style="background-color: lavender;">color</div>
+  </div>
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4" style="background-color: lavender;">color</div>
+    <div class="col-sm-2" style="background-color: orange;">color</div>
+    <div class="col-sm-6" style="background-color: lavender;">color</div>
+    <!-- 어느 이상 화면을 줄이면 스택처럼 열이 행으로 바뀌게 된다  -->
+  </div>
+</div>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-6 col-lg-8" style="background-color: lavender;">color</div>
+    <div class="col-sm-9 col-md-6 col-lg-4" style="background-color: orange;">color</div>
+    <!-- 해상도에 따라 다르게 영역의 크기를 다른 비율로 정할 수 있다 -->
+  </div>
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div>
+  <h2>Nested Columns</h2>
+  <p>Add columns inside other columns:</p>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8 bg-warning p-4">
+      .col-8
+      <div class="row">
+        <div class="col-sm-6 bg-light p-2">.col-6</div>
+        <div class="col-sm-6 bg-secondary p-2">.col-6</div>
+      </div>
+      <!-- 이미 분할된 영역을 다시 분할 
+      시킬 수 있다 -->
+    </div>
+    <div class="col-4 bg-success p-4">.col-4</div>
+  </div>
+</div>
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container-fluid mt-3">
+  <h1>Mix and Match</h1>
+  <p>Resize the browser window to see the effect.</p>
+  <p>This example demonstrates a 50%/50% split on extra small devices and 75%/25% split on larger devices.</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6 cos-sm-9 bg-success">col-6 col-sm-9</div>
+      <div class="col-6 cos-sm-3 bg-warning">col-6 col-sm-3</div>
+    </div>
+  </div>
+  <br>
+  <p>This example demonstrates a 58%/42% split on extra small, small and medium devices and 66.3%/33.3% split on large and xlarge devices.</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-7 col-lg-8 bg-success">col-7 col-lg-8</div>
+      <div class="col-5 col-lg-4 bg-warning">col-5 col-lg-4</div>
+    </div>
+  </div>
+  <br>
+  <p>This example demonstrates a 25%/75% split on small devices, a 50%/50% split on medium devices, and a 33%/66% split on large and xlarge devices. On extra small devices, it will automatically stack (100%).</p>
+  
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-6 col-lg-4 bg-success">col-sm-3 col-md-6 col-lg-4</div>
+      <div class="col-sm-9 col-md-6 col-lg-8 bg-warning">col-sm-9 col-md-6 col-lg-8</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+```
+#### typography
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+  <h1>heading</h1>
+  <h2>heading</h2>
+  <h3>heading</h3>
+  <h4>heading</h4>
+  <h5>heading</h5>
+  <h6>heading</h6>
+  
+  <p class="h1">heading</p>
+  <p class="h2">heading</p>
+  <p class="h3">heading</p>
+  <p class="h4">heading</p>
+  
+  <h1 class="display-1">heading</h1>
+  <h1 class="display-2">heading</h1>
+  <h1 class="display-3">heading</h1>
+  
+  <p>heading</p>
+  <p class="small">heading</p>
+</div>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container mt-3">
+  <h1>Blockquotes</h1>
+  <p>The blockquote element is used to present content from another source:</p>
+  <blockquote class="blockquote">
+    <p>For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.</p>
+    <footer class="blockquote-footer">From WWF's website</footer>
+  </blockquote>
+</div>
+</body>
+</html>
+```
+#### color
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container">
+  <p class="text-muted">muted color</p>
+  <p class="text-primary">primary color</p>
+  <p class="text-success">success color</p>
+  <p class="text-info">info color</p>
+</div>
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+</head>
+<body>
+<div class="container mt-3">
+  <h2>Contextual Backgrounds</h2>
+  <p>Use the contextual background classes to provide "meaning through colors".</p>
+  <div class="bg-primary p-3"></div>
+  <div class="bg-success p-3"></div>
+  <div class="bg-info p-3"></div>
+  <div class="bg-warning p-3"></div>
+  <div class="bg-danger p-3"></div>
+  <div class="bg-secondary p-3"></div>
+  <div class="bg-dark p-3"></div>
+  <div class="bg-light p-3"></div>
+</div>
+</body>
+</html>
+```
+
+#### border
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript"></script>
+<style>
+  span {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    margin: 6px;
+    background-color: #f9f9f9;
+  }
+  
+  .border {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    margin: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="container mt-3">
+  <h2>Borders</h2>
+  <p>Use the border classes to add or remove borders from an element:</p> 
+
+  <span class="border"></span>
+  <span class="border border-0"></span>
+  <span class="border border-top-0"></span>
+  <span class="border border-end-0"></span>
+  <span class="border border-bottom-0"></span>
+  <span class="border border-start-0"></span>
+  <br>
+  
+  <span class="border-top"></span>
+  <span class="border-end"></span>
+  <span class="border-bottom"></span>
+  <span class="border-start"></span>
+</div>
+
+<div class="container mt-3">
+  <h2>Borders</h2>
+  <p>Use a contextual border color to add a color to the border:</p> 
+  <span class="border border-primary"></span>
+  <span class="border border-secondary"></span>
+  <span class="border border-success"></span>
+  <span class="border border-danger"></span>
+  <span class="border border-warning"></span>
+  <span class="border border-info"></span>
+  <span class="border border-light"></span>
+  <span class="border border-dark"></span>
+  <span class="border border-white"></span>
+</div>
+
+</body>
+</html>
+```
+
+
