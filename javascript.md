@@ -5265,7 +5265,7 @@ Hello jQuery !!
 ```
 ### jQuery API
 
-- css에서 사용하는 selector를 이용해서 html문서에 접근한다
+- jQurey는 css에서 사용하는 selector를 이용해서 html문서에 접근한다
 
 - API는 https://api.jquery.com/ 를 참조하는 게 가장 정확하다
 
@@ -5317,6 +5317,8 @@ Hello jQuery !!
     
     // $('h' + '3').css('color', 'blue');
     // 선택자를 문자열로 쓰기 때문에 이렇게 써도 상관없다
+    // 단, 문서는 문자열로 쓰지 않는다
+    // ex) document, 외부에서 불러온 xml, json 파일
 
     // const selector = 'hr';
     // const val = 'blue';
@@ -5657,6 +5659,7 @@ Hello jQuery !!
 <body>
 <input type="text" data="text1"><br><br>
 <input type="password" data="text2"><br><br>
+<!-- html의 태그에 개발자 임의의로 속성과 그 값을 정해줄 수 있다 -->
 </body>
 </html>
 ```
@@ -6003,8 +6006,7 @@ Hello jQuery !!
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
-  const xml = `
-  <friends>
+  const xml = `<friends>
     <friend>
       <name>tester1</name>
       <language>javascript</language>
@@ -6017,8 +6019,7 @@ Hello jQuery !!
       <name>tester3</name>
       <language>html</language>
     </friend>
-  </friends>
-  `
+  </friends>`;
 
   $(document).ready(function(){
     console.log(typeof xml);
@@ -6199,7 +6200,7 @@ Hello jQuery !!
 </head>
 <body>
 
-<button id="btn1">내용 확인</button>
+<button id="btn1">내용 수정</button>
 <br><hr><br>
 <div><b>출력내용1</b></div>
 <div><b>출력내용2</b></div>
@@ -6268,12 +6269,12 @@ jQuery로 구구단 출력하기
     
     document.getElementById('btn2').onclick = function() {
       $('#d').empty();
-      // empty()는 태그 안의 텍스트만 삭제시킨다
+      // empty()는 태그 안의 html 내용을 모두 삭제시킨다
     };
     
     document.getElementById('btn3').onclick = function() {
       $('#d').remove();
-      // remove()는 태그 자체를 삭제시킨다
+      // remove()는 선택된 태그 자체를 삭제시킨다
     };
     
     document.getElementById('btn4').onclick = function() {
@@ -6391,7 +6392,7 @@ jQuery로 구구단 출력하기
 </body>
 </html>
 ```
-#### html 문서 안의 데이터 사용하기
+##### html 문서 안의 데이터 사용하기
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -9343,7 +9344,8 @@ public class MemberDAO {
     $('#modify-form').dialog('open');
   };
 
-  <!-- html 파싱을 통해 값을 얻어오는 방법
+  <!-- html 파싱을 통해 값을 얻어오는 방법 -->
+  <!--
   const modifyBtn1 = function(seq) {
     $('#m_seq').val(seq);
     $('#m_name').val($('tbody > tr > td:contains('+ seq +')').parent().children().eq(1).text());
@@ -9986,7 +9988,7 @@ public class BoardDAO {
   public List<BoardTO> boardList(){
     List<BoardTO> datas = new ArrayList<>();
     
-    String sql = "select email, seq, name, wip, datediff(now(), wdate) wgap, date_format(wdate, '%Y-%m-%d') wdate, subject, content from board";
+    String sql = "select email, seq, name, wip, datediff(now(), wdate) wgap, date_format(wdate, '%Y-%m-%d') wdate, subject, content from board order by seq desc";
     
     try {
       pstmt = conn.prepareStatement(sql);
@@ -10662,6 +10664,8 @@ public class BoardDAO {
 <small>http://w2ui.com/web/ 참조</small>
 
 - jQuery를 이용해 DOM을 선택하고 css 효과를 줘서 ui를 만든다
+
+- jQuery UI처럼 css, js 라이브러리 파일이 있어야 사용할 수 있다
 #### w2grid()
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10690,7 +10694,7 @@ public class BoardDAO {
       {recid: 3, title: '이것이 자바다', author: '장비', publisher: '삼국미디어', price: 6000}
     ];
     */ 
-    // recid(Record Identification)를 객체의 키로 줘야 하는 것을 잊지말자
+    // recid(Record Identification)를 포함시켜 줘야 하는 것을 잊지말자
     
     $('#wrap').w2grid({
       name: 'grid',
@@ -11165,9 +11169,11 @@ emp 테이블 데이터 불러오기
 </html>
 ```
 
-### carousel
+### carousel / image slideshow
 
 <small>https://swiperjs.com/ 참조</small>
+
+- 슬라이드 쇼와 관련된 코드 제공
 
 ### alert
 
@@ -11183,15 +11189,24 @@ emp 테이블 데이터 불러오기
 
 <small> https://getbootstrap.kr/ 참조</small>
 
-- 반응형웹 : 모니터(해상도)에 최적화 되도록 화면을 출력하는 웹앱
+- 반응형 웹 구현에 사용된다
+
+  <small> 모바일 앱 구현에 많이 사용된다</small>
+
+  <small> 반응형 웹 : 하나의 디자인으로 모니터(해상도)에 최적화 되도록 화면을 출력하는 웹앱</small>
+
 
 - 반응형 웹의 단점 
 
   - 디자인이 까다롭다
 
-  - 트래픽 분산을 위해 대규모 웹페이지에서는 활용되지 않는다
+  - 한 페이지 내에서 모든 디자인을 해결하므로 트래픽이 몰릴 수 있다\
 
-- DOM을 선택할 때 jQuery가 아닌 querySelector, querySelectAll을 사용한다
+    <small>!! 트래픽 분산을 위해 대규모 웹페이지에서 반응형 웹은 잘 활용되지 않는다</small>
+
+- DOM을 선택할 때 querySelector, querySelectAll을 사용한다
+
+  <small> !! jQuery를 사용할 수도 있다</small>
 
 - 유료, 무료의 디자인 템플릿을 제공하는 사이트가 많다
   
@@ -11202,17 +11217,30 @@ emp 테이블 데이터 불러오기
   <small>https://themes.getbootstrap.com/ 참조</small>
 
 
+  <small>
+  !! 모바일 앱 만드는 방식
+
+    - native : java, kotlin
+
+    - hybrid : html
+  </small>
+
 ### Bootstrap 기본
 
 <small> https://www.w3schools.com/bootstrap5/ 참조 </small>
 
+- 문서 요소에 class를 주는 방법으로 이용한다
+
 #### grid
+
+  <small>https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php 참조</small>
+  
+  <small>https://www.w3schools.com/bootstrap5/bootstrap_grid_system.php 참조</small>
 
 - Bootstrap은 보통 grid를 이용해 반응성을 만든다
 
-  <small> !! 12개 의 구조로 나누는 방식을 사용한다</small>
-  
-  <small>https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php 참조</small>
+  <small> !! class를 이용해 구조를 12개 조각으로 나누는 방식을 사용한다</small>
+
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11377,6 +11405,9 @@ emp 테이블 데이터 불러오기
 ```
 #### typography
 
+  <small>https://www.w3schools.com/bootstrap5/bootstrap_typography.php 참조</small>
+
+
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11441,6 +11472,9 @@ emp 테이블 데이터 불러오기
 </html>
 ```
 #### color
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_colors.php 참조</small>
+
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11496,6 +11530,9 @@ emp 테이블 데이터 불러오기
 ```
 
 #### border
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_utilities.php 참조</small>
+
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11562,4 +11599,1704 @@ emp 테이블 데이터 불러오기
 </html>
 ```
 
+#### table
 
+<small>https://www.w3schools.com/bootstrap5/bootstrap_tables.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <table class="table">
+  <!-- 기본 모양은 행 단위로 구분선만 있는 것이다 -->
+
+  <!-- <table class="table table-dark"> -->
+  <!-- 테이블에 색상을 줄 수 있다 -->
+
+  <!-- <table class="table table-bordered"> -->
+  <!-- 행, 열 구분선을 가진 테이블 -->
+
+  <!-- <table class="table table-hover"> -->
+  <!-- 마우스를 가져가면 활성화가 된다 -->
+
+  <!-- <table class="table table-striped"> -->
+  <!-- <table class="table table-striped-columns"> -->
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 행 각각에 색상을 줄 수 있다 -->
+      <!-- 배경색만 바뀌는 것이 아닌 그에 맞춰 글자색까지 바뀐다 -->
+      <tr class="table-dark">
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr class="table-primary">
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>john</td>
+        <td>doe</td>
+        <td>john@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="table-responsive">
+<!-- 화면이 줄어들면 문서 내부에 스크롤 바가 생기면서 가려진 부분을 볼 수 있게 한다 -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Sex</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Anna</td>
+        <td>Pitt</td>
+        <td>35</td>
+        <td>New York</td>
+        <td>USA</td>
+        <td>Female</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
+```
+#### image
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_images.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div clas="container">
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px"><br><br>
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px" class="rounded"><br><br>
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px" class="rounded-circle"><br><br>
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px" class="img-thumbnail"><br><br>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container mt-3">
+  <h2>Aligning images</h2>
+  <p>Use the float classes to float the image to the left or to the right:</p> 
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" class="float-start" alt="Paris" width="304" height="236"> 
+  <img src="https://www.w3schools.com/bootstrap5/paris.jpg" class="float-end" alt="Paris" width="304" height="236"> 
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <img  src="https://www.w3schools.com/bootstrap5/ny.jpg" width="1100" height="500" class="img-fluid">
+  <!-- 이미지가 브라우저 화면 크기에 맞춰 변한다 -->
+</div>
+
+</body>
+</html>
+```
+#### Jumbotron
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_jumbotron.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="mt-4 p-5 bg-primary text-white rounded">
+    <h1>Jumbotron</h1>
+    <p>내용</p>
+  </div>
+</div>
+
+</body>
+</html>
+```
+#### alert
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_alerts.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="alert alert-success">
+    <strong>Success!</strong> Indicates a successful or positive action.
+  </div>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <!-- 닫기 기능을 줄 수도 있다 -->
+  <strong>Success!</strong> This alert box could indicate a successful or positive action.
+</div>
+
+</body>
+</html>
+```
+#### button
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_buttons.php 참조</small>
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_button_groups.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<button type="button" class="btn">Basic</button>
+<button type="button" class="btn btn-primary">Primary</button>
+<button type="button" class="btn btn-secondary">Secondary</button>
+<button type="button" class="btn btn-success">Success</button>
+<button type="button" class="btn btn-info">Info</button>
+<button type="button" class="btn btn-warning">Warning</button>
+<button type="button" class="btn btn-danger">Danger</button>
+<button type="button" class="btn btn-dark">Dark</button>
+<button type="button" class="btn btn-light">Light</button>
+<button type="button" class="btn btn-link">Link</button>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <a href="#" class="btn btn-outline-info">Button</a><br><br>
+  <input type="button" class="btn btn-info" value="Button"><br><br>
+  <input type="submit" class="btn btn-info" value="Button"><br><br>
+  <input type="reset" class="btn btn-info" value="Button"><br><br>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="d-grid gap-3">
+  <!-- class 이름에서 gap으로 버튼 사이 간격을 조정한다 -->
+  <button type="button" class="btn btn-primary btn-block">Full-Width Button</button>
+  <button type="button" class="btn btn-primary btn-block">Full-Width Button</button>
+  <button type="button" class="btn btn-primary btn-block">Full-Width Button</button>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="btn-group">
+<!-- <div class="btn-group-vertical"> -->
+<!-- 수직 모양 버튼 그룹 -->
+  <button type="button" class="btn btn-primary">Apple</button>
+  <button type="button" class="btn btn-primary">Samsung</button>
+  <button type="button" class="btn btn-primary">Sony</button>
+</div>
+
+</body>
+</html>
+```
+
+#### badge
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_badges.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<h1>Example heading <span class="badge bg-secondary">New</span></h1>
+<h2>Example heading <span class="badge bg-secondary">New</span></h2>
+<h3>Example heading <span class="badge bg-secondary">New</span></h3>
+<h4>Example heading <span class="badge bg-secondary">New</span></h4>
+<h5>Example heading <span class="badge bg-secondary">New</span></h5>
+<h6>Example heading <span class="badge bg-secondary">New</span></h6>
+
+<button class="btn btn-primary">
+  Messages <span class="badge bg-danger">4</span>
+  <!-- badge 내부에 수를 표시할 수 있다 (조회수) -->
+</button>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $("#btn1").on('click', function() {
+      const num = parseInt($('span').text());
+      console.log(num);
+      $('span').text(num-1);
+    });
+    
+    $("#btn2").on('click', function() {
+      const num = parseInt($('span').text());
+      console.log(num);
+      $('span').text(num+1);
+    });
+  
+  };
+</script>
+</head>
+<body>
+
+<div class="container">
+  <button class="btn btn-primary">
+    Messages <span class="badge bg-danger">4</span>
+  </button>
+  <br>
+  <div>
+    <button id="btn1" class="btn btn-secondary float-start">감소</button>
+    <button id="btn2" class="btn btn-secondary float-end">증가</button>
+  </div>
+</div>
+</body>
+</html>
+```
+
+#### progressbar
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_progressbars.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="progress" style="height:20px">
+    <div class="progress-bar progress-bar-striped" style="width:40%;height:20px">40%</div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="progress">
+    <div class="progress-bar bg-success" style="width:40%">
+      Free Space
+    </div>
+    <div class="progress-bar bg-warning" style="width:10%">
+      Warning
+    </div>
+    <div class="progress-bar bg-danger" style="width:20%">
+      Danger
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+버튼 클릭할 때마다 증가, 감소하는 progressbar 만들기
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#btn1').on('click', function() {
+      const width = parseInt($('.container').css('width'));
+      const changeValue = width / 10;
+      const before = parseInt($('#bar').css('width'));
+      const after = before - changeValue;
+      $('#bar').css('width', after);
+
+    });
+    
+    $('#btn2').on('click', function() {
+      const width = parseInt($('.container').css('width'));
+      const changeValue = width / 10;
+      const before = parseInt($('#bar').css('width'));
+      const after = before + changeValue;.
+      $('#bar').css('width', after);
+
+    });
+
+  });
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="progress" style="height:20px">
+    <div class="progress-bar progress-bar-striped" id="bar" style="width:40%;height:20px"></div>
+  </div>
+  <br><br>
+  <div>
+    <button id="btn1" class="btn btn-secondary float-start">감소</button>
+    <button id="btn2" class="btn btn-secondary float-end">증가</button>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+
+#### spinner
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_spinners.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <button class="btn btn-primary">
+    <span class="spinner-border spinner-border-sm"></span>
+  </button>
+  
+  <button class="btn btn-primary">
+    <span class="spinner-border spinner-border-sm"></span>
+    Loading..
+  </button>
+  
+  <button class="btn btn-primary" disabled>
+    <span class="spinner-border spinner-border-sm"></span>
+    Loading..
+  </button>
+  
+  <button class="btn btn-primary" disabled>
+    <span class="spinner-grow spinner-grow-sm"></span>
+    Loading..
+  </button>
+</div>
+
+</body>
+</html>
+```
+#### pagination
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_pagination.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="pagination pagination-sm">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Photos</a></li>
+    <li class="breadcrumb-item"><a href="#">Summer 2017</a></li>
+    <li class="breadcrumb-item"><a href="#">Italy</a></li>
+    <li class="breadcrumb-item active">Rome</li>
+  </ul>
+</div>
+
+</body>
+</html>
+```
+#### list
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_list_groups.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <!-- <ol class="list-group"> -->
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item">First item</li>
+    <li class="list-group-item">Second item</li>
+    <li class="list-group-item">Third item</li>
+  </ol>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Inbox
+      <span class="badge bg-primary rounded-pill">12</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Ads
+      <span class="badge bg-primary rounded-pill">50</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      Junk
+      <span class="badge bg-primary rounded-pill">99</span>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
+```
+#### card
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_cards.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="https://www.w3schools.com/bootstrap5/img_avatar1.png" alt="Card image">
+    <div class="card-body">
+      <h4 class="card-title">John Doe</h4>
+      <p class="card-text">Some example text.</p>
+      <a href="#" class="btn btn-primary">See Profile</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+#### dropdown
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_dropdowns.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+      Dropdown button
+    </button>
+    <ul class="dropdown-menu">
+      <li><h5 class="dropdown-item disabled">header 1</h5></li>
+      <li><a class="dropdown-item" href="#">Link 1</a></li>
+      <li><a class="dropdown-item active" href="#">Link 2</a></li>
+      
+      <li><hr class="dropdown-divider"></a></li>
+      
+      <li><h5 class="dropdown-item disabled">header 2</h5></li>
+      <li><a class="dropdown-item" href="#">Link 3</a></li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="btn-group">
+  <!-- <div class="btn-group-vertical"> -->
+    <button type="button" class="btn btn-primary">Apple</button>
+    <button type="button" class="btn btn-primary">Samsung</button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Sony</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Tablet</a></li>
+        <li><a class="dropdown-item" href="#">Smartphone</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#btn1').on('click', function() {
+    alert($(this).text());
+  });
+  
+  $('#btn2').on('click', function() {
+    alert($(this).text());
+  });
+  
+  $('.dropdown-item').on('click', function() {
+    alert($(this).text());
+  });
+});
+</script>
+</head>
+<body>
+
+<div class="container">
+<div class="btn-group-vertical">
+  <button type="button" id="btn1" class="btn btn-primary">Apple</button>
+  <button type="button" id="btn2" class="btn btn-primary">Samsung</button>
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Sony</button>
+    <ul class="dropdown-menu" id="dropdodwn">
+      <li><a class="dropdown-item" href="#">Tablet</a></li>
+      <li><a class="dropdown-item" href="#">Smartphone</a></li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>
+```
+
+#### collapse
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_collapse.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <a href="#demo" class="btn btn-primary" data-bs-toggle="collapse">버튼</a>
+  
+  <!-- <div id="demo" class="collapse"> -->
+  <div id="demo" class="collapse show">
+  <!-- 시작이 보이는 상태다 -->
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </div>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div id="accordion">
+  
+    <div class="card">
+      <div class="card-header">
+        <a class="btn" data-bs-toggle="collapse" href="#collapseOne">
+          Collapsible Group Item #1
+        </a>
+      </div>
+      <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
+      <!-- class 이름 뒤에 show를 붙이면 보여지는 상태에서 시작한다 -->
+      <!-- 기본적으로 활성화 되어 있는 상태랑 같게 볼 수있다 -->
+        <div class="card-body">
+          Lorem ipsum..
+        </div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseTwo">
+          Collapsible Group Item #2
+        </a>
+      </div>
+      <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
+        <div class="card-body">
+          Lorem ipsum..
+        </div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseThree">
+          Collapsible Group Item #3
+        </a>
+      </div>
+      <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
+        <div class="card-body">
+          Lorem ipsum..
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>
+
+</body>
+</html>
+```
+collapse accordion에 구구단 출력하기
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('button').on('click', function() {
+      
+      let html = '';
+      for(let i = 1; i <= 4; i++){
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<a class="collapsed btn" data-bs-toggle="collapse" href="#collapse'+ i +'">';
+        html += i + '단';
+        html += '</a>';
+        html += '</div>';
+        for(let j = 1; j <= 9; j++){
+            html += '<div id="collapse' + i + '" class="collapse" data-bs-parent="#accordion">';
+            html += '<div class="card-body">';
+            html += i + ' X ' + j + ' = ' + i*j ;
+            html += '</div>';
+            html += '</div>';
+        }
+        html += '</div>';
+      }
+      
+      $('#accordion').html(html);
+    });
+    
+  });
+</script>
+</head>
+<body>
+
+<div class="container">
+  <button class="btn btn-primary">구구단 출력(1 ~ 4단)</button>
+  <br><br>
+  <div id="accordion">
+    
+  </div>
+
+</div>
+
+</body>
+</html>
+```
+#### Nav
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_navs.php 참조</small>
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="nav nav-tabs">
+  <!-- <ul class="nav nav-pills"> -->
+  <!-- 선택되면 채워진 버튼 모양이 된다 -->
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Active</a>
+      <!-- class 이름 뒤에 active로 선택되게 할 수 있다 -->
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Dropdown</a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Link 1</a></li>
+        <li><a class="dropdown-item" href="#">Link 2</a></li>
+        <li><a class="dropdown-item" href="#">Link 3</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#home">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu1">Menu 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#menu2">Menu 2</a>
+    </li>
+  </ul>
+  
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane container active" id="home">내용 1</div>
+    <div class="tab-pane container fade" id="menu1">내용 2</div>
+    <div class="tab-pane container fade" id="menu2">내용 3</div>
+</div>
+
+</body>
+</html>
+```
+
+#### Navbar
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_navbar.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Dropdown</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Link</a></li>
+          <li><a class="dropdown-item" href="#">Another link</a></li>
+          <li><a class="dropdown-item" href="#">A third link</a></li>
+        </ul>
+      </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Link</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search">
+          <button class="btn btn-primary" type="button">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Fixed top</a>
+    </div>
+  </nav>
+  
+  <div class="container-fluid" style="margin-top:80px">
+    <h3>Top Fixed Navbar</h3>
+    <p>A fixed navigation bar stays visible in a fixed position (top or bottom) independent of the page scroll.</p>
+    <h1>Scroll this page to see the effect</h1>
+  </div>
+  
+</div>
+
+</body>
+</html>
+```
+#### carousel
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_carousel.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<style type="text/css">
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+  
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://www.w3schools.com/bootstrap5/ny.jpg" class="d-block">
+      <div class="carousel-caption">
+        <h3>New York</h3>
+        <p>We love the Big Apple!</p>
+      </div> 
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.w3schools.com/bootstrap5/chicago.jpg" class="d-block">
+      <div class="carousel-caption">
+        <h3>Chicago</h3>
+        <p>Thank you, Chicago!</p>
+      </div> 
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.w3schools.com/bootstrap5/la.jpg" class="d-block">
+      <div class="carousel-caption">
+        <h3>Los Angeles</h3>
+        <p>We had such a great time in LA!</p>
+      </div>
+  </div>
+  
+  <ul class="carousel-indicators">
+    <li data-bs-target="#demo" data-bs-slide-to="0" class="active"></li>
+    <li data-bs-target="#demo" data-bs-slide-to="1"></li>
+    <li data-bs-target="#demo" data-bs-slide-to="2"></li>
+  </ul>
+  
+  <a href="#demo" class="carousel-control-prev" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a href="#demo" class="carousel-control-next" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
+
+</body>
+</html>
+```
+#### modal
+
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_modal.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+    Open modal
+  </button>
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+#### tooltip
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_tooltip.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" title="Hooray!">Hover over me!</button>
+
+  <script>
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  </script>
+    
+</div>
+
+</body>
+</html>
+```
+
+#### popover
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_popover.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <button class="btn btn-primary" data-bs-toggle="popover" title="Popover Header" data-bs-content="Some content inside the popover">Toggle popover</button>
+
+  <script>
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl);
+    });
+  </script>
+  
+</div>
+
+</body>
+</html>
+```
+
+#### toast
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_toast.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+  <h3>Toast Example</h3>
+  <p>In this example, we use a button to show the toast message.</p>
+
+  <button type="button" class="btn btn-primary" id="toastbtn">Show Toast</button>
+  
+  <div class="toast">
+    <div class="toast-header">
+      <strong class="me-auto">Toast Header</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">
+      <p>Some text inside the toast body</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("toastbtn").onclick = function() {
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    const toastList = toastElList.map(function(toastEl) {
+      return new bootstrap.Toast(toastEl);
+    });
+    toastList.forEach(toast => toast.show()); 
+  };
+</script>
+
+</body>
+</html>
+```
