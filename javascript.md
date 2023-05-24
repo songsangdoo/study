@@ -5229,6 +5229,12 @@ Hello jQuery !!
 </body>
 </html>
 ```
+<small>!! 라이브러리를 설정하지 않을 경우 콘솔에 아래와 같은 메세지가 출력된다
+
+```
+Uncaught ReferenceError: $ is not defined
+```
+</small>
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5263,6 +5269,8 @@ Hello jQuery !!
 </body>
 </html>
 ```
+
+
 ### jQuery API
 
 - jQurey는 css에서 사용하는 selector를 이용해서 html문서에 접근한다
@@ -11169,11 +11177,11 @@ emp 테이블 데이터 불러오기
 </html>
 ```
 
-### carousel / image slideshow
+### carousel 
 
 <small>https://swiperjs.com/ 참조</small>
 
-- 슬라이드 쇼와 관련된 코드 제공
+- 이미지 슬라이드 쇼와 관련된 라이브러리 제공
 
 ### alert
 
@@ -11189,18 +11197,21 @@ emp 테이블 데이터 불러오기
 
 <small> https://getbootstrap.kr/ 참조</small>
 
+
 - 반응형 웹 구현에 사용된다
+
+  <small> css 효과를 쉽게 줄 수 있게 도와준다</small>
 
   <small> 모바일 앱 구현에 많이 사용된다</small>
 
-  <small> 반응형 웹 : 하나의 디자인으로 모니터(해상도)에 최적화 되도록 화면을 출력하는 웹앱</small>
+  <small> !! 반응형 웹 : 하나의 디자인으로 모니터(해상도)에 최적화 되도록 화면을 출력하는 웹앱</small>
 
 
 - 반응형 웹의 단점 
 
   - 디자인이 까다롭다
 
-  - 한 페이지 내에서 모든 디자인을 해결하므로 트래픽이 몰릴 수 있다\
+  - 한 페이지 내에서 모든 디자인을 해결하므로 트래픽이 몰릴 수 있다
 
     <small>!! 트래픽 분산을 위해 대규모 웹페이지에서 반응형 웹은 잘 활용되지 않는다</small>
 
@@ -11229,7 +11240,20 @@ emp 테이블 데이터 불러오기
 
 <small> https://www.w3schools.com/bootstrap5/ 참조 </small>
 
-- 문서 요소에 class를 주는 방법으로 이용한다
+- 문서 요소에 class를 주는 방법을 사용한다
+
+- cdn 라이브러리
+
+```html
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+```
 
 #### grid
 
@@ -11378,8 +11402,8 @@ emp 테이블 데이터 불러오기
   <p>This example demonstrates a 50%/50% split on extra small devices and 75%/25% split on larger devices.</p>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-6 cos-sm-9 bg-success">col-6 col-sm-9</div>
-      <div class="col-6 cos-sm-3 bg-warning">col-6 col-sm-3</div>
+      <div class="col-6 col-sm-9 bg-success">col-6 col-sm-9</div>
+      <div class="col-6 col-sm-3 bg-warning">col-6 col-sm-3</div>
     </div>
   </div>
   <br>
@@ -11809,7 +11833,7 @@ emp 테이블 데이터 불러오기
 </head>
 <body>
 
-<div clas="container">
+<div class="container">
   <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px"><br><br>
   <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px" class="rounded"><br><br>
   <img src="https://www.w3schools.com/bootstrap5/paris.jpg" width="200px" class="rounded-circle"><br><br>
@@ -11872,7 +11896,7 @@ emp 테이블 데이터 불러오기
 </body>
 </html>
 ```
-#### Jumbotron
+#### jumbotron
 
 <small>https://www.w3schools.com/bootstrap5/bootstrap_jumbotron.php 참조</small>
 
@@ -11982,16 +12006,16 @@ emp 테이블 데이터 불러오기
 </head>
 <body>
 
-<button type="button" class="btn">Basic</button>
-<button type="button" class="btn btn-primary">Primary</button>
-<button type="button" class="btn btn-secondary">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-dark">Dark</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-link">Link</button>
+<button class="btn">Basic</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-success">Success</button>
+<button class="btn btn-info">Info</button>
+<button class="btn btn-warning">Warning</button>
+<button class="btn btn-danger">Danger</button>
+<button class="btn btn-dark">Dark</button>
+<button class="btn btn-light">Light</button>
+<button class="btn btn-link">Link</button>
 
 </body>
 </html>
@@ -12073,9 +12097,9 @@ emp 테이블 데이터 불러오기
 <div class="btn-group">
 <!-- <div class="btn-group-vertical"> -->
 <!-- 수직 모양 버튼 그룹 -->
-  <button type="button" class="btn btn-primary">Apple</button>
-  <button type="button" class="btn btn-primary">Samsung</button>
-  <button type="button" class="btn btn-primary">Sony</button>
+  <button class="btn btn-primary">Apple</button>
+  <button class="btn btn-primary">Samsung</button>
+  <button class="btn btn-primary">Sony</button>
 </div>
 
 </body>
@@ -12136,13 +12160,13 @@ emp 테이블 데이터 불러오기
   window.onload = function() {
     $("#btn1").on('click', function() {
       const num = parseInt($('span').text());
-      console.log(num);
+      // console.log(num);
       $('span').text(num-1);
     });
     
     $("#btn2").on('click', function() {
       const num = parseInt($('span').text());
-      console.log(num);
+      // console.log(num);
       $('span').text(num+1);
     });
   
@@ -13297,6 +13321,796 @@ collapse accordion에 구구단 출력하기
   };
 </script>
 
+</body>
+</html>
+```
+#### scrollspy
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_scrollspy.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<style>
+  body {
+      position: relative; 
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+
+</head>
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#section1">Section 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#section2">Section 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#section3">Section 3</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div id="section1" class="container-fluid bg-success text-white" style="padding:100px 20px;">
+  <h1>Section 1</h1>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+
+<div id="section2" class="container-fluid bg-warning" style="padding:100px 20px;">
+  <h1>Section 2</h1>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+
+<div id="section3" class="container-fluid bg-secondary text-white" style="padding:100px 20px;">
+  <h1>Section 3</h1>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+
+</body>
+</html>
+```
+
+#### offcanvas
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_offcanvas.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+
+</head>
+<body>
+
+<div class="offcanvas offcanvas-start" id="demo">
+<!-- 왼쪽 -->
+<!-- <div class="offcanvas offcanvas-end" id="demo"> -->
+<!-- 오른쪽 -->
+<!-- <div class="offcanvas offcanvas-top" id="demo"> -->
+<!-- 위 -->
+<!-- <div class="offcanvas offcanvas-bottom" id="demo"> -->
+<!-- 아래 -->
+  <div class="offcanvas-header">
+    <h1 class="offcanvas-title">Heading</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Some text lorem ipsum.</p>
+    <p>Some text lorem ipsum.</p>
+    <p>Some text lorem ipsum.</p>
+    <button class="btn btn-secondary" type="button">A Button</button>
+  </div>
+</div>
+
+<div class="container-fluid mt-3">
+  <h3>Offcanvas Sidebar</h3>
+  <p>Offcanvas is similar to modals, except that it is often used as a sidebar.</p>
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+    Open Offcanvas Sidebar
+  </button>
+</div>
+
+</body>
+</html>
+```
+#### form
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_forms.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <form action="">
+    <div class="mb-3 mt-3">
+      <label for="email" class="form-label">Email :</label>
+      <input type="email" id="email" class="form-control" placeholder="tester@test.com">
+    </div>
+    
+    <div class="mb-3">
+      <label for="password" class="form-label">Password :</label>
+      <input type="password" id="password" class="form-control" placeholder="알파벳 대문자, 소문자, 숫자 포함 12자리 이내">
+    </div>
+    
+    <div class="mb-3">
+      <label for="comment" class="form-label">Comment :</label>
+      <textarea rows="10" id="comment" class="form-control"></textarea>
+    </div>
+    
+    <div class="mb-3">
+      <label for="color" class="form-label">Color :</label>
+      <input type="color" id="color" class="form-control form-control-color" value="#cccccc">
+    </div>
+    
+    <div class="mb-3">
+      <label for="name" class="form-label">Name :</label>
+      <input type="text" id="name" class="form-control form-control-plaintext">
+      <!-- form-control-plaintext를 사용하면 input 태그의 경계선이 보이지 않는다 -->
+    </div>
+    <button class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
+```
+#### select menu
+
+
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_form_select.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <form action="">
+    <div class="mb-3 mt-3">
+      <label for="select1" class="form-label">Select : </label>
+      <select id="select1" class="form-select">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+    </div>
+    
+    <div class="mb-3">
+      <label for="select2" class="form-label">Select : </label>
+      <select id="select2" class="form-select" multiple>
+      <!-- 다중 선택 -->
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+    </div>
+    
+    <button class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <label for="browser" class="form-label">Choose your browser from the list:</label>
+  <input class="form-control" list="browsers" name="browser" id="browser">
+  <datalist id="browsers">
+    <option value="Edge">
+    <option value="Firefox">
+    <option value="Chrome">
+    <option value="Opera">
+    <option value="Safari">
+  </datalist>
+</div>
+
+</body>
+</html>
+```
+#### checkbox / radio
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_form_check_radio.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <form action="">
+    <div class="form-check mt-3">
+      <input type="checkbox" id="check1" class="form-check-input" checked>
+      <label for="check1" class="form-check-label">Option 1</label>
+    </div>
+    
+    <div class="form-check">
+      <input type="checkbox" id="check2" class="form-check-input">
+      <label for="check2" class="form-check-label">Option 1</label>
+    </div>
+    
+    <div class="form-check mb-3">
+      <input type="checkbox" id="check3" class="form-check-input" disabled>
+      <label for="check3" class="form-check-label">Option 2</label>
+    </div>
+    
+    <button class="btn btn-primary">Submit</button>
+  </form>
+
+</div>
+
+</body>
+</html>
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div class="container">
+  <form action="">
+    <div class="form-check mt-3">
+      <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>
+      <label class="form-check-label" for="radio1">Option 1</label>
+    </div>
+    <div class="form-check">
+      <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">
+      <label class="form-check-label" for="radio2">Option 2</label>
+    </div>
+    <div class="form-check mb-3">
+      <input type="radio" class="form-check-input" disabled>
+      <label class="form-check-label">Option 3</label>
+    </div>
+        
+    <button class="btn btn-primary">Submit</button>
+    
+    <div class="form-check form-switch mt-3">
+      <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
+      <label class="form-check-label" for="mySwitch">Dark Mode</label>
+    </div>
+    
+  </form>
+
+</div>
+
+</body>
+</html>
+```
+
+#### range
+
+
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_form_range.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<div class="container">
+
+  <label for="customRange" class="form-label">Custom range</label>
+  <input type="range" class="form-range" id="customRange" step="10" min="0" max="100" value="20">
+  
+</div>
+
+</body>
+</html>
+```
+
+#### input group
+
+
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_form_input_group.php 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+  crossorigin="anonymous">
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+  
+</script>
+</head>
+<body>
+  <div class="container">
+
+    <form>
+      <div class="input-group mb-3">
+        <span class="input-group-text">@</span> <input type="text"
+          class="form-control" placeholder="Username">
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Your Email">
+        <span class="input-group-text">@example.com</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Person</span> <input type="text"
+          class="form-control" placeholder="First Name"> <input
+          type="text" class="form-control" placeholder="Last Name">
+      </div>
+
+      <!-- Multiple addons / help text -->
+      <div class="input-group mb-3">
+        <span class="input-group-text">One</span> <span
+          class="input-group-text">Two</span> <span class="input-group-text">Three</span>
+        <input type="text" class="form-control">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input type="checkbox">
+        </div>
+        <input type="text" class="form-control" placeholder="Some text">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          <input type="radio">
+        </div>
+        <input type="text" class="form-control" placeholder="Some text">
+      </div>
+
+      <div class="input-group mb-3">
+        <button class="btn btn-outline-primary" type="button">Basic
+          Button</button>
+        <input type="text" class="form-control" placeholder="Some text">
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search">
+        <button class="btn btn-success" type="submit">Go</button>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control"
+          placeholder="Something clever..">
+        <button class="btn btn-primary" type="button">OK</button>
+        <button class="btn btn-danger" type="button">Cancel</button>
+      </div>
+
+      <div class="input-group mt-3 mb-3">
+        <button type="button" class="btn btn-primary dropdown-toggle"
+          data-bs-toggle="dropdown">Dropdown button</button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Link 1</a></li>
+          <li><a class="dropdown-item" href="#">Link 2</a></li>
+          <li><a class="dropdown-item" href="#">Link 3</a></li>
+        </ul>
+        <input type="text" class="form-control" placeholder="Username">
+      </div>
+    </form>
+
+  </div>
+
+</body>
+</html>
+```
+
+#### floating label
+
+
+<small>https://www.w3schools.com/bootstrap5/bootstrap_form_floating_labels.php
+ 참조</small>
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+  crossorigin="anonymous">
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+  
+</script>
+</head>
+<body>
+  <div class="container">
+
+    <form>
+      <div class="form-floating mb-3 mt-3">
+        <input type="email" class="form-control" id="email"
+          placeholder="Enter email" name="email"> <label for="email">Email</label>
+      </div>
+
+      <div class="form-floating mt-3 mb-3">
+        <input type="password" class="form-control" id="password"
+          placeholder="Enter password" name="pswd"> <label for="password">Password</label>
+      </div>
+
+      <div class="form-floating">
+        <textarea class="form-control" id="comment" name="text"
+          placeholder="Comment goes here"></textarea>
+        <label for="comment">Comments</label>
+      </div>
+    </form>
+
+  </div>
+
+</body>
+</html>
+```
+우편번호 검색기 만들기
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding="utf-8" ?>
+<Context>
+  <Resource 
+    name="jdbc/mariadbProject"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.mariadb.jdbc.Driver"
+    url="jdbc:mariadb://localhost:3306/project"
+    username="root"
+    password="123456"
+  />
+</Context>
+```
+```java
+// ZipcodeTO.java
+package model1;
+
+public class ZipcodeTO {
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+  
+  public String getZipcode() {
+    return zipcode;
+  }
+  public void setZipcode(String zipcode) {
+    this.zipcode = zipcode;
+  }
+  public String getSido() {
+    return sido;
+  }
+  public void setSido(String sido) {
+    this.sido = sido;
+  }
+  public String getGugun() {
+    return gugun;
+  }
+  public void setGugun(String gugun) {
+    this.gugun = gugun;
+  }
+  public String getDong() {
+    return dong;
+  }
+  public void setDong(String dong) {
+    this.dong = dong;
+  }
+  public String getRi() {
+    return ri;
+  }
+  public void setRi(String ri) {
+    this.ri = ri;
+  }
+  public String getBunji() {
+    return bunji;
+  }
+  public void setBunji(String bunji) {
+    this.bunji = bunji;
+  }
+  
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class ZipcodeDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public ZipcodeDAO() {
+    try {
+      Context initCtx = (Context)new InitialContext();
+      Context envCtx = (Context)initCtx.lookup("java:comp/env");
+      DataSource dataSource = (DataSource)envCtx.lookup("jdbc/mariadbProject");
+      
+      conn = dataSource.getConnection();
+    } catch (NamingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<ZipcodeTO> searchDong(ZipcodeTO input){
+    List<ZipcodeTO> datas = new ArrayList<>();
+    
+    String sql = "select * from zipcode where dong like ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getDong() + "%");
+      rs = pstmt.executeQuery();
+      
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        
+        data.setZipcode(rs.getString("zipcode"));
+        data.setSido(rs.getString("sido"));
+        data.setGugun(rs.getString("gugun"));
+        data.setDong(rs.getString("dong"));
+        data.setRi(rs.getString("ri"));
+        data.setBunji(rs.getString("bunji"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+  
+}
+
+```
+```jsp
+<!-- zipcodeSearch.jsp -->
+
+<%@page import="model1.ZipcodeDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.ZipcodeTO"%>
+<%@ page language="java" contentType="text/xml; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+    
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  ZipcodeTO input = new ZipcodeTO();
+  input.setDong(request.getParameter("dong"));
+  
+  ZipcodeDAO dao = new ZipcodeDAO();
+  List<ZipcodeTO> datas = dao.searchDong(input);
+  
+  StringBuilder sbXml = new StringBuilder();
+  sbXml.append("<addresses>");
+  for(ZipcodeTO data : datas){
+    sbXml.append("<address>");
+    sbXml.append("<zipcode>" + data.getZipcode() + "</zipcode>");
+    sbXml.append("<sido>" + data.getSido() + "</sido>");
+    sbXml.append("<gugun>" + data.getGugun() + "</gugun>");
+    sbXml.append("<dong>" + data.getDong() + "</dong>");
+    sbXml.append("<ri>" + data.getRi() + "</ri>");
+    sbXml.append("<bunji>" + data.getBunji() + "</bunji>");
+    sbXml.append("</address>");
+  }
+  sbXml.append("</addresses>");
+%>
+<%= sbXml %>
+
+```
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, minimem-scale=1.0, maximum-scale=1.0" />
+<title>Insert title here</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+  crossorigin="anonymous">
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+  crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#btn').on('click', function() {
+      $.ajax({
+        url: './data/zipcodeSearch.jsp',
+        type: 'get',
+        data: {
+          dong: $("#dong").val()
+        },
+        dataType: 'xml',
+        success: function(xml) {
+          let list = '';
+          $(xml).find('address').each(function(index, item) {
+
+            list += "<div class='card-header'>";
+            list += "<a class='btn' data-bs-toggle='collapse' href='#collapse" + index + "'>" + $(this).find("zipcode").text() + "</a>";
+            list += "</div>";
+            list += "<div id='collapse" + index + "' class='collapse'";
+            list += "data-bs-parent='#accordion'>";
+            list += "<div class='card-body'>" + $(this).find("sido").text() + " " + $(this).find("gugun").text() + " " + $(this).find("dong").text()
+            + " " + $(this).find("ri").text() + " " + $(this).find("bunji").text() + "</div>";
+            list += "</div>";
+          });
+          $('.card').html(list);
+        },
+        error: function(err) {
+          alert('에러 : ' + err.status);
+        }
+      });
+    });
+  });
+  
+</script>
+</head>
+<body>
+
+  <div class="container">
+    <div class="input-group ">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="dong"
+          placeholder="Enter dong" name="strDong"><label for="dong">동이름</label>
+      </div>
+      <button class="btn btn-primary" id="btn">우편번호 출력</button>
+    </div>
+
+    <div class="card">
+
+    </div>
+  </div>
 </body>
 </html>
 ```
