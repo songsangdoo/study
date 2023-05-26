@@ -2496,23 +2496,23 @@ public class App {
 package com.exam.spring.model;
 
 public class WriteAction {
-	private String writer;
-	
-	public WriteAction() {
-		System.out.println("WriteAction() 호출");
-	}
-	
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	
-	public void execute1() {
-		System.out.println("execute1() 호출");
-	}
-	
-	public void execute2() {
-		System.out.println("execute2() 호출");
-	}
+  private String writer;
+  
+  public WriteAction() {
+    System.out.println("WriteAction() 호출");
+  }
+  
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  
+  public void execute1() {
+    System.out.println("execute1() 호출");
+  }
+  
+  public void execute2() {
+    System.out.println("execute2() 호출");
+  }
 }
 
 
@@ -2531,22 +2531,22 @@ import org.aspectj.lang.ProceedingJoinPoint;
 // POJO
 public class BasicAdvice1 {
 
-	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
-		
-		System.out.println("전처리 구간 1");
-		Object rtnObj = joinPoint.proceed();
-		System.out.println("후처리 구간 1");
-		
-		return rtnObj;
-	}
-	
-	public void before() throws Throwable{
-		System.out.println("전처리 구간 1");
-	}
-	
-	public void after() throws Throwable{
-		System.out.println("후처리 구간 1");
-	}
+  public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    
+    System.out.println("전처리 구간 1");
+    Object rtnObj = joinPoint.proceed();
+    System.out.println("후처리 구간 1");
+    
+    return rtnObj;
+  }
+  
+  public void before() throws Throwable{
+    System.out.println("전처리 구간 1");
+  }
+  
+  public void after() throws Throwable{
+    System.out.println("후처리 구간 1");
+  }
 }
 
 
@@ -2558,14 +2558,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 // POJO
 public class BasicAdvice2 {
 
-	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
-		
-		System.out.println("전처리 구간 2");
-		Object rtnObj = joinPoint.proceed();
-		System.out.println("후처리 구간 2");
-		
-		return rtnObj;
-	}
+  public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    
+    System.out.println("전처리 구간 2");
+    Object rtnObj = joinPoint.proceed();
+    System.out.println("후처리 구간 2");
+    
+    return rtnObj;
+  }
 }
 
 ```
@@ -2573,38 +2573,38 @@ public class BasicAdvice2 {
 <!-- context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-	<bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
-	<bean id="action2" class="com.exam.spring.model.WriteAction" scope="prototype">
-		<property name="writer">
-			<value>홍길동</value>
-		</property>
-	</bean>
-	
-	<bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
-	<bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
-	
-	<!-- AOP 설정 -->
-	<aop:config>
-		<aop:aspect ref="basicAdvice1" order="2">
-			<aop:pointcut id="pointCut" expression="execution(* execute*())" />
-			<!-- <aop:around method="logAround" pointcut-ref="pointCut"/>  -->
-			<!-- 전처리, 후처리 구간 모두 설정 -->
-			<!-- <aop:before method="before" pointcut-ref="pointCut"/> -->
-			<!-- 전처리 구간만 설정 -->
-			<aop:after method="after" pointcut-ref="pointCut"/>
-			<!-- 후처리 구간만 설정 -->
-		</aop:aspect>
-		
-		<aop:aspect ref="basicAdvice2" order="1">
-			<aop:pointcut id="pointCut" expression="execution(* execute2())" />
-			<aop:around method="logAround" pointcut-ref="pointCut"/> 
-		</aop:aspect>
-	</aop:config>
+  <bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
+  <bean id="action2" class="com.exam.spring.model.WriteAction" scope="prototype">
+    <property name="writer">
+      <value>홍길동</value>
+    </property>
+  </bean>
+  
+  <bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
+  <bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
+  
+  <!-- AOP 설정 -->
+  <aop:config>
+    <aop:aspect ref="basicAdvice1" order="2">
+      <aop:pointcut id="pointCut" expression="execution(* execute*())" />
+      <!-- <aop:around method="logAround" pointcut-ref="pointCut"/>  -->
+      <!-- 전처리, 후처리 구간 모두 설정 -->
+      <!-- <aop:before method="before" pointcut-ref="pointCut"/> -->
+      <!-- 전처리 구간만 설정 -->
+      <aop:after method="after" pointcut-ref="pointCut"/>
+      <!-- 후처리 구간만 설정 -->
+    </aop:aspect>
+    
+    <aop:aspect ref="basicAdvice2" order="1">
+      <aop:pointcut id="pointCut" expression="execution(* execute2())" />
+      <aop:around method="logAround" pointcut-ref="pointCut"/> 
+    </aop:aspect>
+  </aop:config>
 
 </beans>
 
@@ -2618,18 +2618,18 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import com.exam.spring.model.WriteAction;
 
 public class App {
-	public static void main(String[] args) {
-		GenericXmlApplicationContext ctx
-		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
-		
-		WriteAction writeAction = (WriteAction)ctx.getBean("action1");
-		
-		writeAction.execute1();
-		writeAction.execute2();
-		// 객체가 아닌 메서드 단위로 실행된다
-		
-		ctx.close();
-	}
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+    
+    WriteAction writeAction = (WriteAction)ctx.getBean("action1");
+    
+    writeAction.execute1();
+    writeAction.execute2();
+    // 객체가 아닌 메서드 단위로 실행된다
+    
+    ctx.close();
+  }
 }
 
 ```
@@ -2643,23 +2643,23 @@ annotation을 이용하는 경우
 package com.exam.spring.model;
 
 public class WriteAction {
-	private String writer;
-	
-	public WriteAction() {
-		System.out.println("WriteAction() 호출");
-	}
-	
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	
-	public void execute1() {
-		System.out.println("execute1() 호출");
-	}
-	
-	public void execute2() {
-		System.out.println("execute2() 호출");
-	}
+  private String writer;
+  
+  public WriteAction() {
+    System.out.println("WriteAction() 호출");
+  }
+  
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  
+  public void execute1() {
+    System.out.println("execute1() 호출");
+  }
+  
+  public void execute2() {
+    System.out.println("execute2() 호출");
+  }
 }
 
 ```
@@ -2675,26 +2675,26 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class BasicAdvice1 {
-	
-	@Pointcut("execution(* execute1())")
-	private void myTarget() {}
-	
-	/*
-	@Around("myTarget()")
-	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
-		
-		System.out.println("전처리 구간 1");
-		Object rtnObj = joinPoint.proceed();
-		System.out.println("후처리 구간 1");
-		
-		return rtnObj;
-	}
-	*/
-	
-	@Before("myTarget()")
-	public void before() throws Throwable {
-		System.out.println("전처리 구간 1");
-	}
+  
+  @Pointcut("execution(* execute1())")
+  private void myTarget() {}
+  
+  /*
+  @Around("myTarget()")
+  public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    
+    System.out.println("전처리 구간 1");
+    Object rtnObj = joinPoint.proceed();
+    System.out.println("후처리 구간 1");
+    
+    return rtnObj;
+  }
+  */
+  
+  @Before("myTarget()")
+  public void before() throws Throwable {
+    System.out.println("전처리 구간 1");
+  }
 
 }
 
@@ -2710,27 +2710,27 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class BasicAdvice2 {
-	
-	@Pointcut("execution(* execute2())")
-	private void myTarget() {}
-	
-	/*
-	@Around("myTarget()")
-	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
-		
-		System.out.println("전처리 구간 2");
-		Object rtnObj = joinPoint.proceed();
-		System.out.println("후처리 구간 2");
-		
-		return rtnObj;
-	}
-	*/
-	
-	@After("myTarget()")
-	public void after() {
-		System.out.println("후처리 구간 2");
-	}
-	
+  
+  @Pointcut("execution(* execute2())")
+  private void myTarget() {}
+  
+  /*
+  @Around("myTarget()")
+  public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    
+    System.out.println("전처리 구간 2");
+    Object rtnObj = joinPoint.proceed();
+    System.out.println("후처리 구간 2");
+    
+    return rtnObj;
+  }
+  */
+  
+  @After("myTarget()")
+  public void after() {
+    System.out.println("후처리 구간 2");
+  }
+  
 }
 
 
@@ -2738,16 +2738,16 @@ public class BasicAdvice2 {
 ```xml
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-	<bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
-	<bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
-	<bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
-	
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
+  <bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
+  <bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
+  <bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
+  
+  <aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
   <!-- annotation을 찾아서 자동으로 적용시킨다 -->
 </beans>
 
@@ -2761,17 +2761,17 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import com.exam.spring.model.WriteAction;
 
 public class App {
-	public static void main(String[] args) {
-		GenericXmlApplicationContext ctx
-		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
-		
-		WriteAction writeAction = (WriteAction)ctx.getBean("action1");
-		
-		writeAction.execute1();
-		writeAction.execute2();
-		
-		ctx.close();
-	}
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+    
+    WriteAction writeAction = (WriteAction)ctx.getBean("action1");
+    
+    writeAction.execute1();
+    writeAction.execute2();
+    
+    ctx.close();
+  }
 }
 
 ```
@@ -2785,13 +2785,13 @@ public class App {
 package com.exam.spring.model;
 
 public class CountAction {
-	
-	public void execute() {
-		int sum = 0;
-		for(int i = 1; i <= 100000; i++) {
-			sum += i;
-		}
-	}
+  
+  public void execute() {
+    int sum = 0;
+    for(int i = 1; i <= 100000; i++) {
+      sum += i;
+    }
+  }
 }
 
 ```
@@ -2808,21 +2808,21 @@ import org.springframework.util.StopWatch;
 @Aspect
 public class CountAdvice {
 
-	@Pointcut("execution(* execute())")
-	public void myTarget() {}
-	
-	@Around("myTarget()")
-	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
-		
-		StopWatch stopWatch = new StopWatch();
-		stopWatch.start("count");
-		Object rtnObj = joinPoint.proceed();
-		stopWatch.stop();
-		
-		System.out.println("처리시간 : " + stopWatch.getTotalTimeMillis());
-		
-		return rtnObj;
-	}
+  @Pointcut("execution(* execute())")
+  public void myTarget() {}
+  
+  @Around("myTarget()")
+  public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    
+    StopWatch stopWatch = new StopWatch();
+    stopWatch.start("count");
+    Object rtnObj = joinPoint.proceed();
+    stopWatch.stop();
+    
+    System.out.println("처리시간 : " + stopWatch.getTotalTimeMillis());
+    
+    return rtnObj;
+  }
 }
 
 ```
@@ -2831,15 +2831,15 @@ public class CountAdvice {
 <!-- context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-	<bean id="count" class="com.exam.spring.model.CountAction" scope="prototype"></bean>
-	<bean class="com.exam.spring.advice.CountAdvice" scope="prototype"></bean>
-	
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
+  <bean id="count" class="com.exam.spring.model.CountAction" scope="prototype"></bean>
+  <bean class="com.exam.spring.advice.CountAdvice" scope="prototype"></bean>
+  
+  <aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
 </beans>
 
 ```
@@ -2852,15 +2852,15 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import com.exam.spring.model.CountAction;
 
 public class App {
-	public static void main(String[] args) {
-		GenericXmlApplicationContext ctx
-		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
-		
-		CountAction countAction = (CountAction)ctx.getBean("count");
-		countAction.execute();
-		
-		ctx.close();
-	}
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+    
+    CountAction countAction = (CountAction)ctx.getBean("count");
+    countAction.execute();
+    
+    ctx.close();
+  }
 }
 
 ```
@@ -2886,94 +2886,94 @@ public class App {
 <name>template01 Maven Webapp</name>
 <url>http://maven.apache.org</url>
 <properties>
-	<!-- Generic properties -->
-	<java.version>11</java.version>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	
-	<!-- Web -->
-	<jsp.version>2.2</jsp.version>
-	<jstl.version>1.2</jstl.version>
-	<servlet.version>2.5</servlet.version>
-	
-	<!-- Spring -->
-	<spring-framework.version>5.2.8.RELEASE</spring-framework.version>
-	<!-- Hibernate / JPA -->
-	<hibernate.version>5.6.9.Final</hibernate.version>
-	<!-- Logging -->
-	<logback.version>1.2.11</logback.version>
-	<slf4j.version>1.7.36</slf4j.version>
-	<!-- Test -->
-	<junit.version>4.11</junit.version>
+  <!-- Generic properties -->
+  <java.version>11</java.version>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  
+  <!-- Web -->
+  <jsp.version>2.2</jsp.version>
+  <jstl.version>1.2</jstl.version>
+  <servlet.version>2.5</servlet.version>
+  
+  <!-- Spring -->
+  <spring-framework.version>5.2.8.RELEASE</spring-framework.version>
+  <!-- Hibernate / JPA -->
+  <hibernate.version>5.6.9.Final</hibernate.version>
+  <!-- Logging -->
+  <logback.version>1.2.11</logback.version>
+  <slf4j.version>1.7.36</slf4j.version>
+  <!-- Test -->
+  <junit.version>4.11</junit.version>
 </properties>
 
 <dependencies>
 
-	<!-- Spring MVC -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-webmvc</artifactId>
-		<version>${spring-framework.version}</version>
-	</dependency>
-	
-	<!-- Other Web dependencies -->
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
-		<version>${jstl.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-		<version>${servlet.version}</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>javax.servlet.jsp</groupId>
-		<artifactId>jsp-api</artifactId>
-		<version>${jsp.version}</version>
-		<scope>provided</scope>
-	</dependency>
+  <!-- Spring MVC -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>${spring-framework.version}</version>
+  </dependency>
+  
+  <!-- Other Web dependencies -->
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>${jstl.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>servlet-api</artifactId>
+    <version>${servlet.version}</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>jsp-api</artifactId>
+    <version>${jsp.version}</version>
+    <scope>provided</scope>
+  </dependency>
 
-	<!-- Spring and Transactions -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-tx</artifactId>
-		<version>${spring-framework.version}</version>
-	</dependency>
-	<!-- Logging with SLF4J & LogBack -->
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-api</artifactId>
-		<version>${slf4j.version}</version>
-		<scope>compile</scope>
-	</dependency>
-	<dependency>
-		<groupId>ch.qos.logback</groupId>
-		<artifactId>logback-classic</artifactId>
-		<version>${logback.version}</version>
-		<scope>runtime</scope>
-	</dependency>
-	<!-- Hibernate -->
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-entitymanager</artifactId>
-		<version>${hibernate.version}</version>
-	</dependency>
-	
-	<!-- Test Artifacts -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-test</artifactId>
-		<version>${spring-framework.version}</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>${junit.version}</version>
-		<scope>test</scope>
-	</dependency>
+  <!-- Spring and Transactions -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+    <version>${spring-framework.version}</version>
+  </dependency>
+  <!-- Logging with SLF4J & LogBack -->
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>${slf4j.version}</version>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>${logback.version}</version>
+    <scope>runtime</scope>
+  </dependency>
+  <!-- Hibernate -->
+  <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>${hibernate.version}</version>
+  </dependency>
+  
+  <!-- Test Artifacts -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring-framework.version}</version>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>${junit.version}</version>
+    <scope>test</scope>
+  </dependency>
 </dependencies>	
 
 ```
@@ -2996,32 +2996,32 @@ public class App {
   
   <!-- encoding -->
   <filter>
-  	<filter-name>encodingFilter</filter-name>
-  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-  	<init-param>
-  		<param-name>encoding</param-name>
-  		<param-value>utf-8</param-value>
-  	</init-param>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
-  	<filter-name>encodingFilter</filter-name>
-  	<url-pattern>*.do</url-pattern>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
   
   <!-- servlet 설정 -->
   <servlet>
-  	<servlet-name>appServlet</servlet-name>
-  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-  	<init-param>
-  		<param-name>contextConfigLocation</param-name>
-  		<param-value>/WEB-INF/servlet-context.xml</param-value>
-  		<!-- <param-value>/WEB-INF/servlet-context2.xml</param-value> -->
-  	</init-param>
-  	<load-on-startup>1</load-on-startup>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+      <!-- <param-value>/WEB-INF/servlet-context2.xml</param-value> -->
+    </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>appServlet</servlet-name>
-  	<url-pattern>*.do</url-pattern>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 </web-app>
 ```
@@ -3029,53 +3029,53 @@ public class App {
 <!-- servlet-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-	
-	 <!-- 
-		MVC(model2)
-		list1.do -> list1.jsp
-		list2.do -> list2.jsp
-		list3.do -> list2.jsp
-		list4.do -> list4.jsp
-		list5.do -> list5.jsp
-	 -->
-	 <bean name="/list1.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="/listview1.jsp"></property>
-	 </bean>
-	 <bean name="/list2.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="/listview2.jsp"></property>
-	 </bean>
-	 <bean name="/list3.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="/listview2.jsp"></property>
-	 </bean>
-	 <bean name="/list4.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="/WEB-INF/views/listview4.jsp"></property>
-	 </bean>
-	 <bean name="/board/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="/WEB-INF/views/listview5.jsp"></property>
-	 </bean>
-	 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+   <!-- 
+    MVC(model2)
+    list1.do -> list1.jsp
+    list2.do -> list2.jsp
+    list3.do -> list2.jsp
+    list4.do -> list4.jsp
+    list5.do -> list5.jsp
+   -->
+   <bean name="/list1.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="/listview1.jsp"></property>
+   </bean>
+   <bean name="/list2.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="/listview2.jsp"></property>
+   </bean>
+   <bean name="/list3.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="/listview2.jsp"></property>
+   </bean>
+   <bean name="/list4.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="/WEB-INF/views/listview4.jsp"></property>
+   </bean>
+   <bean name="/board/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="/WEB-INF/views/listview5.jsp"></property>
+   </bean>
+   
 </beans>
 
 <!-- servlet-context2.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-	
-	 <bean name="/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="listview5"></property>
-	 </bean>
-	 <bean name="/list6.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-	 	<property name="viewName" value="listview6"></property>
-	 </bean>
-	 
-	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	 	<property name="prefix" value="/WEB-INF/views/"></property>
-	 	<property name="suffix" value=".jsp"></property>
-	 </bean>
-	 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+   <bean name="/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="listview5"></property>
+   </bean>
+   <bean name="/list6.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="listview6"></property>
+   </bean>
+   
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+     <property name="prefix" value="/WEB-INF/views/"></property>
+     <property name="suffix" value=".jsp"></property>
+   </bean>
+   
 </beans>
 ```
 
@@ -3095,12 +3095,12 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class Form implements Controller {
 
-	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Form 호출");
-		
-		return new ModelAndView("form");
-	}
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    System.out.println("Form 호출");
+    
+    return new ModelAndView("form");
+  }
 
 }
 
@@ -3115,19 +3115,19 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class Form_ok implements Controller {
 
-	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Form_ok 호출 : " + request.getParameter("data"));
-		
-		// request.setAttribute("data", request.getParameter("data"));
-		// 데이터를 받아오는 전통적인 방식
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("form_ok");
-		modelAndView.addObject("data", request.getParameter("data"));
-		
-		return new ModelAndView("form_ok");
-	}
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    System.out.println("Form_ok 호출 : " + request.getParameter("data"));
+    
+    // request.setAttribute("data", request.getParameter("data"));
+    // 데이터를 받아오는 전통적인 방식
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    modelAndView.addObject("data", request.getParameter("data"));
+    
+    return new ModelAndView("form_ok");
+  }
 
 }
 
@@ -3136,25 +3136,25 @@ public class Form_ok implements Controller {
 <!-- servlet-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-	
-	<!--
-	<bean name="/form.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="form"></property>
-	</bean>
-	
-	<bean name="/form_ok.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="form_ok"></property>
-	</bean>
-	-->
-	
-	<bean name="/form.do" class="model2.Form"></bean>
-	<bean name="/form_ok.do" class="model2.Form_ok"></bean>
-	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+  <!--
+  <bean name="/form.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+    <property name="viewName" value="form"></property>
+  </bean>
+  
+  <bean name="/form_ok.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+    <property name="viewName" value="form_ok"></property>
+  </bean>
+  -->
+  
+  <bean name="/form.do" class="model2.Form"></bean>
+  <bean name="/form_ok.do" class="model2.Form_ok"></bean>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
 </beans>
 ```
