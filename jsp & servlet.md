@@ -1214,12 +1214,12 @@ name = <%= nameParam[0] %>
 <Context>
   <Resource name="jdbc/mariadb1"
             auth="Container"
-            <!-- "Container"를 자원관리자로 한다 -->
             type="javax.sql.DataSource"
             driverClassName="org.mariadb.jdbc.Driver"
             url="jdbc:mariadb://localhost:3306/sample"
             username="root"
             password="123456"/>
+            <!-- "Container"를 자원관리자 이름으로 한다 -->
   <Resource name="jdbc/mariadb2"
             auth="Container"
             type="javax.sql.DataSource"
@@ -5015,6 +5015,7 @@ Hello forward.jsp
 ```
 ## MVC(Model View Controller)
 <img src="https://t1.daumcdn.net/cfile/tistory/270EFE4C57F0C7A61C" width="500">
+
 - 구분
 
   - 하드코딩 : jsp로만 만든 웹페이지
@@ -5031,7 +5032,9 @@ Hello forward.jsp
 
   <small>client &rarr; jsp &rarr; model (DAO, TO) &rarr; 데이터를 제공해주는 것 (db / file / ...)</small>  
 - TO (java beans), DAO를 이용한다
-```jsp
+
+```java
+// MemberTO.java
 package pack1;
 
 public class MemberTO {
@@ -5051,7 +5054,8 @@ public class MemberTO {
     this.password = password;
   }
 }
-
+```
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="pack1.MemberTO" %>

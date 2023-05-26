@@ -3,7 +3,7 @@
 
 - 객체를 다루는 다양한 기능을 제공해서 웹 개발에 도움을 준다
 
-- DI(Dependency Injection, 의존성 주입), AOP를 이용해 MVC(model 2)를 구현한다
+- DI(Dependency Injection, 의존성 주입), AOP(Aspect Oriented Programming, 관점 지향 프로그래밍)를 이용해 MVC(model 2)를 구현한다
 
   <small> IoC를 중심으로 객체의 관리(생성, 소멸)를 spring이 대신한다</small>
 
@@ -130,7 +130,7 @@ public class App {
 
 - Spring은 미리 설정한 xml 파일을 이용해 객체를 생성하고 사용한다
 
-
+  <small>!! Spring에서 다루는 자바 객체를 bean이라고 한다</small>
 
 ```java
 // HelloBean1.java
@@ -283,6 +283,8 @@ public class App {
 
 
 ### 객체
+
+
 #### 객체 생성 타입
 ##### prototype
 - bean 태그의 scope 속성 값으로, 필요할 때마다 객체를 생성한다
@@ -1621,28 +1623,28 @@ public class BoardTO {
 package com.exam.spring03.model;
 
 public interface Action {
-	public abstract void execute();
+  public abstract void execute();
 }
 
 // WriteAction.java
 package com.exam.spring03.model;
 
 public class WriteAction implements Action {
-	private BoardTO to;
-	
-	public WriteAction() {
-		System.out.println("WriteAction 기본 생성자");
-	}
-	
-	public WriteAction(BoardTO to) {
-		System.out.println("WriteAction(BoardTO to) 호출");
-		this.to = to;
-	}
-	
-	@Override
-	public void execute() {
-		System.out.println("execute() 호출");
-	}
+  private BoardTO to;
+  
+  public WriteAction() {
+    System.out.println("WriteAction 기본 생성자");
+  }
+  
+  public WriteAction(BoardTO to) {
+    System.out.println("WriteAction(BoardTO to) 호출");
+    this.to = to;
+  }
+  
+  @Override
+  public void execute() {
+    System.out.println("execute() 호출");
+  }
 
 }
 
@@ -1951,6 +1953,1208 @@ public class App {
 }
 
 ```
+<hr>
+
+```java
+// HelloBean1.java
+package com.exam.spring01.model;
+
+public class HelloBean1 {
+  
+  public void sayHello(String name) {
+    System.out.println(name + "님, 안녕하세요");
+  }
+}
+
+// HelloBean2.java
+package com.exam.spring01.model;
+
+public class HelloBean2 {
+  
+  public void sayHello(String name) {
+    System.out.println("Hello " + name);
+  }
+}
+
+```
+```java
+// BeanConfig1.java
+package com.exam.spring01.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.exam.spring01.model.HelloBean1;
+
+@Configuration
+@Scope("prototype")
+public class BeanConfig1 {
+  
+  @Bean
+  public HelloBean1 helloBean1() {
+    return new HelloBean1();
+  }
+  
+}
+
+// BeanConfig2.java
+package com.exam.spring01.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.exam.spring01.model.HelloBean2;
+
+@Configuration
+@Scope("prototype")
+public class BeanConfig2 {
+  
+  @Bean
+  public HelloBean2 helloBean2() {
+    return new HelloBean2();
+  }
+  
+}
+
+// BeanConfig.java
+package com.exam.spring01.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+@Configuration
+@Import({BeanConfig1.class, BeanConfig2.class})
+// Import annotation으로 다른 클래스 파일을 import 할 수 있다
+public class BeanConfig {
+
+}
+
+```
+```java
+// App.java
+package com.exam.spring01;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.exam.spring01.config.BeanConfig;
+import com.exam.spring01.config.BeanConfig1;
+import com.exam.spring01.config.BeanConfig2;
+import com.exam.spring01.model.HelloBean1;
+import com.exam.spring01.model.HelloBean2;
+
+public class App {
+  
+  public static void main(String[] args) {
+    
+    AnnotationConfigApplicationContext ctx
+    // = new AnnotationConfigApplicationContext(BeanConfig1.class, BeanConfig2.class);
+    // 가변인자를 받기 때문에 위와 같이 쓸 수 있다
+    = new AnnotationConfigApplicationContext(BeanConfig.class);
+    
+    HelloBean1 helloBean1 = (HelloBean1)ctx.getBean("helloBean1");
+    helloBean1.sayHello("홍길동");
+    
+    HelloBean2 helloBean2 = (HelloBean2)ctx.getBean("helloBean2");
+    helloBean2.sayHello("박문수");
+    
+    ctx.close();
+  }
+}
+
+```
+
+### 객체 lifecycle
+<small>https://dct-wonjung.tistory.com/entry/Spring-%EB%B9%88-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4 참조</small>
+
+<small>https://blog.naver.com/edy5016/221280377077 참조</small>
+
+- Spring container가 bean(java 객체)의 lifecycle을 관리한다
+
+- lifecycle 흐름
+```java
+// Action.java
+package com.exam.lifecycle.model;
+
+public interface Action {
+  public abstract void execute();
+}
+
+// WriteAction.java
+package com.exam.lifecycle.model;
+
+public class WriteAction implements Action {
+  
+  private String writer;
+  
+  public WriteAction() {
+    System.out.println("1. 빈의 생성자 실행");
+  }
+  
+  public void setWriter(String writer) {
+    System.out.println("2. setWriter(String writer) 호출");
+    this.writer = writer;
+  }
+  
+  @Override
+  public void execute() {
+    System.out.println("*. execute() 호출");
+  }
+
+}
+
+```
+
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+  <bean id="action" class="com.exam.lifecycle.model.WriteAction" scope="prototype">
+    <property name="writer" value="Hello Bean"></property>
+  </bean>
+  
+</beans>
+
+```
+```java
+// App.java
+package com.exam.lifecycle;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.lifecycle.model.Action;
+
+public class App {
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/lifecycle/context.xml");
+    
+    Action action = (Action)ctx.getBean("action");
+    action.execute();
+    
+    ctx.close();
+  }
+}
+
+```
+- 객체 관리 인터페이스와 직접 작성한 커스텀 메서드를 통해서 자세한 흐름을 파악할 수 있다
+
+  - InitializingBean : 객체 생성
+  - DisposableBean : 객체 소멸
+
+  - ApplicationContextAware : 객체 초기화 
+  - BeanNameAware : 빈의 이름 초기화
+
+```java
+// Action.java
+package com.exam.lifecycle.model;
+
+public interface Action {
+  public abstract void execute();
+}
+
+// WriteAction.java
+package com.exam.lifecycle.model;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+public class WriteAction implements Action, InitializingBean, DisposableBean, ApplicationContextAware, BeanNameAware,
+    BeanClassLoaderAware, BeanFactoryAware {
+
+  private String writer;
+  private String beanName;
+  private BeanFactory beanFactory;
+  
+
+  public WriteAction() {
+    System.out.println("1. 빈의 생성자 실행");
+  }
+
+  public void setWriter(String writer) {
+    System.out.println("2. setWriter(String writer) 호출");
+    this.writer = writer;
+  }
+
+  @Override
+  public void execute() {
+    System.out.println("*. execute() 호출");
+  }
+
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    System.out.println("5. setBeanFactory(BeanFactory beanFactory) 호출");
+    
+    System.out.println("beanFactory : " + beanFactory);
+  }
+
+  @Override
+  public void setBeanClassLoader(ClassLoader classLoader) {
+    System.out.println("4. setBeanClassLoader(ClassLoader classLoader) 호출");
+  }
+
+  @Override
+  public void setBeanName(String name) {
+    System.out.println("3. setBeanName(String name) 호출");
+    
+    System.out.println("beanName : " + name);
+    this.beanName = name;
+  }
+
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    System.out.println("6. setApplicationContext(ApplicationContext applicationContext) 호출");
+  }
+
+  @Override
+  public void destroy() throws Exception {
+    System.out.println("11. destroy() 호출");
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    System.out.println("8. afterPropertiesSet() 호출");
+    
+    if(writer == null) {
+      System.out.println("writer의 값이 없습니다");
+    }else {
+      System.out.println("writer의 값이 있습니다");
+    }
+  }
+  
+  // 커스텀 메서드
+  public void init_method() {
+    System.out.println("9. init_method() 호출");
+  }
+  
+  public void destroy_method() {
+    System.out.println("12. destroy_method() 호출");
+  }
+
+}
+
+// CustomBeanPostProcessor.java
+package com.exam.lifecycle;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
+public class CustomBeanPostProcessor implements BeanPostProcessor {
+
+  @Override
+  public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    System.out.println("7. postProcessBeforeInitialization(Object bean, String beanName) 호출");
+    return bean;
+  }
+
+  @Override
+  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    System.out.println("10. postProcessAfterInitialization(Object bean, String beanName) 호출");
+    return bean;
+  }
+
+}
+
+```
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean id="action" class="com.exam.lifecycle.model.WriteAction"
+    scope="singleton" init-method="init_method"
+    destroy-method="destroy_method">
+    <property name="writer" value="Hello Bean"></property>
+  </bean>
+  <!-- scope 속성 값으로 singleton을 써야 객체 소멸까지 확인 가능하다 -->
+
+  <bean class="com.exam.lifecycle.CustomBeanPostProcessor"></bean>
+</beans>
+
+```
+
+```java
+// App.java
+package com.exam.lifecycle;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.lifecycle.model.Action;
+
+public class App {
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/lifecycle/context.xml");
+    
+    Action action = (Action)ctx.getBean("action");
+    action.execute();
+    
+    ctx.close();
+  }
+}
+
+```
 
 
+### AOP(Aspect Oriented Programming)
 
+- 관점 지향 프로그래밍이라고 하며, 핵심기능 ,공통기능을 분리해서
+ 재사용성을 높여준다
+
+#### DI를 이용하는 경우
+ ```java
+//  WriteAction.java
+ package com.exam.spring.model;
+
+public class WriteAction {
+  private String writer;
+  
+  public WriteAction() {
+    System.out.println("WriteAction() 호출");
+  }
+  
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  
+  // 핵심기능(core concern) 
+  public void execute() {
+    System.out.println("execute() 호출");
+  }
+}
+
+```
+```java
+// BasicAdvice1.java
+package com.exam.spring.advice;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.util.StopWatch;
+
+public class BasicAdvice1 implements MethodInterceptor {
+
+  @Override
+  public Object invoke(MethodInvocation invocation) throws Throwable {
+    
+    // 전처리 구간
+    System.out.println("전처리 구간 : " + invocation.getMethod().getName());
+    System.out.println(invocation.getMethod().getName() + "메서드 시작");
+    
+    StopWatch stopWatch = new StopWatch();
+    stopWatch.start(invocation.getMethod().getName());
+    
+    Object rtnObj = invocation.proceed();
+    // 후처리 구간
+    System.out.println("후처리 구간");
+    stopWatch.stop();
+    
+    System.out.println("처리 시간 : " + stopWatch.getTotalTimeMillis());
+    
+    return rtnObj;
+  }
+
+}
+
+// BasicAdvice2.java
+package com.exam.spring.advice;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+
+public class BasicAdvice2 implements MethodInterceptor {
+
+  @Override
+  public Object invoke(MethodInvocation invocation) throws Throwable {
+    
+    System.out.println("전처리 구간 2");
+    Object rtnObj = invocation.proceed();
+    System.out.println("후처리 구간 2");
+    
+    return rtnObj;
+  }
+
+}
+
+```
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <!-- AOP -->
+  <bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1"></bean>
+  <bean id="pointcutAdvice1" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+    <property name="advice">
+      <ref bean="basicAdvice1"/>
+    </property>
+    <property name="pointcut">
+      <bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="pattern">
+          <value>.*execute.*</value>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  <bean id="pointcutAdvice2" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+    <property name="advice">
+      <bean class="com.exam.spring.advice.BasicAdvice2"></bean>
+    </property>
+    <property name="pointcut">
+      <bean class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="pattern">
+          <value>.*execute.*</value>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
+  <bean id="action2" class="com.exam.spring.model.WriteAction" scope="prototype">
+    <property name="writer">
+      <value>홍길동</value>
+    </property>
+  </bean>
+  
+  <!-- AOP 적용 -->
+  <bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" ref="action1"></property>
+    <property name="interceptorNames">
+      <list>
+        <value>pointcutAdvice1</value>
+        <value>pointcutAdvice2</value>
+        <!-- 위에서부터 차례로 전처리, 후처리 순서가 정해진다 -->
+      </list>
+    </property>
+  </bean>
+</beans>
+
+```
+
+```java
+package com.exam.spring;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.spring.model.WriteAction;
+
+public class App {
+  public static void main(String[] args) {
+    GenericXmlApplicationContext ctx
+    = new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+    
+    // WriteAction action = (WriteAction)ctx.getBean("action1");
+    // 전처리, 후처리 없이 핵심 기능만 수행된다
+
+    WriteAction action = (WriteAction)ctx.getBean("proxy");
+    
+    // 전처리
+    action.execute();
+    // 후처리
+    // 전처리, 후처리 순서를 주의깊게 보자
+    
+    ctx.close();
+  }
+}
+
+```
+#### AspectJ를 이용하는 경우
+
+- pom.xml를 이용해 관련 라이브러리를 추가해준다 (Maven)
+```xml
+<!-- AspectJ -->
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>aspectjrt</artifactId>
+  <version>1.9.19</version>
+</dependency>
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>aspectjweaver</artifactId>
+  <version>1.9.19</version>
+</dependency>
+```
+<hr>
+
+```java
+// WriteAction.java
+package com.exam.spring.model;
+
+public class WriteAction {
+	private String writer;
+	
+	public WriteAction() {
+		System.out.println("WriteAction() 호출");
+	}
+	
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	
+	public void execute1() {
+		System.out.println("execute1() 호출");
+	}
+	
+	public void execute2() {
+		System.out.println("execute2() 호출");
+	}
+}
+
+
+```
+```java
+// BasicAdvice1.java
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+
+// POJO
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+
+// POJO
+public class BasicAdvice1 {
+
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		System.out.println("전처리 구간 1");
+		Object rtnObj = joinPoint.proceed();
+		System.out.println("후처리 구간 1");
+		
+		return rtnObj;
+	}
+	
+	public void before() throws Throwable{
+		System.out.println("전처리 구간 1");
+	}
+	
+	public void after() throws Throwable{
+		System.out.println("후처리 구간 1");
+	}
+}
+
+
+// BasicAdvice2.java
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+
+// POJO
+public class BasicAdvice2 {
+
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		System.out.println("전처리 구간 2");
+		Object rtnObj = joinPoint.proceed();
+		System.out.println("후처리 구간 2");
+		
+		return rtnObj;
+	}
+}
+
+```
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
+	<bean id="action2" class="com.exam.spring.model.WriteAction" scope="prototype">
+		<property name="writer">
+			<value>홍길동</value>
+		</property>
+	</bean>
+	
+	<bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
+	<bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
+	
+	<!-- AOP 설정 -->
+	<aop:config>
+		<aop:aspect ref="basicAdvice1" order="2">
+			<aop:pointcut id="pointCut" expression="execution(* execute*())" />
+			<!-- <aop:around method="logAround" pointcut-ref="pointCut"/>  -->
+			<!-- 전처리, 후처리 구간 모두 설정 -->
+			<!-- <aop:before method="before" pointcut-ref="pointCut"/> -->
+			<!-- 전처리 구간만 설정 -->
+			<aop:after method="after" pointcut-ref="pointCut"/>
+			<!-- 후처리 구간만 설정 -->
+		</aop:aspect>
+		
+		<aop:aspect ref="basicAdvice2" order="1">
+			<aop:pointcut id="pointCut" expression="execution(* execute2())" />
+			<aop:around method="logAround" pointcut-ref="pointCut"/> 
+		</aop:aspect>
+	</aop:config>
+
+</beans>
+
+```
+```java
+// App.java
+package com.exam.spring;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.spring.model.WriteAction;
+
+public class App {
+	public static void main(String[] args) {
+		GenericXmlApplicationContext ctx
+		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+		
+		WriteAction writeAction = (WriteAction)ctx.getBean("action1");
+		
+		writeAction.execute1();
+		writeAction.execute2();
+		// 객체가 아닌 메서드 단위로 실행된다
+		
+		ctx.close();
+	}
+}
+
+```
+
+<hr>
+
+annotation을 이용하는 경우
+
+```java
+// WriteAction.java
+package com.exam.spring.model;
+
+public class WriteAction {
+	private String writer;
+	
+	public WriteAction() {
+		System.out.println("WriteAction() 호출");
+	}
+	
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	
+	public void execute1() {
+		System.out.println("execute1() 호출");
+	}
+	
+	public void execute2() {
+		System.out.println("execute2() 호출");
+	}
+}
+
+```
+```java
+// BasicAdvice1.java
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+
+@Aspect
+public class BasicAdvice1 {
+	
+	@Pointcut("execution(* execute1())")
+	private void myTarget() {}
+	
+	/*
+	@Around("myTarget()")
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		System.out.println("전처리 구간 1");
+		Object rtnObj = joinPoint.proceed();
+		System.out.println("후처리 구간 1");
+		
+		return rtnObj;
+	}
+	*/
+	
+	@Before("myTarget()")
+	public void before() throws Throwable {
+		System.out.println("전처리 구간 1");
+	}
+
+}
+
+
+// BasicAdvice2.java
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+
+@Aspect
+public class BasicAdvice2 {
+	
+	@Pointcut("execution(* execute2())")
+	private void myTarget() {}
+	
+	/*
+	@Around("myTarget()")
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		System.out.println("전처리 구간 2");
+		Object rtnObj = joinPoint.proceed();
+		System.out.println("후처리 구간 2");
+		
+		return rtnObj;
+	}
+	*/
+	
+	@After("myTarget()")
+	public void after() {
+		System.out.println("후처리 구간 2");
+	}
+	
+}
+
+
+```
+```xml
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="action1" class="com.exam.spring.model.WriteAction" scope="prototype"></bean>
+	<bean id="basicAdvice1" class="com.exam.spring.advice.BasicAdvice1" scope="prototype"></bean>
+	<bean id="basicAdvice2" class="com.exam.spring.advice.BasicAdvice2" scope="prototype"></bean>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
+  <!-- annotation을 찾아서 자동으로 적용시킨다 -->
+</beans>
+
+```
+```java
+// App.java
+package com.exam.spring;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.spring.model.WriteAction;
+
+public class App {
+	public static void main(String[] args) {
+		GenericXmlApplicationContext ctx
+		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+		
+		WriteAction writeAction = (WriteAction)ctx.getBean("action1");
+		
+		writeAction.execute1();
+		writeAction.execute2();
+		
+		ctx.close();
+	}
+}
+
+```
+
+<hr>
+
+1 ~ 100,000 더하기 시간 측정
+
+```java
+// CountAction.java
+package com.exam.spring.model;
+
+public class CountAction {
+	
+	public void execute() {
+		int sum = 0;
+		for(int i = 1; i <= 100000; i++) {
+			sum += i;
+		}
+	}
+}
+
+```
+```java
+// CountAdvice.java
+package com.exam.spring.advice;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.util.StopWatch;
+
+@Aspect
+public class CountAdvice {
+
+	@Pointcut("execution(* execute())")
+	public void myTarget() {}
+	
+	@Around("myTarget()")
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable{
+		
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start("count");
+		Object rtnObj = joinPoint.proceed();
+		stopWatch.stop();
+		
+		System.out.println("처리시간 : " + stopWatch.getTotalTimeMillis());
+		
+		return rtnObj;
+	}
+}
+
+```
+
+```xml
+<!-- context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="count" class="com.exam.spring.model.CountAction" scope="prototype"></bean>
+	<bean class="com.exam.spring.advice.CountAdvice" scope="prototype"></bean>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
+</beans>
+
+```
+```java
+// App.java
+package com.exam.spring;
+
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import com.exam.spring.model.CountAction;
+
+public class App {
+	public static void main(String[] args) {
+		GenericXmlApplicationContext ctx
+		= new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
+		
+		CountAction countAction = (CountAction)ctx.getBean("count");
+		countAction.execute();
+		
+		ctx.close();
+	}
+}
+
+```
+
+## 웹 앱
+
+- 웹 앱 구성 방법
+
+  - Maven Project 
+
+  - Dynamic Web Project + web.xml &rarr; Maven Project (*)
+
+### 웹 앱 구성 기본
+
+- pom.xml을 통해 web 앱 구성에 관련된 라이브러리를 추가시킨다
+
+```xml
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.spring</groupId>
+<artifactId>template01</artifactId>
+<packaging>war</packaging>
+<version>0.0.1-SNAPSHOT</version>
+<name>template01 Maven Webapp</name>
+<url>http://maven.apache.org</url>
+<properties>
+	<!-- Generic properties -->
+	<java.version>11</java.version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	
+	<!-- Web -->
+	<jsp.version>2.2</jsp.version>
+	<jstl.version>1.2</jstl.version>
+	<servlet.version>2.5</servlet.version>
+	
+	<!-- Spring -->
+	<spring-framework.version>5.2.8.RELEASE</spring-framework.version>
+	<!-- Hibernate / JPA -->
+	<hibernate.version>5.6.9.Final</hibernate.version>
+	<!-- Logging -->
+	<logback.version>1.2.11</logback.version>
+	<slf4j.version>1.7.36</slf4j.version>
+	<!-- Test -->
+	<junit.version>4.11</junit.version>
+</properties>
+
+<dependencies>
+
+	<!-- Spring MVC -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${spring-framework.version}</version>
+	</dependency>
+	
+	<!-- Other Web dependencies -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>${jstl.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>${servlet.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+		<artifactId>jsp-api</artifactId>
+		<version>${jsp.version}</version>
+		<scope>provided</scope>
+	</dependency>
+
+	<!-- Spring and Transactions -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<version>${spring-framework.version}</version>
+	</dependency>
+	<!-- Logging with SLF4J & LogBack -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>${logback.version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<!-- Hibernate -->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<version>${hibernate.version}</version>
+	</dependency>
+	
+	<!-- Test Artifacts -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<version>${spring-framework.version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>${junit.version}</version>
+		<scope>test</scope>
+	</dependency>
+</dependencies>	
+
+```
+
+- servlet 파일을 통해 웹 페이지를 실행시키는 것이 아닌 미리 설정해둔 xml 파일을 이용해 웹 페이지을 실행시킨다
+
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>web01</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <!-- encoding -->
+  <filter>
+  	<filter-name>encodingFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>utf-8</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  <!-- servlet 설정 -->
+  <servlet>
+  	<servlet-name>appServlet</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>/WEB-INF/servlet-context.xml</param-value>
+  		<!-- <param-value>/WEB-INF/servlet-context2.xml</param-value> -->
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>appServlet</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	 <!-- 
+		MVC(model2)
+		list1.do -> list1.jsp
+		list2.do -> list2.jsp
+		list3.do -> list2.jsp
+		list4.do -> list4.jsp
+		list5.do -> list5.jsp
+	 -->
+	 <bean name="/list1.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="/listview1.jsp"></property>
+	 </bean>
+	 <bean name="/list2.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="/listview2.jsp"></property>
+	 </bean>
+	 <bean name="/list3.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="/listview2.jsp"></property>
+	 </bean>
+	 <bean name="/list4.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="/WEB-INF/views/listview4.jsp"></property>
+	 </bean>
+	 <bean name="/board/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="/WEB-INF/views/listview5.jsp"></property>
+	 </bean>
+	 
+</beans>
+
+<!-- servlet-context2.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	 <bean name="/list5.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="listview5"></property>
+	 </bean>
+	 <bean name="/list6.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+	 	<property name="viewName" value="listview6"></property>
+	 </bean>
+	 
+	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	 	<property name="prefix" value="/WEB-INF/views/"></property>
+	 	<property name="suffix" value=".jsp"></property>
+	 </bean>
+	 
+</beans>
+```
+
+<hr>
+
+model2를 이용하는 방법
+
+```java
+// Form.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class Form implements Controller {
+
+	@Override
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Form 호출");
+		
+		return new ModelAndView("form");
+	}
+
+}
+
+// Form_ok.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class Form_ok implements Controller {
+
+	@Override
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Form_ok 호출 : " + request.getParameter("data"));
+		
+		// request.setAttribute("data", request.getParameter("data"));
+		// 데이터를 받아오는 전통적인 방식
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("form_ok");
+		modelAndView.addObject("data", request.getParameter("data"));
+		
+		return new ModelAndView("form_ok");
+	}
+
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!--
+	<bean name="/form.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="form"></property>
+	</bean>
+	
+	<bean name="/form_ok.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="form_ok"></property>
+	</bean>
+	-->
+	
+	<bean name="/form.do" class="model2.Form"></bean>
+	<bean name="/form_ok.do" class="model2.Form_ok"></bean>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
+```
