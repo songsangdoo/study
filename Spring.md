@@ -2857,6 +2857,7 @@ public class App {
     = new GenericXmlApplicationContext("classpath:com/exam/spring/context.xml");
     
     CountAction countAction = (CountAction)ctx.getBean("count");
+
     countAction.execute();
     
     ctx.close();
@@ -3047,7 +3048,7 @@ public class App {
      <property name="viewName" value="/listview2.jsp"></property>
    </bean>
    <bean name="/list3.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-     <property name="viewName" value="/listview2.jsp"></property>
+     <property name="viewName" value="/listview3.jsp"></property>
    </bean>
    <bean name="/list4.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
      <property name="viewName" value="/WEB-INF/views/listview4.jsp"></property>
@@ -3120,7 +3121,7 @@ public class Form_ok implements Controller {
     System.out.println("Form_ok 호출 : " + request.getParameter("data"));
     
     // request.setAttribute("data", request.getParameter("data"));
-    // 데이터를 받아오는 전통적인 방식
+    // 데이터를 받아오고, 값을 설정하는 전통적인 방식
     
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("form_ok");
@@ -3157,4 +3158,2938 @@ public class Form_ok implements Controller {
     <property name="suffix" value=".jsp"></property>
   </bean>
 </beans>
+```
+
+### Spring MVC
+
+- Spring DI, AOP가 내장되어 있다
+
+- 방식
+
+  - Java Project &rarr; Maven Project + Spring Framework + 기타 설정
+
+  - STS(Spring Tool Suite)
+
+    - 기존 버전(X)
+
+    - 새로운 버전(Spring Boot)
+
+- 핵심 구성 요소
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcqLXaP%2FbtqyYpzex8h%2FiKH7ZnGu62bWKsBBDe9puK%2Fimg.png" width="700">
+
+- Spring MVC project 구성 순서
+
+  1. Dynamic Web Project &rarr; Maven Project
+
+  2. 필요한 라이브러리를 사용할 수 있도록 pom.xml 구성
+
+  3. model2 패키지 및 클래스 구성
+  
+  4. view 페이지 생성
+
+  4. 생성한 클래스에 맞게 context 파일 구성
+
+  5. context 파일을 참조할 수 있도록 web.xml 구성
+
+Spring MVC 우편번호 검색기
+
+```xml
+<!-- lombok 사용을 위한 라이브러리 추가 -->
+<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+  <version>1.18.28</version>
+  <scope>provided</scope>
+</dependency>
+```
+
+```java
+// ZipcodeTO.java
+package model1;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class ZipcodeTO {
+  private String zipcode;/
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+
+}
+
+// ZipcodeDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ZipcodeDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public ZipcodeDAO() {
+    String url = "jdbc:mariadb://localhost:3306/project";
+    String user = "root";
+    String password = "123456";
+    
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      this.conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<ZipcodeTO> zipcodeList(ZipcodeTO input){
+    List<ZipcodeTO> datas = new ArrayList();
+    
+    String sql = "select * from zipcode where dong like ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, input.getDong() + "%");
+      rs = pstmt.executeQuery();
+      
+      while(rs.next()) {
+        ZipcodeTO data = new ZipcodeTO();
+        
+        data.setZipcode(rs.getString("zipcode"));
+        data.setSido(rs.getString("sido"));
+        data.setGugun(rs.getString("gugun"));
+        data.setDong(rs.getString("dong"));
+        data.setRi(rs.getString("ri"));
+        data.setBunji(rs.getString("bunji"));
+        
+        datas.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return datas;
+  }
+}
+
+```
+```java
+// ZipcodeAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class ZipcodeAction implements Controller{
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    return new ModelAndView("zipcode");
+  }
+
+}
+
+// ZipcodeOkAction.java
+package model2;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.ZipcodeDAO;
+import model1.ZipcodeTO;
+
+public class ZipcodeOkAction implements Controller{
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    String strDong = request.getParameter("dong");
+    ZipcodeTO input = new ZipcodeTO();
+    input.setDong(strDong);
+    
+    ZipcodeDAO dao = new ZipcodeDAO();
+    List<ZipcodeTO> datas = dao.zipcodeList(input);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("zipcode_ok");
+    modelAndView.addObject("datas", datas);
+    
+    return modelAndView;
+  }
+
+}
+
+```
+
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean name="/zipcode.daum" class="model2.ZipcodeAction"></bean>
+  <bean name="/zipcode_ok.daum" class="model2.ZipcodeOkAction"></bean>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  id="WebApp_ID" version="4.0">
+  <display-name>web04</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.daum</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.daum</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+
+
+```jsp
+<!-- zipcode.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+zipcode.jsp
+<br><br>
+<form action="zipcode_ok.daum" method="post">
+  동이름 <input type="text" name="dong">
+
+  <input type="submit" value="주소 검색">
+</form>
+</body>
+</html>
+
+<!-- zipcode_ok.jsp -->
+<%@page import="model1.ZipcodeTO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  List<ZipcodeTO> datas = (List)request.getAttribute("datas");
+  
+  StringBuilder sbHtml = new StringBuilder();
+  
+  sbHtml.append("<table border='1' width='800'>");
+  sbHtml.append("<tr>");	
+  sbHtml.append("<th>우편번호</th>");
+  sbHtml.append("<th>시도</th>");
+  sbHtml.append("<th>구군</th>");
+  sbHtml.append("<th>동</th>");
+  sbHtml.append("<th>리</th>");
+  sbHtml.append("<th>번지</th>");
+  sbHtml.append("</tr>");	
+  for(ZipcodeTO data : datas){
+    sbHtml.append("<tr>");
+    sbHtml.append("<td>" + data.getZipcode() + "</td>");
+    sbHtml.append("<td>" + data.getSido() + "</td>");
+    sbHtml.append("<td>" + data.getGugun() + "</td>");
+    sbHtml.append("<td>" + data.getDong() + "</td>");
+    sbHtml.append("<td>" + data.getRi() + "</td>");
+    sbHtml.append("<td>" + data.getBunji() + "</td>");
+    sbHtml.append("</tr>");
+  }
+  sbHtml.append("</table>");
+  
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+zipcode_ok.jsp
+<br><br>
+<%= sbHtml %>
+</body>
+</html>
+```
+
+jstl 이용해서 zipcode_ok view 구성하기
+
+```xml
+<!-- jstl 사용을 위한 jstl 라이브러리와 taglib 디렉티브 -->
+<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>jstl</artifactId>
+  <version>1.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/taglibs/standard -->
+<dependency>
+  <groupId>taglibs</groupId>
+  <artifactId>standard</artifactId>
+  <version>1.1.2</version>
+</dependency>
+```
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="model1.ZipcodeTO"%>
+<%@page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+zipcode_ok.jsp
+<br><br>
+<table border='1' width='800'>
+  <tr>
+    <th>우편번호</th>
+    <th>시도</th>
+    <th>구군</th>
+    <th>동</th>
+    <th>리</th>
+    <th>번지</th>
+  </tr>
+  <c:forEach var="data" items="${ datas }">
+    <tr>
+      <td>${ data.zipcode }</td>
+      <td>${ data.sido }</td>
+      <td>${ data.gugun }</td>
+      <td>${ data.dong }</td>
+      <td>${ data.ri }</td>
+      <td>${ data.bunji }</td>
+    </tr>
+  </c:forEach>
+</table>
+</body>
+</html>
+```
+<hr>
+
+Spring MVC 기본 게시판 만들기
+```java
+// BoardTO.java
+package model1;
+
+public class BoardTO {
+  private String seq;
+  private String subject;
+  private String writer;
+  private String password;
+  private String content;
+  private String email;
+  private String hit;
+  private String wdate;
+  private String wip;
+  private String wgap;
+  
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getSubject() {
+    return subject;
+  }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+  public String getWriter() {
+    return writer;
+  }
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getHit() {
+    return hit;
+  }
+  public void setHit(String hit) {
+    this.hit = hit;
+  }
+  public String getWdate() {
+    return wdate;
+  }
+  public void setWdate(String wdate) {
+    this.wdate = wdate;
+  }
+  public String getWip() {
+    return wip;
+  }
+  public void setWip(String wip) {
+    this.wip = wip;
+  }
+  public String getWgap() {
+    return wgap;
+  }
+  public void setWgap(String wgap) {
+    this.wgap = wgap;
+  }
+  
+}
+
+// BoardDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class BoardDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public BoardDAO() {
+    
+    String url = "jdbc:mariadb://localhost:3306/board";
+    String user = "root";
+    String password = "123456";
+    
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      this.conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<BoardTO> boardList(){
+    List<BoardTO> lists = new ArrayList<>();
+    
+    String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from board1 order by seq desc";
+  
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        BoardTO data = new BoardTO();
+        
+        data.setSeq(rs.getString("seq"));
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+        data.setWdate(rs.getString("wdate"));
+        data.setHit(rs.getString("hit"));
+        data.setWgap(rs.getString("wgap"));
+        
+        lists.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+      
+    return lists;
+  }
+  
+  public int boardWrite(BoardTO to) {
+    int flag = 1;
+    
+    String sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, now(), ?)";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSubject());
+      pstmt.setString(2, to.getWriter());
+      pstmt.setString(3, to.getPassword());
+      pstmt.setString(4, to.getContent());
+      pstmt.setString(5, to.getEmail());
+      pstmt.setString(6, to.getWip());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public BoardTO boardView(BoardTO to) {
+    
+    try {
+      String sql = "update board1 set hit = hit + 1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      pstmt.executeUpdate();
+      
+      sql = "select * from board1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setSubject(rs.getString("subject"));
+        to.setWriter(rs.getString("writer"));
+        to.setEmail(rs.getString("email"));
+        to.setWip(rs.getString("wip"));
+        to.setWdate(rs.getString("wdate"));
+        to.setHit(rs.getString("hit"));
+        to.setContent(rs.getString("content"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public BoardTO boardDelete(BoardTO to) {
+    
+    String sql = "select * from board1 where seq = ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setSubject(rs.getString("subject"));
+        to.setWriter(rs.getString("writer"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public int boardDeleteOk(BoardTO to) {
+    int flag = 2;
+    
+    String sql = "delete from board1 where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      pstmt.setString(2, to.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public BoardTO boardModify(BoardTO to) {
+    
+    String sql = "select * from board1 where seq = ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setWriter(rs.getString("writer"));
+        to.setSubject(rs.getString("subject"));
+        to.setContent(rs.getString("content"));
+        to.setEmail(rs.getString("email"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();}catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();}catch(SQLException e) {}
+      if(conn != null) try {conn.close();}catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public int boardModifyOk(BoardTO to) {
+    int flag = 2;
+    
+    String sql = "update board1 set subject = ?, content = ?, email = ? where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSubject());
+      pstmt.setString(2, to.getContent());
+      pstmt.setString(3, to.getEmail());
+      pstmt.setString(4, to.getSeq());
+      pstmt.setString(5, to.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+}
+
+```
+```java
+// BoardListAction.java
+package model2;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardListAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_list1");
+    
+    BoardDAO dao = new BoardDAO();
+    List<BoardTO> datas = dao.boardList();
+    
+    modelAndView.addObject("datas", datas);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardWriteAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class BoardWriteAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_write1");
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardWriteOkAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardWriteOkAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    String writer = request.getParameter("writer");
+    String subject = request.getParameter("subject");
+    String password = request.getParameter("password");
+    String content = "";
+    if(request.getParameter("content") != null && !request.getParameter("content").equals("")) {
+      content = request.getParameter("content").replaceAll("\n", "<br>");
+    }
+    String email = "";
+    if(request.getParameter("mail1") != null && !request.getParameter("mail1").equals("") && request.getParameter("mail1") != null && !request.getParameter("mail1").equals("")) {
+      email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+    }
+    String wip = request.getRemoteAddr();
+    
+    BoardTO to = new BoardTO();
+    to.setWriter(writer);
+    to.setSubject(subject);
+    to.setPassword(password);
+    to.setContent(content);
+    to.setEmail(email);
+    to.setWip(wip);
+    
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardWrite(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_write1_ok");
+    modelAndView.addObject("flag", flag);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardViewAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardViewAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    BoardTO data = dao.boardView(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_view1");
+    modelAndView.addObject("to", to);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardDeleteAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardDeleteAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    BoardTO data = dao.boardDelete(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_delete1");
+    modelAndView.addObject("data", data);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardDeleteOkAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardDeleteOkAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    to.setPassword(request.getParameter("password"));
+    
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardDeleteOk(to); 
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_delete1_ok");
+    modelAndView.addObject("flag", flag);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardModifyAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardModifyAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    BoardTO data = dao.boardModify(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_modify1");
+    modelAndView.addObject("data", data);
+    
+    return modelAndView;
+  }
+
+}
+
+// BoardModifyOkAction.java
+package model2;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+public class BoardModifyOkAction implements Controller {
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    to.setSubject(request.getParameter("subject"));
+    to.setPassword(request.getParameter("password"));
+    to.setContent(request.getParameter("content"));
+    to.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
+
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardModifyOk(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_modify1_ok");
+    modelAndView.addObject("flag", flag);
+    modelAndView.addObject("seq", request.getParameter("seq"));
+    
+    return modelAndView;
+  }
+
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean name="/list.do" class="model2.BoardListAction"></bean>
+  <bean name="/write.do" class="model2.BoardWriteAction"></bean>
+  <bean name="/write_ok.do" class="model2.BoardWriteOkAction"></bean>
+  <bean name="/view.do" class="model2.BoardViewAction"></bean>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+<!-- servlet-context2.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean name="/delete.do" class="model2.BoardDeleteAction"></bean>
+  <bean name="/delete_ok.do" class="model2.BoardDeleteOkAction"></bean>
+  <bean name="/modify.do" class="model2.BoardModifyAction"></bean>
+  <bean name="/modify_ok.do" class="model2.BoardModifyOkAction"></bean>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  id="WebApp_ID" version="4.0">
+  <display-name>SpringBoard</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>
+        /WEB-INF/servlet-context.xml
+        /WEB-INF/servlet-context2.xml
+      </param-value>
+      <!-- 참조할 context 파일을 여러개로 나눠 쓸 수도 있다 -->
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+```jsp
+<!-- board_list1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardDAO dao = new BoardDAO();
+  
+  List<BoardTO> lists = dao.boardList();
+  StringBuilder sbHtml = new StringBuilder();
+  for(BoardTO data : lists){
+    sbHtml.append("<tr>");
+    sbHtml.append("<td>&nbsp;</td>");
+    sbHtml.append("<td>" + data.getSeq() + "</td>");
+    if(data.getWgap().equals("0")){
+      sbHtml.append("<td class='left'><a href='view.do?seq=" + data.getSeq() + "'>" + data.getSubject() + "</a>&nbsp;<img src='./images/icon_new.gif' alt='NEW'></td>");
+    }else{
+      sbHtml.append("<td class='left'><a href='view.do?seq=" + data.getSeq() + "'>" + data.getSubject() + "</a>&nbsp;</td>");
+    }
+    sbHtml.append("<td>" + data.getWriter() + "</td>");
+    sbHtml.append("<td>" + data.getWdate() + "</td>");
+    sbHtml.append("<td>" + data.getHit() + "</td>");
+    sbHtml.append("<td>&nbsp;</td>");
+    sbHtml.append("</tr>");
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <div class="board_top">
+      <div class="bold">총 <span class="txt_orange">1</span>건</div>
+    </div>
+
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
+      <%= sbHtml %>
+      </table>
+    </div>	
+
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
+</div>
+<!--//하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("wbtn").onclick = function() {
+      if(document.wfrm.info.checked == false){
+        alert('개인정보 이용에 동의해주세요');
+        return false;
+      }
+      if(document.wfrm.writer.value.trim() == ''){
+        alert('글쓴이를 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.subject.value.trim() == ''){
+        alert('제목을 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.wfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_menu"></div>
+<div class="con_txt">
+  <form action="write_ok.do" method="post" name="wfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+        
+        <table>
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+                1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1_ok.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글쓰기 성공');");
+    out.println("location.href='list.do'");
+  }else{
+    out.println("alert('글쓰기 실패');");
+    out.println("history.back()");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_view1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  BoardTO to = new BoardTO();
+  to = (BoardTO)request.getAttribute("to");
+  
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%"><%= to.getSubject() %></td>
+        <th width="10%">등록일</th>
+        <td width="20%"><%= to.getWdate() %></td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td><%= to.getWriter() %>(<%= to.getEmail() %>)(<%= to.getWip() %>)</td>
+        <th>조회</th>
+        <td><%= to.getHit() %></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= to.getContent() %></td>
+      </tr>
+      </table>
+    </div>
+
+    <div class="btn_area">
+      <div class="align_left">
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='modify.do?seq=<%= to.getSeq() %>'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='delete.do?seq=<%= to.getSeq() %>'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+      </div>
+    </div>	
+    <!--//게시판-->
+  </div>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+
+<!-- board_delete1.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardTO data = new BoardTO();
+  data = (BoardTO)request.getAttribute("data");
+  
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("dbtn").onclick = function() {
+      if(document.dfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.dfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="delete_ok.do" method="post" name="dfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" readonly/></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= data.getSeq() %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_delete1_ok.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 삭제 성공');");
+    out.println("location.href='list.do';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호가 틀립니다');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 삭제 실패');");
+    out.println("hirtory.back();");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_modify1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  BoardTO data = new BoardTO();
+  
+  data = (BoardTO)request.getAttribute("data");
+  String mail1 = "";
+  String mail2 = "";
+  if(data.getEmail() != null && !data.getEmail().equals("")){
+    String[] mailArr = data.getEmail().split("@");
+    mail1 = mailArr[0];
+    mail2 = mailArr[1];
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("mbtn").onclick = function() {
+      if(document.mfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.mfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="modify_ok.do" method="post" name="mfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"><%= data.getContent() %></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= data.getSeq() %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_modify1_ok.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 수정 성공');");
+    out.println("location.href='view.do?seq=" + request.getAttribute("seq") + "';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호가 틀렸습니다');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 수정 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+```
+
+#### 애노테이션으로 Spring MVC 구현하기
+```java
+// ConfigController.java
+package config;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ConfigController {
+  
+  @RequestMapping("/list1.do")
+  public String handleRequest1() {
+    System.out.println("handleRequest1() 호출");
+    return "listview1";
+  }
+  
+  @RequestMapping("/list2.do")
+  public String handleRequest2() {
+    System.out.println("handleRequest2() 호출");
+    return "listview2";
+  }
+  
+}
+
+// ConfigController2.java
+package config;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ConfigController2 {
+
+  @RequestMapping("/list3.do")
+  public ModelAndView handleRequest3() {
+    System.out.println("handleRequest3() 호출");
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("listview3");
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping("/list4.do")
+  public ModelAndView handleRequest4() {
+    System.out.println("handleRequest4() 호출");
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("listview4");
+    
+    return modelAndView;
+  }
+}
+
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+  <bean class="cofig.ConfigController"></bean>
+  <bean class="cofig.ConfigController2"></bean>
+  <!-- 여러 컨트롤러 참조가 가능하다 -->
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+```
+
+<hr>
+
+```xml
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation
+  ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <!--	
+  <bean class="config.ConfigController"></bean>
+  <bean class="config.ConfigController2"></bean>
+  -->
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  <!-- 자동으로 config에 필요한 클래스를 찾아준다 -->
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+```
+
+<hr>
+
+```java
+package config;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+// @RequestMapping("/board")
+public class ConfigController3 {
+
+  @RequestMapping("/board/list1.do")
+  // 실제로 존재하지 않은 가상 경로 설정도 가능하다
+  // @RequestMapping("/list1.do")
+  // RequestMapping 애노테이션으로 경로를 미리 설정해준 경우 위와 같이 경로를 다 쓰지 않는다
+  // 메서드마다 매핑되는 파일의 경로가 겹칠 때 사용하면 유용하다
+  public String handleRequest1() {
+    return "listview1";
+  }
+  
+  @RequestMapping("/board/list2.do")
+  // @RequestMapping("/list2.do")
+  public String handleRequest2() {
+    return "listview2";
+  }
+}
+
+```
+##### 데이터 주고 받기
+
+- HttpServletResponse, HttpServletResponse를 이용해 데이터를 주고 받을 수 있다
+
+```jsp
+<!-- form.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+form.jsp
+<br><br>
+<form action="form_ok.do" method="get">
+  데이터 <input type="text" name="data">
+  <input type="submit" value="전송">
+</form>
+
+<form action="form_ok.do" method="post">
+  데이터1 <input type="text" name="data1"><br>
+  데이터2 <input type="text" name="data2">
+  <input type="submit" value="전송">
+</form>
+</body>
+</html>
+
+```
+
+```java
+package config;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ConfigController4 {
+
+  @RequestMapping("/form.do")
+  public ModelAndView handleRequest1() {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form");
+    return modelAndView;
+  }
+  
+  /*
+  @GetMapping("/form_ok.do")
+  // @RequestMapping(value= "/form_ok.do", method = RequestMethod.GET)
+  public ModelAndView form_get_ok() {
+    System.out.println("form_get_ok() 호출");
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    return modelAndView;
+  }
+  
+  @PostMapping("/form_ok.do")
+  // @RequestMapping(value= "/form_ok.do", method = RequestMethod.POST)
+  public ModelAndView form_post_ok() {
+    System.out.println("form_post_ok() 호출");
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    return modelAndView;
+  }
+  */
+  // 위와 같이 나눠 쓸 수 있지만, 동일한 방식으로 처리하는 경우가 많기 때문에 보통은 한번에 처리한다
+  
+  /*
+  @RequestMapping(value= "/form_ok.do")
+  public ModelAndView form_ok(HttpServletRequest request, HttpServletResponse response) {
+    System.out.println("form_ok() 호출 : " + request.getParameter("data"));
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    return modelAndView;
+  }
+  */
+  // 기본적으로 HttpServletResponse, HttpServletResponse를 사용하지만, 사용하지 않아도 데이터를 주고 받을 수 있다
+  /*
+  @RequestMapping(value= "/form_ok.do")
+  public ModelAndView form_ok(String data1, String data2) {
+    System.out.println("form_ok() 호출 : " + data1);
+    System.out.println("form_ok() 호출 : " + data2);
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    return modelAndView;
+  }
+  */
+  
+  /*
+  @RequestMapping(value= "/form_ok.do")
+  public ModelAndView form_ok(@RequestParam("data1") String pdata1) {
+  // 애노테이션을 이용해 특정 데이터를 지정해서, 메서드 내에서 사용할 이름을 자유롭게 설정할 수 있다
+    System.out.println("form_ok() 호출 : " + pdata1);
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    return modelAndView;
+  }
+  */
+  
+  /*
+  @RequestMapping(value= "/form_ok.do")
+  public String form_ok(HttpServletRequest request) {
+    
+    request.setAttribute("data1", request.getParameter("data1"));
+    return "form_ok";
+  }
+  */
+  
+  /*
+  @RequestMapping(value= "/form_ok.do")
+  public ModelAndView form_ok(HttpServletRequest request) {
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    modelAndView.addObject("data2", request.getParameter("data2"));
+    return modelAndView;
+  }
+  */
+  
+  @RequestMapping(value= "/form_ok.do")
+  public String form_ok(HttpServletRequest request, Model model) {
+
+    model.addAttribute("data1", request.getParameter("data1"));
+    
+    return "form_ok";
+  }
+  
+}
+
+```
+<hr>
+
+annotation을 이용해 Spring MVC 기본 게시판 구현하기
+
+<small> !! model2 패키지에 여러 클래스가 하나의 컨트롤러 클래스에서 각각의 메서드로 구현된다</small> 
+
+```java
+// BoardTO.java
+package model1;
+
+public class BoardTO {
+  private String seq;
+  private String subject;
+  private String writer;
+  private String password;
+  private String content;
+  private String email;
+  private String hit;
+  private String wdate;
+  private String wip;
+  private String wgap;
+  
+  public String getSeq() {
+    return seq;
+  }
+  public void setSeq(String seq) {
+    this.seq = seq;
+  }
+  public String getSubject() {
+    return subject;
+  }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+  public String getWriter() {
+    return writer;
+  }
+  public void setWriter(String writer) {
+    this.writer = writer;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+  public String getHit() {
+    return hit;
+  }
+  public void setHit(String hit) {
+    this.hit = hit;
+  }
+  public String getWdate() {
+    return wdate;
+  }
+  public void setWdate(String wdate) {
+    this.wdate = wdate;
+  }
+  public String getWip() {
+    return wip;
+  }
+  public void setWip(String wip) {
+    this.wip = wip;
+  }
+  public String getWgap() {
+    return wgap;
+  }
+  public void setWgap(String wgap) {
+    this.wgap = wgap;
+  }
+  
+}
+
+// BoardDAO.java
+package model1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+public class BoardDAO {
+  Connection conn = null;
+  PreparedStatement pstmt = null;
+  ResultSet rs = null;
+  
+  public BoardDAO() {
+    
+    String url = "jdbc:mariadb://localhost:3306/board";
+    String user = "root";
+    String password = "123456";
+    
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      this.conn = DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+  }
+  
+  public List<BoardTO> boardList(){
+    List<BoardTO> lists = new ArrayList<>();
+    
+    String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from board1 order by seq desc";
+  
+    try {
+      pstmt = conn.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      while(rs.next()) {
+        BoardTO data = new BoardTO();
+        
+        data.setSeq(rs.getString("seq"));
+        data.setSubject(rs.getString("subject"));
+        data.setWriter(rs.getString("writer"));
+        data.setWdate(rs.getString("wdate"));
+        data.setHit(rs.getString("hit"));
+        data.setWgap(rs.getString("wgap"));
+        
+        lists.add(data);
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+      
+    return lists;
+  }
+  
+  public int boardWrite(BoardTO to) {
+    int flag = 1;
+    
+    String sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, now(), ?)";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSubject());
+      pstmt.setString(2, to.getWriter());
+      pstmt.setString(3, to.getPassword());
+      pstmt.setString(4, to.getContent());
+      pstmt.setString(5, to.getEmail());
+      pstmt.setString(6, to.getWip());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public BoardTO boardView(BoardTO to) {
+    
+    try {
+      String sql = "update board1 set hit = hit + 1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      pstmt.executeUpdate();
+      
+      sql = "select * from board1 where seq = ?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setSubject(rs.getString("subject"));
+        to.setWriter(rs.getString("writer"));
+        to.setEmail(rs.getString("email"));
+        to.setWip(rs.getString("wip"));
+        to.setWdate(rs.getString("wdate"));
+        to.setHit(rs.getString("hit"));
+        to.setContent(rs.getString("content"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public BoardTO boardDelete(BoardTO to) {
+    
+    String sql = "select * from board1 where seq = ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setSubject(rs.getString("subject"));
+        to.setWriter(rs.getString("writer"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public int boardDeleteOk(BoardTO to) {
+    int flag = 2;
+    
+    String sql = "delete from board1 where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      pstmt.setString(2, to.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+  
+  public BoardTO boardModify(BoardTO to) {
+    
+    String sql = "select * from board1 where seq = ?";
+    
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSeq());
+      
+      rs = pstmt.executeQuery();
+      
+      if(rs.next()) {
+        to.setWriter(rs.getString("writer"));
+        to.setSubject(rs.getString("subject"));
+        to.setContent(rs.getString("content"));
+        to.setEmail(rs.getString("email"));
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(rs != null) try {rs.close();}catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();}catch(SQLException e) {}
+      if(conn != null) try {conn.close();}catch(SQLException e) {}
+    }
+    
+    return to;
+  }
+  
+  public int boardModifyOk(BoardTO to) {
+    int flag = 2;
+    
+    String sql = "update board1 set subject = ?, content = ?, email = ? where seq = ? and password = ?";
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, to.getSubject());
+      pstmt.setString(2, to.getContent());
+      pstmt.setString(3, to.getEmail());
+      pstmt.setString(4, to.getSeq());
+      pstmt.setString(5, to.getPassword());
+      
+      int result = pstmt.executeUpdate();
+      
+      if(result == 1) {
+        flag = 0;
+      }else {
+        flag = 1;
+      }
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }finally {
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+    
+    return flag;
+  }
+}
+
+```
+
+```java
+// BoardController.java
+package config;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.checkerframework.checker.units.qual.radians;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import model1.BoardDAO;
+import model1.BoardTO;
+
+@Controller
+public class BoardController {
+
+  @RequestMapping(value = "/list.do")
+  public ModelAndView listAction() {
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_list1");
+    
+    BoardDAO dao = new BoardDAO();
+    List<BoardTO> datas = dao.boardList();
+    
+    modelAndView.addObject("datas", datas);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/write.do")
+  public String writeAction() {
+    
+    return "board_write1";
+  }
+  
+  @RequestMapping(value="/write_ok.do")
+  public ModelAndView writeOkAction(HttpServletRequest request) {
+    
+    String writer = request.getParameter("writer");
+    String subject = request.getParameter("subject");
+    String password = request.getParameter("password");
+    String content = "";
+    if(request.getParameter("content") != null && !request.getParameter("content").equals("")) {
+      content = request.getParameter("content").replaceAll("\n", "<br>");
+    }
+    String email = "";
+    if(request.getParameter("mail1") != null && !request.getParameter("mail1").equals("") && request.getParameter("mail1") != null && !request.getParameter("mail1").equals("")) {
+      email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+    }
+    String wip = request.getRemoteAddr();
+    
+    BoardTO to = new BoardTO();
+    to.setWriter(writer);
+    to.setSubject(subject);
+    to.setPassword(password);
+    to.setContent(content);
+    to.setEmail(email);
+    to.setWip(wip);
+    
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardWrite(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_write1_ok");
+    modelAndView.addObject("flag", flag);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/view.do")
+  public ModelAndView viewAction(HttpServletRequest request) {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    to = dao.boardView(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_view1");
+    modelAndView.addObject("to", to);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/delete.do")
+  public ModelAndView deleteAction(HttpServletRequest request) {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    BoardTO data = dao.boardDelete(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_delete1");
+    modelAndView.addObject("data", data);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/delete_ok.do")
+  public ModelAndView deleteOkAction(HttpServletRequest request) {
+
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    to.setPassword(request.getParameter("password"));
+    
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardDeleteOk(to); 
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_delete1_ok");
+    modelAndView.addObject("flag", flag);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/modify.do")
+  public ModelAndView modifyAction(HttpServletRequest request) {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    
+    BoardDAO dao = new BoardDAO();
+    BoardTO data = dao.boardModify(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_modify1");
+    modelAndView.addObject("data", data);
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping(value="/modify_ok.do")
+  public ModelAndView modifyOkAction(HttpServletRequest request) {
+    
+    BoardTO to = new BoardTO();
+    to.setSeq(request.getParameter("seq"));
+    to.setSubject(request.getParameter("subject"));
+    to.setPassword(request.getParameter("password"));
+    to.setContent(request.getParameter("content"));
+    to.setEmail(request.getParameter("mail1") + "@" + request.getParameter("mail2"));
+
+    BoardDAO dao = new BoardDAO();
+    int flag = dao.boardModifyOk(to);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("board_modify1_ok");
+    modelAndView.addObject("flag", flag);
+    modelAndView.addObject("seq", request.getParameter("seq"));
+    
+    return modelAndView;
+  }
+  
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  id="WebApp_ID" version="4.0">
+  <display-name>board02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>
+      /WEB-INF/servlet-context.xml
+      </param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+```jsp
+<!-- board_list1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="java.util.List"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardDAO dao = new BoardDAO();
+  
+  List<BoardTO> lists = dao.boardList();
+  StringBuilder sbHtml = new StringBuilder();
+  for(BoardTO data : lists){
+    sbHtml.append("<tr>");
+    sbHtml.append("<td>&nbsp;</td>");
+    sbHtml.append("<td>" + data.getSeq() + "</td>");
+    if(data.getWgap().equals("0")){
+      sbHtml.append("<td class='left'><a href='view.do?seq=" + data.getSeq() + "'>" + data.getSubject() + "</a>&nbsp;<img src='./images/icon_new.gif' alt='NEW'></td>");
+    }else{
+      sbHtml.append("<td class='left'><a href='view.do?seq=" + data.getSeq() + "'>" + data.getSubject() + "</a>&nbsp;</td>");
+    }
+    sbHtml.append("<td>" + data.getWriter() + "</td>");
+    sbHtml.append("<td>" + data.getWdate() + "</td>");
+    sbHtml.append("<td>" + data.getHit() + "</td>");
+    sbHtml.append("<td>&nbsp;</td>");
+    sbHtml.append("</tr>");
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <div class="board_top">
+      <div class="bold">총 <span class="txt_orange">1</span>건</div>
+    </div>
+
+    <!--게시판-->
+    <div class="board">
+      <table>
+      <tr>
+        <th width="3%">&nbsp;</th>
+        <th width="5%">번호</th>
+        <th>제목</th>
+        <th width="10%">글쓴이</th>
+        <th width="17%">등록일</th>
+        <th width="5%">조회</th>
+        <th width="3%">&nbsp;</th>
+      </tr>
+      <%= sbHtml %>
+      </table>
+    </div>	
+
+    <div class="btn_area">
+      <div class="align_right">
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+      </div>
+    </div>
+    <!--//게시판-->
+  </div>
+</div>
+<!--//하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("wbtn").onclick = function() {
+      if(document.wfrm.info.checked == false){
+        alert('개인정보 이용에 동의해주세요');
+        return false;
+      }
+      if(document.wfrm.writer.value.trim() == ''){
+        alert('글쓴이를 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.subject.value.trim() == ''){
+        alert('제목을 입력해주세요');
+        return false;
+      }
+      if(document.wfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.wfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_menu"></div>
+<div class="con_txt">
+  <form action="write_ok.do" method="post" name="wfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+        
+        <table>
+        <tr>
+          <br />
+          <td style="text-align:left;border:1px solid #e0e0e0;background-color:f9f9f9;padding:5px">
+            <div style="padding-top:7px;padding-bottom:5px;font-weight:bold;padding-left:7px;font-family: Gulim,Tahoma,verdana;">※ 개인정보 수집 및 이용에 관한 안내</div>
+            <div style="padding-left:10px;">
+              <div style="width:97%;height:95px;font-size:11px;letter-spacing: -0.1em;border:1px solid #c5c5c5;background-color:#fff;padding-left:14px;padding-top:7px;">
+                1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
+                2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
+                3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
+                4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+              </div>
+            </div>
+            <div style="padding-top:7px;padding-left:5px;padding-bottom:7px;font-family: Gulim,Tahoma,verdana;">
+              <input type="checkbox" name="info" value="1" class="input_radio"> 개인정보 수집 및 이용에 대해 동의합니다.
+            </div>
+          </td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="wbtn" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" />
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_write1_ok.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글쓰기 성공');");
+    out.println("location.href='list.do'");
+  }else{
+    out.println("alert('글쓰기 실패');");
+    out.println("history.back()");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_view1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  BoardTO to = new BoardTO();
+  to = (BoardTO)request.getAttribute("to");
+  
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+</head>
+
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <div class="contents_sub">
+    <!--게시판-->
+    <div class="board_view">
+      <table>
+      <tr>
+        <th width="10%">제목</th>
+        <td width="60%"><%= to.getSubject() %></td>
+        <th width="10%">등록일</th>
+        <td width="20%"><%= to.getWdate() %></td>
+      </tr>
+      <tr>
+        <th>글쓴이</th>
+        <td><%= to.getWriter() %>(<%= to.getEmail() %>)(<%= to.getWip() %>)</td>
+        <th>조회</th>
+        <td><%= to.getHit() %></td>
+      </tr>
+      <tr>
+        <td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%= to.getContent() %></td>
+      </tr>
+      </table>
+    </div>
+
+    <div class="btn_area">
+      <div class="align_left">
+        <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+      </div>
+      <div class="align_right">
+        <input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='modify.do?seq=<%= to.getSeq() %>'" />
+        <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='delete.do?seq=<%= to.getSeq() %>'" />
+        <input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='write.do'" />
+      </div>
+    </div>	
+    <!--//게시판-->
+  </div>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+
+<!-- board_delete1.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  BoardTO data = new BoardTO();
+  data = (BoardTO)request.getAttribute("data");
+  
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("dbtn").onclick = function() {
+      if(document.dfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.dfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="delete_ok.do" method="post" name="dfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" readonly/></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= data.getSeq() %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="dbtn" value="삭제" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_delete1_ok.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 삭제 성공');");
+    out.println("location.href='list.do';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호가 틀립니다');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 삭제 실패');");
+    out.println("hirtory.back();");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- board_modify1.jsp -->
+<%@page import="model1.BoardTO"%>
+<%@page import="model1.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  BoardTO data = new BoardTO();
+  
+  data = (BoardTO)request.getAttribute("data");
+  String mail1 = "";
+  String mail2 = "";
+  if(data.getEmail() != null && !data.getEmail().equals("")){
+    String[] mailArr = data.getEmail().split("@");
+    mail1 = mailArr[0];
+    mail2 = mailArr[1];
+  }
+%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="./css/board.css">
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("mbtn").onclick = function() {
+      if(document.mfrm.password.value.trim() == ''){
+        alert('비밀번호를 입력해주세요');
+        return false;
+      }
+      document.mfrm.submit();
+    };
+  };
+</script>
+</head>
+<body>
+<!-- 상단 디자인 -->
+<div class="con_title">
+  <h3>게시판</h3>
+  <p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
+</div>
+<div class="con_txt">
+  <form action="modify_ok.do" method="post" name="mfrm">
+    <div class="contents_sub">	
+      <!--게시판-->
+      <div class="board_write">
+        <table>
+        <tr>
+          <th class="top">글쓴이</th>
+          <td class="top"><input type="text" name="writer" value="<%= data.getWriter() %>" class="board_view_input_mail" maxlength="5" readonly/></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="subject" value="<%= data.getSubject() %>" class="board_view_input" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" value="" class="board_view_input_mail"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td><textarea name="content" class="board_editor_area"><%= data.getContent() %></textarea></td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td><input type="text" name="mail1" value="<%= mail1 %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%= mail2 %>" class="board_view_input_mail"/></td>
+        </tr>
+        </table>
+      </div>
+      
+      <div class="btn_area">
+        <div class="align_left">
+          <input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='list.do'" />
+          <input type="button" value="보기" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='view.do?seq=<%= data.getSeq() %>'" />
+        </div>
+        <div class="align_right">
+          <input type="button" id="mbtn" value="수정" class="btn_write btn_txt01" style="cursor: pointer;" />
+          <input type="hidden" name="seq" value="<%= data.getSeq() %>">
+        </div>
+      </div>
+      <!--//게시판-->
+    </div>
+  </form>
+</div>
+<!-- 하단 디자인 -->
+
+</body>
+</html>
+
+<!-- board_modify1_ok.jsp -->
+<%@page import="model1.BoardDAO"%>
+<%@page import="model1.BoardTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+  request.setCharacterEncoding("utf-8");
+  
+  int flag = (Integer)request.getAttribute("flag");
+  
+  out.println("<script type='text/javascript'>");
+  if(flag == 0){
+    out.println("alert('글 수정 성공');");
+    out.println("location.href='view.do?seq=" + request.getAttribute("seq") + "';");
+  }else if(flag == 1){
+    out.println("alert('비밀번호가 틀렸습니다');");
+    out.println("history.back();");
+  }else{
+    out.println("alert('글 수정 실패');");
+    out.println("history.back();");
+  }
+  out.println("</script>");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>
 ```

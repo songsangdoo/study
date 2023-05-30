@@ -18542,11 +18542,11 @@ public class App
 <small>https://projectlombok.org/ 영상 참조</small>
 - getteer, setter 자동 생성기능 annotation
 
-- 이클립스에 인스톨 방법
+- 이클립스에 인스톨 순서
 
-1. Help &rarr; install New Software &rarr; https://projectlombok.org/p2 입력 
+1. Help &rarr; install New Software &rarr; https://projectlombok.org/p2 입력 & rarr; install 
 
-2. lombok.jar을 홈페이지에서 직접 다운로드하거나 MAVEN을 이용해 다운로드한다 
+2. lombok.jar을 홈페이지에서 직접 다운로드하거나 MAVEN을 이용해 다운로드해서 등록한다
 
 
 - 사용법

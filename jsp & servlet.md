@@ -14263,7 +14263,7 @@ insert into member1 values(0, 'tester', '1234', '이름', 'test@test.com', 'A', 
 <% request.getParameter("param1");%>
 ${ param.param1 }
 ```
-
+ 
 - 기본 표현
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
