@@ -2874,7 +2874,7 @@ public class App {
 
   - Dynamic Web Project + web.xml &rarr; Maven Project (*)
 
-### 웹 앱 구성 기본
+### 웹 앱 구성 기본 (Spring)
 
 - pom.xml을 통해 web 앱 구성에 관련된 라이브러리를 추가시킨다
 
@@ -3127,7 +3127,7 @@ public class Form_ok implements Controller {
     modelAndView.setViewName("form_ok");
     modelAndView.addObject("data", request.getParameter("data"));
     
-    return new ModelAndView("form_ok");
+    return modelAndView;
   }
 
 }
@@ -3501,7 +3501,10 @@ jstl 이용해서 zipcode_ok view 구성하기
 <%@page import="model1.ZipcodeTO"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%
+  request.setCharacterEncoding("utf-8");
+  List<ZipcodeTO> datas = (List)request.getAttribute("datas");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -4873,7 +4876,7 @@ public class ConfigController3 {
 }
 
 ```
-##### 데이터 주고 받기
+##### 데이터
 
 - HttpServletResponse, HttpServletResponse를 이용해 데이터를 주고 받을 수 있다
 
@@ -6093,3 +6096,850 @@ public class BoardController {
 </body>
 </html>
 ```
+
+###### 공유 데이터
+- 개발자가 임의로 생성한 공유데이터 클래스를 이용해서 서로 다른 페이지끼리 데이터를 공유할 수 있다
+
+```java
+// ShareClass.java
+package share;
+
+public class ShareClass {
+  private String shareData;
+  
+  public ShareClass() {
+    System.out.println("ShareClass() 호출");
+  }
+
+  public String getShareData() {
+    System.out.println("getShareData1() 호출");
+    return shareData;
+  }
+
+  public void setShareData(String shareData1) {
+    System.out.println("setShareData1() 호출");
+    this.shareData = shareData1;
+  }
+  
+}
+
+
+```
+```java
+// ListAction1.java
+package controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import share.ShareClass;
+
+public class ListAction1 implements Controller {
+  private ShareClass shareClass;
+  
+  public void setShareClass(ShareClass shareClass) {
+    this.shareClass = shareClass;
+  }
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    System.out.println("ListAction()1 호출");
+    
+    System.out.println("shareClass : " + shareClass);
+    System.out.println("shareData1 : " + shareClass.getShareData());
+    
+    shareClass.setShareData("난 ListAction1에서 변경된 데이터");
+    
+    return new ModelAndView("listview1");
+  }
+
+}
+
+// ListAction2.java
+package controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+import share.ShareClass;
+
+public class ListAction2 implements Controller {
+  private ShareClass shareClass;
+  
+  public void setShareClass(ShareClass shareClass) {
+    this.shareClass = shareClass;
+  }
+
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    System.out.println("ListAction()2 호출");
+    
+    System.out.println("shareClass : " + shareClass);
+    System.out.println("shareData : " + shareClass.getShareData());
+    
+    shareClass.setShareData("난 ListAction2에서 변경된 데이터");
+    
+    return new ModelAndView("listview2");
+  }
+
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean name="/list1.do" class="controller.ListAction1">
+    <property name="shareClass" ref="shareClass"></property>
+  </bean>
+  <bean name="/list2.do" class="controller.ListAction2">
+    <property name="shareClass" ref="shareClass"></property>
+  </bean>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+<!-- root-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean id="shareClass" class="share.ShareClass">
+    <property name="shareData" value="난 공유자료"></property>
+  </bean>
+  
+</beans>
+
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  id="WebApp_ID" version="4.0">
+  <display-name>web06</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <!-- share data -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/root-context.xml</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+```jsp
+<!-- listview1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+listview1.jsp
+</body>
+</html>
+
+<!-- listview2.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+listview2.jsp
+</body>
+</html>
+```
+
+<hr>
+@Autowired 애노테이션을 이용할 수도 있다
+
+```java
+// ConfigController.java
+package config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import share.ShareClass;
+
+@Controller
+public class ConfigController {
+  
+  @Autowired
+  private ShareClass shareClass;
+  
+  @RequestMapping("/list1.do")
+  public String listAction1() {
+    System.out.println("listAction1() shareClass : " + shareClass);
+    System.out.println("listAction1() shareClass : " + shareClass.getShareData());
+    
+    return "listview1"; 
+  }
+  
+  @RequestMapping("/list2.do")
+  public String listAction2() {
+    System.out.println("listAction2() shareClass : " + shareClass);
+    System.out.println("listAction2() shareClass : " + shareClass.getShareData());
+    
+    return "listview2"; 
+  }
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  <!-- <bean class="config.ConfigController"></bean> -->
+  <!-- 위와 같이 bean을 개발자가 직접 지정해주는 방식은 @Autowired를 사용하면 스프링 컨테이너가 값을 제대로 지정해주지 못해서 null 오류가 생길 수 있다 -->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+```
+
+
+#### Spring JDBC
+- Spring JDBC 라이브러리를 이용하면 context 파일 없이 바로 jdbc 사용이 가능하다
+
+- 라이브러리
+```xml
+<!-- Spring jdbc -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-jdbc</artifactId>
+  <version>${spring-framework.version}</version>
+</dependency>
+```
+
+<hr>
+
+```xml
+<!-- root-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+    <property name="url" value="jdbc:mariadb://localhost:3306/sample"></property>
+    <property name="username" value="root"></property>
+    <property name="password" value="123456"></property>
+  </bean>
+  
+</beans>
+
+```
+```java
+// ExampleDAO.java
+package model1;
+
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+// @Autowired 애노테이션을 사용하기 위해선 스프링 컨테이너에 클래스 객체가 등록되어야 한다
+public class ExampleDAO {
+
+  @Autowired
+  private DataSource dataSource;
+
+  public ExampleDAO() {
+    System.out.println("ExampleDAO() 호출 : " + dataSource);
+  }
+}
+
+```
+```java
+// ConfigController.java
+package config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import model1.ExampleDAO;
+
+@Controller
+public class ConfigController {
+  
+  @Autowired
+  private ExampleDAO dao;
+  
+  @RequestMapping("/write1.do")
+  public String write1() {
+    System.out.println("write1() 호출 : " + dao);
+    
+    return "writeview1";
+  }
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  <context:component-scan base-package="model1"></context:component-scan>
+  <!-- 직접 주입 방식을 사용할 시에 @Autowired로 매핑하면 null 오류가 생긴다 -->
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+```
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>web09</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <!-- root-context 사용을 위해 지정 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/root-context.xml</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+
+##### JDBC Template
+
+- ORM (Object Relational Mapping)
+
+- DAO를 거치지 않고 바로 jdbc에 접근한다
+
+```java
+// ExampleDAO.java
+package model1;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class ExampleDAO {
+
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
+  public String selectNow() {
+    
+    String result = jdbcTemplate.queryForObject("select now() as now", String.class);
+    
+    return result;
+  }
+}
+
+// DeptTO.java
+package model1;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class DeptTO {
+  private String deptno;
+  private String dname;
+  private String loc;
+  
+}
+
+// EmpTO.java
+package model1;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class EmpTO {
+  private String empno;
+  private String ename;
+  private String job;
+  private String mgr;
+  private String hiredate;
+  private String sal;
+  private String comm;
+  private String deptno;
+}
+
+```
+```java
+// ConfigController.java
+package config;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import model1.DeptTO;
+import model1.EmpTO;
+import model1.ExampleDAO;
+
+@Controller
+public class ConfigController {
+  
+  @Autowired
+  private ExampleDAO dao;
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  @RequestMapping("/write1.do")
+  public String write1() {
+    
+    System.out.println("결과 : " + dao.selectNow());
+    
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write2.do")
+  public String write2() {
+    
+    DeptTO to = jdbcTemplate.queryForObject("select * from dept where deptno = 10", new BeanPropertyRowMapper<DeptTO>(DeptTO.class));
+    
+    System.out.println(to.getDeptno());
+    System.out.println(to.getDname());
+    System.out.println(to.getLoc());
+    
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write3.do")
+  public String write3() {
+    
+    DeptTO to = jdbcTemplate.queryForObject("select * from dept where deptno = ?", new BeanPropertyRowMapper<DeptTO>(DeptTO.class), "20");
+    // 가변인자이기 때문에 더 많은 값을 인자로 받을수 있다
+    // API 확인하는 습관을 가지자
+    
+    System.out.println(to.getDeptno());
+    System.out.println(to.getDname());
+    System.out.println(to.getLoc());
+    
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write4.do")
+  public String write4() {
+    
+    DeptTO to = jdbcTemplate.queryForObject("select * from dept where deptno = ?", new Object[] {"30"},new BeanPropertyRowMapper<DeptTO>(DeptTO.class));
+    
+    System.out.println(to.getDeptno());
+    System.out.println(to.getDname());
+    System.out.println(to.getLoc());
+    
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write5.do")
+  public String write5() {
+    
+    DeptTO to = jdbcTemplate.queryForObject("select * from dept where deptno = ?", new Object[] {"30"},new RowMapper<DeptTO>() {
+      @Override
+      public DeptTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        DeptTO to = new DeptTO();
+        
+        to.setDeptno(rs.getString(rs.getString("deptno")));
+        to.setDname(rs.getString(rs.getString("dname")));
+        to.setLoc(rs.getString(rs.getString("loc")));
+        
+        return to;
+      }
+      // 개발자가 필요한 데이터만 사용할 수 있다
+    });
+    
+    System.out.println(to.getDeptno());
+    System.out.println(to.getDname());
+    System.out.println(to.getLoc());
+    
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write6.do")
+  public String write6() {
+    
+    List<DeptTO> datas = jdbcTemplate.query("select * from dept", new BeanPropertyRowMapper<DeptTO>(DeptTO.class));
+    for(DeptTO data : datas) {
+      System.out.println(data.getDeptno());
+      System.out.println(data.getDname());
+      System.out.println(data.getLoc());
+    }
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write7.do")
+  public String write7() {
+    
+    List<EmpTO> datas = jdbcTemplate.query("select * from emp where deptno = ? and job = ?", new BeanPropertyRowMapper<EmpTO>(EmpTO.class), "30", "salesman");
+    for(EmpTO data : datas) {
+      System.out.println(data.getDeptno());
+      System.out.println(data.getEname());
+    }
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write8.do")
+  public String write8() {
+    
+    List<EmpTO> datas = jdbcTemplate.query("select * from emp where ename like ?", new BeanPropertyRowMapper<EmpTO>(EmpTO.class), "S%");
+    for(EmpTO data : datas) {
+      System.out.println(data.getDeptno());
+      System.out.println(data.getEname());
+    }
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write9.do")
+  public String write9() {
+    
+    int result = jdbcTemplate.update("insert into dept2 values(11, '연구부', '서울')");
+    
+    System.out.println("결과 : "  + result);
+    return "writeview1";
+  }
+  
+  @RequestMapping("/write10.do")
+  public String write10() {
+    
+    int result = jdbcTemplate.update("insert into dept2 values(?, ?, ?)", "12", "홍보부", "제주");
+    
+    System.out.println("결과 : "  + result);
+    return "writeview1";
+  }
+}
+
+```
+```xml
+<!-- root-context -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+    <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
+    <property name="username" value="root"></property>
+    <property name="password" value="123456"></property>
+  </bean>
+  
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+  <!-- jdbc템플릿을 사용하기 위해 dataSource 빈을 생성자의 인수로 사용한다 -->
+    <constructor-arg ref="dataSource"></constructor-arg>
+  </bean>
+  
+</beans>
+
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  <context:component-scan base-package="model1"></context:component-scan>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+</beans>
+
+```
+<hr>
+jdbc 템플릿 우편번호 검색기 
+
+```java
+// ZipcodeTO.java
+package model1;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ZipcodeTO {
+
+	private String zipcode;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String ri;
+	private String bunji;
+}
+
+```
+```java
+// ZipcodeController.java
+package config;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import model1.ZipcodeTO;
+
+@Controller
+public class ZipcodeController {
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	@RequestMapping("/zipcode.do")
+	public String zipcode() {
+		
+		return "zipcode";
+	}
+	
+	@RequestMapping("zipcode_ok.do")
+	public ModelAndView zipcodeOk(HttpServletRequest request) {
+		
+		String dong = request.getParameter("dong");
+		
+		List<ZipcodeTO> datas = jdbcTemplate.query("select * from zipcode where dong like ?", new BeanPropertyRowMapper<ZipcodeTO>(ZipcodeTO.class), dong + "%");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("zipcode_ok");
+		modelAndView.addObject("datas", datas);
+		
+		return modelAndView;
+	}
+}
+
+```
+```xml
+<!-- root-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		 <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+		 <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
+		 <property name="username" value="root"></property>
+		 <property name="password" value="123456"></property>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource"></constructor-arg>
+	</bean>
+</beans>
+
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:component-scan base-package="config"></context:component-scan>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>
+
+```
+```xml
+<!-- web.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>jdbc02</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+  
+	<!-- root-context 사용 설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/root-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- encoding -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<!-- dispatcher -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+</web-app>
+```
+
+
+#### 전자정부프레임워크
+
+- Spring MVC, template으로 구성되어 있다
+
+- 전자정부프레임워크 사이트 개발환경에서 다운 받은 파일을 압축해제하면 개발에 사용할 eclipse, workspace 디렉터리가 있다
