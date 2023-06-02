@@ -6791,12 +6791,12 @@ import lombok.Setter;
 @Setter
 public class ZipcodeTO {
 
-	private String zipcode;
-	private String sido;
-	private String gugun;
-	private String dong;
-	private String ri;
-	private String bunji;
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
 }
 
 ```
@@ -6819,28 +6819,28 @@ import model1.ZipcodeTO;
 
 @Controller
 public class ZipcodeController {
-	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
-	@RequestMapping("/zipcode.do")
-	public String zipcode() {
-		
-		return "zipcode";
-	}
-	
-	@RequestMapping("zipcode_ok.do")
-	public ModelAndView zipcodeOk(HttpServletRequest request) {
-		
-		String dong = request.getParameter("dong");
-		
-		List<ZipcodeTO> datas = jdbcTemplate.query("select * from zipcode where dong like ?", new BeanPropertyRowMapper<ZipcodeTO>(ZipcodeTO.class), dong + "%");
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("zipcode_ok");
-		modelAndView.addObject("datas", datas);
-		
-		return modelAndView;
-	}
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  @RequestMapping("/zipcode.do")
+  public String zipcode() {
+    
+    return "zipcode";
+  }
+  
+  @RequestMapping("zipcode_ok.do")
+  public ModelAndView zipcodeOk(HttpServletRequest request) {
+    
+    String dong = request.getParameter("dong");
+    
+    List<ZipcodeTO> datas = jdbcTemplate.query("select * from zipcode where dong like ?", new BeanPropertyRowMapper<ZipcodeTO>(ZipcodeTO.class), dong + "%");
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("zipcode_ok");
+    modelAndView.addObject("datas", datas);
+    
+    return modelAndView;
+  }
 }
 
 ```
@@ -6848,35 +6848,35 @@ public class ZipcodeController {
 <!-- root-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		 <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
-		 <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
-		 <property name="username" value="root"></property>
-		 <property name="password" value="123456"></property>
-	</bean>
-	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="dataSource"></constructor-arg>
-	</bean>
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+     <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+     <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
+     <property name="username" value="root"></property>
+     <property name="password" value="123456"></property>
+  </bean>
+  
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="dataSource"></constructor-arg>
+  </bean>
 </beans>
 
 <!-- servlet-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
-	<context:component-scan base-package="config"></context:component-scan>
-	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  <context:component-scan base-package="config"></context:component-scan>
+  
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
 </beans>
 
 ```
@@ -6884,56 +6884,56 @@ public class ZipcodeController {
 <!-- web.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-	id="WebApp_ID" version="4.0">
-	<display-name>jdbc02</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-	</welcome-file-list>
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  id="WebApp_ID" version="4.0">
+  <display-name>jdbc02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
   
-	<!-- root-context 사용 설정 -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/root-context.xml</param-value>
-	</context-param>
+  <!-- root-context 사용 설정 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/root-context.xml</param-value>
+  </context-param>
 
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
-	<!-- encoding -->
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>utf-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
-	<!-- dispatcher -->
-	<servlet>
-		<servlet-name>appServlet</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/servlet-context.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
+  <!-- encoding -->
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  <!-- dispatcher -->
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
 </web-app>
 ```
 
@@ -6943,3 +6943,126 @@ public class ZipcodeController {
 - Spring MVC, template으로 구성되어 있다
 
 - 전자정부프레임워크 사이트 개발환경에서 다운 받은 파일을 압축해제하면 개발에 사용할 eclipse, workspace 디렉터리가 있다
+
+## 파일 업로드
+
+
+### Apache Common Fileupload
+
+<small> https://m.blog.naver.com/javaking75/140203390797 참조</small>
+
+- 필요한 라이브러리
+```xml
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+```
+
+```java
+// ConfigController.java
+package controller;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+@Controller
+public class ConfigController {
+
+	@RequestMapping("/form.do")
+	public String formAction() {
+
+		return "form";
+	}
+
+	@RequestMapping("/form_ok.do")
+	public String formOkAction(@RequestParam("upload") MultipartFile multipartFile) {
+		
+		// Apache Common Fileupload는 DefaultFileRenamePolicy를 개발자가 따로 만들어줘야한다
+		
+		String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
+		
+		System.out.println("파일명 : " + multipartFile.getName());
+		System.out.println("파일명 : " + multipartFile.getOriginalFilename());
+		System.out.println("크기 : " + multipartFile.getSize());
+		
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(uploadPath + "/" + multipartFile.getOriginalFilename());
+			fos.write(multipartFile.getBytes());
+		} catch (FileNotFoundException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("에러 : " + e.getMessage());
+		} finally {
+			if(fos != null) try {fos.close();} catch(IOException e) {}
+		}
+		
+		return "form_ok";
+	}
+	
+	@RequestMapping("/form_ok2.do")
+	public String formOkAction2(MultipartFile upload, String data) {
+	// 파라마터의 이름을 같게 하면 @RequestParam을 따로 설정하지 않아도 된다
+		
+		String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
+		
+		System.out.println("파일명 : " + upload.getName());
+		System.out.println("파일명 : " + upload.getOriginalFilename());
+		System.out.println("크기 : " + upload.getSize());
+		
+		System.out.println("데이터 : " + data);
+
+		return "form_ok";
+	}
+}
+
+```
+```xml
+<!-- servlet-context.xml -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan
+		base-package="controller"></context:component-scan>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!-- file upload -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="20000000" />
+	</bean>
+</beans>
+
+```
+
