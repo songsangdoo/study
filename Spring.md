@@ -20,7 +20,7 @@
 
 - Java Project + 수동 라이브러리 적용
 
-- Maven Project (Gradle Project)
+- Maven Project, Gradle Project
 
   <small>필요한 라이브러리가 많기 때문에 maven 프로젝트를 주로 이용한다</small>
 
@@ -6527,7 +6527,29 @@ public class ConfigController {
 
 - ORM (Object Relational Mapping)
 
-- DAO를 거치지 않고 바로 jdbc에 접근한다
+- 프로그램이 바로 jdbc에 접근한다
+```xml
+<!-- root-context -->
+<?xml version="1.0" encoding= "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+    <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
+    <property name="username" value="root"></property>
+    <property name="password" value="123456"></property>
+  </bean>
+  
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+  <!-- jdbc템플릿을 사용하기 위해 dataSource 빈을 생성자의 파라미터로 사용한다 -->
+    <constructor-arg ref="dataSource"></constructor-arg>
+  </bean>
+  
+</beans>
+
+```
 
 ```java
 // ExampleDAO.java
@@ -6739,25 +6761,6 @@ public class ConfigController {
 
 ```
 ```xml
-<!-- root-context -->
-<?xml version="1.0" encoding= "UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
-    <property name="url" value="jdbc:mariadb://localhost:3306/project"></property>
-    <property name="username" value="root"></property>
-    <property name="password" value="123456"></property>
-  </bean>
-  
-  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-  <!-- jdbc템플릿을 사용하기 위해 dataSource 빈을 생성자의 인수로 사용한다 -->
-    <constructor-arg ref="dataSource"></constructor-arg>
-  </bean>
-  
-</beans>
 
 <!-- servlet-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
@@ -6953,19 +6956,19 @@ public class ZipcodeController {
 
 - 필요한 라이브러리
 ```xml
-		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.4</version>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.4</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.8.0</version>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.8.0</version>
+    </dependency>
 ```
 
 ```java
@@ -6989,52 +6992,52 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 @Controller
 public class ConfigController {
 
-	@RequestMapping("/form.do")
-	public String formAction() {
+  @RequestMapping("/form.do")
+  public String formAction() {
 
-		return "form";
-	}
+    return "form";
+  }
 
-	@RequestMapping("/form_ok.do")
-	public String formOkAction(@RequestParam("upload") MultipartFile multipartFile) {
-		
-		// Apache Common Fileupload는 DefaultFileRenamePolicy를 개발자가 따로 만들어줘야한다
-		
-		String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
-		
-		System.out.println("파일명 : " + multipartFile.getName());
-		System.out.println("파일명 : " + multipartFile.getOriginalFilename());
-		System.out.println("크기 : " + multipartFile.getSize());
-		
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(uploadPath + "/" + multipartFile.getOriginalFilename());
-			fos.write(multipartFile.getBytes());
-		} catch (FileNotFoundException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} finally {
-			if(fos != null) try {fos.close();} catch(IOException e) {}
-		}
-		
-		return "form_ok";
-	}
-	
-	@RequestMapping("/form_ok2.do")
-	public String formOkAction2(MultipartFile upload, String data) {
-	// 파라마터의 이름을 같게 하면 @RequestParam을 따로 설정하지 않아도 된다
-		
-		String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
-		
-		System.out.println("파일명 : " + upload.getName());
-		System.out.println("파일명 : " + upload.getOriginalFilename());
-		System.out.println("크기 : " + upload.getSize());
-		
-		System.out.println("데이터 : " + data);
+  @RequestMapping("/form_ok.do")
+  public String formOkAction(@RequestParam("upload") MultipartFile multipartFile) {
+    
+    // Apache Common Fileupload는 DefaultFileRenamePolicy를 개발자가 따로 만들어줘야한다
+    
+    String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
+    
+    System.out.println("파일명 : " + multipartFile.getName());
+    System.out.println("파일명 : " + multipartFile.getOriginalFilename());
+    System.out.println("크기 : " + multipartFile.getSize());
+    
+    FileOutputStream fos = null;
+    try {
+      fos = new FileOutputStream(uploadPath + "/" + multipartFile.getOriginalFilename());
+      fos.write(multipartFile.getBytes());
+    } catch (FileNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(fos != null) try {fos.close();} catch(IOException e) {}
+    }
+    
+    return "form_ok";
+  }
+  
+  @RequestMapping("/form_ok2.do")
+  public String formOkAction2(MultipartFile upload, String data) {
+  // 파라미터의 이름을 같게 하면 @RequestParam을 따로 설정하지 않아도 된다
+    
+    String uploadPath = "C:/Java/Spring_workspace/upload01/src/main/webapp/upload";
+    
+    System.out.println("파일명 : " + upload.getName());
+    System.out.println("파일명 : " + upload.getOriginalFilename());
+    System.out.println("크기 : " + upload.getSize());
+    
+    System.out.println("데이터 : " + data);
 
-		return "form_ok";
-	}
+    return "form_ok";
+  }
 }
 
 ```
@@ -7042,27 +7045,854 @@ public class ConfigController {
 <!-- servlet-context.xml -->
 <?xml version="1.0" encoding= "UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<context:component-scan
-		base-package="controller"></context:component-scan>
+  <context:component-scan
+    base-package="controller"></context:component-scan>
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
+  <bean
+    class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/views/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
 
-	<!-- file upload -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="utf-8" />
-		<property name="maxUploadSize" value="20000000" />
-	</bean>
+  <!-- file upload -->
+  <bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="defaultEncoding" value="utf-8" />
+    <property name="maxUploadSize" value="20000000" />
+  </bean>
 </beans>
+
+```
+
+# Spring boot
+
+- Spring에서 라이브러리 환경 설정을 위한 tool
+
+- Spring inintializr
+
+  - 웹 (https://start.spring.io/) : 프로젝트 구성을 다운로드 받아서 사용 (VScode, intellij)
+
+  - Spring Tool
+    - eclipse + Spring Tool 4  
+
+      <small> https://spring.io/tools 참조 </small>
+
+    - eclipse + sts(plug-in) (*)
+
+      - 설정 : marketplace &rarr; sts 검색 &rarr; tool4 install
+
+        <small> !! eclipse + sts + 전자정부프레임워크 라이브러리 &rarr; 전자정부프레임워크 개발환경</small>
+
+- 프로젝트 구성 설정
+  - spring 사용 가능 언어
+    - java : jsp
+
+    - kotlin : android
+
+    - groovy
+
+  - jdk 버전 별 spring boot 호응 버전
+
+    <small> jdk 11 ~ spring boot 2.x.x<br>jdk 17 ~ spring boot 3.x.x</small>
+
+- 제작할 수 있는 프로그램
+
+  - Window Application(CUI, GUI)
+
+  - Web Application
+
+## spring boot window Application
+
+```java
+package com.example.ex01;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Ex01Application implements CommandLineRunner {
+
+  public static void main(String[] args) {
+    SpringApplication.run(Ex01Application.class, args);
+    
+    // System.out.println("Hello Spring Boot1 !");
+    // main 함수에 실행 함수를 직접 작성하지 않는다
+  }
+  
+  // window application 시작
+  @Override
+  public void run(String... args) throws Exception {
+    
+    System.out.println("Hello Spring Boot2 !");
+    
+    for(String arg : args) {
+      System.out.println("arg : " + arg);
+    }
+  }
+
+}
+
+```
+```java
+package com.example.ex02;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Ex02Application implements CommandLineRunner {
+
+  public static void main(String[] args) {
+    SpringApplication.run(Ex02Application.class, args);
+  }
+
+  @Override
+  public void run(String... args){
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    
+    String url = "jdbc:mariadb://localhost:3306/sample";
+    String user = "root";
+    String password = "123456";
+    
+    try {
+      Class.forName("org.mariadb.jdbc.Driver");
+      conn = DriverManager.getConnection(url, user, password);
+      
+      System.out.println("연결 성공");
+      
+      String query = "select now() as now";
+      pstmt = conn.prepareStatement(query);
+      rs = pstmt.executeQuery();
+      rs.next();
+      System.out.println("현재시간 : " + rs.getString("now"));
+      
+    } catch (ClassNotFoundException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
+
+}
+
+```
+- 프로젝트 구성 완료 후 라이브러리 추가하기
+
+  <b> 프로젝트 오른쪽 클릭 &rarr; Spring &rarr; Add starters </b>
+
+### Spring boot JDBC API 사용하기
+
+  - src\main\resources\application.properties 통해서 연결 설정을 한다
+
+    <small>!! 연결 설정을 하지 않을 경우 jdbc를 사용하지 않더라도 오류가 생긴다</small> 
+
+```java
+# MariaDB
+// application.properties
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://localhost:3306/sample
+spring.datasource.username=root
+spring.datasource.password=123456
+```
+```java
+package com.example.ex03;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class Ex03Application implements CommandLineRunner {
+  @Autowired
+  private DataSource dataSource;
+
+  public static void main(String[] args) {
+    SpringApplication.run(Ex03Application.class, args);
+  }
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("dataSource : " + dataSource);
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    try {
+      conn = this.dataSource.getConnection();
+
+      System.out.println("연결 성공");
+
+      String query = "select now() as now";
+      pstmt = conn.prepareStatement(query);
+      rs = pstmt.executeQuery();
+      rs.next();
+      System.out.println("현재시간 : " + rs.getString("now"));
+
+    } catch (SQLException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } finally {
+      if(rs != null) try {rs.close();} catch(SQLException e) {}
+      if(pstmt != null) try {pstmt.close();} catch(SQLException e) {}
+      if(conn != null) try {conn.close();} catch(SQLException e) {}
+    }
+  }
+}
+```
+### JDBC template 사용하기
+```java
+package com.example.ex03;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+@SpringBootApplication
+public class Ex03Application implements CommandLineRunner {
+
+  // @Autowired
+  // private DataSource dataSource;
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  public static void main(String[] args) {
+    SpringApplication.run(Ex03Application.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("jdbcTemplate : " + jdbcTemplate);
+    
+    String result = jdbcTemplate.queryForObject("select now() as now", String.class);
+    System.out.println("현재시간 : " + result); 
+  }
+
+}
+
+```
+<hr>
+
+JDBC template으로 database, table 목록 출력하기
+```java
+package com.example.ex03;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+@SpringBootApplication
+public class Ex03Application implements CommandLineRunner {
+
+  // @Autowired
+  // private DataSource dataSource;
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  public static void main(String[] args) {
+    SpringApplication.run(Ex03Application.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("jdbcTemplate : " + jdbcTemplate);
+    
+    List<Map<String, Object>> results = jdbcTemplate.queryForList("show databases");
+    for(Map<String, Object> result : results) {
+      System.out.println(result.get("database"));
+    }
+    
+  }
+
+}
+
+```
+
+```java
+package com.example.ex03;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+@SpringBootApplication
+public class Ex03Application implements CommandLineRunner {
+
+  // @Autowired
+  // private DataSource dataSource;
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  public static void main(String[] args) {
+    SpringApplication.run(Ex03Application.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("jdbcTemplate : " + jdbcTemplate);
+    
+    List<Map<String, Object>> results = jdbcTemplate.queryForList("show tables");
+    for(Map<String, Object> result : results) {
+      System.out.println(result.get("Tables_in_sample"));
+    }
+    
+  }
+
+}
+
+```
+
+<hr>
+
+우편번호 검색기
+```java
+// ZipcodeTO.java
+package com.example.model1;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ZipcodeTO {
+  private String zipcode;
+  private String sido;
+  private String gugun;
+  private String dong;
+  private String ri;
+  private String bunji;
+}
+
+// ZipcodeDAO.java
+package com.example.model1;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class ZipcodeDAO {
+  
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+  
+  public List<ZipcodeTO> zipcodeList(String dongName){
+    
+    List<ZipcodeTO> datas 
+    = jdbcTemplate.query("select * from zipcode where dong like ?", new BeanPropertyRowMapper<ZipcodeTO>(ZipcodeTO.class), dongName + "%");
+    
+    return datas;
+  }
+}
+
+```
+```java
+// ZipcodeApplication.java
+package com.example.zipcode;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+import com.example.model1.ZipcodeDAO;
+import com.example.model1.ZipcodeTO;
+
+@SpringBootApplication
+@ComponentScan({"com.example.model1"})
+public class ZipcodeApplication implements CommandLineRunner{
+
+  @Autowired
+  private ZipcodeDAO dao;
+  
+  public static void main(String[] args) {
+    SpringApplication.run(ZipcodeApplication.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    
+    String dongName = "쌍문";
+    
+    List<ZipcodeTO> datas = dao.zipcodeList(dongName);
+    
+    System.out.println(datas.size());
+  }
+
+}
+
+```
+### Mybatis 사용하기
+```java
+// application.properties
+# MariaDB
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://localhost:3306/sample
+spring.datasource.username=root
+spring.datasource.password=123456
+```
+
+```xml
+<!-- mapper.xml -->
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis">
+  <select id="select" resultType="String">
+    select now() as now
+  </select>
+</mapper>
+```
+
+```java
+package com.example.ex04;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+
+@SpringBootApplication
+public class Ex04Application implements CommandLineRunner {
+  
+  @Autowired
+  private DataSource dataSource;
+  @Autowired
+  private ApplicationContext applicationContext;
+  // mybatis 설정을 가져온다
+
+  public static void main(String[] args) {
+    SpringApplication.run(Ex04Application.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    
+    sqlSessionFactoryBean.setDataSource(dataSource);
+    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/mapper.xml"));
+    
+    SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getObject();
+    
+    SqlSession sqlSession = sqlSessionFactory.openSession(true);
+    System.out.println(sqlSession);
+    
+    String result = sqlSession.selectOne("select");
+    System.out.println("현재시간 : " + result);
+  }
+
+}
+
+```
+
+<hr>
+다른파일에 미리 설정하고 설정 내용 가져와 사용만하도록 할 수 있다
+
+```java
+// DatabaseConfiguration.java
+package com.example.ex05;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class DatabaseConfiguration {
+
+  @Autowired
+  private ApplicationContext applicationContext;
+  
+  @Bean
+  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
+    System.out.println("sqlSessionFactory(DataSource dataSource) 호출");
+      
+    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    sqlSessionFactoryBean.setDataSource(dataSource);
+    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/mapper.xml"));	
+      
+    return sqlSessionFactoryBean.getObject();
+  }
+  
+  @Bean
+  public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+    System.out.println("sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) 호출");
+    return new SqlSessionTemplate(sqlSessionFactory);
+  }
+}
+
+```
+```java
+// Ex05Application.java
+package com.example.ex05;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Ex05Application implements CommandLineRunner{
+  
+  @Autowired
+  private SqlSession sqlSession;
+  
+  public static void main(String[] args) {
+    SpringApplication.run(Ex05Application.class, args);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    System.out.println("sqlSession : " + sqlSession);
+    
+    String result = sqlSession.selectOne("select");
+    System.out.println("현재시간 : " + result);
+  }
+  
+}
+
+```
+## Spring boot Web Application
+
+- spring Web 라이브러리 설정을 하면 tomcat을 따로 설정할 필요가 없다
+
+```html
+<!-- \src\main\resources\static\index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+Hello index.html
+</body>
+</html>
+```
+<hr>
+jsp 파일은 해석하지 못하기 때문에 다운로드 된다
+
+```jsp
+<!-- \src\main\resources\static\index.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+Hello index.jsp
+</body>
+</html>
+```
+<hr>
+
+컨트롤러를 이용해 웹페이지 불러오기
+
+```xml
+<!-- 필요한 라이브러리 추가 -->
+<dependency>
+  <groupId>org.apache.tomcat.embed</groupId>
+  <artifactId>tomcat-embed-jasper</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>jstl</artifactId>
+</dependency>
+```
+```java
+// application.properties
+# View Pages
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+```java
+// ConfigController.java
+package com.example.web01;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@RestController
+// @Controller
+public class ConfigController {
+
+  @RequestMapping("/")
+  // @ResponseBody
+  // @RestController를 사용할 경우 웹페이지가 아닌 문자열 자체로 받아들이기 때문에 @ResponseBody 생략가능
+  public String index() {
+    return "Hello html";
+  }
+  
+  @RequestMapping("/hello")
+  // @ResponseBody
+  // @RestController를 사용할 경우 웹페이지가 아닌 문자열 자체로 받아들이기 때문에 @ResponseBody 생략가능
+  public String hello() {
+    return "<h1>Hello html</h1>";
+  }
+
+  @RequestMapping("/hello1")
+  public ModelAndView hello1() {
+    return new ModelAndView("hello1");
+  }
+  
+}
+```
+```jsp
+<!-- \src\main\webapp\WEB-INF\views\hello1.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+Hello hello1.jsp
+</body>
+</html>
+```
+```java
+package com.example.web01;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Web01Application {
+
+  public static void main(String[] args) {
+    SpringApplication.run(Web01Application.class, args);
+  }
+  // 실행 파일은 건들지 않는다
+}
+```
+<hr>
+
+```xml
+<!-- pom.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.12</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>web02</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>web02</name>
+  <description>Demo project for Spring Boot</description>
+  <properties>
+    <java.version>11</java.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-jasper</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+    
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+
+```
+```java
+// application.properties
+# View Pages
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+```jsp
+<!-- \src\main\webapp\WEB-INF\views\form.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+form.jsp
+<br><br>
+<form action="form_ok.do" method="get">
+데이터 : <input type="text" name="data">
+<input type="submit" value="전송"> 
+</form>
+
+<form action="form_ok.do" method="post">
+데이터 : <input type="text" name="data">
+<input type="submit" value="전송"> 
+<!-- post 방식으로 보내더라도 한글이 깨지지 않는다 -->
+</form>
+</body>
+</html>
+
+<!-- \src\main\webapp\WEB-INF\views\form_ok.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+form_ok.jsp
+<br><br>
+data : ${ data }
+</body>
+</html>
+```
+```java
+package com.example.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ConfigController {
+
+  @RequestMapping("/form.do")
+  public ModelAndView form() {
+    return new ModelAndView("form");
+  }
+  
+  @RequestMapping("/form_ok.do")
+  public ModelAndView formOk(HttpServletRequest request) {
+    System.out.println("data : " + request.getParameter("data"));
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    modelAndView.addObject("data", request.getParameter("data"));
+    
+    return modelAndView;
+  }
+
+  /*
+  @RequestMapping("/form_ok.do")
+  public String formOk(HttpServletRequest request, Model model) {
+    System.out.println("data : " + request.getParameter("data"));
+    
+    model.addAttribute("data", request.getParameter("data"));
+    
+    return "form_ok";
+  }
+  */
+
+}
 
 ```
 
