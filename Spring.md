@@ -7106,7 +7106,7 @@ public class ConfigController {
 
   - Web Application
 
-## spring boot window Application
+## Window Application
 
 ```java
 package com.example.ex01;
@@ -7199,7 +7199,7 @@ public class Ex02Application implements CommandLineRunner {
 
   <b> 프로젝트 오른쪽 클릭 &rarr; Spring &rarr; Add starters </b>
 
-### Spring boot JDBC API 사용하기
+### JDBC API 
 
   - src\main\resources\application.properties 통해서 연결 설정을 한다
 
@@ -7261,7 +7261,7 @@ public class Ex03Application implements CommandLineRunner {
   }
 }
 ```
-### JDBC template 사용하기
+### JDBC template 
 ```java
 package com.example.ex03;
 
@@ -7466,7 +7466,7 @@ public class ZipcodeApplication implements CommandLineRunner{
 }
 
 ```
-### Mybatis 사용하기
+### Mybatis 
 ```java
 // application.properties
 # MariaDB
@@ -7609,7 +7609,7 @@ public class Ex05Application implements CommandLineRunner{
 }
 
 ```
-## Spring boot Web Application
+## Web Application
 
 - spring Web 라이브러리 설정을 하면 tomcat을 따로 설정할 필요가 없다
 
@@ -7646,7 +7646,7 @@ Hello index.jsp
 ```
 <hr>
 
-### 컨트롤러를 이용해 웹페이지 불러오기
+### Controller 
 
 ```xml
 <!-- 필요한 라이브러리 추가 -->
@@ -10528,18 +10528,18 @@ public class BootMyBatisAnnotationBoardApplication {
 </html>
 ```
 
-### Spring boot mail
+### Mail
 - 프로젝트 구성할 때 Java Mail Sender dependency를 추가한다
 ```xml
 <!-- jsp 사용을 위한 라이브러리 추가 -->
 <dependency>
-		<groupId>org.apache.tomcat.embed</groupId>
-		<artifactId>tomcat-embed-jasper</artifactId>
-		<scope>provided</scope>
+    <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-jasper</artifactId>
+    <scope>provided</scope>
 </dependency>
 <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
 </dependency>
 ```
 
@@ -10580,68 +10580,68 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class MailController {
 
-	@Autowired
-	private JavaMailSender javaMailSender;
-	
-	@RequestMapping("/mail.do")
-	public ModelAndView mail() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("mail");
-		return modelAndView;
-	}
-	
-	@RequestMapping("/mail_ok.do")
-	public ModelAndView mail_ok() {
-		
-		System.out.println("javaMailSender :" + javaMailSender);
-		
-		String toEmail = "qkreogh0@icloud.com";
-		String toName = "테스터";
-		String subject = "테스트 제목";
-		String content = "<h1>테스트 내용</h1>";
-		
-		mailSenderText(toEmail, toName, subject, content);
-		
-		mailSenderHtml(toEmail, toName, subject, content);
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("mail_ok");
-		return modelAndView;
-	}
-	
-	public void mailSenderText(String toEmail, String toName, String subject, String content) {
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+  @Autowired
+  private JavaMailSender javaMailSender;
+  
+  @RequestMapping("/mail.do")
+  public ModelAndView mail() {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("mail");
+    return modelAndView;
+  }
+  
+  @RequestMapping("/mail_ok.do")
+  public ModelAndView mail_ok() {
+    
+    System.out.println("javaMailSender :" + javaMailSender);
+    
+    String toEmail = "qkreogh0@icloud.com";
+    String toName = "테스터";
+    String subject = "테스트 제목";
+    String content = "<h1>테스트 내용</h1>";
+    
+    mailSenderText(toEmail, toName, subject, content);
+    
+    mailSenderHtml(toEmail, toName, subject, content);
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("mail_ok");
+    return modelAndView;
+  }
+  
+  public void mailSenderText(String toEmail, String toName, String subject, String content) {
+    SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
-		simpleMailMessage.setTo(toEmail);
-		simpleMailMessage.setSubject(subject);
-		simpleMailMessage.setText(content);
-		simpleMailMessage.setSentDate(new java.util.Date());
-		
-		javaMailSender.send(simpleMailMessage);
-		
-		System.out.println("전송완료");
-	}
-	
-	public void mailSenderHtml(String toEmail, String toName, String subject, String content) {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		
-		try {
-			mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(toEmail, toName, "utf-8"));
-			mimeMessage.setSubject(subject, "utf-8");
-			mimeMessage.setText(content, "utf-8", "html");
-			
-			mimeMessage.setSentDate(new java.util.Date());
-		} catch (UnsupportedEncodingException e) {
-			System.out.println("에러 : " + e.getMessage());
-		} catch (MessagingException e) {
-			System.out.println("에러 : " + e.getMessage());
-		}
-		
-		javaMailSender.send(mimeMessage);
-		
-		System.out.println("전송완료");
-		
-	}
+    simpleMailMessage.setTo(toEmail);
+    simpleMailMessage.setSubject(subject);
+    simpleMailMessage.setText(content);
+    simpleMailMessage.setSentDate(new java.util.Date());
+    
+    javaMailSender.send(simpleMailMessage);
+    
+    System.out.println("전송완료");
+  }
+  
+  public void mailSenderHtml(String toEmail, String toName, String subject, String content) {
+    MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+    
+    try {
+      mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(toEmail, toName, "utf-8"));
+      mimeMessage.setSubject(subject, "utf-8");
+      mimeMessage.setText(content, "utf-8", "html");
+      
+      mimeMessage.setSentDate(new java.util.Date());
+    } catch (UnsupportedEncodingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    } catch (MessagingException e) {
+      System.out.println("에러 : " + e.getMessage());
+    }
+    
+    javaMailSender.send(mimeMessage);
+    
+    System.out.println("전송완료");
+    
+  }
 }
 
 ```
@@ -10657,14 +10657,14 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.example.bootmail", "com.example.controller"})
 public class BootMailApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BootMailApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(BootMailApplication.class, args);
+  }
 
 }
 
 ```
-### spring boot fileupload
+### Fileupload
 ```java
 // application.properties
 # View Pages
@@ -10673,7 +10673,7 @@ spring.mvc.view.suffix=.jsp
 
 # Multipart Config
 spring.servlet.multipart.enabled=true
-spring.servlet.multipart.location=c:/java
+spring.servlet.multipart.location=C:/Java/boot-workspace/FileUpload/src/main/webapp/upload
 spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=50MB
 ```
@@ -10683,6 +10683,7 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10694,39 +10695,64 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class UploadController {
 
-	@RequestMapping("/form.do")
-	public ModelAndView form(HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("form");
-		
-		return modelAndView;
-	}
-	
-	@RequestMapping("/form_ok.do")
-	public ModelAndView form_ok(MultipartFile upload) {
-		System.out.println(upload.getOriginalFilename());
-		System.out.println(upload.getSize());
-		
-		try {
-			File file = new File("c:/java/" + upload.getOriginalFilename());
-			if(!file.exists()) {
-				upload.transferTo(new File(upload.getOriginalFilename()));
-			}else {
-				String fileName = upload.getOriginalFilename().substring(0, upload.getOriginalFilename().indexOf("."));
-				String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().indexOf("."), upload.getOriginalFilename().length());
-				upload.transferTo(new File(fileName + "_" + System.currentTimeMillis() + ext));
-			}
-		} catch (IllegalStateException e) {
-			System.out.println("에러 :" + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("에러 :" + e.getMessage());
-		}
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("form_ok");
-		
-		return modelAndView;
-	}
+  @RequestMapping("/form.do")
+  public ModelAndView form(HttpServletRequest request) {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form");
+    
+    return modelAndView;
+  }
+  
+  @RequestMapping("/form_ok.do")
+  public ModelAndView form_ok(MultipartFile upload) {
+    System.out.println(upload.getOriginalFilename());
+    System.out.println(upload.getSize());
+    
+    try {
+      String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().lastIndexOf("."));
+      String fileName = upload.getOriginalFilename().substring(0, upload.getOriginalFilename().indexOf(ext));
+      
+      upload.transferTo(new File(fileName + "_" + System.currentTimeMillis() + ext));
+    } catch (IllegalStateException e) {
+      System.out.println("에러 :" + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("에러 :" + e.getMessage());
+    }
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    
+    return modelAndView;
+  }
+  
+  // 다중파일 업로드
+  @RequestMapping("/form_ok2.do")
+  public ModelAndView form_ok_multiple(MultipartFile[] uploads) {
+    // uploads는 form에서의 태그 이름과 같아야 한다
+    
+    System.out.println(uploads.length);
+    
+    for(MultipartFile upload : uploads) {
+      System.out.println(upload.getOriginalFilename());
+      String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().lastIndexOf("."));
+      String fileName = upload.getOriginalFilename().substring(0, upload.getOriginalFilename().indexOf(ext));
+      
+      try {
+        upload.transferTo(new File(fileName + "_" + System.currentTimeMillis() + ext));
+      } catch (IllegalStateException e) {
+        System.out.println("에러 : " + e.getMessage() );
+      } catch (IOException e) {
+        System.out.println("에러 : " + e.getMessage() );
+      }
+    }
+    
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("form_ok");
+    
+    return modelAndView;
+  }
+  
+
 }
 
 ```
@@ -10742,9 +10768,9 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.example.controller"})
 public class FileUploadApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FileUploadApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(FileUploadApplication.class, args);
+  }
 
 }
 ```
@@ -10765,6 +10791,11 @@ form.jsp
 파일 <input type="file" name="upload">
 <input type="submit" value="파일업로드">
 </form>
+<br><br>
+<form action="form_ok2.do" method="post" enctype="multipart/form-data">
+파일 <input type="file" name="uploads" multiple="multiple">
+<input type="submit" value="파일업로드">
+</form>
 </body>
 </html>
 
@@ -10777,7 +10808,7 @@ form.jsp
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-	alert("파일 전송 완료");
+  alert("파일 전송 완료");
 </script>
 </head>
 <body>
@@ -10785,3 +10816,44 @@ form_ok.jsp
 </body>
 </html>
 ```
+#### album 게시판 구현하기
+
+- sql 구문
+create table albumList(
+  seq int primary key auto_increment,
+  subject varchar(150) not null,
+  writer varchar(12) not null,
+  mail varchar(50),
+  password varchar(12) not null,
+  content varchar(2000),
+  cmt int not null,
+  cmtyes char(1),
+  hit int not null,
+  wip varchar(15) not null,
+  wdate datetime not null
+);
+
+insert into albumList values(0, '제목', '글쓴이', 'test@test.com', '123456', '내용', 0, 'O', 0, '000.000.000.000', now())
+
+create table albumComment(
+  seq int primary key auto_increment,
+  pseq int not null,
+  writer varchar(12) not null,
+  password varchar(12) not null,
+  content varchar(2000) not null,
+  wdate datetime not null
+);
+
+insert into albumComment values(0, '1', '악플러', '123456', '내용', now());
+
+create table albumFile(
+  seq int primary key auto_increment,
+  pseq int not null,
+  filename varchar(200) not null,
+  filesize int not null,
+  latitude varchar(12) not null,
+  longitude varchar(12) not null,
+  wdate datetime not null
+);
+
+insert into albumFile values(0, 1, 'Chrysanthemum11.jpg', 0, '000.00', '000.00', now());
