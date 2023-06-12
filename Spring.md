@@ -10816,44 +10816,296 @@ form_ok.jsp
 </body>
 </html>
 ```
-#### album 게시판 구현하기
+#### album comment 게시판 
 
-- sql 구문
-create table albumList(
-  seq int primary key auto_increment,
-  subject varchar(150) not null,
-  writer varchar(12) not null,
-  mail varchar(50),
-  password varchar(12) not null,
-  content varchar(2000),
-  cmt int not null,
-  cmtyes char(1),
-  hit int not null,
-  wip varchar(15) not null,
-  wdate datetime not null
-);
+- sql
 
-insert into albumList values(0, '제목', '글쓴이', 'test@test.com', '123456', '내용', 0, 'O', 0, '000.000.000.000', now())
+  - 테이블 생성
+  ```sql
+  create table albumList(
+    seq int primary key auto_increment,
+    subject varchar(150) not null,
+    writer varchar(12) not null,
+    mail varchar(50),
+    password varchar(12) not null,
+    content varchar(2000),
+    cmt int not null,
+    cmtyes char(1),
+    hit int not null,
+    wip varchar(15) not null,
+    wdate datetime not null
+  );
 
-create table albumComment(
-  seq int primary key auto_increment,
-  pseq int not null,
-  writer varchar(12) not null,
-  password varchar(12) not null,
-  content varchar(2000) not null,
-  wdate datetime not null
-);
+  create table albumComment(
+    seq int primary key auto_increment,
+    pseq int not null,
+    writer varchar(12) not null,
+    password varchar(12) not null,
+    content varchar(2000) not null,
+    wdate datetime not null
+  );
 
-insert into albumComment values(0, '1', '악플러', '123456', '내용', now());
+  create table albumFile(
+    seq int primary key auto_increment,
+    pseq int not null,
+    filename varchar(200) not null,
+    filesize int not null,
+    latitude varchar(12) not null,
+    longitude varchar(12) not null,
+    wdate datetime not null
+  );
+  ```
 
-create table albumFile(
-  seq int primary key auto_increment,
-  pseq int not null,
-  filename varchar(200) not null,
-  filesize int not null,
-  latitude varchar(12) not null,
-  longitude varchar(12) not null,
-  wdate datetime not null
-);
+  - 데이터 입력 
 
-insert into albumFile values(0, 1, 'Chrysanthemum11.jpg', 0, '000.00', '000.00', now());
+  ```sql
+  insert into albumList values(0, '제목', '글쓴이', 'test@test.com', '123456', '내용', 0, 'O', 0, '000.000.000.000', now())
+
+  insert into albumComment values(0, '1', '악플러', '123456', '내용', now());
+
+  insert into albumFile values(0, 1, 'Chrysanthemum11.jpg', 0, '000.00', '000.00', now());
+  ```
+
+- 구현하기
+```xml
+<!-- jsp 사용을 위한 라이브러리 추가 -->
+<dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-jasper</artifactId>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+  </dependency>
+```
+```java
+// ListMapper.java
+package com.example.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import com.example.model.ListTO;
+
+@Mapper
+public interface ListMapper {
+  
+  @Select("select seq, subject, writer, cmt, date_format(wdate,'%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from albumList order by seq desc")
+  public List<ListTO> list();
+  
+  @Insert("insert into albumList values(0, #{subject}, #{writer}, #{mail}, #{password}, #{content}, 0, #{cmtyes}, 0, #{wip}, now())")
+  public int writeOk(ListTO to);
+  
+  @Select("select seq from albumList order by seq desc limit 1")
+  public int getSeq();
+  
+  @Update("update albumList set hit = hit + 1 where seq = #{seq}")
+  public int upHit(ListTO to);
+  
+  @Select("select * from albumList where seq = #{seq}")
+  public ListTO view(ListTO to);
+  
+  @Update("update albumList set cmt = cmt + 1 where seq = #{seq}")
+  public int upCmt(ListTO to);
+  
+  @Update("update albumList set cmt = cmt - 1 where seq = #{seq}")
+  public int downCmt(ListTO to);
+  
+  @Select("select * from albumList where seq = #{seq}")
+  public ListTO delete(ListTO to);
+  
+  @Delete("delete from albumList where seq = #{seq} and password = #{password}")
+  public int deleteOk(ListTO to);
+  
+  @Select("select * from albumList where seq = #{seq}")
+  public List<ListTO> modify(ListTO to);
+  
+  @Update("update albumList set subject = #{subject}, content = #{content}, mail = #{mail} where seq = #{seq} and password = #{password}")
+  public int modifyOk(ListTO to);
+  
+}
+
+// FileMapper.java
+package com.example.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import com.example.model.FileTO;
+
+@Mapper
+public interface FileMapper {
+  
+  @Select("select pseq, filename from albumFile where pseq = #{pseq} limit 1")
+  public FileTO list(FileTO to);
+  
+  @Insert("insert into albumFile values(0, #{pseq}, #{filename}, #{filesize}, #{latitude}, #{longitude}, now())")
+  public int writeOk(FileTO to);
+  
+  @Select("select * from albumFile where pseq = #{pseq}")
+  public List<FileTO> view(FileTO to);
+  
+  @Delete("delete from albumFile where pseq = #{pseq}")
+  public int deleteOk(FileTO to);
+  
+  @Select("select filename, latitude, longitude from albumFile where pseq = #{pseq}")
+  public List<FileTO> modify(FileTO to);
+  
+  @Insert("insert into albumFile values(0, #{pseq}, #{filename}, #{filesize}, #{latitude}, #{longitude}, now())")
+  public int modifyOk(FileTO to);
+}
+
+// CommentMapper.java
+package com.example.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import com.example.model.CommentTO;
+
+@Mapper
+public interface CommentMapper {
+  
+  @Select("select count(*) from albumComment where pseq = #{pseq}")
+  public int commentCount(CommentTO to);
+  
+  @Select("select * from albumComment where pseq = #{pseq}")
+  public List<CommentTO> commentList(CommentTO to);
+  
+  @Insert("insert into albumComment values(0, #{pseq}, #{writer}, #{password}, #{content}, now())")
+  public int writeOk(CommentTO to);
+  
+  @Delete("delete from albumComment where seq = #{seq}")
+  public int deleteOk(CommentTO to);
+  
+  @Delete("delete from albumComment where pseq = #{pseq}")
+  public int deleteAll(CommentTO to);
+}
+
+```
+
+
+
+## Template Engine
+- view page로 jsp 파일을 사용하지 않고, el, jstl의 방식을 이용해 MVC 모델의 데이터를 치환해서 html 문서를 사용한다
+
+- boot starter에서 Thymeleaf 라이브러리를 추가한다
+  
+  <small> !! https://www.thymeleaf.org/ 참조</small>
+
+- 기본 
+```java
+// application.properties
+// 기본설정
+# Template Engine
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.check-template-location=true
+spring.thymeleaf.cache=false
+```
+
+```html
+<!-- \src\main\resources\templates\view1.html -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+view1.html
+<br><br>
+<h3>Hello Thymeleaf</h3>
+<h3 th:text="hello">Hello Thymeleaf</h3>
+<!-- hello가 태그의 내용을 가리고 나타난다 -->
+<!-- 처음은 hello를 변수에서 찾고 없다면, 값으로 읽는다 -->
+
+<div th:with="value1=${'data1'}, value2=${'data2'}">
+  <h3 th:text="${value1}"></h3>
+  <h3 th:text="${value2}"></h3>
+  <!-- 부모 태그에서 선언한 변수를 사용한다 -->
+  <h3 th:text="${value3}"></h3>
+  <!-- 선언된 변수가 아니기 때문에 출력되지 않는다 -->
+</div> 
+
+<div th:with="value=${'값'}">
+  <h3 th:text="${value == ''? '빈 값' : '값'}"></h3>
+  <!-- 비교연산자는 모두 사용 가능하다 -->
+  <!-- 단, 부등호는 태그 부호와 충돌이 날 수도 있기 때문에 (gt), (lt)로 쓰기도 한다 -->
+  <!-- ==(eq), !=(ne) -->
+  <h3 th:if="${value != ''}" th:text="${'value'}"></h3>
+  <h3 th:unless="${value == ''}" th:text="${'value'}"></h3>
+</div>
+
+<div th:with="data=${10}" th:switch="${data}">
+  <h3 th:case="10">10</h3>
+  <h3 th:case="20">20</h3>
+  <h3 th:case="*">기타</h3><!-- switch문의 default와 같다 -->
+</div>
+
+</body>
+</html>
+```
+<hr>
+
+```java
+// BoardTO.java
+package com.example.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BoardTO {
+  private String seq;
+  private String subject;
+}
+
+```
+```html
+<!-- \src\main\resources\templates\view2.html -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+view2.html
+<br><br>
+<h3 th:text="${data1}"></h3>
+
+<h3 th:text="${to.seq}"></h3>
+<h3 th:text="${to.getSeq()}"></h3>
+<h3 th:text="${to.subject}"></h3>
+<h3 th:text="${to.getSubject()}"></h3>
+<!-- 모두 에러 없이 출력된다 -->
+
+<table border="1">
+<tr>
+  <th>seq</th><th>subject</th>
+</tr>
+<tr th:each="to : ${list}">
+  <td th:text="${to.seq}"></td>
+  <td th:text="${to.subject}"></td>
+</tr>
+</table>
+
+</body>
+</html>
+```
