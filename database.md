@@ -3681,9 +3681,13 @@ MariaDB [test]> desc emp_c;
 
 - 구성
 
-  - logical diagram
+    - logical diagram
 
-  - physical diagram
+    - physical diagram
+
+    <small> !! diagram &rarr; forward engineering &rarr; database <br>database &rarr; reverse engineering &rarr; diagram </small>
+
+
 
 - 관계형 데이터베이스 그리기 tool
 

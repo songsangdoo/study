@@ -6940,13 +6940,6 @@ public class ZipcodeController {
 </web-app>
 ```
 
-
-#### 전자정부프레임워크
-
-- Spring MVC, template으로 구성되어 있다
-
-- 전자정부프레임워크 사이트 개발환경에서 다운 받은 파일을 압축해제하면 개발에 사용할 eclipse, workspace 디렉터리가 있다
-
 ## 파일 업로드
 
 
@@ -6956,19 +6949,18 @@ public class ZipcodeController {
 
 - 필요한 라이브러리
 ```xml
-    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.4</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.8.0</version>
-    </dependency>
+<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+<dependency>
+  <groupId>commons-fileupload</groupId>
+  <artifactId>commons-fileupload</artifactId>
+  <version>1.4</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+  <groupId>commons-io</groupId>
+  <artifactId>commons-io</artifactId>
+  <version>2.8.0</version>
+</dependency>
 ```
 
 ```java
@@ -11001,6 +10993,7 @@ public interface CommentMapper {
 
 
 ## Template Engine
+
 - view page로 jsp 파일을 사용하지 않고, el, jstl의 방식을 이용해 MVC 모델의 데이터를 치환해서 html 문서를 사용한다
 
 - boot starter에서 Thymeleaf 라이브러리를 추가한다
@@ -11109,3 +11102,66 @@ view2.html
 </body>
 </html>
 ```
+
+#### 전자정부프레임워크
+
+<small> https://www.egovframe.go.kr/home/main.do 참조</small>
+- 공공기관에서 사용한다
+
+- Spring MVC + tomcat을 사용한다 (구형 template)
+
+- 전자정부프레임워크 사이트 개발환경에서 다운 받은 파일을 압축해제하면 개발에 사용할 eclipse, workspace 디렉터리가 있다
+
+- egov web project example 
+
+  <small> 데이터베이스로 hsql을 사용하기 때문에 mariadb를 사용하도록 미리 설정한다 </small>
+
+
+  1. pom.xml에 mariadb 사용을 위한 dependency 추가
+  ```xml
+  <dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	    <version>3.1.4</version>
+	</dependency>
+  ```
+
+  2. /src/main/resources/egovframework/egovProps/globals.properties 수정
+
+  3. /src/main/resources/egovframework/spring/com/context-datasource.xml 수정
+
+- egov template project example
+
+  <small> 데이터베이스로 hsql을 사용하기 때문에 mariadb를 사용하도록 미리 설정한다 </small>
+
+
+  1. pom.xml에 mariadb 사용을 위한 dependency 추가
+  ```xml
+  <dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	    <version>3.1.4</version>
+	</dependency>
+  ```
+
+  2. /src/main/resources/egovframework/egovProps/globals.properties 수정
+
+  3. /src/main/resources/egovframework/spring/com/context-datasource.xml 수정
+
+
+
+- 전자정부프레임워크의 ER diagram을 이용해 erd를 쉽게 구현할 수 있다
+  
+  <small>!! https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:dev:imp:editor:erd_editor 참조</small>
+
+  - forward engineering 
+  
+    diagram &rarr; forward engineering &rarr; database 
+    
+  - reverse engineering
+
+    database &rarr; reverse engineering &rarr; diagram </small>
+
+  - import : 프로젝트에 사용한 데이터베이스를 가져와 er diagram을 구성한다 (reverse engineering)
+
+  - export : er diagram을 이용해 데이터베이스를 구성할 수 있는 ddl 파일을 만든다
