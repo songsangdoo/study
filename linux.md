@@ -562,11 +562,11 @@ root@master-virtual-machine:/etc/skel# adduser tester4
 passwd: 암호를 성공적으로 업데이트했습니다
 tester4의 사용자의 정보를 바꿉니다
 새로운 값을 넣거나, 기본값을 원하시면 엔터를 치세요
-	이름 []: 
-	방 번호 []: 
-	직장 전화번호 []: 
-	집 전화번호 []: 
-	기타 []: 
+  이름 []: 
+  방 번호 []: 
+  직장 전화번호 []: 
+  집 전화번호 []: 
+  기타 []: 
 정보가 올바릅니까? [Y/n] Y
 root@master-virtual-machine:/etc/skel# su tester4
 tester4@master-virtual-machine:/etc/skel$ cd ~
@@ -902,3 +902,895 @@ test.tar.gz  test1.txt  test2.txt  test3.txt  test4.txt
 
 ```
 
+```java
+// 설치된 프로그램 목록 확인
+master@master-virtual-machine:~$ dpkg -l
+희망상태=알수없음(U)/설치(I)/지우기(R)/깨끗이(P)/고정(H)
+| 상태=아님(N)/설치(I)/설정(C)/풀림(U)/절반설정(F)/일부설치(H)/트리거대기(W)/
+| /    트리거밀림(T)
+|/ 오류?=(없음)/다시설치필요(R) (상태, 오류가 대문자=불량)
+||/ 이름                                       버전                           >
++++-==========================================-===============================>
+ii  accountsservice                            22.07.5-2ubuntu1.3             >
+ii  acl                                        2.3.1-1                        >
+ii  acpi-support                               0.144                          >
+ii  acpid                                      1:2.0.33-1ubuntu1              >
+ii  adduser                                    3.118ubuntu5                   >
+ii  adwaita-icon-theme                         41.0-1ubuntu1                  >
+ii  alsa-base                                  1.0.25+dfsg-0ubuntu7           >
+
+// vscode.deb 설치
+master@master-virtual-machine:~/다운로드$ dpkg -I code_1.79.2-1686734195_amd64.deb 
+ new Debian package, version 2.0.
+ size 95938824 bytes: control archive=2712 bytes.
+    1405 바이트,    18 줄      control              
+    3123 바이트,    80 줄   *  postinst             #!/usr/bin/env
+     337 바이트,    11 줄   *  postrm               #!/bin/bash
+     274 바이트,     6 줄   *  prerm                #!/usr/bin/env
+ Package: code
+ Version: 1.79.2-1686734195
+ Section: devel
+ Depends: ca-certificates, libasound2 (>= 1.0.17), libatk-bridge2.0-0 (>= 2.5.3), libatk1.0-0 (>= 2.2.0), libatspi2.0-0 (>= 2.9.90), libc6 (>= 2.14), libc6 (>= 2.17), libc6 (>= 2.2.5), libcairo2 (>= 1.6.0), libcurl3-gnutls | libcurl3-nss | libcurl4 | libcurl3, libdbus-1-3 (>= 1.5.12), libdrm2 (>= 2.4.60), libexpat1 (>= 2.0.1), libgbm1 (>= 17.1.0~rc2), libglib2.0-0 (>= 2.16.0), libglib2.0-0 (>= 2.39.4), libgtk-3-0 (>= 3.9.10), libgtk-3-0 (>= 3.9.10) | libgtk-4-1, libnspr4 (>= 2:4.9-2~), libnss3 (>= 2:3.22), libnss3 (>= 3.26), libpango-1.0-0 (>= 1.14.0), libsecret-1-0 (>= 0.18), libx11-6, libx11-6 (>= 2:1.4.99.1), libxcb1 (>= 1.9.2), libxcomposite1 (>= 1:0.4.4-1), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxkbcommon0 (>= 0.4.1), libxkbfile1, libxrandr2, xdg-utils (>= 1.0.2)
+ Recommends: libvulkan1
+ Priority: optional
+ Architecture: amd64
+ Maintainer: Microsoft Corporation <vscode-linux@microsoft.com>
+ Homepage: https://code.visualstudio.com/
+ Installed-Size: 369848
+ Provides: visual-studio-code
+ Conflicts: visual-studio-code
+ Replaces: visual-studio-code
+ Description: Code editing. Redefined.
+  Visual Studio Code is a new choice of tool that combines the simplicity of
+  a code editor with what developers need for the core edit-build-debug cycle.
+  See https://code.visualstudio.com/docs/setup/linux for installation
+  instructions and FAQ.
+master@master-virtual-machine:~/다운로드$ dpkg -l code
+dpkg-query: code와 일치하는 패키지를 찾지 못했습니다
+master@master-virtual-machine:~/다운로드$ sudo dpkg -i code_1.79.2-1686734195_amd64.deb 
+[sudo] master 암호: 
+Selecting previously unselected package code.
+(데이터베이스 읽는중 ...현재 191894개의 파일과 디렉터리가 설치되어 있습니다.)
+Preparing to unpack code_1.79.2-1686734195_amd64.deb ...
+Unpacking code (1.79.2-1686734195) ...
+code (1.79.2-1686734195) 설정하는 중입니다 ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu3) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
+Processing triggers for shared-mime-info (2.1-2) ...
+master@master-virtual-machine:~/다운로드$ dpkg -l code
+희망상태=알수없음(U)/설치(I)/지우기(R)/깨끗이(P)/고정(H)
+| 상태=아님(N)/설치(I)/설정(C)/풀림(U)/절반설정(F)/일부설치(H)/트리거대기(W)/
+| /    트리거밀림(T)
+|/ 오류?=(없음)/다시설치필요(R) (상태, 오류가 대문자=불량)
+||/ 이름           버전              Architecture 설명
++++-==============-=================-============-=================================
+ii  code           1.79.2-1686734195 amd64        Code editing. Redefined.
+```
+```java
+// sudo dpkg -r 패키지명 - 설정파일 삭제 X
+// sudo dpkg -P 패키지명 - 설정파일 삭제 O
+master@master-virtual-machine:~/다운로드$ sudo dpkg -P google-chrome-stable
+(데이터베이스 읽는중 ...현재 193424개의 파일과 디렉터리가 설치되어 있습니다.)
+google-chrome-stable (114.0.5735.133-1)를 제거합니다...
+Purging configuration files for google-chrome-stable (114.0.5735.133-1) ...
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu3) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
+
+```
+
+```java
+// apt / apt-get  : Advanced Package Tool
+// *.deb과 의존성 있는 deb 동시에 설치
+
+// deb 설치 홈페이지 확인
+master@master-virtual-machine:~/다운로드$ cat /etc/apt/sources.list
+#deb cdrom:[Ubuntu 22.04.2 LTS _Jammy Jellyfish_ - Release amd64 (20230223)]/ jammy main restricted
+
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy main restricted
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy main restricted
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy-updates main restricted
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy universe
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy universe
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy-updates universe
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy-updates universe
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu 
+## team, and may not be under a free licence. Please satisfy yourself as to 
+## your rights to use the software. Also, please note that software in 
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy multiverse
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy multiverse
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy-updates multiverse
+
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb http://kr.archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+# deb-src http://kr.archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+
+deb http://security.ubuntu.com/ubuntu jammy-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu jammy-security main restricted
+deb http://security.ubuntu.com/ubuntu jammy-security universe
+# deb-src http://security.ubuntu.com/ubuntu jammy-security universe
+deb http://security.ubuntu.com/ubuntu jammy-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu jammy-security multiverse
+
+# This system was installed using small removable media
+# (e.g. netinst, live or single CD). The matching "deb cdrom"
+# entries were disabled at the end of the installation process.
+# For information about how to configure apt package sources,
+# see the sources.list(5) manual.
+```
+
+```java
+// 업데이트
+master@master-virtual-machine:~/다운로드$ sudo apt-get update
+받기:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+받기:2 http://packages.microsoft.com/repos/code stable/main arm64 Packages [71.1 kB]
+받기:3 http://packages.microsoft.com/repos/code stable/main amd64 Packages [70.8 kB]
+받기:4 http://packages.microsoft.com/repos/code stable/main armhf Packages [71.4 kB]
+받기:5 http://security.ubuntu.com/ubuntu jammy-security InRelease [110 kB]    
+기존:6 http://kr.archive.ubuntu.com/ubuntu jammy InRelease                    
+받기:7 http://kr.archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]   
+받기:8 http://kr.archive.ubuntu.com/ubuntu jammy-backports InRelease [108 kB]
+받기:9 http://kr.archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [15.3 kB]
+받기:10 http://kr.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [20.4 kB]
+내려받기 589 k바이트, 소요시간 2초 (251 k바이트/초)                     
+패키지 목록을 읽는 중입니다... 완료
+// 업그레이드
+master@master-virtual-machine:~/다운로드$ sudo apt-get upgrade
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+업그레이드를 계산하는 중입니다... 완료
+다음 패키지를 과거 버전으로 유지합니다:
+  gdm3 gir1.2-gdm-1.0 libgdm1 linux-generic-hwe-22.04
+  linux-headers-generic-hwe-22.04 linux-image-generic-hwe-22.04
+다음 패키지를 업그레이드할 것입니다:
+  fwupd fwupd-signed gjs gnome-shell-extension-ubuntu-dock libfwupd2
+  libfwupdplugin5 libgjs0g ubuntu-drivers-common
+8개 업그레이드, 0개 새로 설치, 0개 제거 및 6개 업그레이드 안 함.
+3,452 k바이트/3,545 k바이트 아카이브를 받아야 합니다.
+이 작업 후 10.2 k바이트의 디스크 공간을 더 사용하게 됩니다.
+계속 하시겠습니까? [Y/n] 
+...
+```
+
+```java
+master@master-virtual-machine:~/다운로드$ sudo apt-get list
+E: 잘못된 작업 list
+master@master-virtual-machine:~/다운로드$ sudo apt list 
+...
+
+// 설치된 파일의 목록만 보여준다
+master@master-virtual-machine:~/다운로드$ sudo apt list --installed | grep openjdk
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+openjdk-11-jdk-headless/jammy-updates,jammy-security,now 11.0.19+7~us1-0ubuntu1~22.04.1 amd64 [설치됨,자동]
+openjdk-11-jdk/jammy-updates,jammy-security,now 11.0.19+7~us1-0ubuntu1~22.04.1 amd64 [설치됨]
+openjdk-11-jre-headless/jammy-updates,jammy-security,now 11.0.19+7~us1-0ubuntu1~22.04.1 amd64 [설치됨,자동]
+openjdk-11-jre/jammy-updates,jammy-security,now 11.0.19+7~us1-0ubuntu1~22.04.1 amd64 [설치됨,자동]
+
+// 설치된 파일 정보 확인
+master@master-virtual-machine:~/다운로드$ sudo apt-cache show openjdk-11-jdk
+Package: openjdk-11-jdk
+Architecture: amd64
+Version: 11.0.19+7~us1-0ubuntu1~22.04.1
+Multi-Arch: same
+Priority: optional
+Section: java
+Source: openjdk-lts
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubunt
+...
+
+// 설치할 수 있는 파일 목록
+master@master-virtual-machine:~/다운로드$ sudo apt-cache search openjdk-11-jdk
+default-jdk - Standard Java or Java compatible Development Kit
+default-jdk-headless - Standard Java or Java compatible Development Kit (headless)
+openjdk-11-jdk - OpenJDK Development Kit (JDK)
+openjdk-11-jdk-headless - OpenJDK Development Kit (JDK) (headless)
+
+// 설치
+master@master-virtual-machine:~/다운로드$ sudo apt-get install filezilla
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+다음의 추가 패키지가 설치될 것입니다 :
+  filezilla-common libfilezilla-common libfilezilla24 libpugixml1v5 libwxbase3.0-0v5 libwxgtk3.0-gtk3-0v5
+다음 새 패키지를 설치할 것입니다:
+  filezilla filezilla-common libfilezilla-common libfilezilla24 libpugixml1v5 libwxbase3.0-0v5
+  libwxgtk3.0-gtk3-0v5
+0개 업그레이드, 7개 새로 설치, 0개 제거 및 6개 업그레이드 안 함.
+10.1 M바이트 아카이브를 받아야 합니다.
+이 작업 후 36.9 M바이트의 디스크 공간을 더 사용하게 됩니다.
+계속 하시겠습니까? [Y/n] Y
+...
+
+// 파일 설치여부 확인
+master@master-virtual-machine:~/다운로드$ sudo apt list --installed | grep filezilla
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+filezilla-common/jammy,jammy,now 3.58.0-1 all [설치됨,자동]
+filezilla/jammy,now 3.58.0-1 amd64 [설치됨]
+libfilezilla-common/jammy,jammy,now 0.36.0-2 all [설치됨,자동]
+libfilezilla24/jammy,now 0.36.0-2 amd64 [설치됨,자동]
+
+// sudo apt-get remove 패키지명 - 설정파일 삭제 (X)
+// sudo apt-get --purge remove 패키지명 - 설정파일 삭제 (O)
+// sudo apt autoremove 패키지명 - 추가로 설치된 파일까지 제거
+master@master-virtual-machine:~/다운로드$ sudo apt autoremove filezilla
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+다음 패키지를 지울 것입니다:
+  filezilla filezilla-common libfilezilla-common libfilezilla24 libpugixml1v5 libwxbase3.0-0v5
+  libwxgtk3.0-gtk3-0v5
+0개 업그레이드, 0개 새로 설치, 7개 제거 및 6개 업그레이드 안 함.
+이 작업 후 36.9 M바이트의 디스크 공간이 비워집니다.
+계속 하시겠습니까? [Y/n] Y
+(데이터베이스 읽는중 ...현재 194271개의 파일과 디렉터리가 설치되어 있습니다.)
+filezilla (3.58.0-1)를 제거합니다...
+filezilla-common (3.58.0-1)를 제거합니다...
+libfilezilla24:amd64 (0.36.0-2)를 제거합니다...
+libfilezilla-common (0.36.0-2)를 제거합니다...
+libpugixml1v5:amd64 (1.12.1-1)를 제거합니다...
+libwxgtk3.0-gtk3-0v5:amd64 (3.0.5.1+dfsg-4)를 제거합니다...
+libwxbase3.0-0v5:amd64 (3.0.5.1+dfsg-4)를 제거합니다...
+Processing triggers for hicolor-icon-theme (0.17-2) ...
+Processing triggers for gnome-menus (3.36.0-1ubuntu3) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+Processing triggers for man-db (2.10.2-1) ...
+Processing triggers for mailcap (3.70+nmu1ubuntu1) ...
+Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
+
+// c / c++ 실행환경 gcc 설치
+master@master-virtual-machine:~/다운로드$ sudo apt-get install gcc
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+다음의 추가 패키지가 설치될 것입니다 :
+  binutils binutils-common binutils-x86-64-linux-gnu gcc-11 libasan6 libbinutils libc-dev-bin
+  libc-devtools libc6-dev libcc1-0 libcrypt-dev libctf-nobfd0 libctf0 libgcc-11-dev libitm1 liblsan0
+  libnsl-dev libquadmath0 libtirpc-dev libtsan0 libubsan1 linux-libc-dev manpages-dev rpcsvc-proto
+제안하는 패키지:
+  binutils-doc gcc-multilib make autoconf automake libtool flex bison gcc-doc gcc-11-multilib gcc-11-doc
+  gcc-11-locales glibc-doc
+다음 새 패키지를 설치할 것입니다:
+  binutils binutils-common binutils-x86-64-linux-gnu gcc gcc-11 libasan6 libbinutils libc-dev-bin
+  libc-devtools libc6-dev libcc1-0 libcrypt-dev libctf-nobfd0 libctf0 libgcc-11-dev libitm1 liblsan0
+  libnsl-dev libquadmath0 libtirpc-dev libtsan0 libubsan1 linux-libc-dev manpages-dev rpcsvc-proto
+0개 업그레이드, 25개 새로 설치, 0개 제거 및 6개 업그레이드 안 함.
+39.1 M바이트 아카이브를 받아야 합니다.
+이 작업 후 131 M바이트의 디스크 공간을 더 사용하게 됩니다.
+계속 하시겠습니까? [Y/n] Y
+...
+
+// gcc 버전 확인
+master@master-virtual-machine:~/다운로드$ gcc --version
+gcc (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+master@master-virtual-machine:~$ gcc hello.c
+master@master-virtual-machine:~$ ls
+a.out    eclipse-jee-2023-06-R-linux-gtk-x86_64.tar.gz  snap      문서      사진
+dir      eclipse-workspace                              공개      바탕화면  음악
+eclipse  hello.c                                        다운로드  비디오    템플릿
+master@master-virtual-machine:~$ ./a.out
+Hello World
+master@master-virtual-machine:~$ gcc -o hello hello.c
+master@master-virtual-machine:~$ ls
+a.out    eclipse-jee-2023-06-R-linux-gtk-x86_64.tar.gz  hello.c  다운로드  비디오  템플릿
+dir      eclipse-workspace                              snap     문서      사진
+eclipse  hello                                          공개     바탕화면  음악
+master@master-virtual-machine:~$ ./hello
+Hello World
+
+```
+
+### 주기적인 실행
+- 리눅스에서 서비스(데몬 : 백그라운드 프로세스)로 실행된다
+  <small> !! 실행 결과를 메일 형태로 블러온다</small>
+
+#### 메일
+
+  - 메일 설치, 설정
+
+  ```java
+  // 메일 설치
+  master@master-virtual-machine:~$ sudo apt -y install postfix
+  ...
+  master@master-virtual-machine:~$ sudo apt -y install mailutils
+  ...
+
+  // 메일이 현재 실행되고 있는지 상태 확인
+  master@master-virtual-machine:~$ systemctl status postfix
+  ● postfix.service - Postfix Mail Transport Agent
+       Loaded: loaded (/lib/systemd/system/postfix.service; enabled; vendor preset: enabled)
+       Active: active (exited) since Mon 2023-06-19 09:42:35 KST; 58s ago
+         Docs: man:postfix(1)
+      Process: 13243 ExecStart=/bin/true (code=exited, status=0/SUCCESS)
+     Main PID: 13243 (code=exited, status=0/SUCCESS)
+          CPU: 1ms
+
+   6월 19 09:42:35 master-virtual-machine systemd[1]: Starting Postfix Mail Transport Agent...
+   6월 19 09:42:35 master-virtual-machine systemd[1]: Finished Postfix Mail Transport Agent.
+
+  // master에게 메일 작성
+  master@master-virtual-machine:~$ mail master
+  Cc: 
+  Subject: 제목
+  내용
+  내용
+  // ctrl + D 로 작성 완료
+  // 작성된 메일 확인
+  master@master-virtual-machine:~$ mail
+  "/var/mail/master": 1 message 1 new
+  >N   1 master             월  6월 19 09:  15/529   제목
+  ? 1
+  Return-Path: <master@master-virtual-machine>
+  X-Original-To: master
+  Delivered-To: master@master-virtual-machine.localdomain
+  Received: by master-virtual-machine.localdomain (Postfix, from userid 1000)
+    id 135CE180039; Mon, 19 Jun 2023 09:46:29 +0900 (KST)
+  To: master@master-virtual-machine.localdomain
+  Subject: 제목
+  User-Agent: mail (GNU Mailutils 3.14)
+  Date: Mon, 19 Jun 2023 09:46:29 +0900
+  Message-Id: <20230619004629.135CE180039@master-virtual-machine.localdomain>
+  From: master <master@master-virtual-machine>
+
+  내용
+  내용
+
+  ```
+
+#### at
+- 정해진 시간에 한번만 실행
+  - at 설치, 설정
+  ```java
+  // at 설치
+  master@master-virtual-machine:~$ sudo apt -y install at
+  ...
+
+  //  at가 실행되고 있는지 확인
+  master@master-virtual-machine:~$ systemctl status atd
+  ● atd.service - Deferred execution scheduler
+       Loaded: loaded (/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
+       Active: active (running) since Mon 2023-06-19 09:51:33 KST; 1min 5s ago
+         Docs: man:atd(8)
+      Process: 13840 ExecStartPre=find /var/spool/cron/atjobs -type f -name =* -not -newer>
+     Main PID: 13841 (atd)
+        Tasks: 1 (limit: 4573)
+       Memory: 248.0K
+          CPU: 2ms
+       CGroup: /system.slice/atd.service
+               └─13841 /usr/sbin/atd -f
+
+   6월 19 09:51:33 master-virtual-machine systemd[1]: Starting Deferred execution schedule>
+   6월 19 09:51:33 master-virtual-machine systemd[1]: Started Deferred execution scheduler.
+  // at 강제 종료후 실행되고 있는지 확인
+  master@master-virtual-machine:~$ systemctl stop atd
+  master@master-virtual-machine:~$ systemctl status atd
+  ○ atd.service - Deferred execution scheduler
+       Loaded: loaded (/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
+       Active: inactive (dead) since Mon 2023-06-19 09:53:54 KST; 10s ago
+         Docs: man:atd(8)
+      Process: 13840 ExecStartPre=find /var/spool/cron/atjobs -type f -name =* -not -newer>
+      Process: 13841 ExecStart=/usr/sbin/atd -f (code=exited, status=0/SUCCESS)
+     Main PID: 13841 (code=exited, status=0/SUCCESS)
+          CPU: 2ms
+
+   6월 19 09:51:33 master-virtual-machine systemd[1]: Starting Deferred execution schedule>
+   6월 19 09:51:33 master-virtual-machine systemd[1]: Started Deferred execution scheduler.
+   6월 19 09:53:54 master-virtual-machine systemd[1]: Stopping Deferred execution schedule>
+   6월 19 09:53:54 master-virtual-machine systemd[1]: atd.service: Deactivated successfull>
+   6월 19 09:53:54 master-virtual-machine systemd[1]: Stopped Deferred execution scheduler.
+  lines 1-14/14 (END)
+  
+  master@master-virtual-machine:~$ ps aux | grep atd
+  master     13960  0.0  0.0  19064  2488 pts/0    S+   09:55   0:00 grep --color=auto atd
+  // at 관련 옵션 확인
+  master@master-virtual-machine:~$ at --help
+  at: invalid option -- '-'
+  Usage: at [-V] [-q x] [-f file] [-u username] [-mMlbv] timespec ...
+         at [-V] [-q x] [-f file] [-u username] [-mMlbv] -t time
+         at -c job ...
+         at [-V] -l [-o timeformat] [job ...]
+         atq [-V] [-q x] [-o timeformat] [job ...]
+         at [ -rd ] job ...
+         atrm [-V] job ...
+         batch
+  // at 설정
+  master@master-virtual-machine:~$ at 10:15 am
+  warning: commands will be executed using /bin/sh
+  at Mon Jun 19 10:15:00 2023
+  at> ls -l /home/master
+  at> <EOT>
+  job 2 at Mon Jun 19 10:15:00 2023
+  Can't open /run/atd.pid to signal atd. No atd running?'
+  master@master-virtual-machine:~$ atq
+  1	Tue Jun 20 10:11:00 2023 a master
+  2	Mon Jun 19 10:15:00 2023 a master
+  master@master-virtual-machine:~$ at -l
+  1	Tue Jun 20 10:11:00 2023 a master
+  2	Mon Jun 19 10:15:00 2023 a master
+  master@master-virtual-machine:~$ at 10:17 am
+  warning: commands will be executed using /bin/sh
+  at Mon Jun 19 10:17:00 2023
+  at> ls -l /home/master > list.txt
+  at> <EOT>
+  job 3 at Mon Jun 19 10:17:00 2023
+  Can't open /run/atd.pid to signal atd. No atd running?'
+  master@master-virtual-machine:~$ at -l
+  1	Tue Jun 20 10:11:00 2023 a master
+  3	Mon Jun 19 10:17:00 2023 a master
+  2	Mon Jun 19 10:15:00 2023 a master
+  // 기록된 일들 확인
+  master@master-virtual-machine:~$ sudo ls -l /var/spool/cron/atjobs/
+  [sudo] master 암호: 
+  합계 24
+  -rwx------ 1 master daemon 4123  6월 19 10:12 a0000101ad1547
+  -rwx------ 1 master daemon 4123  6월 19 10:12 a0000201ad0fab
+  -rwx------ 1 master daemon 4134  6월 19 10:15 a0000301ad0fad
+  // master@master-virtual-machine:~$ at 14:17 pm
+  // 위의 표현은 사용할 수 없고 아래와 같이 사용해야 한다
+  master@master-virtual-machine:~$ at 02:17 pm
+  ```
+
+
+#### crontab
+
+<small> !! https://losskatsu.github.io/os-kernel/crontab/ 참조 </small>
+
+- 스케줄을 정하고 그 시간마다 실행한다
+
+- crontab 설치, 설정
+```java
+// crontab 설치
+master@master-virtual-machine:~$ sudo apt -y install cron
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+패키지 cron는 이미 최신 버전입니다 (3.0pl1-137ubuntu3).
+cron 패키지는 수동설치로 지정합니다.
+0개 업그레이드, 0개 새로 설치, 0개 제거 및 3개 업그레이드 안 함.
+
+```
+```java
+master@master-virtual-machine:~$ vi hello.sh
+...
+  1 #!/bin/sh
+  2 echo -n "Hello shell Script"
+...
+master@master-virtual-machine:~$ ./hello.sh
+bash: ./hello.sh: 허가 거부
+master@master-virtual-machine:~$ ls -l hello.sh
+-rw-rw-r-- 1 master master 39  6월 19 10:36 hello.sh
+master@master-virtual-machine:~$ chmod 764 ./hello.sh
+master@master-virtual-machine:~$ ls -l hello.sh
+-rwxrw-r-- 1 master master 39  6월 19 10:36 hello.sh
+master@master-virtual-machine:~$ ./hello.sh
+Hello shell Script
+```
+
+### 파일 시스템
+
+#### df 
+```java
+// 공간 사용 확인
+master@master-virtual-machine:~$ df
+파일 시스템     1K-블록     사용     가용 사용% 마운트위치
+tmpfs            398212     2048   396164    1% /run
+/dev/sda3      61091660 17252932 40703036   30% /
+tmpfs           1991056        0  1991056    0% /dev/shm
+tmpfs              5120        4     5116    1% /run/lock
+/dev/sda2        524252     6216   518036    2% /boot/efi
+tmpfs            398208      108   398100    1% /run/user/1000
+
+// 메가바이트 단위
+master@master-virtual-machine:~$ df -BM
+파일 시스템    1M-블록   사용   가용 사용% 마운트위치
+tmpfs             389M     2M   387M    1% /run
+/dev/sda3       59660M 16849M 39750M   30% /
+tmpfs            1945M     0M  1945M    0% /dev/shm
+tmpfs               5M     1M     5M    1% /run/lock
+/dev/sda2         512M     7M   506M    2% /boot/efi
+tmpfs             389M     1M   389M    1% /run/user/1000
+
+// 기가바이트 단위
+master@master-virtual-machine:~$ df -BG
+파일 시스템    1G-블록  사용  가용 사용% 마운트위치
+tmpfs               1G    1G    1G    1% /run
+/dev/sda3          59G   17G   39G   30% /
+tmpfs               2G    0G    2G    0% /dev/shm
+tmpfs               1G    1G    1G    1% /run/lock
+/dev/sda2           1G    1G    1G    2% /boot/efi
+tmpfs               1G    1G    1G    1% /run/user/1000
+
+```
+#### du &rarr; 파티션
+```java
+// master 디렉터리에 할당된 파일, 디렉터리의 용량을 보여준다
+master@master-virtual-machine:~$ du /home/master
+185848	/home/master/다운로드
+4	/home/master/바탕화면
+4	/home/master/.config/nautilus
+8	/home/master/.config/gtk-3.0
+...
+
+// -s를 이용해 특정 디렉터리의 사용 용량을 알 수있다
+master@master-virtual-machine:~$ du -s /home/master/
+2385716	/home/master/
+
+```
+### 네트워크
+
+```java
+master@master-virtual-machine:~$ ifconfig
+명령어 'ifconfig' 을(를) 찾을 수 없습니다. 그러나 다음을 통해 설치할 수 있습니다:
+sudo apt install net-tools
+master@master-virtual-machine:~$ sudo apt -y install net-tools
+[sudo] master 암호: 
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+...
+// ip 확인
+master@master-virtual-machine:~$ ifconfig
+ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.198.129  netmask 255.255.255.0  broadcast 192.168.198.255
+        inet6 fe80::bd8d:ce61:2d2f:87ca  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:d9:58:26  txqueuelen 1000  (Ethernet)
+        RX packets 103783  bytes 153966962 (153.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 40920  bytes 2548170 (2.5 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 266  bytes 27051 (27.0 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 266  bytes 27051 (27.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+// 네트워크가 잘 작동하는 지 확인
+// 윈도우와 다르게 무한 작업하기 때문에 "ctrl + C" 로 종료해야한다
+master@master-virtual-machine:~$ ping 192.168.0.7
+PING 192.168.0.7 (192.168.0.7) 56(84) bytes of data.
+64 bytes from 192.168.0.7: icmp_seq=1 ttl=128 time=0.577 ms
+64 bytes from 192.168.0.7: icmp_seq=2 ttl=128 time=1.23 ms
+64 bytes from 192.168.0.7: icmp_seq=3 ttl=128 time=1.22 ms
+64 bytes from 192.168.0.7: icmp_seq=4 ttl=128 time=1.10 ms
+64 bytes from 192.168.0.7: icmp_seq=5 ttl=128 time=1.09 ms
+64 bytes from 192.168.0.7: icmp_seq=6 ttl=128 time=1.04 ms
+64 bytes from 192.168.0.7: icmp_seq=7 ttl=128 time=1.11 ms
+64 bytes from 192.168.0.7: icmp_seq=8 ttl=128 time=1.09 ms
+64 bytes from 192.168.0.7: icmp_seq=9 ttl=128 time=1.22 ms
+64 bytes from 192.168.0.7: icmp_seq=10 ttl=128 time=1.21 ms
+64 bytes from 192.168.0.7: icmp_seq=11 ttl=128 time=1.22 ms
+64 bytes from 192.168.0.7: icmp_seq=12 ttl=128 time=1.21 ms
+64 bytes from 192.168.0.7: icmp_seq=13 ttl=128 time=1.28 ms
+^C
+--- 192.168.0.7 ping statistics ---
+13 packets transmitted, 13 received, 0% packet loss, time 12049ms
+rtt min/avg/max/mdev = 0.577/1.121/1.284/0.172 ms
+
+```
+## 서버 구축
+- https://tomcat.apache.org/download-90.cgi 에서 tar.gz 파일 다운로드
+```java
+// 다운 받은 tomcat 압축해제
+master@master-virtual-machine:~$ tar xzf apache-tomcat-9.0.76.tar.gz 
+master@master-virtual-machine:~$ ls
+HelloWorld.class             eclipse-jee-2023-06-R-linux-gtk-x86_64.tar.gz  문서
+HelloWorld.java              eclipse-workspace                              바탕화면
+apache-tomcat-9.0.76         mbox                                           비디오
+apache-tomcat-9.0.76.tar.gz  snap                                           사진
+dir                          공개                                           음악
+eclipse                      다운로드                                       템플릿
+// 리눅스에서는 .sh 파일로 프로그램을 실행시킨다
+master@master-virtual-machine:~$ cd apache-tomcat-9.0.76/bin/
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ls *.sh
+catalina.sh  configtest.sh  digest.sh    setclasspath.sh  startup.sh       version.sh
+ciphers.sh   daemon.sh      makebase.sh  shutdown.sh      tool-wrapper.sh
+// tomcat 실행 명령어
+// catarlina.sh는 로그가 보이기 때문에 디버깅할 때 사용한다
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ./catalina.sh run
+Using CATALINA_BASE:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_HOME:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_TMPDIR: /home/master/apache-tomcat-9.0.76/temp
+...
+// startup.sh는 로그가 보이지 않고 실행된다
+// 로그가 보이지 않기 때문에 서비스용으로 사용된다
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ./startup.sh
+Using CATALINA_BASE:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_HOME:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_TMPDIR: /home/master/apache-tomcat-9.0.76/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/master/apache-tomcat-9.0.76/bin/bootstrap.jar:/home/master/apache-tomcat-9.0.76/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+// tomcat 실행 확인
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ps aux | grep tomcat
+master     15901  2.5  3.2 3592796 130592 pts/0  Sl   11:35   0:02 /usr/bin/java -Djava.util.logging.config.file=/home/master/apache-tomcat-9.0.76/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/master/apache-tomcat-9.0.76/bin/bootstrap.jar:/home/master/apache-tomcat-9.0.76/bin/tomcat-juli.jar -Dcatalina.base=/home/master/apache-tomcat-9.0.76 -Dcatalina.home=/home/master/apache-tomcat-9.0.76 -Djava.io.tmpdir=/home/master/apache-tomcat-9.0.76/temp org.apache.catalina.startup.Bootstrap start
+master     15948  0.0  0.0  19064  2448 pts/0    S+   11:37   0:00 grep --color=auto tomcat
+// tomcat 종료
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ./shutdown.sh 
+Using CATALINA_BASE:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_HOME:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_TMPDIR: /home/master/apache-tomcat-9.0.76/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/master/apache-tomcat-9.0.76/bin/bootstrap.jar:/home/master/apache-tomcat-9.0.76/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+// tomcat 종료 후 tomcat 실행 확인
+master@master-virtual-machine:~/apache-tomcat-9.0.76/bin$ ps aux | grep tomcat
+master     15987  0.0  0.0  19064  2484 pts/0    S+   11:39   0:00 grep --color=auto tomcat
+
+```
+```java
+master@master-virtual-machine:~/apache-tomcat-9.0.76/conf$ vi server.xml 
+...
+
+ 65          Java AJP  Connector: /docs/config/ajp.html
+ 66          APR (HTTP/AJP) Connector: /docs/apr.html
+ 67          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
+ 68     -->
+ 69     <Connector port="9090" protocol="HTTP/1.1"
+ 70                connectionTimeout="20000"
+ 71                redirectPort="8443"
+// port 속성의 값 8080 을 9090으로 수정
+...
+// 포트 번호가 바뀐다
+```
+```java
+// /apache-tomcat-9.0.76/webapps/ROOT 에 있는 jsp 파일을 실행시킬 수 있다
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps/ROOT$ vi hello.jsp
+
+// 기존의 ROOT 디렉터리가 아닌 ROOT 안에새로운 디렉터리를 만들고 내부의 jsp 파일을 실행시킬 수 있다
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ mkdir website1
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ mkdir -p website1/WEB-INF
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ ls website1/
+WEB-INF
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ cp ./ROOT/hello.jsp website1/
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ ls
+ROOT  docs  examples  host-manager  manager  website1
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ ls website1/
+WEB-INF  hello.jsp
+master@master-virtual-machine:~/apache-tomcat-9.0.76/webapps$ /home/master/apache-tomcat-9.0.76/bin/startup.sh 
+Using CATALINA_BASE:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_HOME:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_TMPDIR: /home/master/apache-tomcat-9.0.76/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/master/apache-tomcat-9.0.76/bin/bootstrap.jar:/home/master/apache-tomcat-9.0.76/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+// 기존의 ROOT가 아닌 완전 다른 디렉터리의 jsp 파일도 실행시킬 수 있다
+// 단, 기본적인 디렉터리 구성은 ROOT와 같아야 하고,
+// /apache-tomcat-9.0.76/conf/Catalina/localhost에 xml파일을 생성해 경로를 설정해줘야 한다
+master@master-virtual-machine:~$ mkdir website2
+master@master-virtual-machine:~$ mkdir -p website2/WEB-INF
+master@master-virtual-machine:~$ ls website2/
+WEB-INF
+master@master-virtual-machine:~$ cp /home/master/apache-tomcat-9.0.76/webapps/website1/hello.jsp ./website2/
+master@master-virtual-machine:~$ ls website2/
+WEB-INF  hello.jsp
+master@master-virtual-machine:~$ cd ./apache-tomcat-9.0.76/conf/Catalina/localhost/
+master@master-virtual-machine:~/apache-tomcat-9.0.76/conf/Catalina/localhost$ vi website2.xml
+
+...
+1 <?xml version="1.0" encoding="utf-8"?>
+2 <Context path="/website2" docBase="/home/master/website2" reloadable="true">
+3 </Context>
+...
+
+master@master-virtual-machine:~/apache-tomcat-9.0.76/conf/Catalina/localhost$ /home/master/apache-tomcat-9.0.76/bin/startup.sh 
+Using CATALINA_BASE:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_HOME:   /home/master/apache-tomcat-9.0.76
+Using CATALINA_TMPDIR: /home/master/apache-tomcat-9.0.76/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/master/apache-tomcat-9.0.76/bin/bootstrap.jar:/home/master/apache-tomcat-9.0.76/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+```
+
+## mariaDB
+
+### 설치, 설정
+
+```java
+// mariadb 설치
+master@master-virtual-machine:~$ sudo apt -y install mariadb-server
+[sudo] master 암호: 
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+다음의 추가 패키지가 설치될 것입니다 :
+  galera-4 gawk libcgi-fast-perl libcgi-pm-perl libconfig-inifiles-perl libdaxctl1
+  libdbd-mysql-perl libdbi-perl libfcgi-bin libfcgi-perl libfcgi0ldbl libhtml-template-perl
+...
+// mariadb 실행상태 확인
+master@master-virtual-machine:~$ systemctl status mariadb
+● mariadb.service - MariaDB 10.6.12 database server
+     Loaded: loaded (/lib/systemd/system/mariadb.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2023-06-19 14:13:14 KST; 55s ago
+       Docs: man:mariadbd(8)
+             https://mariadb.com/kb/en/library/systemd/
+    Process: 19139 ExecStartPre=/usr/bin/install -m 755 -o mysql -g root -d /var/run/mysqld (c>
+    Process: 19141 ExecStartPre=/bin/sh -c systemctl unset-environment _WSREP_START_POSITION (>
+    Process: 19143 ExecStartPre=/bin/sh -c [ ! -e /usr/bin/galera_recovery ] && VAR= ||   VAR=>
+    Process: 19189 ExecStartPost=/bin/sh -c systemctl unset-environment _WSREP_START_POSITION >
+    Process: 19191 ExecStartPost=/etc/mysql/debian-start (code=exited, status=0/SUCCESS)
+   Main PID: 19173 (mariadbd)
+     Status: "Taking your SQL requests now..."
+      Tasks: 16 (limit: 4573)
+     Memory: 65.7M
+        CPU: 269ms
+     CGroup: /system.slice/mariadb.service
+             └─19173 /usr/sbin/mariadbd
+
+ 6월 19 14:13:14 master-virtual-machine mariadbd[19173]: 2023-06-19 14:13:14 0 [Note] InnoDB: >
+ 6월 19 14:13:14 master-virtual-machine mariadbd[19173]: 2023-06-19 14:13:14 0 [Note] /usr/sbi>
+ 6월 19 14:13:14 master-virtual-machine mariadbd[19173]: Version: '10.6.12-MariaDB-0ubuntu0.22>
+ 6월 19 14:13:14 master-virtual-machine systemd[1]: Started MariaDB 10.6.12 database server.
+
+```
+```java
+master@master-virtual-machine:~$ mysql
+ERROR 1698 (28000): Access denied for user 'master'@'localhost'
+master@master-virtual-machine:~$ sudo mysql
+// 암호가 따로 설정되어 있지 않다
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 32
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> select host, user, password, plugin from mysql.user;
++-----------+-------------+----------+-----------------------+
+| Host      | User        | Password | plugin                |
++-----------+-------------+----------+-----------------------+
+| localhost | mariadb.sys |          | mysql_native_password |
+| localhost | root        | invalid  | mysql_native_password |
+| localhost | mysql       | invalid  | mysql_native_password |
++-----------+-------------+----------+-----------------------+
+3 rows in set (0.001 sec)
+...
+
+// 암호 설정
+master@master-virtual-machine:~$ sudo mysqladmin -u root password '!123456'
+// 암호 설정을 했지만, 암호가 없어도 mysql 접속이 가능하다
+master@master-virtual-machine:~$ sudo mysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 37
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> select host, user, password, plugin from mysql.user;
++-----------+-------------+-------------------------------------------+-----------------------+
+| Host      | User        | Password                                  | plugin                |
++-----------+-------------+-------------------------------------------+-----------------------+
+| localhost | mariadb.sys |                                           | mysql_native_password |
+| localhost | root        | *B573D3EA036614123CB0B52313A6AD58E1F114C0 | mysql_native_password |
+| localhost | mysql       | invalid                                   | mysql_native_password |
++-----------+-------------+-------------------------------------------+-----------------------+
+3 rows in set (0.001 sec)
+
+// 내가 설정한 암호로만 mysql 접속하려고 하면 아래와 같은 명령어를 써준다
+MariaDB [(none)]> alter user root@localhost identified via mysql_native_password using password('!123456');
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.000 sec)
+...
+// 암호 없이 mysql 접속하려고 하면 아래와 같은 에러가 생긴다
+master@master-virtual-machine:~$ sudo mysql -u root -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+// 암호 입력
+master@master-virtual-machine:~$ sudo mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 40
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> select host, user, password, plugin from mysql.user;
++-----------+-------------+-------------------------------------------+-----------------------+
+| Host      | User        | Password                                  | plugin                |
++-----------+-------------+-------------------------------------------+-----------------------+
+| localhost | mariadb.sys |                                           | mysql_native_password |
+| localhost | root        | *B573D3EA036614123CB0B52313A6AD58E1F114C0 | mysql_native_password |
+| localhost | mysql       | invalid                                   | mysql_native_password |
++-----------+-------------+-------------------------------------------+-----------------------+
+3 rows in set (0.001 sec)
+
+```
+```java
+// localhost로 접속
+master@master-virtual-machine:~$ sudo mysql -h localhost -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 41
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+// localhost ip를 직접 입력해서 접속하면 에러가 생긴다 (원격접속 에러)
+master@master-virtual-machine:~$ sudo mysql -h 192.168.0.7 -u root -p
+Enter password: 
+ERROR 1105 (HY000): Plugin auth_gssapi_client could not be loaded: /usr/lib/x86_64-linux-gnu/libmariadb3/plugin/auth_gssapi_client.so: cannot open shared object file: No such file or directory
+
+// mysql 원격 접속을 가능하게 하려면 아래와 같은 작업이 필요하다
+master@master-virtual-machine:~$ sudo mysql -h localhost -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 42
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> grant all privileges on *.* to 'root'@'%' identified by '!123456';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> select host, user, password, plugin from mysql.user;
++-----------+-------------+-------------------------------------------+-----------------------+
+| Host      | User        | Password                                  | plugin                |
++-----------+-------------+-------------------------------------------+-----------------------+
+| localhost | mariadb.sys |                                           | mysql_native_password |
+| localhost | root        | *B573D3EA036614123CB0B52313A6AD58E1F114C0 | mysql_native_password |
+| localhost | mysql       | invalid                                   | mysql_native_password |
+| %         | root        | *B573D3EA036614123CB0B52313A6AD58E1F114C0 | mysql_native_password |
++-----------+-------------+-------------------------------------------+-----------------------+
+4 rows in set (0.001 sec)
+
+master@master-virtual-machine:~$ sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf 
+// 설정 변경
+master@master-virtual-machine:~$ systemctl restart mariadb
+// 원격 접속이 가능해진다
+// 윈도우에서도 똑같이 접속이 가능하다
+master@master-virtual-machine:~$ sudo mysql -h 192.168.198.129 -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 10.6.12-MariaDB-0ubuntu0.22.04.1 Ubuntu 22.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+```

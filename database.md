@@ -4705,3 +4705,91 @@ Enter password: ******
 -- 명령프롬프트에서 복원용 스크립트를 이용해 백업
 -- 이미 존재하고 있는 데이터베이스에만 백업이 가능하다
 ```
+
+## 원격으로 리눅스 관리
+
+- 구분
+  - 터미널(CUI) : 속도가 빠르다
+
+    - telnet : 전송에 데이터가 평문
+
+    - ssh (Secure Shell) 
+      - server : openSSH
+
+      - client 
+        - window : putty
+          <small> !! https://www.putty.org/ 참조 </small>
+
+        - linux : ssh
+
+  - 윈도우(GUI) : 속도가 느리지만 편리하게 관리
+
+### ssh
+
+```java
+// 설치
+master@master-virtual-machine:~$ sudo apt -y install openssh-server
+[sudo] master 암호: 
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료        
+다음의 추가 패키지가 설치될 것입니다 :
+  ncurses-term openssh-sftp-server ssh-import-id
+제안하는 패키지:
+  molly-guard monkeysphere ssh-askpass
+다음 새 패키지를 설치할 것입니다:
+  ncurses-term openssh-server openssh-sftp-server ssh-import-id
+0개 업그레이드, 4개 새로 설치, 0개 제거 및 3개 업그레이드 안 함.
+750 k바이트 아카이브를 받아야 합니다.
+이 작업 후 6,046 k바이트의 디스크 공간을 더 사용하게 됩니다.
+받기:1 http://kr.archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssh-sftp-server amd64 1:8.9p1-3ubuntu0.1 [38.7 kB]
+받기:2 http://kr.archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssh-server amd64 1:8.9p1-3ubuntu0.1 [434 kB]
+받기:3 http://kr.archive.ubuntu.com/ubuntu jammy-updates/main amd64 ncurses-term all 6.3-2ubuntu0.1 [267 kB]
+받기:4 http://kr.archive.ubuntu.com/ubuntu jammy/main amd64 ssh-import-id all 5.11-0ubuntu1 [10.1 kB]
+내려받기 750 k바이트, 소요시간 3초 (255 k바이트/초)
+...
+
+// 접속, 접속 해제
+master@master-virtual-machine:~$ ssh master@localhost
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ED25519 key fingerprint is SHA256:4c41krJNj5ZlYq/x/6nQIsCO9eLNsPT1Mwtt9FophvM.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'localhost' (ED25519) to the list of known hosts.
+master@localhost's password: 
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.19.0-43-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Expanded Security Maintenance for Applications is not enabled.
+
+3 updates can be applied immediately.
+추가 업데이트를 확인하려면 apt list --upgradable 을 실행하세요.
+
+2 additional security updates can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+*** System restart required ***
+You have mail.
+Last login: Wed Jun 14 09:27:34 2023
+master@master-virtual-machine:~$ exit
+로그아웃
+Connection to localhost closed.
+
+```
+```java
+// 내 시스템에 누가 접속하고 있는지 확인
+master@master-virtual-machine:~$ w
+ 16:21:14 up  7:07,  2 users,  load average: 0.07, 0.11, 0.06
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+master   tty2     tty2             09:13    7:09m  0.02s  0.02s /usr/libexec/gnome-session-binary --session=ubuntu
+master   pts/1    192.168.198.1    16:20   22.00s  0.00s  0.00s -bash
+```
+```java
+// ssh 설정 변경
+master@master-virtual-machine:~$ sudo vi /etc/ssh/sshd_config
+[sudo] master 암호: 
+
+```
