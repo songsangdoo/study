@@ -1795,3 +1795,66 @@ Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 ```
+
+### 파일 업로드
+
+- server : vsftpd
+
+- client : filezilla
+#### vsftpd
+```java
+// install file 캐시 확인
+master@master-virtual-machine:~$ sudo apt-cache search vsftpd
+[sudo] master 암호:
+vsftpd - lightweight, efficient FTP server written for security
+vsftpd-dbg - lightweight, efficient FTP server written for security (debug)
+ccze - robust, modular log coloriser
+ftpd - File Transfer Protocol (FTP) server
+resource-agents-extra - Cluster Resource Agents
+yasat - simple stupid audit tool
+// vsftpd 설치
+master@master-virtual-machine:~$ sudo apt -y install vsftpd
+패키지 목록을 읽는 중입니다... 완료
+의존성 트리를 만드는 중입니다... 완료
+상태 정보를 읽는 중입니다... 완료
+다음 새 패키지를 설치할 것입니다:
+  vsftpd
+0개 업그레이드, 1개 새로 설치, 0개 제거 및 10개 업그레이드 안 함.
+123 k바이트 아카이브를 받아야 합니다.
+이 작업 후 326 k바이트의 디스크 공간을 더 사용하게 됩니다.
+받기:1 http://kr.archive.ubuntu.com/ubuntu jammy/main amd64 vsftpd amd64 3.0.5-0ubuntu1 [123 kB]
+내려받기 123 k바이트, 소요시간 2초 (62.4 k바이트/초)
+...
+// vsftpd 실행 여부 확인
+master@master-virtual-machine:~$ systemctl status vsftpd
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/lib/systemd/system/vsftpd.service; enabled; vendor preset>
+     Active: active (running) since Tue 2023-06-20 09:18:07 KST; 1min 37s ago
+    Process: 5060 ExecStartPre=/bin/mkdir -p /var/run/vsftpd/empty (code=exited>
+   Main PID: 5061 (vsftpd)
+      Tasks: 1 (limit: 4600)
+     Memory: 856.0K
+        CPU: 3ms
+     CGroup: /system.slice/vsftpd.service
+             └─5061 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+ 6월 20 09:18:07 master-virtual-machine systemd[1]: Starting vsftpd FTP server.>
+ 6월 20 09:18:07 master-virtual-machine systemd[1]: Started vsftpd FTP server.
+set mark: ...skipping...
+● vsftpd.service - vsftpd FTP server
+     Loaded: loaded (/lib/systemd/system/vsftpd.service; enabled; vendor preset>
+     Active: active (running) since Tue 2023-06-20 09:18:07 KST; 1min 37s ago
+    Process: 5060 ExecStartPre=/bin/mkdir -p /var/run/vsftpd/empty (code=exited>
+   Main PID: 5061 (vsftpd)
+      Tasks: 1 (limit: 4600)
+     Memory: 856.0K
+        CPU: 3ms
+     CGroup: /system.slice/vsftpd.service
+             └─5061 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+master@master-virtual-machine:~$ sudo vi /etc/vsftpd.conf
+...
+write_enable=YES
+// 위 내용의 주석을 풀어줘야 외부에서 파일을 업로드 할 수 있다
+...
+```
