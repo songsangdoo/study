@@ -9,6 +9,7 @@
 - 목표 / 상세내용
 
 - 벤치마킹(스크린샷 + 설명)
+
   - 기획, 컨텐츠
 
   - 프로그램
@@ -46,3 +47,33 @@
 
 - 채팅
   - 동아리 채팅
+
+- 목요일 발표!!
+프로그램 기획 erd, usercase
+
+메뉴 - 업무분장
+
+사용자
+  - 등급
+
+관리자
+
+
+동아리 정보 
+g_seq primarykey auto_increment
+g_leader foriegn key m_seq
+g_name
+g_cdate
+g_memberNum
+
+동아리 게시판
+gb_seq primary key auto_increment
+gb_gseq foriegn key g_seq
+gb_writer foriegn key m_seq
+gb_subject
+gb_cdate
+gb_hit
+gb_rec
+
+질문게시판
+q,a

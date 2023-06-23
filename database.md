@@ -4793,3 +4793,19 @@ master@master-virtual-machine:~$ sudo vi /etc/ssh/sshd_config
 [sudo] master 암호: 
 
 ```
+
+동아리 정보 테이블
+seq (동아리 구분자)
+leader member#seq
+subject 
+cDate
+memNum
+
+동아리 게시판
+seq
+pseq 동아리정보테이블#seq
+subject
+writer
+
+
+

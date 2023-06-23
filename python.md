@@ -337,3 +337,769 @@ Life is too short, you need python
 :hi:
 ```
 
+- type 확인
+```python
+print(type(1))
+print(type(1.0))
+print(type('1'))
+print(type(True))
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 type01.py
+<class 'int'>
+<class 'float'>
+<class 'str'>
+<class 'bool'>
+```
+
+- 외부에서 입력받은 데이터 출력
+```python
+# 외부에서 데이터 입력
+
+msg = input('문자열을 입력해주세요 : ')
+
+print("msg :", msg)
+print(type(msg))
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 input01.py 
+문자열을 입력해주세요 : hi
+msg : hi
+<class 'str'>
+master@master-virtual-machine:~/python$ python3 input01.py 
+문자열을 입력해주세요 : 7
+msg : 7
+<class 'str'>
+```
+
+- 복합 자료형
+  - list : 배열
+  - set : set
+
+  - tuple : 특이한 형태 배열
+
+  - dictionary : map
+
+```python
+list1 = []
+list2 = list()
+
+print(type(list1))
+print(type(list2))
+
+nList = [1, 2, 3]
+sList = ['life', 'is', 'too', 'short']
+
+print(type(nList))
+print(type(sList))
+
+print(nList[0])
+print(sList[2])
+
+cList = [1, 2, 'life', 'is']
+
+print(cList) # 에러는 나지 않지만 가능하면 사용하지 않는 것이 좋다
+
+# 다차원 배열
+n2List1 = [[11, 12, 13], [21, 22, 23], [31, 32, 33]]
+
+print(type(n2List1))
+print(type(n2List1[1]))
+print(n2List1[0])
+print(n2List1[1][2])
+print(n2List1[2][1 : ])
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 list01.py
+<class 'list'>
+<class 'list'>
+<class 'list'>
+<class 'list'>
+1
+too
+[1, 2, 'life', 'is']
+<class 'list'>
+<class 'list'>
+[11, 12, 13]
+23
+[32, 33]
+```
+```python
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+
+# + / *
+sList = list1 + list2
+print(sList)
+
+pList = list1 * 2
+print(pList)
+
+# 요소 삭제
+del list1[0]
+print(list1)
+
+del list2[1 : ]
+print(list2)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 list02.py 
+[1, 2, 3, 4, 5, 6]
+[1, 2, 3, 1, 2, 3]
+[2, 3]
+[4]
+```
+
+```python
+list = [1, 2, 3, 1]
+print(len(list))
+
+# 메서드
+print(list.count(1))
+
+list.sort()
+print(list)
+
+list2 = ['a', 'd', 'c', 'b']
+list2.sort() # ASKII code 순으로 정렬
+print(list2)
+
+list2.reverse()
+
+list.append(4)
+print(list)
+
+list.append([6, 1])
+print(list)
+
+print(list2.index('c')) # 해당 문자 위치를 찾아준다
+
+print(list)
+list.insert(0, 4)
+print(list)
+
+list.remove(4)
+print(list)
+
+print(1 in [1, 2, 3, 4])
+print(1 not in [1, 2, 3, 4])
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 list03.py 
+4
+2
+[1, 1, 2, 3]
+['a', 'b', 'c', 'd']
+[1, 1, 2, 3, 4]
+[1, 1, 2, 3, 4, [6, 1]]
+1
+[1, 1, 2, 3, 4, [6, 1]]
+[4, 1, 1, 2, 3, 4, [6, 1]]
+[1, 1, 2, 3, 4, [6, 1]]
+True
+False
+```
+```python
+str = 'a:b:c:d'
+list = str.split(':')
+
+print(type(list))
+print(list)
+
+str2 = ','.join(list)
+print(str2)
+
+print(':'.join('abcd'))
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 list04.py 
+<class 'list'>
+['a', 'b', 'c', 'd']
+a,b,c,d
+a:b:c:d
+```
+```python
+# 문자열 인덱싱
+str = 'Hello'
+print(str[0])
+
+# str[0] = 'L' 
+# !! 에러
+
+list1 = [1, 2, 3]
+print(list1[0])
+
+list1[0] = 10
+print(list[0])
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 list05.py 
+H
+1
+list[0]
+```
+```python
+# 중복되지 않는 데이터 / 순서 없음
+set1 = {}
+set2 = set()
+
+print(type(set1))
+print(type(set2))
+
+set3 = set([1, 2, 3, 4, 5])
+print(set3)
+
+set4 = set([1, 2, 3, 4, 4, 5, 5, 5, 6])
+print(set4)
+
+set5 = {1, 2, 3 ,4, 4, 5, 5, 5, 6}
+print(set5)
+
+set6 = set('Hello')
+print(set6)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 set01.py
+<class 'dict'>
+<class 'set'>
+{1, 2, 3, 4, 5}
+{1, 2, 3, 4, 5, 6}
+{1, 2, 3, 4, 5, 6}
+{'H', 'e', 'o', 'l'}
+```
+
+```python
+# set - 집합 : 교집합 / 합집합 / 차집합
+set1 = {1, 2, 3, 4, 5, 6}
+set2 = {4, 5, 6, 7 ,8 ,9}
+
+print(set1.intersection(set2))
+print(set1 & set2)
+
+print(set1.union(set2))
+print(set1 | set2)
+
+print(set1.difference(set2))
+print(set1 - set2)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 set02.py
+{4, 5, 6}
+{4, 5, 6}
+{1, 2, 3, 4, 5, 6, 7, 8, 9}
+{1, 2, 3, 4, 5, 6, 7, 8, 9}
+{1, 2, 3}
+{1, 2, 3}
+```
+- tuple 
+```python
+# 튜플 - readonly형 데이터
+tuple1 = ()
+tuple2 = tuple()
+print(type(tuple1))
+print(type(tuple2))
+
+tuple3 = (1, 2, 3)
+print(tuple3)
+
+tuple41 = (1)
+tuple42 = (1, )
+print(type(tuple41))
+print(type(tuple42))
+
+print(tuple3[0])
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 tuple.py 
+<class 'tuple'>
+<class 'tuple'>
+(1, 2, 3)
+<class 'int'>
+<class 'tuple'>
+1
+```
+-  다중 할당
+```python
+data = 10
+print(data)
+
+# 다중 할당
+data1, data2 = (10, 20)
+print(data1, data2)
+
+(data1, data2) = 10, 20
+print(data1, data2)
+
+data1, data2 = 10, 20
+print(data1, data2)
+
+# 변수 간 값 교환
+a = 3
+b = 5
+a, b = b , a
+print(a, b)
+
+[a, b] = [10, 20]
+print(a, b)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 tuple02.py 
+10
+10 20
+10 20
+10 20
+5 3
+10 20
+```
+
+```python
+dict1 = {}
+dict2 = dict()
+print(type(dict1))
+print(type(dict2))
+
+# Map(key, value), JSON
+dict = {'name' : 'pey', 'phone' : '01111111111'}
+print(dict)
+print(dict['name'])
+print(dict.get('name'))
+
+dict['data1'] = 'value1'
+print(dict)
+
+dict['name'] = 'scott'
+print(dict)
+
+del dict['data1']
+print(dict)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 dictionary01.py 
+<class 'dict'>
+<class 'dict'>
+{'name': 'pey', 'phone': '01111111111'}
+pey
+pey
+{'name': 'pey', 'phone': '01111111111', 'data1': 'value1'}
+{'name': 'scott', 'phone': '01111111111', 'data1': 'value1'}
+{'name': 'scott', 'phone': '01111111111'}
+```
+
+## 제어문
+
+- 조건에 의한 분기
+  <small> !! 들여쓰기에 주의하자</small>
+```python
+print('start')
+
+money = True
+
+if money == False :
+    # print('실행문장1')
+    pass # 이 명령문이 없으면 사용되지 않더라도 에러가 생긴다
+else : 
+    print('실행문장2')
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 if01.py 
+start
+실행문장2
+end
+```
+```python
+score = 100
+
+if score >= 90 :
+    print('A')
+else :
+    if score >= 80 :
+        print('B')
+    else :
+        if score >= 70 :
+            print('C')
+        else : 
+            if score >= 60 :
+                print('D') 
+            else :
+                print('F')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 hakjum.py 
+A
+```
+```python
+score = 100
+
+if score >= 90 :
+    print('A')
+elif score >= 80 :
+    print('B')
+elif score >= 70 :
+    print('C')
+elif score >= 60 :
+    print('D') 
+
+else :
+    print('F')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 hakjum.py 
+A
+```
+```python
+pocket = ['paper', 'cellphone', 'money']
+if 'money' in pocket :
+    print('taxi')
+else :
+    print('walking')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 if04.py 
+taxi
+```
+- 반복
+```python
+list1 = ['one', 'two', 'three']
+print(list1[0])
+print(list1[1])
+print(list1[2])
+
+for list in list1 :
+    print(list)
+
+string1 = 'hello'
+for char in string1 : 
+    print(char)
+
+dict1 = {'name' : 'pey', 'phone' : '0111111111'}
+for key in dict1.keys() :
+    print(key)
+for value in dict1.values() :
+    print(value)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 for01.py 
+one
+two
+three
+one
+two
+three
+h
+e
+l
+l
+o
+name
+phone
+pey
+0111111111
+```
+```python
+lists = [(1, 2), (3, 4), (5, 6)]
+for (first, last) in lists :
+    print(first, last)
+
+dict = {'name' : 'pey', 'phone' : '0110001111'}
+for key, value in dict.items() :
+    print(key, value)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 for02.py 
+1 2
+3 4
+5 6
+name pey
+phone 0110001111
+```
+```python
+print(range(5))
+print(range(0, 5))
+
+list = list(range(0, 5))
+print(list)
+
+for i in range(0, 5) :
+    print(i, end = ' ')
+
+print()
+
+sum = 0
+for i in range(1, 11) :
+    sum = sum + i
+
+print(sum)
+
+sum = 0
+for i in range(1, 101) :
+    if i % 3 == 0 :
+        sum = sum + i
+
+print(sum)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 for03.py 
+range(0, 5)
+range(0, 5)
+[0, 1, 2, 3, 4]
+0 1 2 3 4 
+55
+1683
+```
+```python
+print('start')
+
+for i in range(1, 3) :
+    for j in range(1, 3) :
+        print(i , j)
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 for04.py 
+start
+1 1
+1 2
+2 1
+2 2
+end
+```
+```python
+print('이름 : ', end='')
+name = input()
+
+nameArr = name.split(' ')
+for name in nameArr :
+    print(name.capitalize(), end=' ')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 capitalize.py 
+이름 : hong gil dong
+Hong Gil Dong 
+```
+
+```python
+jumin = input('주민등록번호를 입력해주세요 (xxxxxx-xxxxxxx) : ')
+jumin = jumin.replace('-', '')
+checkList = (2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5)
+
+sum = 0
+
+for i in range(len(checkList)) :
+    sum += int(str[i]) * checkList[i]
+
+cnum = (11 - (sum % 11)) % 10
+lnum = int(str[-1])
+
+if cnum == lnum :
+    print('정확')
+else :
+    print('부정확')
+```
+```python
+treeHit = 0
+while treeHit < 10:
+    treeHit = treeHit +1
+    print("나무를 %d번 찍었습니다." % treeHit)
+    if treeHit == 10:
+        print("나무 넘어갑니다.")
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 while01.py 
+나무를 1번 찍었습니다.
+나무를 2번 찍었습니다.
+나무를 3번 찍었습니다.
+나무를 4번 찍었습니다.
+나무를 5번 찍었습니다.
+나무를 6번 찍었습니다.
+나무를 7번 찍었습니다.
+나무를 8번 찍었습니다.
+나무를 9번 찍었습니다.
+나무를 10번 찍었습니다.
+나무 넘어갑니다.
+```
+```python
+coffee = 10
+money = 300
+while money:
+    print("돈을 받았으니 커피를 줍니다.")
+    coffee = coffee -1
+    print("남은 커피의 양은 %d개입니다." % coffee)
+    if coffee == 0:
+        print("커피가 다 떨어졌습니다. 판매를 중지합니다.")
+        break
+        
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 while02.py 
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 9개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 8개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 7개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 6개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 5개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 4개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 3개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 2개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 1개입니다.
+돈을 받았으니 커피를 줍니다.
+남은 커피의 양은 0개입니다.
+커피가 다 떨어졌습니다. 판매를 중지합니다.
+```
+
+```python
+print('start')
+
+for i in range(0, 10) :
+    if i == 5 :
+        break
+    print(i)
+
+for i in range(0, 10) :
+    if i == 5 :
+        continue
+    print(i)
+
+for i in range(0, 3) :
+    for j in range(0, 3) :
+        if i == 1 :
+            break
+        print(i, j)
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 while03.py 
+start
+0
+1
+2
+3
+4
+0
+1
+2
+3
+4
+6
+7
+8
+9
+0 0
+0 1
+0 2
+2 0
+2 1
+2 2
+end
+```
+
+## 함수
+```python
+print('start')
+
+def func1() :
+    print('나는 함수')
+
+func1()
+
+def func2(a) :
+    print('a :', a) 
+
+func2(2)
+func2('hi')
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 func01.py 
+start
+나는 함수
+a : 2
+a : hi
+end
+```
+```python
+print('start')
+
+a = 1
+def func(a) :
+    a = a + 1
+    print('a1 :', a)
+
+func(a)
+print('a2 :', a)
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 func02.py 
+start
+a1 : 2
+a2 : 1
+end
+```
+```python
+print('start')
+
+a = 1
+def func() :
+    global a
+    a = a + 1
+    print('a1 :', a)
+func()
+print('a2 :', a)   
+
+print('end')
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 func03.py 
+start
+a1 : 2
+a2 : 2
+end
+```
+```python
+def func(a, b) :
+    print(a, b)
+
+a = 10
+b = 20
+
+func(a, b)
+func(a = 100, b = 300)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 func04.py 
+10 20
+100 300
+```
+```python
+def func(*args) :
+    print(type(args))
+    print(args)
+
+func(1)
+func(1, 2)
+func(1, 2, 3)
+
+# 출력 결과
+master@master-virtual-machine:~/python$ python3 func05.py 
+<class 'tuple'>
+(1,)
+<class 'tuple'>
+(1, 2)
+<class 'tuple'>
+(1, 2, 3)
+```
+
+

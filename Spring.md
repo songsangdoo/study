@@ -7289,7 +7289,7 @@ public class Ex03Application implements CommandLineRunner {
 ```
 <hr>
 
-JDBC template으로 database, table 목록 출력하기
+JdbcTemplate으로 database, table 목록 출력하기
 ```java
 package com.example.ex03;
 
