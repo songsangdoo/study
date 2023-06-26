@@ -198,6 +198,45 @@ master@master-virtual-machine:~/python$ python3 number02.py
 
 ```
 ```python
+# 형변환
+# bool, int, float, str
+# list, tuple, dict, set
+
+# 진법변환
+# bin, oct, hex
+
+print(hex(234))
+print(oct(34))
+
+# 수학관련
+# abs / divmod / min / max / pow / range / round / sum
+
+print(7 // 3)
+print(7 % 3)
+print(divmod(7 , 3))
+
+print(max('python'))
+print(min('python'))
+
+x = [10, 20, 30]
+y = ['a', 'b']
+for i in zip(x, y) :
+    print(i) # 같이 묶일 값이 없는 30은 버려진다
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+0xea
+0o42
+2
+1
+(2, 1)
+y
+h
+(10, 'a')
+(20, 'b')
+```
+
+```python
 str1 = "Hello"
 str2 = 'Hello'
 
@@ -1002,6 +1041,37 @@ start
 2 2
 end
 ```
+```python
+list = [1, 2, 3, 4]
+
+result = []
+for data in list :
+    result.append(data * 3)
+
+print(result)
+
+result1 = [data * 3 for data in list]
+print(result1)
+
+result2 = [[data + 10, data * 10] for data in list]
+print(result2)
+
+list1 = [2, 3]
+list2 = [4, 5]
+
+result3 = [data1 * data2 for data1 in list1 for data2 in list2]
+print(list1)
+print(list2)
+print(result3)
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+[3, 6, 9, 12]
+[3, 6, 9, 12]
+[[11, 10], [12, 20], [13, 30], [14, 40]]
+[2, 3]
+[4, 5]
+[8, 10, 12, 15]
+```
 
 ## 함수
 ```python
@@ -1100,6 +1170,269 @@ master@master-virtual-machine:~/python$ python3 func05.py
 (1, 2)
 <class 'tuple'>
 (1, 2, 3)
+```
+```python
+def outerfunc() :
+    data = 1
+    def innerfunc() :
+        print('내부함수 호출')
+        nonlocal data # 지역변수를 사용하지 않는다는 코드를 이용하면 충돌 에러가 생기지 않는다
+        print(data) # 같은이름으로 선언된 지역변수가 있으면 변수 사용시 충돌로 인한 에러가 생길 수 있다
+        data = 20
+        print(data)
+
+    innerfunc()
+
+outerfunc()
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+내부함수 호출
+1
+20
+```
+
+```python
+def func11(a) :
+    return a
+
+print(func11(10))
+
+func12 = lambda a : a
+print(func12(20))
+
+def func21(a, b) :
+    return a + b
+
+print(func21(10, 20))
+
+func22 = lambda a, b : a + b
+print(func22(30, 40))
+
+def func31(a) :
+    print(a)
+
+func31(10)
+
+func32 = lambda a : print(a)
+func32(20)
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+10
+20
+30
+70
+10
+20
+```
+```python
+def func1() : 
+    print('func1 호출')
+
+func1()
+print(func1)
+print(type(func1))
+
+print(id(func1)) 
+
+func2 = func1
+func2()
+print(func2)
+print(id(func2))
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+func1 호출
+<function func1 at 0x000001EDFF9D65C0>
+<class 'function'>
+2121707382208
+func1 호출
+<function func1 at 0x000001EDFF9D65C0>
+2121707382208
+```
+```python
+def subfunc() :
+    print('subfunc 호출')
+
+def mainfunc(sub) :
+    sub()
+
+mainfunc(subfunc)
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+subfunc 호출
+```
+
+- 내장 함수
+  <small> !! https://docs.python.org/3/library/functions.html 참조</small>
+
+```python
+# all - 순회할 수 있는 요소 전체가 참이면 참
+help(all)
+print(all([])) # 값이 없어도 True를 반환한다
+print([True, True])
+print([True, False])
+print(all([0])) # python에서 0은 False를 의미한다
+print(all([0, 1, 2, 3]))
+
+print(any([]))
+
+print(chr(97))
+print(chr(48))
+
+print(ord('a'))
+print(ord('0'))
+
+# list
+for name in ['body', 'foo', 'bar'] :
+    print(name)
+
+for i, name in enumerate(['body', 'foo', 'bar']) :
+    print(i, name)
+
+print('1 + 2')
+print(eval('1 + 2'))
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+Help on built-in function all in module builtins:
+
+all(iterable, /)
+    Return True if bool(x) is True for all values x in the iterable.
+
+    If the iterable is empty, return True.
+
+True
+[True, True]
+[True, False]
+False
+False
+False
+a
+0
+97
+48
+body
+foo
+bar
+0 body
+1 foo
+2 bar
+1 + 2
+3
+```
+```python
+list1 = [1, -3, 2, 0, -5, 4]
+
+def pnum(list) :
+  result = []
+  for i in list :
+      if i > 0 :
+        result.append(i)
+
+  return result
+
+print(pnum(list1))
+
+def pnum2(x) :
+  return x > 0
+
+result = list(filter(pnum2, list1))
+print(result)
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+[1, 2, 4]
+[1, 2, 4]
+```
+
+## 클래스
+```python
+class Cookie :
+  	pass
+
+c1 = Cookie()
+c2 = Cookie()
+
+print(c1)
+print(c2)
+
+print(type(c1))
+print(type(c2))
+
+print(id(c1))
+print(id(c2))
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+<__main__.Cookie object at 0x000002CABB8FB190>
+<__main__.Cookie object at 0x000002CABB8FB1D0>
+<class '__main__.Cookie'>
+<class '__main__.Cookie'>
+3069753405840
+3069753405904
+```
+```python
+class Cookie :
+    # 클래스 멤버 변수
+    a = 10 
+
+c1 = Cookie()
+print(c1.a)
+print(Cookie.a)
+
+c2 = Cookie()
+Cookie.a = 20 # 클래스 멤버 변수로서 사용하고 싶다면 클래스 이름을 이용해야한다
+c2.a = 30
+
+print(c1.a)
+print(c2.a)
+
+print(id(c1.a))
+print(id(c2.a))
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+10
+10
+20
+30
+140720806880648
+140720806880968
+```
+```python
+class Cookie :
+    a = 20
+
+    # def func1() :
+    #     print('func1 호출')
+    # 에러!! 
+
+    def func1(self) :
+        print('func1 호출')
+        print(self)
+
+    def func2(self, a) :
+        print(a)
+        # 인스턴스 멤버 변수
+        self.a = a
+
+c1 = Cookie()
+c1.func1()
+c1.func2(10)
+
+print(c1.a)
+print(Cookie.a) # 이렇게 인스턴스 변수와 클래스 변수로 구분할 수 있지만, 같은 이름의 변수 사용은 지양하는 것이 좋다
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+func1 호출
+<__main__.Cookie object at 0x000001678E1FB890>
+10
+10
+20
 ```
 
 
