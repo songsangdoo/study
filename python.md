@@ -1435,4 +1435,285 @@ func1 호출
 20
 ```
 
+```python
+class FourCal :
+    def setData(self, first, second) :
+        self.first = first
+        self.second = second
 
+    def add(self) :
+        result = self.first + self.second
+        return result
+    
+    def getData(self) :
+        return self.first, self.second # tuple로 반환된다
+    
+fc1 = FourCal()
+fc2 = FourCal()
+
+fc1.setData(4, 2)
+fc2.setData(3, 7)
+
+print(fc1.add())
+print(fc2.add())
+
+print(fc1.getData())
+
+# 출력 결과
+C:\Users\eogh7\Desktop\python>python3 ex01.py
+6
+10
+(4, 2)
+```
+```python
+# 생성자 - 인스턴스 멤버필드 초기화
+# __init__(self)
+
+# 소멸자 - 메모리 정리 작업
+# __del__(self)
+
+class FourCal : 
+    def __init__(self, first, second) :
+        print('생성자 호출')
+        print(self)
+
+        self.first = first
+        self.second = second
+
+fc1 = FourCal(10, 20)
+fc2 = FourCal(30, 40)
+
+print(id(fc1))
+print(id(fc2))
+
+print(fc1.first, fc1.second)
+print(fc2.first, fc2.second)
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+생성자 호출
+<__main__.FourCal object at 0x000001DD5480B350>
+생성자 호출
+<__main__.FourCal object at 0x000001DD546FD5D0>
+2050117120848
+2050116015568
+10 20
+30 40
+```
+```python
+class FourCal : 
+    def __init__(self, data) : 
+        print("생성자 호출")
+        self.data = data
+        print(data)
+
+    def __del__(self) :
+        print("소멸자 호출")
+
+    def __str__(self) :
+        print("멤버필드 내용 호출")
+        return '내용 : ' + str(self.data)
+
+def func() :
+    fc = FourCal(10)
+    print(fc)
+
+func()
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+생성자 호출
+10
+멤버필드 내용 호출
+내용 : 10
+소멸자 호출
+```
+```python
+class FourCal :
+    def __init__(self) :
+        print('생성자 호출')
+
+    def printmsg(self) :
+        print('메시지 내용')
+
+# 메서드 호출 1 - Bound Method Call
+fc = FourCal()
+fc.printmsg()
+
+# 메서드 호출 2 - Unbound Method Call
+FourCal.printmsg(fc)
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+생성자 호출
+메시지 내용
+메시지 내용
+```
+```python
+class Base :
+    def __init__(self) :
+        print('생성자 호출')
+
+    def base_method(self) :
+        print('base_method 호출')
+
+class Derived(Base) :
+    def __init__(self) :
+        print('Derived 생성자')
+
+base = Base()
+base.base_method()
+
+derived = Derived()
+derived.base_method()
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+생성자 호출
+base_method 호출
+Derived 생성자
+base_method 호출
+```
+```python
+class Person :
+    def __init__(self, name, phone) :
+        self.name = name
+        self.phone = phone
+
+class Student(Person) :
+    def __init__(self, name, phone, student, studentid) :
+        self.name = name
+        self.phone = phone
+        self.student = student
+        self.studentid = studentid
+
+person = Person('Tom', '111-1111-1111')
+student = Student('Anna', '222-2222-2222', '전산', '00001')
+
+print(person.name, student.name)
+
+print(person.__dict__)
+print(student.__dict__)
+
+print(issubclass(Student, Person))
+print(issubclass(Person, Student))
+
+print(issubclass(Student, object))
+print(issubclass(object, Student))
+
+print(Person.__bases__)
+print(Student.__bases__)
+print(object.__bases__)
+
+print(type(person))
+print(type(student))
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+Tom Anna
+{'name': 'Tom', 'phone': '111-1111-1111'}
+{'name': 'Anna', 'phone': '222-2222-2222', 'student': '전산', 'studentid': '00001'}
+True
+False
+True
+False
+(<class 'object'>,)
+(<class '__main__.Person'>,)
+()
+<class '__main__.Person'>
+<class '__main__.Student'>
+```
+
+```python
+class Parent :
+    def __init__(self) :
+        print('Parent 생성자 호출')
+
+    def printInfo(msg) :
+        print('Parent printInfo()')
+
+class Child(Parent) :
+    def __init__(self):
+        super().__init__()
+        print('Child 생성자 호출')
+
+    def printInfo(msg) :
+        super().printInfo()
+        print('Child printInfo()')
+
+child = Child()
+child.printInfo()
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+Parent 생성자 호출
+Child 생성자 호출
+Parent printInfo()
+Child printInfo()
+```
+```python
+from abc import *
+
+class AbstractClass(metaclass=ABCMeta) :
+    @abstractmethod
+    def abcMethod(self) :
+        pass
+    
+    def normalMethod(self) :
+        print('일반 메서드')
+
+# ac = AbstractClass()
+# TypeError: Can't instantiate abstract class AbstractClass with abstract method abcMethod
+
+class Child(AbstractClass):
+    def abcMethod(self):
+        print('Parent 추상 메서드')
+
+child = Child()
+child.abcMethod()
+child.normalMethod()
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+Parent 추상 메서드
+일반 메서드
+```
+
+## 예외
+```python
+num1 = 10
+num2 = 0 
+
+# print(num1 / num2)
+# ZeroDivisionError: division by zero
+
+list = [1, 2, 3]
+# print(list[4])
+# IndexError: list index out of range
+
+print('시작')
+
+try:
+    print(num1 / num2)
+    print(list[4])
+except ZeroDivisionError as e:
+    print('0으로 나눌 수 없습니다')
+    print(e)
+except IndexError as e:
+    print('리스트의 범위를 벗어났습니다')
+    print(e)
+except:
+    print('위에서 처리되지 않은 예외는 여기서 처리됩니다')
+finally:
+    print('여기에 위치한 명령문은 무조건 실행됩니다')
+
+print('끝')
+
+# 출력 결과
+PS C:\Users\eogh7\Desktop\python> python3 ex01.py
+시작
+0으로 나눌 수 없습니다
+division by zero
+여기에 위치한 명령문은 무조건 실행됩니다
+끝
+```
